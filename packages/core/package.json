@@ -15,7 +15,7 @@
   },
   "tsup": {
     "entry": [
-      "src/index.ts"
+      "index.ts"
     ],
     "splitting": false,
     "sourcemap": true,

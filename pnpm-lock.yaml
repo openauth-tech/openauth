@@ -62,6 +62,9 @@ importers:
       '@mgcrea/prisma-queue':
         specifier: ^1.8.0
         version: 1.11.0(@prisma/client@5.16.1(prisma@5.16.1))
+      '@openauth-tech/sdk-core':
+        specifier: workspace:*
+        version: link:../core
       '@prisma/client':
         specifier: ^5.13.0
         version: 5.16.1(prisma@5.16.1)

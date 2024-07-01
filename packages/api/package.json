@@ -1,10 +1,9 @@
 {
-  "name": "openauth-api",
+  "name": "@openauth-tech/api",
   "private": true,
   "scripts": {
     "dev:api": "nodemon -r dotenv/config src/api.ts",
     "build": "rimraf ./build && tsc",
-    "start": "node build/api.js",
     "db:dev": "prisma migrate dev && prisma generate",
     "db:generate": "prisma generate",
     "db:deploy": "prisma migrate deploy"
@@ -41,6 +40,7 @@
     "@fastify/swagger-ui": "^4.0.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@mgcrea/prisma-queue": "^1.8.0",
+    "@openauth-tech/sdk-core": "workspace:*",
     "@prisma/client": "^5.13.0",
     "@sinclair/typebox": "^0.32.34",
     "axios": "^1.6.8",
