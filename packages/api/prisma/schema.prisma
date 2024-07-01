@@ -1,0 +1,68 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  username String @unique
+  password String
+
+  @@map("oa_admins")
+}
+
+model App {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String  @unique
+  description String?
+  logoUrl     String?
+  secret      String?
+
+  emailEnabled   Boolean @default(false)
+  googleEnabled  Boolean @default(false)
+  twitterEnabled Boolean @default(false)
+  appleEnabled   Boolean @default(false)
+  ethEnabled     Boolean @default(false)
+  solEnabled     Boolean @default(false)
+
+  users User[]
+
+  @@map("oa_apps")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginTime DateTime?
+
+  email      String?
+  google     String?
+  twitter    String?
+  apple      String?
+  ethAddress String?
+  solAddress String?
+
+  appId String
+  app   App    @relation(fields: [appId], references: [id])
+
+  @@unique([appId, email])
+  @@unique([appId, google])
+  @@unique([appId, twitter])
+  @@unique([appId, apple])
+  @@unique([appId, ethAddress])
+  @@unique([appId, solAddress])
+  @@map("oa_users")
+}

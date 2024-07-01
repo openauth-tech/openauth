@@ -1,0 +1,16 @@
+services:
+  openauth-api:
+    container_name: openauth-api
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - "5566:5566"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
