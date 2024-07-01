@@ -1,5 +1,6 @@
 services:
   test-psql:
+    container_name: openauth-test-psql
     image: postgres:12.1
     environment:
       POSTGRES_USER: postgres
@@ -15,11 +16,12 @@ services:
     restart: on-failure
 
   test-api:
+    container_name: openauth-test-api
     build:
       dockerfile: Dockerfile
-      context: .
+      target: api-test
     ports:
-      - "5566:5566"
+      - "5565:5566"
     environment:
       - DATABASE_URL=postgres://postgres:postgres@test-psql:5432/postgres
     logging:

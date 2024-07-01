@@ -2,6 +2,7 @@
   "name": "@openauth-tech/api",
   "private": true,
   "scripts": {
+    "postinstall": "prisma generate",
     "dev:api": "nodemon -r dotenv/config src/api.ts",
     "build": "rimraf ./build && tsc",
     "db:dev": "prisma migrate dev && prisma generate",
