@@ -26,7 +26,6 @@ export function buildHttpClient(baseURL: string, token?: string) {
       if (response && response.data && response.data.error) {
         throw new Error(response.data.error)
       } else {
-        console.error(response)
         throw new Error(response?.data?.message ?? 'Server Error')
       }
     }
