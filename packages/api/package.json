@@ -29,6 +29,7 @@
     "run-script-os": "^1.1.6",
     "tap": "^20.0.3",
     "ts-node": "^10.9.1",
+    "tsx": "4.16.0",
     "typescript": "^5.4.2"
   },
   "dependencies": {

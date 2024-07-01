@@ -2,8 +2,6 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:web1": "cd packages/web1 && pnpm run dev"
   },
   "devDependencies": {
     "typescript": "^5.5.2",

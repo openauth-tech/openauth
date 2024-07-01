@@ -1,0 +1,32 @@
+services:
+  test-psql:
+    image: postgres:12.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+
+  test-api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "5566:5566"
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@test-psql:5432/postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    depends_on:
+      - test-psql

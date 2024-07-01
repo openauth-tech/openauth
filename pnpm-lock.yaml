@@ -177,6 +177,9 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@18.19.39)(typescript@5.5.2)
+      tsx:
+        specifier: 4.16.0
+        version: 4.16.0
       typescript:
         specifier: ^5.4.2
         version: 5.5.2
@@ -202,31 +205,6 @@ importers:
       typescript:
         specifier: ^5.5.2
         version: 5.5.2
-
-  packages/test:
-    dependencies:
-      '@openauth-tech/sdk-core':
-        specifier: workspace:*
-        version: link:../core
-      axios:
-        specifier: 1.7.2
-        version: 1.7.2
-      mocha:
-        specifier: 10.5.2
-        version: 10.5.2
-      typescript:
-        specifier: ^5.5.2
-        version: 5.5.2
-    devDependencies:
-      '@types/mocha':
-        specifier: 10.0.7
-        version: 10.0.7
-      '@types/node':
-        specifier: 20.14.9
-        version: 20.14.9
-      tsx:
-        specifier: 4.16.0
-        version: 4.16.0
 
 packages:
 
@@ -7628,6 +7606,7 @@ snapshots:
   '@types/node@20.14.9':
     dependencies:
       undici-types: 5.26.5
+    optional: true
 
   '@types/parse-json@4.0.2': {}
 

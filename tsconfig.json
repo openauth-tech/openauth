@@ -6,21 +6,19 @@
     ],
     "types": [
       "node",
-      "mocha",
+      "mocha"
     ],
     "module": "commonjs",
     "allowJs": true,
-    "outDir": "build",
-    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false
   },
-  "include": [
-    "src/**/*"
-  ],
   "exclude": [
-    "src/**/*.spec.ts"
+    "node_modules"
+  ],
+  "include": [
+    "**/*.ts"
   ]
 }
