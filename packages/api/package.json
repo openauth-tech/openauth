@@ -1,9 +1,11 @@
 {
   "name": "@openauth-tech/api",
-  "private": true,
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "dev:api": "nodemon -r dotenv/config src/api.ts",
-    "build": "rimraf ./build && tsc",
+    "build": "tsc",
     "postinstall": "prisma generate",
     "db:dev": "prisma migrate dev && prisma generate",
     "db:generate": "prisma generate",
@@ -25,7 +27,6 @@
     "nodemon": "^3.1.4",
     "onchange": "^7.1.0",
     "prettier": "^2.7.1",
-    "rimraf": "^3.0.2",
     "run-script-os": "^1.1.6",
     "tap": "^20.0.3",
     "ts-node": "^10.9.1",

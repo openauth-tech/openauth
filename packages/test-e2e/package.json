@@ -1,0 +1,14 @@
+{
+  "name": "test-e2e",
+  "private": true,
+  "scripts": {
+    "test": "mocha --require ts-node/register specs/**/*.ts"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^18.6.1",
+    "@openauth-tech/sdk-core": "workspace:*",
+    "mocha": "^10.5.2",
+    "axios": "^1.6.8"
+  }
+}
