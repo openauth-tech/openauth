@@ -1,5 +1,5 @@
 {
-  "name": "@openauth-tech/api",
+  "name": "@open-auth/api",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -42,7 +42,7 @@
     "@fastify/swagger-ui": "^4.0.0",
     "@fastify/type-provider-typebox": "^4.0.0",
     "@mgcrea/prisma-queue": "^1.8.0",
-    "@openauth-tech/sdk-core": "workspace:*",
+    "@open-auth/sdk-core": "workspace:*",
     "@prisma/client": "^5.13.0",
     "@sinclair/typebox": "^0.32.34",
     "axios": "^1.6.8",

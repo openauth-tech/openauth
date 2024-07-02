@@ -5,20 +5,15 @@ import { verifySOL } from '../../utils/auth'
 import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { JwtPayload } from '../../models/request'
+import { TypeLoginResponse, TypeSolanaLogin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Login'],
   summary: 'Login with Solana',
-  body: Type.Object({
-    appId: Type.String(),
-    solAddress: Type.String(),
-    signature: Type.String(),
-  }),
+  body: TypeSolanaLogin,
   response: {
     200: Type.Object({
-      data: Type.Object({
-        token: Type.String(),
-      }),
+      data: TypeLoginResponse,
     }),
     400: ERROR400_SCHEMA,
   },

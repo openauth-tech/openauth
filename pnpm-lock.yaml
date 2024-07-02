@@ -62,7 +62,7 @@ importers:
       '@mgcrea/prisma-queue':
         specifier: ^1.8.0
         version: 1.11.0(@prisma/client@5.16.1(prisma@5.16.1))
-      '@openauth-tech/sdk-core':
+      '@open-auth/sdk-core':
         specifier: workspace:*
         version: link:../sdk-core
       '@prisma/client':
@@ -184,9 +184,28 @@ importers:
         specifier: ^5.4.2
         version: 5.5.2
 
-  packages/e2e-test:
+  packages/sdk-core:
+    dependencies:
+      '@fastify/type-provider-typebox':
+        specifier: ^4.0.0
+        version: 4.0.0(@sinclair/typebox@0.32.34)
+      '@sinclair/typebox':
+        specifier: ^0.32.34
+        version: 0.32.34
+      axios:
+        specifier: 1.7.2
+        version: 1.7.2
     devDependencies:
-      '@openauth-tech/sdk-core':
+      tsup:
+        specifier: 8.1.0
+        version: 8.1.0(ts-node@10.9.2(@types/node@20.14.9)(typescript@5.5.2))(typescript@5.5.2)
+      typescript:
+        specifier: ^5.5.2
+        version: 5.5.2
+
+  packages/test-e2e:
+    devDependencies:
+      '@open-auth/sdk-core':
         specifier: workspace:*
         version: link:../sdk-core
       '@types/mocha':
@@ -201,19 +220,6 @@ importers:
       mocha:
         specifier: ^10.5.2
         version: 10.5.2
-
-  packages/sdk-core:
-    dependencies:
-      axios:
-        specifier: 1.7.2
-        version: 1.7.2
-    devDependencies:
-      tsup:
-        specifier: 8.1.0
-        version: 8.1.0(ts-node@10.9.2(@types/node@20.14.9)(typescript@5.5.2))(typescript@5.5.2)
-      typescript:
-        specifier: ^5.5.2
-        version: 5.5.2
 
 packages:
 

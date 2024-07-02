@@ -1,6 +1,3 @@
-import { TSchema } from '@sinclair/typebox'
-import { Type } from '@fastify/type-provider-typebox'
-
 const commonErrorSchema = {
   description: '',
   type: 'object',
@@ -16,5 +13,3 @@ export const ERROR401_SCHEMA = { ...commonErrorSchema, description: 'Unauthorize
 export const ERROR403_SCHEMA = { ...commonErrorSchema, description: 'Forbidden' }
 export const ERROR404_SCHEMA = { ...commonErrorSchema, description: 'Not Found' }
 export const ERROR500_SCHEMA = { ...commonErrorSchema, description: 'Internal Error' }
-
-export const Nullable = <T extends TSchema>(schema: T) => Type.Union([schema, Type.Null()])

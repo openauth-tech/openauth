@@ -1,5 +1,5 @@
-import { Type } from '@fastify/type-provider-typebox'
-import { Nullable } from '../constants/schema'
+import { Static, Type } from '@fastify/type-provider-typebox'
+import { Nullable } from './common'
 
 export const TypeCreateApp = Type.Object({
   name: Type.String(),
@@ -30,22 +30,6 @@ export const TypeApp = Type.Object({
   solEnabled: Type.Boolean(),
 })
 
-export const TypeUser = Type.Object({
-  id: Type.String(),
-  email: Nullable(Type.String()),
-  google: Nullable(Type.String()),
-  twitter: Nullable(Type.String()),
-  apple: Nullable(Type.String()),
-  ethAddress: Nullable(Type.String()),
-  solAddress: Nullable(Type.String()),
-})
-
-export const TypeCreateAdmin = Type.Object({
-  username: Type.String(),
-  password: Type.String(),
-})
-
-export const TypeAdmin = Type.Object({
-  id: Type.Number(),
-  ...TypeCreateAdmin.properties,
-})
+export type CreateApp = Static<typeof TypeCreateApp>
+export type UpdateApp = Static<typeof TypeUpdateApp>
+export type App = Static<typeof TypeApp>

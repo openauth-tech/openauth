@@ -5,20 +5,15 @@ import { verifyGoogle } from '../../utils/auth'
 import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { JwtPayload } from '../../models/request'
+import { TypeGoogleLogin, TypeLoginResponse } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Login'],
   summary: 'Login with Google',
-  body: Type.Object({
-    appId: Type.String(),
-    email: Type.String(),
-    signature: Type.String(),
-  }),
+  body: TypeGoogleLogin,
   response: {
     200: Type.Object({
-      data: Type.Object({
-        token: Type.String(),
-      }),
+      data: TypeLoginResponse,
     }),
     400: ERROR400_SCHEMA,
   },

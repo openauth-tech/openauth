@@ -16,11 +16,11 @@ export function buildHttpClient(baseURL: string, token?: string) {
   )
 
   instance.interceptors.response.use(
-    async ({ data }) => {
-      if (data.error) {
-        throw new Error(data.error)
+    async (res) => {
+      if (res.data.error) {
+        throw new Error(res.data.error)
       }
-      return data
+      return res
     },
     async ({ response }) => {
       if (response && response.data && response.data.error) {

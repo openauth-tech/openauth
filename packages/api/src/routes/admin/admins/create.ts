@@ -2,10 +2,10 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
-import { TypeCreateAdmin } from '../../../models/types'
 import bcrypt from 'bcrypt'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { SALT_ROUNDS } from '../../../utils/auth'
+import { TypeCreateAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Admins'],

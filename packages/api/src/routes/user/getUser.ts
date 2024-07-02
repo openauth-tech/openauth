@@ -4,8 +4,8 @@ import { Type } from '@fastify/type-provider-typebox'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
-import { TypeUser } from '../../models/types'
 import { JwtPayload } from '../../models/request'
+import { TypeUser } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['User'],

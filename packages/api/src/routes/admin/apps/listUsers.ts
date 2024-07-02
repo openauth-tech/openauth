@@ -2,16 +2,15 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
-import { TypeUser } from '../../../models/types'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
+import { TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
 
 const schema = {
-  tags: ['Admin'],
-  summary: 'List users',
-  querystring: Type.Object({
-    appId: Type.String(),
-    page: Type.Integer(),
-    limit: Type.Integer(),
+  tags: ['Admin - Apps'],
+  summary: 'List app users',
+  querystring: TypePageParams,
+  params: Type.Object({
+    id: Type.String(),
   }),
   headers: Type.Object({
     Authorization: Type.String(),
@@ -19,16 +18,14 @@ const schema = {
   response: {
     200: Type.Object({
       data: Type.Array(TypeUser),
-      meta: Type.Object({
-        totalItems: Type.Integer(),
-        totalPages: Type.Integer(),
-      }),
+      meta: TypePageMeta,
     }),
   },
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, page, limit } = request.query
+  const { id: appId } = request.params
+  const { page, limit } = request.query
   const totalCount = await prisma.user.count({ where: { appId } })
   const users = await prisma.user.findMany({
     where: { appId },
@@ -47,7 +44,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/',
+    url: '/:id/users',
     onRequest: [verifyAdmin],
     schema,
     handler,

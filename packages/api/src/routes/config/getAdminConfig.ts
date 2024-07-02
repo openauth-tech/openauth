@@ -2,15 +2,14 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../utils/prisma'
+import { TypeAdminConfig } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Config'],
   summary: 'Get admin config',
   response: {
     200: Type.Object({
-      data: Type.Object({
-        initialized: Type.Boolean(),
-      }),
+      data: TypeAdminConfig,
     }),
   },
 }

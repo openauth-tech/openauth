@@ -1,5 +1,5 @@
 {
-  "name": "@openauth-tech/sdk-core",
+  "name": "@open-auth/sdk-core",
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
@@ -7,6 +7,8 @@
     "build": "tsup"
   },
   "dependencies": {
+    "@sinclair/typebox": "^0.32.34",
+    "@fastify/type-provider-typebox": "^4.0.0",
     "axios": "1.7.2"
   },
   "devDependencies": {

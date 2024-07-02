@@ -1,11 +1,11 @@
-import { api, buildHttpClient } from '@openauth-tech/sdk-core'
 import { OPENAUTH_ENDPOINT, PASSWORD, USERNAME } from './constants'
+import { OpenAuthClient } from '@open-auth/sdk-core'
 
 beforeEach(async () => {
   // TODO: clean up database
-  const client = buildHttpClient(OPENAUTH_ENDPOINT)
+  const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
   try {
-    await api.admin.setup(client, { username: USERNAME, password: PASSWORD })
+    await client.admin.setup({ username: USERNAME, password: PASSWORD })
   } catch (error) {}
 })
 

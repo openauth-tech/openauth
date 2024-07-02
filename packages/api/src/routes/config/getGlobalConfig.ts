@@ -2,17 +2,14 @@ import { FastifyInstance } from 'fastify'
 import { BRAND_NAME, IS_PRODUCTION, MESSAGE_TEXT } from '../../constants/common'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
+import { TypeGlobalConfig } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Config'],
   summary: 'Get global config',
   response: {
     200: Type.Object({
-      data: Type.Object({
-        production: Type.Boolean(),
-        brand: Type.String(),
-        message: Type.String(),
-      }),
+      data: TypeGlobalConfig,
     }),
   },
 }

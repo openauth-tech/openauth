@@ -2,9 +2,9 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
-import { TypeCreateApp } from '../../../models/types'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
+import { TypeCreateApp } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],

@@ -5,20 +5,15 @@ import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { JwtPayload } from '../../models/request'
+import { TypeEthereumLogin, TypeLoginResponse } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Login'],
   summary: 'Login with Ethereum',
-  body: Type.Object({
-    appId: Type.String(),
-    ethAddress: Type.String(),
-    signature: Type.String(),
-  }),
+  body: TypeEthereumLogin,
   response: {
     200: Type.Object({
-      data: Type.Object({
-        token: Type.String(),
-      }),
+      data: TypeLoginResponse,
     }),
     400: ERROR400_SCHEMA,
   },
