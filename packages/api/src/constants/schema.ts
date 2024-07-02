@@ -1,12 +1,8 @@
-const commonErrorSchema = {
-  description: '',
-  type: 'object',
-  properties: {
-    message: {
-      type: 'string',
-    },
-  },
-}
+import { Type } from '@fastify/type-provider-typebox'
+
+const commonErrorSchema = Type.Object({
+  message: Type.String(),
+})
 
 export const ERROR400_SCHEMA = { ...commonErrorSchema, description: 'Bad Request' }
 export const ERROR401_SCHEMA = { ...commonErrorSchema, description: 'Unauthorized' }

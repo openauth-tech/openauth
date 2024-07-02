@@ -4,7 +4,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
-import { TypeCreateApp } from '@open-auth/sdk-core'
+import { TypeApp, TypeCreateApp } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -15,7 +15,7 @@ const schema = {
   body: TypeCreateApp,
   response: {
     201: Type.Object({
-      data: Type.Object({}),
+      data: TypeApp,
     }),
     400: ERROR400_SCHEMA,
   },
@@ -30,14 +30,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   })
 
   if (exists) {
-    return reply.status(400).send({ data: { message: 'App already exists' } })
+    return reply.status(400).send({ message: 'App already exists' })
   }
 
-  await prisma.app.create({
+  const data = await prisma.app.create({
     data: { name },
   })
 
-  reply.status(201).send({ data: {} })
+  reply.status(201).send({ data })
 }
 
 export default async function (fastify: FastifyInstance) {

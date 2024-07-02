@@ -19,10 +19,6 @@ export class ApiClient extends BaseClient {
     return (await this.http.get<{ data: GlobalConfig }>('/config/global')).data.data
   }
 
-  async loginUsername(data: UsernameLogin) {
-    return (await this.http.post<{ data: LoginResponse }>('/login/username', data)).data.data
-  }
-
   async loginSolana(data: SolanaLogin) {
     return (await this.http.post<{ data: LoginResponse }>('/login/solana', data)).data.data
   }
@@ -52,6 +48,6 @@ export class ApiClient extends BaseClient {
   }
 
   async getUserProfile() {
-    return (await this.http.get<{ data: User }>('/profile')).data.data
+    return (await this.http.get<{ data: User }>('/user/profile')).data.data
   }
 }

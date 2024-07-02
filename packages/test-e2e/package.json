@@ -2,13 +2,19 @@
   "name": "test-e2e",
   "private": true,
   "scripts": {
-    "test": "mocha --require ts-node/register specs/**/*.ts"
+    "test": "mocha --require ts-node/register **/*.test.ts"
   },
   "devDependencies": {
+    "@open-auth/sdk-core": "workspace:*",
+    "@solana/web3.js": "1.94.0",
     "@types/mocha": "^10.0.7",
     "@types/node": "^18.6.1",
-    "@open-auth/sdk-core": "workspace:*",
-    "mocha": "^10.5.2",
-    "axios": "^1.6.8"
+    "axios": "^1.6.8",
+    "mocha": "^10.5.2"
+  },
+  "dependencies": {
+    "ethers": "^6.10.0",
+    "tweetnacl": "^1.0.3",
+    "tweetnacl-util": "^0.15.1"
   }
 }

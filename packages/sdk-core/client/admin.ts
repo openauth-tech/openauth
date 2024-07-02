@@ -1,5 +1,5 @@
 import { BaseClient } from './base'
-import { Admin, App, CreateAdmin, CreateApp, PageMeta, PageParams, UpdateApp, User } from '../types'
+import { Admin, App, CreateAdmin, CreateApp, LoginResponse, PageMeta, PageParams, UpdateApp, User } from '../types'
 
 export class AdminClient extends BaseClient {
   async setup(data: CreateAdmin) {
@@ -7,7 +7,7 @@ export class AdminClient extends BaseClient {
   }
 
   async login(data: CreateAdmin) {
-    return (await this.http.post<{ token: string }>('/admin/login', data)).data
+    return (await this.http.post<{ data: LoginResponse }>('/admin/login', data)).data.data
   }
 
   async getAdmins({ page, limit }: { page: number; limit: number }) {

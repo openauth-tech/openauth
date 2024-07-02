@@ -13,7 +13,6 @@ export class OpenAuthClient extends BaseClient {
   }
 
   updateToken(token?: string) {
-    super.updateToken(token)
     this.admin.updateToken(token)
     this.api.updateToken(token)
   }
