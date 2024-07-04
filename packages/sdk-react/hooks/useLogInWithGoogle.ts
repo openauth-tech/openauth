@@ -1,13 +1,11 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import { useCallback } from 'react'
 
-import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
-import { useHttpClient } from '@/openauth/hooks/useHttpClient'
+import { OpenAuthContext } from '../context/OpenAuthContext'
 
 export function useLogInWithGoogle() {
-  const { setToken, config } = useContext(OpenAuthContext)
+  const { setToken, config, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
-  const http = useHttpClient()
 
   const googleLogin = useGoogleLogin({
     onError: (error) => {
@@ -23,9 +21,9 @@ export function useLogInWithGoogle() {
           },
         })
       ).json()
-      console.log(userinfo)
+      console.debug(userinfo)
       const email = userinfo.email
-      const { data } = await http.post('/auth/login', { appId: config.appId })
+      const data = await client.api.loginGoogle({ appId: config.appId, email, token })
       setLoading(false)
       setToken(data.token)
     },

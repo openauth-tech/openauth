@@ -1,24 +1,18 @@
-import { OpenAuthClient } from '@open-auth/sdk-core'
+import { GlobalConfig, OpenAuthClient, User } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode, useMemo, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
-
-import {
-  IOpenAuthConfig,
-  IOpenAuthContext,
-  IOpenAuthGlobalConfig,
-  IOpenAuthUserProfile,
-} from '@/openauth/context/types'
-import { useUpdateGlobalConfig } from '@/openauth/context/useUpdateGlobalConfig'
-import { useUpdateUserProfile } from '@/openauth/context/useUpdateUserProfile'
-import { OpenAuthStorageKeys } from '@/openauth/utils/constants'
+import { IOpenAuthConfig, IOpenAuthContext } from '../utils/types'
+import { OpenAuthStorageKeys } from '../utils/constants'
+import { useUpdateGlobalConfig } from './useUpdateGlobalConfig'
+import { useUpdateUserProfile } from './useUpdateUserProfile'
 
 export const OpenAuthContext = createContext<IOpenAuthContext>({} as any)
 
 export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig; children: ReactNode }) {
   const [token, setToken] = useLocalStorage<string | undefined>(OpenAuthStorageKeys.TOKEN, undefined)
-  const [globalConfig, setGlobalConfig] = useState<IOpenAuthGlobalConfig>()
-  const [profile, setProfile] = useState<IOpenAuthUserProfile>()
+  const [globalConfig, setGlobalConfig] = useState<GlobalConfig>()
+  const [profile, setProfile] = useState<User>()
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint, token), [config.endpoint, token])
 

@@ -1,14 +1,12 @@
 import { ethers } from 'ethers'
 import { useCallback } from 'react'
 
-import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
-import { useHttpClient } from '@/openauth/hooks/useHttpClient'
-import { getEthereumProvider } from '@/utils/getProvider'
+import { OpenAuthContext } from '../context/OpenAuthContext'
+import { getEthereumProvider } from '../utils/getProvider'
 
 export function useLogInWithEthereum() {
-  const { config, globalConfig, setToken } = useContext(OpenAuthContext)
+  const { config, globalConfig, setToken, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
-  const http = useHttpClient()
 
   const connect = useCallback(async () => {
     if (!globalConfig) {
@@ -25,13 +23,13 @@ export function useLogInWithEthereum() {
       const signer = await provider.getSigner()
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
-      const { data } = await http.post('/login/ethereum', { appId: config.appId, ethAddress: address, signature })
+      const data = await client.api.loginEthereum({ appId: config.appId, ethAddress: address, signature })
       setToken(data.token)
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
-  }, [config, globalConfig, http, setToken])
+  }, [client.api, config.appId, globalConfig, setToken])
 
   return {
     connect,

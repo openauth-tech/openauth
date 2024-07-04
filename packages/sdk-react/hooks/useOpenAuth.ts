@@ -1,4 +1,4 @@
-import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
+import { OpenAuthContext } from '../context/OpenAuthContext'
 
 export function useOpenAuth() {
   const context = useContext(OpenAuthContext)

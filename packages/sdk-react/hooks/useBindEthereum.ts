@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 
-import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
+import { OpenAuthContext } from '../context/OpenAuthContext'
 
-export function useBindGoogle() {
+export function useBindEthereum() {
   const context = useContext(OpenAuthContext)
 
   return useCallback(() => {}, [])

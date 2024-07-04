@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
+import { OpenAuthContext } from '../context/OpenAuthContext'
 
 export function useLogOut() {
   const { setToken } = useContext(OpenAuthContext)
