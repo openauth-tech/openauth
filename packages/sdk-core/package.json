@@ -22,5 +22,8 @@
     "splitting": false,
     "sourcemap": true,
     "clean": true
-  }
+  },
+  "files": [
+    "dist/"
+  ]
 }
