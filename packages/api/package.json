@@ -1,8 +1,6 @@
 {
   "name": "api",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev:api": "nodemon -r dotenv/config src/api.ts",
     "build": "tsc",
