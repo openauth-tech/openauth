@@ -1,0 +1,38 @@
+import { IconBook, IconBrandGithub, IconLayoutDashboard } from '@tabler/icons-react'
+import { NavLink } from 'react-router-dom'
+
+import ImgLogo from '@/assets/images/common/logo.png'
+import { NavButton } from '@/components/common/NavButton'
+import { useOpenAuth } from '@/openauth/hooks/useOpenAuth'
+
+export const Header = () => {
+  const { config } = useOpenAuth()
+  return (
+    <header className="w-full">
+      <div className="flex py-4 items-center justify-between px-8 mx-auto">
+        <div className="flex items-center gap-2">
+          <NavLink className="flex items-center" to="/">
+            <img src={ImgLogo} alt="" className="h-8" />
+          </NavLink>
+          <NavButton className="flex-center hover:text-primary" to="/demo">
+            Demo
+          </NavButton>
+        </div>
+        <div className="flex-center">
+          <NavButton className="flex-center hover:text-primary" to="https://github.com/openauth-tech">
+            <IconBrandGithub size={20} />
+            GitHub
+          </NavButton>
+          <NavButton className="flex-center hover:text-primary" to={`${config.endpoint}/docs/`}>
+            <IconBook size={20} />
+            API Docs
+          </NavButton>
+          <NavButton className="flex-center hover:text-primary" to="https://admin.openauth.tech">
+            <IconLayoutDashboard size={20} />
+            Admin Portal
+          </NavButton>
+        </div>
+      </div>
+    </header>
+  )
+}
