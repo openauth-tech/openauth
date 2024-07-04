@@ -4,6 +4,9 @@ export function useOpenAuth() {
   const context = useContext(OpenAuthContext)
 
   return {
-    ...context,
+    config: context.config,
+    globalConfig: context.globalConfig,
+    token: context.token,
+    profile: context.profile,
   }
 }

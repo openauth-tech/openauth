@@ -1,12 +1,8 @@
-import { Dispatch, SetStateAction } from 'react'
-
-import { IOpenAuthConfig, IOpenAuthGlobalConfig } from '@/openauth/context/types'
+import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
 import { buildHttpClient } from '@/openauth/utils/http'
 
-export function useUpdateGlobalConfig(
-  config: IOpenAuthConfig,
-  setGlobalConfig: Dispatch<SetStateAction<IOpenAuthGlobalConfig | undefined>>
-) {
+export function useUpdateGlobalConfig() {
+  const { config, setGlobalConfig } = useContext(OpenAuthContext)
   useEffect(() => {
     if (config.endpoint) {
       ;(async () => {

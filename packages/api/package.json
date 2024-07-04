@@ -2,7 +2,7 @@
   "name": "api",
   "private": true,
   "scripts": {
-    "dev:api": "nodemon -r dotenv/config src/api.ts",
+    "dev": "nodemon -r dotenv/config src/api.ts",
     "build": "tsc",
     "postinstall": "prisma generate",
     "db:dev": "prisma migrate dev && prisma generate",

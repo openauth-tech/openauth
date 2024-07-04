@@ -1,27 +1,23 @@
 import { usePrevious } from '@did-network/dapp-sdk'
-import { Dispatch, SetStateAction } from 'react'
 
-import { IOpenAuthConfig, IOpenAuthUserProfile } from '@/openauth/context/types'
+import { OpenAuthContext } from '@/openauth/context/OpenAuthContext'
 import { buildHttpClient } from '@/openauth/utils/http'
 
-export function useUpdateUserProfile(
-  config: IOpenAuthConfig,
-  token: string | undefined,
-  setUserProfile: Dispatch<SetStateAction<IOpenAuthUserProfile | undefined>>
-) {
+export function useUpdateUserProfile() {
+  const { config, setProfile, token } = useContext(OpenAuthContext)
   const preToken = usePrevious(token)
 
   useEffect(() => {
     if (preToken !== token) {
       if (!token) {
-        setUserProfile(undefined)
+        setProfile(undefined)
         return
       }
       ;(async () => {
         const http = buildHttpClient(config, token)
         const { data } = await http.get('/user/profile')
-        setUserProfile(data)
+        setProfile(data)
       })()
     }
-  }, [config, preToken, token, setUserProfile])
+  }, [config, preToken, token, setProfile])
 }
