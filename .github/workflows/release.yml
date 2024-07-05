@@ -23,13 +23,7 @@ jobs:
       - name: Install dependencies
         run: pnpm -r build
 
-  publish-npm:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
+      # publish NPM package
       - name: Set publishing config
         run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
         env:
@@ -38,40 +32,7 @@ jobs:
         shell: bash
         run: pnpm publish packages/sdk-core --access public --no-git-checks || true
 
-  deploy-home:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: rsync
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete --filter=':- .gitignore'
-          path: apps/web-home/dist/*
-          remote_path: /data/openauth-web
-          remote_host: 20.212.6.4
-          remote_port: 2222
-          remote_user: why
-          remote_key: ${{ secrets.DEPLOY_KEY }}
-
-  deploy-admin:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: rsync
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete --filter=':- .gitignore'
-          path: apps/web-admin/dist/*
-          remote_path: /data/openauth-admin
-          remote_host: 20.212.6.4
-          remote_port: 2222
-          remote_user: why
-          remote_key: ${{ secrets.DEPLOY_KEY }}
-
-  deploy-api:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+      # deploy api
       - name: rsync deployments
         uses: burnett01/rsync-deployments@4.1
         with:
@@ -96,3 +57,27 @@ jobs:
             cd /data/openauth-api
             docker compose -f docker-compose.yml up -d --no-deps --build
             docker exec openauth-api npx dotenv-cli -e .env.production -- prisma migrate deploy
+
+      # deploy home web
+      - name: rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-home/dist/*
+          remote_path: /data/openauth-web
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+
+      # deploy admin web
+      - name: rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-admin/dist/*
+          remote_path: /data/openauth-admin
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}
