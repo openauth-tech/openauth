@@ -45,6 +45,17 @@ jobs:
     needs: docker
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete
+          path: ./
+          remote_path: /data/openauth-api
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}
       - name: Executing remote ssh commands
         uses: appleboy/ssh-action@master
         env:
