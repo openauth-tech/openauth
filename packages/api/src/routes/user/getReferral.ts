@@ -5,7 +5,7 @@ import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
-import { TypeReferral } from '@open-auth/sdk-core/types/models/referral'
+import { TypeReferral } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['User'],
