@@ -1,9 +1,7 @@
 services:
   openauth-api:
     container_name: openauth-api
-    build:
-      dockerfile: Dockerfile
-      target: api-prod
+    image: callmewhy/openauth-api:latest
     environment:
       - DATABASE_URL=${DATABASE_URL}
     ports:

@@ -14,7 +14,7 @@ RUN pnpm deploy --filter=@open-auth/sdk-core --prod core
 RUN pnpm deploy --filter=@open-auth/api --prod api
 
 
-FROM base AS api-test
+FROM base AS api-prod
 WORKDIR /app
 
 COPY --from=build /app/api/.env.* ./
@@ -23,4 +23,4 @@ COPY --from=build /app/api/prisma ./prisma
 COPY --from=build /app/api/package.json ./package.json
 COPY --from=build /app/api/node_modules ./node_modules
 
-CMD [ "node", "--env-file=.env.test", "dist/api.js" ]
+CMD [ "node", "--env-file=.env.production", "dist/api.js" ]
