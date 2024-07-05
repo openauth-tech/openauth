@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +23,11 @@ jobs:
         run: pnpm -r install
       - name: Install dependencies
         run: pnpm -r build
+
+  publish-npm:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Set publishing config
         run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
         env:
@@ -30,3 +35,33 @@ jobs:
       - name: Publish
         shell: bash
         run: pnpm publish packages/sdk-core --access public --no-git-checks || true
+
+  deploy-home:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-home/dist/*
+          remote_path: /data/openauth-web
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+
+  deploy-admin:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: rsync
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-admin/dist/*
+          remote_path: /data/openauth-admin
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}

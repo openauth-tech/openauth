@@ -22,13 +22,4 @@ jobs:
         run: pnpm install
       - name: build
         run: pnpm build
-      - name: rsync
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete --filter=':- .gitignore'
-          path: dist/*
-          remote_path: /data/openauth-web
-          remote_host: 20.212.6.4
-          remote_port: 2222
-          remote_user: why
-          remote_key: ${{ secrets.DEPLOY_KEY }}
+
