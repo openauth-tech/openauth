@@ -11,7 +11,7 @@ COPY . .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 RUN pnpm deploy --filter=@open-auth/sdk-core --prod core
-RUN pnpm deploy --filter=@open-auth/api --prod api
+RUN pnpm deploy --filter=api --prod api
 
 
 FROM base AS api-prod
