@@ -1,4 +1,4 @@
-import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+import { useOpenAuth } from '@open-auth/sdk-react'
 import { IconBook, IconBrandGithub, IconLayoutDashboard } from '@tabler/icons-react'
 import { NavLink } from 'react-router-dom'
 

@@ -1,7 +1,4 @@
-import { useLogInWithEthereum } from '@open-auth/sdk-react/hooks/useLogInWithEthereum'
-import { useLogInWithGoogle } from '@open-auth/sdk-react/hooks/useLogInWithGoogle'
-import { useLogInWithSolana } from '@open-auth/sdk-react/hooks/useLogInWithSolana'
-import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+import { useLogInWithEthereum, useLogInWithGoogle, useLogInWithSolana, useOpenAuth } from '@open-auth/sdk-react'
 import { IconBrandGoogle, IconCurrencyEthereum, IconCurrencySolana, IconLoader2 } from '@tabler/icons-react'
 
 import { Button } from '@/components/ui/button'

@@ -1,5 +1,4 @@
-import { useLogOut } from '@open-auth/sdk-react/hooks/useLogOut'
-import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+import { useLogOut, useOpenAuth } from '@open-auth/sdk-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

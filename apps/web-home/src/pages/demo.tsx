@@ -1,4 +1,4 @@
-import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+import { useOpenAuth } from '@open-auth/sdk-react'
 
 import { LoginCard } from '@/openauth/components/LoginCard'
 import { ProfileCard } from '@/openauth/components/ProfileCard'
