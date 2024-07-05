@@ -1,9 +1,9 @@
+import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
 import { IconBook, IconBrandGithub, IconLayoutDashboard } from '@tabler/icons-react'
 import { NavLink } from 'react-router-dom'
 
 import ImgLogo from '@/assets/images/common/logo.png'
 import { NavButton } from '@/components/common/NavButton'
-import { useOpenAuth } from '@/openauth/hooks/useOpenAuth'
 
 export const Header = () => {
   const { config } = useOpenAuth()

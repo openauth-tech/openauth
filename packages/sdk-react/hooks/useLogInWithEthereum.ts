@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { useCallback } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { OpenAuthContext } from '../context/OpenAuthContext'
 import { getEthereumProvider } from '../utils/getProvider'
@@ -18,7 +18,7 @@ export function useLogInWithEthereum() {
     }
     setLoading(true)
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum)
+      const provider = new ethers.BrowserProvider((window as any).ethereum)
       await provider.send('eth_requestAccounts', [])
       const signer = await provider.getSigner()
       const address = await signer.getAddress()

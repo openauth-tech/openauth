@@ -1,8 +1,7 @@
+import { OpenAuthProvider } from '@open-auth/sdk-react/context/OpenAuthContext'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-
-import { OpenAuthProvider } from '@/openauth/context/OpenAuthContext'
 
 import App from './App'
 

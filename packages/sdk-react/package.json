@@ -1,6 +1,12 @@
 {
   "name": "@open-auth/sdk-react",
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "type": "module",
   "scripts": {
     "build": "tsup"
   },
@@ -36,6 +42,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "prettier": "2.8.3",
     "rollup-plugin-visualizer": "^5.9.0",
+    "tsup": "8.1.0",
     "typescript": "^5.3.3",
     "unocss": "0.59.4",
     "unocss-preset-animations": "1.0.1",
@@ -47,5 +54,19 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-node-stdlib-browser": "^0.2.1",
     "vite-plugin-pages": "^0.32.1"
-  }
+  },
+  "tsup": {
+    "entry": [
+      "index.ts"
+    ],
+    "format": [
+      "esm"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  },
+  "files": [
+    "dist/"
+  ]
 }

@@ -1,7 +1,8 @@
+import { useLogOut } from '@open-auth/sdk-react/hooks/useLogOut'
+import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useLogOut } from '@/openauth/hooks/useLogOut'
-import { useOpenAuth } from '@/openauth/hooks/useOpenAuth'
 
 export function ProfileCard() {
   const { globalConfig, profile } = useOpenAuth()

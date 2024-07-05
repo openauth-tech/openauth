@@ -1,5 +1,5 @@
 import { encodeBase58 } from 'ethers'
-import { useCallback } from 'react'
+import { useCallback, useContext, useState } from 'react'
 
 import { OpenAuthContext } from '../context/OpenAuthContext'
 import { getSolanaProvider } from '../utils/getProvider'

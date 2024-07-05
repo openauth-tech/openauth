@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react'
 import { OpenAuthContext } from './OpenAuthContext'
 
 export function useUpdateGlobalConfig() {

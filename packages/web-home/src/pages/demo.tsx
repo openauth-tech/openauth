@@ -1,6 +1,7 @@
+import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
+
 import { LoginCard } from '@/openauth/components/LoginCard'
 import { ProfileCard } from '@/openauth/components/ProfileCard'
-import { useOpenAuth } from '@/openauth/hooks/useOpenAuth'
 
 export default function () {
   const { profile } = useOpenAuth()

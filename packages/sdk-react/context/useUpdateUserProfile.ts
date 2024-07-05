@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react'
 import { OpenAuthContext } from './OpenAuthContext'
 import { usePrevious } from '@did-network/dapp-sdk'
 

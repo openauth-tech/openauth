@@ -4,11 +4,8 @@
     "lib": [
       "esnext"
     ],
-    "types": [
-      "node",
-      "mocha"
-    ],
-    "module": "commonjs",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
@@ -21,5 +18,5 @@
   ],
   "include": [
     "**/*.ts"
-  ]
+, "packages/sdk-core/tsconfig.json"  ]
 }

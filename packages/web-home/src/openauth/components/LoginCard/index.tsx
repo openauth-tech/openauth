@@ -1,12 +1,12 @@
+import { useLogInWithEthereum } from '@open-auth/sdk-react/hooks/useLogInWithEthereum'
+import { useLogInWithGoogle } from '@open-auth/sdk-react/hooks/useLogInWithGoogle'
+import { useLogInWithSolana } from '@open-auth/sdk-react/hooks/useLogInWithSolana'
+import { useOpenAuth } from '@open-auth/sdk-react/hooks/useOpenAuth'
 import { IconBrandGoogle, IconCurrencyEthereum, IconCurrencySolana, IconLoader2 } from '@tabler/icons-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/components/ui/use-toast'
-import { useLogInWithEthereum } from '@/openauth/hooks/useLogInWithEthereum'
-import { useLogInWithGoogle } from '@/openauth/hooks/useLogInWithGoogle'
-import { useLogInWithSolana } from '@/openauth/hooks/useLogInWithSolana'
-import { useOpenAuth } from '@/openauth/hooks/useOpenAuth'
 
 export function LoginCard() {
   const { toast } = useToast()
