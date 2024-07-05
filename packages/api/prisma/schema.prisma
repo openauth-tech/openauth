@@ -37,7 +37,8 @@ model App {
   ethEnabled     Boolean @default(false)
   solEnabled     Boolean @default(false)
 
-  users User[]
+  users     User[]
+  referrals Referral[]
 
   @@map("oa_apps")
 }
@@ -55,6 +56,9 @@ model User {
   ethAddress String?
   solAddress String?
 
+  referCode  String? @unique
+  referChain String?
+
   appId String
   app   App    @relation(fields: [appId], references: [id])
 
@@ -65,4 +69,18 @@ model User {
   @@unique([appId, ethAddress])
   @@unique([appId, solAddress])
   @@map("oa_users")
+}
+
+model Referral {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  appId     String
+  app       App      @relation(fields: [appId], references: [id])
+
+  referrer String
+  referee  String
+
+  @@unique([referee])
+  @@index([referrer])
+  @@map("oa_referrals")
 }

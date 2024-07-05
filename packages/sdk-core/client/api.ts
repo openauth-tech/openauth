@@ -9,6 +9,7 @@ import {
   User,
   UsernameLogin,
 } from '../types'
+import { Referral } from '../types/models/referral'
 
 export class ApiClient extends BaseClient {
   async getAdminConfig() {
@@ -49,5 +50,13 @@ export class ApiClient extends BaseClient {
 
   async getUserProfile() {
     return (await this.http.get<{ data: User }>('/user/profile')).data.data
+  }
+
+  async setReferrer(data: { referCode: string }) {
+    return (await this.http.post('/user/set-referrer', data)).data
+  }
+
+  async getReferral() {
+    return (await this.http.get<{ data: Referral }>('/user/referral')).data.data
   }
 }

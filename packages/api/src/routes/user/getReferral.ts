@@ -5,17 +5,17 @@ import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
-import { TypeUser } from '@open-auth/sdk-core'
+import { TypeReferral } from '@open-auth/sdk-core/types/models/referral'
 
 const schema = {
   tags: ['User'],
-  summary: 'Get user profile',
+  summary: 'Get refer info',
   headers: Type.Object({
     Authorization: Type.String(),
   }),
   response: {
     200: Type.Object({
-      data: TypeUser,
+      data: TypeReferral,
     }),
     400: ERROR400_SCHEMA,
   },
@@ -23,24 +23,29 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
-
-  const data = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: userId },
   })
-
-  if (!data) {
+  if (!user) {
     return reply.status(404).send({ message: 'User not found' })
   }
 
+  const refer1 = await prisma.referral.findMany({
+    where: {
+      referrer: userId,
+    },
+  })
+
+  const refer2Count = await prisma.referral.count({
+    where: {
+      referrer: { in: refer1.map((r) => r.referee) },
+    },
+  })
+
   reply.status(200).send({
     data: {
-      id: data.id,
-      email: data.email,
-      google: data.google,
-      twitter: data.twitter,
-      apple: data.apple,
-      ethAddress: data.ethAddress,
-      solAddress: data.solAddress,
+      refee1Count: refer1.length,
+      refee2Count: refer2Count,
     },
   })
 }
@@ -48,7 +53,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/profile',
+    url: '/referral',
     onRequest: [verifyUser],
     schema,
     handler,
