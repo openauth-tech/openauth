@@ -27,7 +27,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const isMatch = user && (await bcrypt.compare(password, user.password))
   if (!isMatch) {
     return reply.code(401).send({
-      message: 'Invalid email or password',
+      message: 'Invalid username or password',
     })
   }
 

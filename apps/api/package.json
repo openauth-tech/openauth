@@ -2,7 +2,7 @@
   "name": "api",
   "private": true,
   "scripts": {
-    "dev": "tsx watch ./src/api.ts",
+    "dev": "tsx watch ./src/*.ts",
     "build": "tsc",
     "postinstall": "prisma generate",
     "db:dev": "prisma migrate dev && prisma generate",

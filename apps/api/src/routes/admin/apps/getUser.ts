@@ -8,7 +8,7 @@ import { ERROR404_SCHEMA } from '../../../constants/schema'
 
 const schema = {
   tags: ['Admin - Apps'],
-  summary: 'List app users',
+  summary: 'Get app user',
   querystring: TypePageParams,
   params: Type.Object({
     id: Type.String(),
