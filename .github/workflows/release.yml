@@ -13,53 +13,23 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           version: 9
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
           cache: 'pnpm'
-      - name: Install npm dependencies
-        run: pnpm -r install
-      - name: Install dependencies
-        run: pnpm -r build
+      - run: pnpm -r install
+      - run: pnpm -r build
 
       # publish NPM package
-      - name: Set publishing config
-        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+      - run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish
+      - name: Publish NPM
         shell: bash
         run: pnpm publish packages/sdk-core --access public --no-git-checks || true
 
-      # deploy api
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@4.1
-        with:
-          switches: -avzr --delete
-          path: apps/api/dist/*
-          remote_path: /data/openauth-api
-          remote_host: 20.212.6.4
-          remote_port: 2222
-          remote_user: why
-          remote_key: ${{ secrets.DEPLOY_KEY }}
-      - name: executing remote ssh commands
-        uses: appleboy/ssh-action@master
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        with:
-          envs: DATABASE_URL
-          host: 20.212.6.4
-          port: 2222
-          username: why
-          key: ${{ secrets.DEPLOY_KEY }}
-          script: |
-            cd /data/openauth-api
-            docker compose -f docker-compose.yml up -d --no-deps --build
-            docker exec openauth-api npx dotenv-cli -e .env.production -- prisma migrate deploy
-
       # deploy home web
-      - name: rsync
+      - name: Deploy home web
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avzr --delete --filter=':- .gitignore'
@@ -71,7 +41,7 @@ jobs:
           remote_key: ${{ secrets.DEPLOY_KEY }}
 
       # deploy admin web
-      - name: rsync
+      - name: Deploy admin web
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avzr --delete --filter=':- .gitignore'
