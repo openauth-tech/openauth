@@ -5,7 +5,7 @@ import { prisma } from '../../../utils/prisma'
 import { ERROR404_SCHEMA } from '../../../constants/schema'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { TypeAppSecret } from '@open-auth/sdk-core'
-import { uuidV4 } from 'ethers'
+import { randomUUID } from 'node:crypto'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -34,12 +34,18 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'App not found' })
   }
 
-  if (app.secret === null) {
-    const secret = uuidV4()
+  let secret = app.secret
+
+  if (secret === null) {
+    secret = 'oa_' + randomUUID().replaceAll('-', '')
+    await prisma.app.update({
+      where: { id },
+      data: { secret },
+    })
   }
 
   reply.status(200).send({
-    data: app,
+    data: { secret },
   })
 }
 

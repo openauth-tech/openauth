@@ -1,5 +1,16 @@
 import { BaseClient } from './base'
-import { Admin, App, CreateAdmin, CreateApp, LoginResponse, PageMeta, PageParams, UpdateApp, User } from '../types'
+import {
+  Admin,
+  App,
+  AppSecret,
+  CreateAdmin,
+  CreateApp,
+  LoginResponse,
+  PageMeta,
+  PageParams,
+  UpdateApp,
+  User,
+} from '../types'
 
 export class AdminClient extends BaseClient {
   async setup(data: CreateAdmin) {
@@ -54,5 +65,9 @@ export class AdminClient extends BaseClient {
   async getUsers(appId: string, { page, limit }: PageParams) {
     const queryStr = new URLSearchParams({ page: page.toString(), limit: limit.toString() }).toString()
     return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users?${queryStr}`)).data.data
+  }
+
+  async getSecret(appId: string) {
+    return (await this.http.get<{ data: AppSecret }>(`/admin/apps/${appId}/secret`)).data.data
   }
 }
