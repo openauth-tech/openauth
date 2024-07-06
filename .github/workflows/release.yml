@@ -37,7 +37,7 @@ jobs:
         uses: burnett01/rsync-deployments@4.1
         with:
           switches: -avzr --delete
-          path: packages/api/dist/*
+          path: apps/api/dist/*
           remote_path: /data/openauth-api
           remote_host: 20.212.6.4
           remote_port: 2222
