@@ -1,5 +1,5 @@
 {
-  "name": "openauth-admin-web",
+  "name": "web-admin",
   "private": true,
   "main": "index.js",
   "scripts": {

@@ -1,5 +1,5 @@
 {
-  "name": "openauth-web",
+  "name": "web-home",
   "private": true,
   "main": "index.js",
   "scripts": {

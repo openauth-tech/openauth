@@ -30,6 +30,11 @@ export const TypeApp = Type.Object({
   solEnabled: Type.Boolean(),
 })
 
+export const TypeAppSecret = Type.Object({
+  secret: Type.String(),
+})
+
 export type CreateApp = Static<typeof TypeCreateApp>
 export type UpdateApp = Static<typeof TypeUpdateApp>
 export type App = Static<typeof TypeApp>
+export type AppSecret = Static<typeof TypeAppSecret>
