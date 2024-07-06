@@ -92,7 +92,7 @@ describe('OpenAuth API', () => {
     }
 
     // verify referral chain
-    const referrals = await apiClient.api.getReferral()
+    const referrals = await adminClient.admin.getUserReferral(appId, userId)
     assert.equal(referrals.refee1Count, 1)
     assert.equal(referrals.refee2Count, 1)
   })

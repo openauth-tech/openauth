@@ -1,15 +1,18 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../../utils/prisma'
+import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { ERROR400_SCHEMA } from '../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { verifyUser } from '../../handlers/verifyUser'
-import { JwtPayload } from '../../models/request'
+import { prisma } from '../../../utils/prisma'
 import { TypeReferral } from '@open-auth/sdk-core'
+import { ERROR400_SCHEMA } from '../../../constants/schema'
+import { verifyAdmin } from '../../../handlers/verifyAdmin'
 
 const schema = {
-  tags: ['User'],
-  summary: 'Get refer info',
+  tags: ['Admin - Apps'],
+  summary: 'Get app user referral',
+  params: Type.Object({
+    id: Type.String(),
+    userId: Type.String(),
+  }),
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -22,9 +25,9 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { id: appId, userId } = request.params
   const user = await prisma.user.findUnique({
-    where: { id: userId },
+    where: { appId, id: userId },
   })
   if (!user) {
     return reply.status(404).send({ message: 'User not found' })
@@ -53,8 +56,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/referral',
-    onRequest: [verifyUser],
+    url: '/:id/users/:userId/referral',
+    onRequest: [verifyAdmin],
     schema,
     handler,
   })
