@@ -19,7 +19,7 @@ importers:
         version: 7.0.1(@babel/plugin-syntax-flow@7.24.7(@babel/core@7.24.7))(@babel/plugin-transform-react-jsx@7.24.7(@babel/core@7.24.7))(eslint@8.57.0)(typescript@5.5.2)
       eslint-plugin-import:
         specifier: ^2.27.5
-        version: 2.29.1(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^4.2.1
         version: 4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.3)
@@ -35,6 +35,182 @@ importers:
       typescript:
         specifier: ^5.5.2
         version: 5.5.2
+
+  apps/api:
+    dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.564.0
+        version: 3.606.0
+      '@fastify/autoload':
+        specifier: ^5.10.0
+        version: 5.10.0
+      '@fastify/cors':
+        specifier: ^9.0.1
+        version: 9.0.1
+      '@fastify/jwt':
+        specifier: ^8.0.0
+        version: 8.0.1
+      '@fastify/swagger':
+        specifier: ^8.14.0
+        version: 8.14.0
+      '@fastify/swagger-ui':
+        specifier: ^4.0.0
+        version: 4.0.0
+      '@fastify/type-provider-typebox':
+        specifier: ^4.0.0
+        version: 4.0.0(@sinclair/typebox@0.32.34)
+      '@mgcrea/prisma-queue':
+        specifier: ^1.8.0
+        version: 1.11.0(@prisma/client@5.16.1(prisma@5.16.1))
+      '@open-auth/sdk-core':
+        specifier: workspace:*
+        version: link:../../packages/sdk-core
+      '@prisma/client':
+        specifier: ^5.13.0
+        version: 5.16.1(prisma@5.16.1)
+      '@sinclair/typebox':
+        specifier: ^0.32.34
+        version: 0.32.34
+      axios:
+        specifier: ^1.6.8
+        version: 1.7.2
+      bcrypt:
+        specifier: ^5.1.1
+        version: 5.1.1(encoding@0.1.13)
+      bignumber.js:
+        specifier: ^9.1.2
+        version: 9.1.2
+      bs58:
+        specifier: ^5.0.0
+        version: 5.0.0
+      cron:
+        specifier: ^3.1.7
+        version: 3.1.7
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.11
+      ethers:
+        specifier: ^6.10.0
+        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      fastify:
+        specifier: ^4.26.2
+        version: 4.28.1
+      fluent-json-schema:
+        specifier: ^4.2.1
+        version: 4.2.1
+      google-auth-library:
+        specifier: ^9.7.0
+        version: 9.11.0(encoding@0.1.13)
+      into-stream:
+        specifier: ^6.0.0
+        version: 6.0.0
+      pg:
+        specifier: ^8.7.1
+        version: 8.12.0
+      prisma:
+        specifier: ^5.13.0
+        version: 5.16.1
+      telegraf:
+        specifier: ^4.16.3
+        version: 4.16.3(encoding@0.1.13)
+      tweetnacl:
+        specifier: ^1.0.3
+        version: 1.0.3
+      tweetnacl-util:
+        specifier: ^0.15.1
+        version: 0.15.1
+      viem:
+        specifier: ^2.9.12
+        version: 2.16.5(bufferutil@4.0.8)(typescript@5.5.2)(utf-8-validate@5.0.10)
+    devDependencies:
+      '@types/bcrypt':
+        specifier: ^5.0.2
+        version: 5.0.2
+      '@types/mocha':
+        specifier: ^10.0.7
+        version: 10.0.7
+      '@types/node':
+        specifier: ^18.6.1
+        version: 18.19.39
+      '@types/pg':
+        specifier: ^8.6.4
+        version: 8.11.6
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.2.0
+        version: 7.14.1(@typescript-eslint/parser@7.14.1(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)(typescript@5.5.2)
+      '@typescript-eslint/parser':
+        specifier: ^7.2.0
+        version: 7.14.1(eslint@8.57.0)(typescript@5.5.2)
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
+      dotenv-cli:
+        specifier: ^7.4.2
+        version: 7.4.2
+      eslint:
+        specifier: ^8.20.0
+        version: 8.57.0
+      eslint-config-prettier:
+        specifier: ^8.5.0
+        version: 8.10.0(eslint@8.57.0)
+      eslint-plugin-prettier:
+        specifier: ^4.2.1
+        version: 4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.3)
+      mocha:
+        specifier: ^10.5.2
+        version: 10.5.2
+      onchange:
+        specifier: ^7.1.0
+        version: 7.1.0
+      prettier:
+        specifier: ^2.7.1
+        version: 2.8.3
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+      tap:
+        specifier: ^20.0.3
+        version: 20.0.3(@types/node@18.19.39)(@types/react@18.3.3)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.2)(utf-8-validate@5.0.10)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@types/node@18.19.39)(typescript@5.5.2)
+      tsx:
+        specifier: 4.16.0
+        version: 4.16.0
+      typescript:
+        specifier: ^5.4.2
+        version: 5.5.2
+
+  apps/test-e2e:
+    dependencies:
+      ethers:
+        specifier: ^6.10.0
+        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      tweetnacl:
+        specifier: ^1.0.3
+        version: 1.0.3
+      tweetnacl-util:
+        specifier: ^0.15.1
+        version: 0.15.1
+    devDependencies:
+      '@open-auth/sdk-core':
+        specifier: workspace:*
+        version: link:../../packages/sdk-core
+      '@solana/web3.js':
+        specifier: 1.94.0
+        version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@types/mocha':
+        specifier: ^10.0.7
+        version: 10.0.7
+      '@types/node':
+        specifier: ^18.6.1
+        version: 18.19.39
+      axios:
+        specifier: ^1.6.8
+        version: 1.7.2
+      mocha:
+        specifier: ^10.5.2
+        version: 10.5.2
 
   apps/web-admin:
     dependencies:
@@ -512,151 +688,6 @@ importers:
         specifier: ^0.32.1
         version: 0.32.3(react-router@6.24.1(react@18.3.1))(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
 
-  packages/api:
-    dependencies:
-      '@aws-sdk/client-s3':
-        specifier: ^3.564.0
-        version: 3.606.0
-      '@fastify/autoload':
-        specifier: ^5.10.0
-        version: 5.10.0
-      '@fastify/cors':
-        specifier: ^9.0.1
-        version: 9.0.1
-      '@fastify/jwt':
-        specifier: ^8.0.0
-        version: 8.0.1
-      '@fastify/swagger':
-        specifier: ^8.14.0
-        version: 8.14.0
-      '@fastify/swagger-ui':
-        specifier: ^4.0.0
-        version: 4.0.0
-      '@fastify/type-provider-typebox':
-        specifier: ^4.0.0
-        version: 4.0.0(@sinclair/typebox@0.32.34)
-      '@mgcrea/prisma-queue':
-        specifier: ^1.8.0
-        version: 1.11.0(@prisma/client@5.16.1(prisma@5.16.1))
-      '@open-auth/sdk-core':
-        specifier: workspace:*
-        version: link:../sdk-core
-      '@prisma/client':
-        specifier: ^5.13.0
-        version: 5.16.1(prisma@5.16.1)
-      '@sinclair/typebox':
-        specifier: ^0.32.34
-        version: 0.32.34
-      axios:
-        specifier: ^1.6.8
-        version: 1.7.2
-      bcrypt:
-        specifier: ^5.1.1
-        version: 5.1.1(encoding@0.1.13)
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
-      bs58:
-        specifier: ^5.0.0
-        version: 5.0.0
-      cron:
-        specifier: ^3.1.7
-        version: 3.1.7
-      dayjs:
-        specifier: ^1.11.10
-        version: 1.11.11
-      ethers:
-        specifier: ^6.10.0
-        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      fastify:
-        specifier: ^4.26.2
-        version: 4.28.1
-      fluent-json-schema:
-        specifier: ^4.2.1
-        version: 4.2.1
-      google-auth-library:
-        specifier: ^9.7.0
-        version: 9.11.0(encoding@0.1.13)
-      into-stream:
-        specifier: ^6.0.0
-        version: 6.0.0
-      pg:
-        specifier: ^8.7.1
-        version: 8.12.0
-      prisma:
-        specifier: ^5.13.0
-        version: 5.16.1
-      telegraf:
-        specifier: ^4.16.3
-        version: 4.16.3(encoding@0.1.13)
-      tweetnacl:
-        specifier: ^1.0.3
-        version: 1.0.3
-      tweetnacl-util:
-        specifier: ^0.15.1
-        version: 0.15.1
-      viem:
-        specifier: ^2.9.12
-        version: 2.16.5(bufferutil@4.0.8)(typescript@5.5.2)(utf-8-validate@5.0.10)
-    devDependencies:
-      '@types/bcrypt':
-        specifier: ^5.0.2
-        version: 5.0.2
-      '@types/mocha':
-        specifier: ^10.0.7
-        version: 10.0.7
-      '@types/node':
-        specifier: ^18.6.1
-        version: 18.19.39
-      '@types/pg':
-        specifier: ^8.6.4
-        version: 8.11.6
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.2.0
-        version: 7.14.1(@typescript-eslint/parser@7.14.1(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)(typescript@5.5.2)
-      '@typescript-eslint/parser':
-        specifier: ^7.2.0
-        version: 7.14.1(eslint@8.57.0)(typescript@5.5.2)
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      dotenv-cli:
-        specifier: ^7.4.2
-        version: 7.4.2
-      eslint:
-        specifier: ^8.20.0
-        version: 8.57.0
-      eslint-config-prettier:
-        specifier: ^8.5.0
-        version: 8.10.0(eslint@8.57.0)
-      eslint-plugin-prettier:
-        specifier: ^4.2.1
-        version: 4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.3)
-      mocha:
-        specifier: ^10.5.2
-        version: 10.5.2
-      onchange:
-        specifier: ^7.1.0
-        version: 7.1.0
-      prettier:
-        specifier: ^2.7.1
-        version: 2.8.3
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-      tap:
-        specifier: ^20.0.3
-        version: 20.0.3(@types/node@18.19.39)(@types/react@18.3.3)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.2)(utf-8-validate@5.0.10)
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@18.19.39)(typescript@5.5.2)
-      tsx:
-        specifier: 4.16.0
-        version: 4.16.0
-      typescript:
-        specifier: ^5.4.2
-        version: 5.5.2
-
   packages/sdk-core:
     dependencies:
       '@fastify/type-provider-typebox':
@@ -671,7 +702,7 @@ importers:
     devDependencies:
       tsup:
         specifier: 8.1.0
-        version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))(typescript@5.5.2)
+        version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(typescript@5.5.2))(typescript@5.5.2)
       typescript:
         specifier: ^5.5.2
         version: 5.5.2
@@ -768,7 +799,7 @@ importers:
         version: 5.12.0(rollup@4.18.0)
       tsup:
         specifier: 8.1.0
-        version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))(typescript@5.5.2)
+        version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(typescript@5.5.2))(typescript@5.5.2)
       typescript:
         specifier: ^5.3.3
         version: 5.5.2
@@ -802,37 +833,6 @@ importers:
       vite-plugin-pages:
         specifier: ^0.32.1
         version: 0.32.3(react-router@6.24.1(react@18.3.1))(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
-
-  packages/test-e2e:
-    dependencies:
-      ethers:
-        specifier: ^6.10.0
-        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      tweetnacl:
-        specifier: ^1.0.3
-        version: 1.0.3
-      tweetnacl-util:
-        specifier: ^0.15.1
-        version: 0.15.1
-    devDependencies:
-      '@open-auth/sdk-core':
-        specifier: workspace:*
-        version: link:../sdk-core
-      '@solana/web3.js':
-        specifier: 1.94.0
-        version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@types/mocha':
-        specifier: ^10.0.7
-        version: 10.0.7
-      '@types/node':
-        specifier: ^18.6.1
-        version: 18.19.39
-      axios:
-        specifier: ^1.6.8
-        version: 1.7.2
-      mocha:
-        specifier: ^10.5.2
-        version: 10.5.2
 
 packages:
 
@@ -9557,7 +9557,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.1
@@ -9664,7 +9664,7 @@ snapshots:
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -11654,7 +11654,7 @@ snapshots:
       '@typescript-eslint/types': 7.14.1
       '@typescript-eslint/typescript-estree': 7.14.1(typescript@5.5.2)
       '@typescript-eslint/visitor-keys': 7.14.1
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       eslint: 8.57.0
     optionalDependencies:
       typescript: 5.5.2
@@ -11704,7 +11704,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 7.14.1(typescript@5.5.2)
       '@typescript-eslint/utils': 7.14.1(eslint@8.57.0)(typescript@5.5.2)
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       eslint: 8.57.0
       ts-api-utils: 1.3.0(typescript@5.5.2)
     optionalDependencies:
@@ -11751,7 +11751,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 7.14.1
       '@typescript-eslint/visitor-keys': 7.14.1
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       globby: 11.1.0
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -14204,7 +14204,7 @@ snapshots:
 
   json-schema-resolver@2.0.0:
     dependencies:
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       rfdc: 1.4.1
       uri-js: 4.4.1
     transitivePeerDependencies:
@@ -14940,7 +14940,7 @@ snapshots:
 
   possible-typed-array-names@1.0.0: {}
 
-  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)):
+  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(typescript@5.5.2)):
     dependencies:
       lilconfig: 3.1.2
       yaml: 2.4.5
@@ -15773,7 +15773,7 @@ snapshots:
     dependencies:
       '@telegraf/types': 7.1.0
       abort-controller: 3.0.0
-      debug: 4.3.4(supports-color@8.1.1)
+      debug: 4.3.5
       mri: 1.2.0
       node-fetch: 2.7.0(encoding@0.1.13)
       p-timeout: 4.1.0
@@ -15895,7 +15895,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsup@8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))(typescript@5.5.2):
+  tsup@8.1.0(postcss@8.4.39)(ts-node@10.9.2(typescript@5.5.2))(typescript@5.5.2):
     dependencies:
       bundle-require: 4.2.1(esbuild@0.21.5)
       cac: 6.7.14
@@ -15905,7 +15905,7 @@ snapshots:
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
-      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))
+      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(typescript@5.5.2))
       resolve-from: 5.0.0
       rollup: 4.18.0
       source-map: 0.8.0-beta.0

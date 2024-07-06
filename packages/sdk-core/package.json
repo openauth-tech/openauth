@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "type": "module",
@@ -26,7 +27,8 @@
       "index.ts"
     ],
     "format": [
-      "esm"
+      "esm",
+      "cjs"
     ],
     "splitting": false,
     "sourcemap": true,

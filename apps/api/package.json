@@ -1,10 +1,6 @@
 {
   "name": "api",
   "private": true,
-  "type": "module",
-  "exports": {
-    "./*": "./dist/*"
-  },
   "scripts": {
     "dev": "tsx watch ./src/api.ts",
     "build": "tsc",
