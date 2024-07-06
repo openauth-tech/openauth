@@ -26,12 +26,13 @@ jobs:
       - run: pnpm -r build
 
       # publish NPM package
-      - run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+      - name: Publish NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-      - name: Publish NPM
-        shell: bash
-        run: pnpm publish packages/sdk-core --access public --no-git-checks || true
+        run: |
+          pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+          pnpm publish packages/sdk-core --access public --no-git-checks || true
+          pnpm publish packages/sdk-react --access public --no-git-checks || true
 
       # deploy home web
       - name: Deploy home web

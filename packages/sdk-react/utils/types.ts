@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from 'react'
 export interface IOpenAuthConfig {
   appId: string
   endpoint: string
+  googleClientId?: string
 }
 
 export interface IOpenAuthContext {

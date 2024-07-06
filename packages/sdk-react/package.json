@@ -1,9 +1,12 @@
 {
   "name": "@open-auth/sdk-react",
+  "version": "0.1.0",
+  "description": "",
   "main": "dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "type": "module",

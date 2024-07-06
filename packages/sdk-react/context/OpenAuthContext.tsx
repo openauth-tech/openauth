@@ -16,24 +16,28 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint, token), [config.endpoint, token])
 
-  return (
-    <GoogleOAuthProvider clientId="452271051220-4il4djv5iv30gli03ospbrg09rppoerq.apps.googleusercontent.com">
-      <OpenAuthContext.Provider
-        value={{
-          config,
-          client,
-          globalConfig,
-          setGlobalConfig,
-          token,
-          setToken,
-          profile,
-          setProfile,
-        }}
-      >
-        <Updater>{children}</Updater>
-      </OpenAuthContext.Provider>
-    </GoogleOAuthProvider>
+  const openAuthProvider = (
+    <OpenAuthContext.Provider
+      value={{
+        config,
+        client,
+        globalConfig,
+        setGlobalConfig,
+        token,
+        setToken,
+        profile,
+        setProfile,
+      }}
+    >
+      <Updater>{children}</Updater>
+    </OpenAuthContext.Provider>
   )
+
+  if (config.googleClientId) {
+    return <GoogleOAuthProvider clientId={config.googleClientId}>{openAuthProvider}</GoogleOAuthProvider>
+  }
+
+  return openAuthProvider
 }
 
 function Updater({ children }: { children: ReactNode }) {
