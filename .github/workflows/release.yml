@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/web-admin/**/*'
+      - 'apps/web-home/**/*'
+      - 'packages/**/*'
 
 jobs:
   build:

@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/api/**/*'
 
 jobs:
   docker:
@@ -68,5 +70,6 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
             cd /data/openauth-api
+            docker compose -f docker-compose.yml pull
             docker compose -f docker-compose.yml up -d --no-deps --build
             docker exec openauth-api npx dotenv-cli -e .env.production -- prisma migrate deploy
