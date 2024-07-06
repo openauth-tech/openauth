@@ -67,6 +67,10 @@ export class AdminClient extends BaseClient {
     return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users?${queryStr}`)).data.data
   }
 
+  async getUser(appId: string, userId: string) {
+    return (await this.http.get<{ data: User }>(`/admin/apps/${appId}/users/${userId}`)).data.data
+  }
+
   async getSecret(appId: string) {
     return (await this.http.get<{ data: AppSecret }>(`/admin/apps/${appId}/secret`)).data.data
   }
