@@ -9,7 +9,7 @@ export const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) 
 
     // app secret
     if (isAppSecret) {
-      if (!request.url.startsWith('/apps/')) {
+      if (!request.url.startsWith('/admin/apps/')) {
         return reply.code(401).send({ error: 'Unauthorized' })
       }
       const { id } = request.params as { id: string }
