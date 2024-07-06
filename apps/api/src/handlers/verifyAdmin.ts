@@ -10,23 +10,23 @@ export const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) 
     // app secret
     if (isAppSecret) {
       if (!request.url.startsWith('/admin/apps/')) {
-        return reply.code(401).send({ error: 'Unauthorized' })
+        return reply.code(401).send({ message: 'Unauthorized' })
       }
       const { id } = request.params as { id: string }
       const secret = authorization.slice('Bearer '.length)
       const app = await prisma.app.findUnique({ where: { id, secret } })
       if (!app) {
-        return reply.code(401).send({ error: 'Unauthorized' })
+        return reply.code(401).send({ message: 'Unauthorized' })
       }
     }
     // admin token
     else {
       const result = await request.jwtVerify<AdminJwtPayload>()
       if (!result.adminId) {
-        return reply.code(401).send({ error: 'Unauthorized' })
+        return reply.code(401).send({ message: 'Unauthorized' })
       }
     }
   } catch (error) {
-    return reply.code(401).send({ error: 'Unauthorized' })
+    return reply.code(401).send({ message: 'Unauthorized' })
   }
 }

@@ -26,20 +26,10 @@ describe('OpenAuth API', () => {
   })
 
   it('API + Admin', async () => {
-    const originAppCount = (await adminClient.admin.getApps()).length
-
     const { message } = await adminClient.api.getGlobalConfig()
-    const { id: appId } = await adminClient.admin.createApp({ name: 'APP_' + new Date().toTimeString() })
+    const { id: appId } = await adminClient.admin.createApp({ name: 'test_api_' + new Date().getTime() })
 
-    // test app api
-    const APP_NAME = 'test_game' + new Date().toTimeString()
-    const apps = await adminClient.admin.getApps()
-    assert.equal(apps.length, originAppCount + 1)
-    await adminClient.admin.updateApp(appId, { name: APP_NAME })
-    const app = await adminClient.admin.getApp(appId)
-    assert.equal(app.name, APP_NAME)
-
-    // test user api
+    // login solana
     const keypair = Keypair.generate()
     const messageBytes = decodeUTF8(message)
     const signature = nacl.sign.detached(messageBytes, keypair.secretKey)

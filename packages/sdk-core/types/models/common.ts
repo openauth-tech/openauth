@@ -11,8 +11,8 @@ export const TypePageMeta = Type.Object({
 export type PageMeta = Static<typeof TypePageMeta>
 
 export const TypePageParams = Type.Object({
-  page: Type.Integer(),
-  limit: Type.Integer(),
+  page: Type.Integer({ minimum: 1 }),
+  limit: Type.Integer({ minimum: 1, maximum: 100 }),
 })
 
 export type PageParams = Static<typeof TypePageParams>
