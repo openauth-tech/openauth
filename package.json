@@ -2,6 +2,9 @@
   "name": "root",
   "private": true,
   "scripts": {
+    "dev:admin": "pnpm --filter \"./packages/*\" build && pnpm --filter ./apps/web-admin dev",
+    "dev:api": "pnpm --filter \"./packages/*\" build && pnpm --filter ./apps/api dev",
+    "dev:home": "pnpm --filter \"./packages/*\" build && pnpm --filter ./apps/web-home dev"
   },
   "devDependencies": {
     "typescript": "^5.5.2",
