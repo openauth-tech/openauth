@@ -14,10 +14,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "strictPropertyInitialization": false,
-    "paths": {
-      "@open-auth/sdk-core": ["../../packages/sdk-core/index.ts"]
-    }
+    "strictPropertyInitialization": false
   },
   "include": [
     "src/**/*"
