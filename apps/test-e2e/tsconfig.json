@@ -21,12 +21,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "jsx": "react",
     "paths": {
-      "@open-auth/sdk-core": [
-        "../sdk-core/index.ts"
-      ]
-    }
+      "@open-auth/sdk-core": ["../../packages/sdk-core/index.ts"]
+    },
   },
   "exclude": [
     "node_modules"

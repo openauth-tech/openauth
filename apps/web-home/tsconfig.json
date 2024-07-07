@@ -20,7 +20,8 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@open-auth/sdk-core": ["../../packages/sdk-core/index.ts"]
     }
   },
   "include": ["src"],

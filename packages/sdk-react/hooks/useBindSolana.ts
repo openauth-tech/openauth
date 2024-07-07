@@ -5,5 +5,7 @@ import { OpenAuthContext } from '../context/OpenAuthContext'
 export function useBindSolana() {
   const context = useContext(OpenAuthContext)
 
-  return useCallback(() => {}, [])
+  return useCallback(() => {
+    console.log('useBindSolana', context)
+  }, [])
 }

@@ -5,5 +5,7 @@ import { OpenAuthContext } from '../context/OpenAuthContext'
 export function useBindEthereum() {
   const context = useContext(OpenAuthContext)
 
-  return useCallback(() => {}, [])
+  return useCallback(() => {
+    console.log('useBindEthereum', context)
+  }, [])
 }
