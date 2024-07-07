@@ -1,7 +1,5 @@
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 
 export default function () {
   const [logoUrl, setLogoUrl] = useState('')

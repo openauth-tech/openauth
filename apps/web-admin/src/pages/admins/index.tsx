@@ -1,7 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
 export default function () {

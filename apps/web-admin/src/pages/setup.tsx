@@ -1,11 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { toast } from '@/components/ui/use-toast'
 import { useHttpClient } from '@/hooks/useHttpClient'
 import { useQueryAdminConfig } from '@/hooks/useSetupChecker'
 
@@ -30,11 +26,11 @@ export default function () {
       const { data } = await http.post('/admin/setup', { username, password })
       console.log(data)
       await refetch()
-      toast({ title: 'Setup successfully' })
+      toast.success('Setup successfully')
       nav('/login')
     } catch (error: any) {
       console.error(error)
-      toast({ title: error.message })
+      toast.error(error.message)
     } finally {
       setLoading(false)
     }

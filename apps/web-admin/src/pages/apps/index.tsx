@@ -1,8 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
 export default function () {

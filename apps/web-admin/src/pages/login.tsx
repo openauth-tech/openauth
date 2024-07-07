@@ -1,10 +1,7 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { toast } from '@/components/ui/use-toast'
+import { useAuth } from '@/context/ProviderAuth'
 import { useAppState } from '@/store/app'
 
 export default function () {
@@ -12,17 +9,24 @@ export default function () {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
+  const { authClient } = useAuth()
   const { logIn } = useAppState()
 
   const onLogIn = async () => {
     setLoading(true)
     try {
-      await logIn(username, password)
-      toast({ title: 'Log in successfully' })
+      const res = await authClient?.admin.login({
+        username,
+        password,
+      })
+      logIn(username, res!.token)
+      authClient?.updateToken(res!.token)
+
+      toast.success('Log in successfully')
       nav('/')
     } catch (error: any) {
       console.error(error)
-      toast({ title: error.message })
+      toast.error(error.message)
     } finally {
       setLoading(false)
     }

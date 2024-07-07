@@ -1,10 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { toast } from '@/components/ui/use-toast'
 import { useHttpClient } from '@/hooks/useHttpClient'
 
 export default function () {
@@ -17,11 +13,11 @@ export default function () {
     setLoading(true)
     try {
       await http.post('/admin/apps', { name, description: '', logoUrl: '' })
-      toast({ title: 'App created successfully' })
+      toast.success('App created successfully')
       nav('/apps')
     } catch (error: any) {
       console.error(error)
-      toast({ title: error.message })
+      toast.error(error.message)
     } finally {
       setLoading(false)
     }

@@ -38,7 +38,7 @@ export default function () {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle>Customize to match your brand</CardTitle>
-            <CardDescription>Add your logo and colors to make Privy yours.</CardDescription>
+            <CardDescription>Add your logo and colors to make OpenAuth yours.</CardDescription>
           </CardHeader>
           <CardFooter>
             <Link to={`${pathname}/branding`} className="flex-center gap-1 font-bold text-purple-500">

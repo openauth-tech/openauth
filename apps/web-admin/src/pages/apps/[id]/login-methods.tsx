@@ -1,7 +1,6 @@
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
 import { Checker } from '@/components/common/Checker'
-import { Button } from '@/components/ui/button'
 
 export default function () {
   return (
