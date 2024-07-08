@@ -25,7 +25,7 @@ const useAuth = () => {
 
   return {
     authClient,
-    ready: !!token,
+    isAuthorized: !!token,
   }
 }
 

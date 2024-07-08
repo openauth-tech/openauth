@@ -11,7 +11,7 @@ export default function () {
   const [selectedUser, setSelectedUser] = useState<any>()
   const [page, setPage] = useState<number>(1)
   const limit = 10
-  const { authClient, ready } = useAuth()
+  const { authClient, isAuthorized } = useAuth()
 
   // TODO: use data table
   const { data } = useQuery({
@@ -20,7 +20,7 @@ export default function () {
       if (!authClient) return []
       return await authClient?.admin.getUsers(appId!, { page, limit })
     },
-    enabled: ready,
+    enabled: isAuthorized,
   })
 
   return (

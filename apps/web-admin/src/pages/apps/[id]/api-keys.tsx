@@ -9,7 +9,7 @@ import { useAuth } from '@/context/ProviderAuth'
 
 export default function () {
   const { id } = useParams()
-  const { authClient, ready } = useAuth()
+  const { authClient, isAuthorized } = useAuth()
   const [copiedText, copy] = useCopyToClipboard()
 
   const { data: secretData } = useQuery({
@@ -17,7 +17,7 @@ export default function () {
     queryFn: async () => {
       return await authClient?.admin.getSecret(id!)
     },
-    enabled: ready,
+    enabled: isAuthorized,
   })
 
   const [showKey, setShowKey] = useState(false)
