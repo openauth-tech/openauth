@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuth } from '@/context/ProviderAuth'
 import { useQueryAdminConfig } from '@/hooks/useSetupChecker'
 
 export default function () {
@@ -11,7 +11,8 @@ export default function () {
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
   const [loading, setLoading] = useState(false)
-  const http = useHttpClient()
+
+  const { authClient } = useAuth()
   const { data, refetch } = useQueryAdminConfig()
 
   useEffect(() => {
@@ -23,8 +24,7 @@ export default function () {
   const onLogIn = async () => {
     setLoading(true)
     try {
-      const { data } = await http.post('/admin/setup', { username, password })
-      console.log(data)
+      await authClient?.admin.createAdmin({ username, password })
       await refetch()
       toast.success('Setup successfully')
       nav('/login')

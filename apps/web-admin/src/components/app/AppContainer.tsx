@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 
 import { AppTabs } from '@/components/app/AppTabs'
 import { Loading } from '@/components/common/Loading'
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuth } from '@/context/ProviderAuth'
 
 interface Props {
   loading?: boolean
@@ -13,10 +13,13 @@ interface Props {
 
 export function AppContainer({ children, loading }: Props) {
   const { id } = useParams<{ id: string }>()
-  const http = useHttpClient()
+  const { authClient } = useAuth()
   const { data } = useQuery({
     queryKey: ['getApp', id],
-    queryFn: () => http.get('/admin/apps/' + id).then((res: any) => res.data),
+    queryFn: async () => {
+      return authClient?.admin.getApp(id!)
+    },
+    enabled: !!id,
   })
 
   if (!data) {

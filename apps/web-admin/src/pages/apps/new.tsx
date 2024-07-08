@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuth } from '@/context/ProviderAuth'
 
 export default function () {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
-  const http = useHttpClient()
+  const { authClient } = useAuth()
 
   const onSubmit = async () => {
     setLoading(true)
     try {
-      await http.post('/admin/apps', { name, description: '', logoUrl: '' })
+      await authClient?.admin.createApp({ name })
       toast.success('App created successfully')
       nav('/apps')
     } catch (error: any) {

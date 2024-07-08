@@ -31,7 +31,7 @@ const authClient = new OpenAuthClient(import.meta.env.VITE_OPENAUTH_ENDPOINT!)
 const root = createRoot(document.getElementById('root')!)
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ProviderAuth value={authClient}>
+    <ProviderAuth client={authClient}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

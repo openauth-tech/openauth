@@ -5,11 +5,9 @@ import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
 import { UserDetailDialog } from '@/components/user/UserDetailDialog'
 import { useAuth } from '@/context/ProviderAuth'
-import { useHttpClient } from '@/hooks/useHttpClient'
 
 export default function () {
   const { id: appId } = useParams()
-  const http = useHttpClient()
   const [selectedUser, setSelectedUser] = useState<any>()
   const [page, setPage] = useState<number>(1)
   const limit = 10

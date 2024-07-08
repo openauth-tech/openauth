@@ -1,14 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuth } from '@/context/ProviderAuth'
 
 export default function () {
   const nav = useNavigate()
-  const http = useHttpClient()
+  const { authClient } = useAuth()
   const { data } = useQuery({
     queryKey: ['getApps'],
-    queryFn: () => http.get('/admin/apps').then((res: any) => res.data),
+    queryFn: async () => {
+      return authClient?.admin.getApps()
+    },
     gcTime: 0,
   })
 

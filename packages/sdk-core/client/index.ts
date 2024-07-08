@@ -5,6 +5,7 @@ import { BaseClient } from './base'
 export class OpenAuthClient extends BaseClient {
   public readonly admin: AdminClient
   public readonly api: ApiClient
+  private token?: string
 
   constructor(baseURL: string, token?: string) {
     super(baseURL, token)
@@ -13,7 +14,12 @@ export class OpenAuthClient extends BaseClient {
   }
 
   updateToken(token?: string) {
+    this.token = token
     this.admin.updateToken(token)
     this.api.updateToken(token)
+  }
+
+  get isAuthorized() {
+    return !!this.token
   }
 }

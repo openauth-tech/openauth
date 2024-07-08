@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAuth } from '@/context/ProviderAuth'
 
 export default function () {
-  const http = useHttpClient()
+  const { authClient } = useAuth()
   const { data } = useQuery({
     queryKey: ['getAdmins'],
-    queryFn: () => http.get('/admin/admins').then((res: any) => res.data),
+    queryFn: async () => {
+      return authClient?.admin.getAdmins({ page: 1, limit: 10 })
+    },
   })
 
   if (!data) {

@@ -10,7 +10,7 @@ export default function () {
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
   const { authClient } = useAuth()
-  const { logIn } = useAppState()
+  const { saveToken } = useAppState()
 
   const onLogIn = async () => {
     setLoading(true)
@@ -19,8 +19,7 @@ export default function () {
         username,
         password,
       })
-      logIn(username, res!.token)
-      authClient?.updateToken(res!.token)
+      saveToken(username, res!.token)
 
       toast.success('Log in successfully')
       nav('/')

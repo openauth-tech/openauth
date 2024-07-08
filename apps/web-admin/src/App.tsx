@@ -6,7 +6,6 @@ import { useSetupChecker } from '@/hooks/useSetupChecker'
 import routes from '~react-pages'
 
 import { useAuth } from './context/ProviderAuth'
-import { useAppState } from './store/app'
 
 function Redirect({ to }: { to: string }) {
   let navigate = useNavigate()
@@ -18,15 +17,7 @@ function Redirect({ to }: { to: string }) {
 
 export default function App() {
   useSetupChecker()
-
-  const { token } = useAppState()
-  const { authClient } = useAuth()
-
-  useEffect(() => {
-    if (token && authClient) {
-      authClient?.updateToken(token)
-    }
-  }, [authClient, token])
+  useAuth()
 
   return (
     <>
