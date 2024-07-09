@@ -24,7 +24,7 @@ export default function () {
   const onLogIn = async () => {
     setLoading(true)
     try {
-      await authClient?.admin.createAdmin({ username, password })
+      await authClient?.admin.setup({ username, password })
       await refetch()
       toast.success('Setup successfully')
       nav('/login')
