@@ -1,5 +1,4 @@
 import { IconCode, IconHome, IconKey, IconPalette, IconSettings, IconUser, IconWebhook } from '@tabler/icons-react'
-import React from 'react'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 
 import { cn } from '@/utils/css'

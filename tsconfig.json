@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "exclude": [
     "node_modules"

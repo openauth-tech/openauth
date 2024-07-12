@@ -21,7 +21,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "paths": {
       "@open-auth/sdk-core": [
         "../sdk-core/index.ts"
