@@ -17,6 +17,7 @@ export async function findOrCreateUser({
 
   const user = await prisma.user.findFirst({
     where: {
+      appId,
       email,
       ethAddress,
       solAddress,
