@@ -15,8 +15,8 @@ export class ApiClient extends BaseClient {
     return (await this.http.get<{ data: AdminConfig }>('/config/admin')).data.data
   }
 
-  async getGlobalConfig() {
-    return (await this.http.get<{ data: GlobalConfig }>('/config/global')).data.data
+  async getGlobalConfig(appId: string) {
+    return (await this.http.get<{ data: GlobalConfig }>(`/config/global?appId=${appId}`)).data.data
   }
 
   async loginSolana(data: SolanaLogin) {

@@ -6,7 +6,7 @@ export function useUpdateGlobalConfig() {
   useEffect(() => {
     if (config.endpoint) {
       ;(async () => {
-        const data = await client.api.getGlobalConfig()
+        const data = await client.api.getGlobalConfig(config.appId)
         setGlobalConfig(data)
       })()
     }

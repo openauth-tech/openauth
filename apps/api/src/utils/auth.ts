@@ -3,13 +3,14 @@ import { decodeUTF8 } from 'tweetnacl-util'
 import nacl from 'tweetnacl'
 import base58 from 'bs58'
 import axios from 'axios'
-import { MESSAGE_TEXT } from '../constants/common'
+import { getMessageText } from '../constants/common'
 
 export const SALT_ROUNDS = 10
 
-export function verifyETH(wallet: string, sig: string) {
+export function verifyETH(appName: string, wallet: string, sig: string) {
   try {
-    const address_returned = ethers.verifyMessage(MESSAGE_TEXT, sig)
+    const messageText = getMessageText(appName)
+    const address_returned = ethers.verifyMessage(messageText, sig)
     return wallet.toLowerCase() === address_returned.toLowerCase()
   } catch (e) {
     console.error(e)
@@ -17,9 +18,10 @@ export function verifyETH(wallet: string, sig: string) {
   }
 }
 
-export function verifySOL(wallet: string, sig: string) {
+export function verifySOL(appName: string, wallet: string, sig: string) {
   try {
-    const messageBytes = decodeUTF8(MESSAGE_TEXT)
+    const messageText = getMessageText(appName)
+    const messageBytes = decodeUTF8(messageText)
     return nacl.sign.detached.verify(messageBytes, base58.decode(sig), base58.decode(wallet))
   } catch (e) {
     console.error(e)

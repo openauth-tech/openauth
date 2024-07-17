@@ -6,6 +6,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { JwtPayload } from '../../models/request'
 import { TypeLoginResponse, TypeSolanaLogin } from '@open-auth/sdk-core'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['Login'],
@@ -20,13 +21,9 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, solAddress, signature } = request.body as any
-
-  if (!signature) {
-    return reply.status(400).send({ message: 'Missing signature' })
-  }
-
-  if (!verifySOL(solAddress, signature)) {
+  const { appId, solAddress, signature } = request.body
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app || !verifySOL(app.name, solAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid SOL signature' })
   }
 

@@ -6,6 +6,7 @@ import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { JwtPayload } from '../../models/request'
 import { TypeEthereumLogin, TypeLoginResponse } from '@open-auth/sdk-core'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['Login'],
@@ -21,11 +22,8 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, ethAddress, signature } = request.body
-
-  if (!signature) {
-    return reply.status(400).send({ message: 'Missing signature' })
-  }
-  if (!verifyETH(ethAddress, signature)) {
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app || !verifyETH(app.name, ethAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid ETH signature' })
   }
 
