@@ -26,25 +26,20 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { userId, appId } = request.user as JwtPayload
   const { ethAddress, signature } = request.body
 
-  const data = await prisma.user.findUnique({
-    where: { id: userId },
-  })
-
-  if (!data) {
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!user || !app) {
     return reply.status(404).send({ message: 'User not found' })
   }
-  if (!ethAddress) {
-    return reply.status(400).send({ message: 'Invalid params' })
-  }
-  if (!verifyETH(ethAddress, signature)) {
+  if (!verifyETH(app.name, ethAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid params' })
   }
 
-  const user = await prisma.user.findFirst({ where: { ethAddress } })
-  if (user) {
+  const count = await prisma.user.count({ where: { ethAddress } })
+  if (count > 0) {
     return reply.status(400).send({ message: 'Wallet already binded' })
   }
   await prisma.user.update({
@@ -52,7 +47,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     data: { ethAddress },
   })
 
-  reply.status(200).send({ data })
+  reply.status(200).send({ data: user })
 }
 
 export default async function (fastify: FastifyInstance) {
