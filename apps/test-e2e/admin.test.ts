@@ -1,10 +1,6 @@
 import { OPENAUTH_ENDPOINT, PASSWORD, USERNAME } from './constants'
 import { OpenAuthClient } from '@open-auth/sdk-core'
 import assert from 'assert'
-import { Keypair } from '@solana/web3.js'
-import { decodeUTF8 } from 'tweetnacl-util'
-import nacl from 'tweetnacl'
-import { encodeBase58 } from 'ethers'
 
 const adminClient = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
