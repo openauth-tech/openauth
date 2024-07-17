@@ -40,7 +40,7 @@ export function UserDetailDialog({ user, onClose }: { user: any; onClose: any })
                 <li className="flex items-center">
                   <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
                   <div className="flex-1">
-                    refee1Count: {referral.refee1Count} <br /> refee2Count: {referral.refee2Count}
+                    refee1Count: {referral.referrals1.length} <br /> refee2Count: {referral.referrals2.length}
                   </div>
                 </li>
               </>

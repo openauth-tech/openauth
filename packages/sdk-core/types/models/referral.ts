@@ -1,8 +1,13 @@
 import { Static, Type } from '@fastify/type-provider-typebox'
 
-export const TypeReferral = Type.Object({
-  refee1Count: Type.Number(),
-  refee2Count: Type.Number(),
+const TypeReferral = Type.Object({
+  createdAt: Type.Number(),
+  userId: Type.String(),
 })
 
-export type Referral = Static<typeof TypeReferral>
+export const TypeReferralResponse = Type.Object({
+  referrals1: Type.Array(TypeReferral),
+  referrals2: Type.Array(TypeReferral),
+})
+
+export type ReferralResponse = Static<typeof TypeReferralResponse>

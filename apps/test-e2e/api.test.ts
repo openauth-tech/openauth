@@ -26,8 +26,8 @@ describe('OpenAuth API', () => {
   })
 
   it('API + Admin', async () => {
-    const { message } = await adminClient.api.getGlobalConfig()
     const { id: appId } = await adminClient.admin.createApp({ name: 'test_api_' + new Date().getTime() })
+    const { message } = await adminClient.api.getGlobalConfig(appId)
 
     // login solana
     const keypair = Keypair.generate()
@@ -83,7 +83,7 @@ describe('OpenAuth API', () => {
 
     // verify referral chain
     const referrals = await adminClient.admin.getUserReferral(appId, userId)
-    assert.equal(referrals.refee1Count, 1)
-    assert.equal(referrals.refee2Count, 1)
+    assert.equal(referrals.referrals1.length, 1)
+    assert.equal(referrals.referrals2.length, 1)
   })
 })

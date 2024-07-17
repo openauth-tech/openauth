@@ -8,7 +8,7 @@ import {
   LoginResponse,
   PageMeta,
   PageParams,
-  Referral,
+  ReferralResponse,
   UpdateApp,
   User,
 } from '../types'
@@ -73,7 +73,7 @@ export class AdminClient extends BaseClient {
   }
 
   async getUserReferral(appId: string, userId: string) {
-    return (await this.http.get<{ data: Referral }>(`/admin/apps/${appId}/users/${userId}/referral`)).data.data
+    return (await this.http.get<{ data: ReferralResponse }>(`/admin/apps/${appId}/users/${userId}/referral`)).data.data
   }
 
   async getSecret(appId: string) {

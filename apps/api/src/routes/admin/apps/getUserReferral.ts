@@ -2,9 +2,9 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
-import { TypeReferral } from '@open-auth/sdk-core'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
+import { TypeReferralResponse } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -18,7 +18,7 @@ const schema = {
   }),
   response: {
     200: Type.Object({
-      data: TypeReferral,
+      data: TypeReferralResponse,
     }),
     400: ERROR400_SCHEMA,
   },
@@ -33,22 +33,30 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
 
-  const refer1 = await prisma.referral.findMany({
+  const referral1 = await prisma.referral.findMany({
+    select: {
+      createdAt: true,
+      referee: true,
+    },
     where: {
       referrer: userId,
     },
   })
 
-  const refer2Count = await prisma.referral.count({
+  const referral2 = await prisma.referral.findMany({
+    select: {
+      createdAt: true,
+      referee: true,
+    },
     where: {
-      referrer: { in: refer1.map((r) => r.referee) },
+      referrer: { in: referral1.map((r) => r.referee) },
     },
   })
 
   reply.status(200).send({
     data: {
-      refee1Count: refer1.length,
-      refee2Count: refer2Count,
+      referrals1: referral1.map((i) => ({ userId: i.referee, createdAt: i.createdAt.getTime() })),
+      referrals2: referral2.map((i) => ({ userId: i.referee, createdAt: i.createdAt.getTime() })),
     },
   })
 }
