@@ -24,12 +24,7 @@ export const TypeGoogleLogin = Type.Object({
   token: Type.String(),
 })
 
-export const TypeLoginResponse = Type.Object({
-  token: Type.String(),
-})
-
 export type UsernameLogin = Static<typeof TypeUsernameLogin>
 export type EthereumLogin = Static<typeof TypeEthereumLogin>
 export type SolanaLogin = Static<typeof TypeSolanaLogin>
 export type GoogleLogin = Static<typeof TypeGoogleLogin>
-export type LoginResponse = Static<typeof TypeLoginResponse>
