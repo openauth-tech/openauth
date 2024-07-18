@@ -8,7 +8,8 @@ export function useOpenAuth() {
     config: context.config,
     globalConfig: context.globalConfig,
     token: context.token,
-    profile: context.profile,
+    setToken: context.setToken,
     client: context.client,
+    profile: context.profile,
   }
 }
