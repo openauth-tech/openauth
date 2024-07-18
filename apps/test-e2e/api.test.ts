@@ -38,7 +38,7 @@ describe('OpenAuth API', () => {
       solAddress: keypair.publicKey.toBase58(),
       signature: encodeBase58(signature),
     })
-    const users = await adminClient.admin.getUsers(appId, { page: 1, limit: 10 })
+    const { data: users } = await adminClient.admin.getUsers(appId, { page: 1, limit: 10 })
     assert.equal(users.length, 1)
 
     // get user profile

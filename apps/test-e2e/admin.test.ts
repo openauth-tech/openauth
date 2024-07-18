@@ -39,7 +39,7 @@ describe('OpenAuth Admin API', () => {
     const secretClient = new OpenAuthClient(OPENAUTH_ENDPOINT)
     secretClient.updateToken(secret)
 
-    const users = await secretClient.admin.getUsers(appId, { page: 1, limit: 10 })
+    const { data: users } = await secretClient.admin.getUsers(appId, { page: 1, limit: 10 })
     assert.equal(users.length, 0)
   })
 })
