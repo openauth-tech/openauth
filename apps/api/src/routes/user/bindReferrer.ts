@@ -8,7 +8,7 @@ import { JwtPayload } from '../../models/request'
 
 const schema = {
   tags: ['User'],
-  summary: 'Set referrer',
+  summary: 'Bind referrer',
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -24,7 +24,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { userId, appId } = request.user as JwtPayload
   const { referCode } = request.body
 
   const user = await prisma.user.findUnique({
@@ -32,7 +32,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   })
 
   const referrer = await prisma.user.findUnique({
-    where: { referCode },
+    where: { appId_referCode: { appId, referCode } },
   })
 
   if (!user) {
@@ -67,7 +67,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/set-referrer',
+    url: '/bind-referrer',
     onRequest: [verifyUser],
     schema,
     handler,

@@ -44,10 +44,10 @@ model App {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  lastLoginTime DateTime?
+  id         String    @id @default(uuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  lastSeenAt DateTime?
 
   email      String?
   google     String?
@@ -56,12 +56,13 @@ model User {
   ethAddress String?
   solAddress String?
 
-  referCode  String? @unique
+  referCode  String?
   referChain String?
 
   appId String
   app   App    @relation(fields: [appId], references: [id])
 
+  @@unique([appId, referCode])
   @@unique([appId, email])
   @@unique([appId, google])
   @@unique([appId, twitter])
