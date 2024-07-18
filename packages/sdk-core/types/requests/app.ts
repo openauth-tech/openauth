@@ -18,3 +18,10 @@ export const TypeUpdateApp = Type.Object({
 })
 
 export type UpdateApp = Static<typeof TypeUpdateApp>
+
+export const TypeAdminCreateUser = Type.Object({
+  ethAddress: Type.Optional(Type.String()),
+  solAddress: Type.Optional(Type.String()),
+  email: Type.Optional(Type.String()),
+})
+export type AdminCreateUser = Static<typeof TypeAdminCreateUser>

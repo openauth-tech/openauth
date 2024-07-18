@@ -1,6 +1,7 @@
 import { BaseClient } from './base'
 import {
   Admin,
+  AdminCreateUser,
   App,
   AppSecret,
   CreateAdmin,
@@ -66,6 +67,10 @@ export class AdminClient extends BaseClient {
   async getUsers(appId: string, { page, limit }: PageParams) {
     const queryStr = new URLSearchParams({ page: page.toString(), limit: limit.toString() }).toString()
     return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users?${queryStr}`)).data.data
+  }
+
+  async createUser(appId: string, data: AdminCreateUser) {
+    return (await this.http.post<{ data: User }>(`/admin/apps/${appId}/users`, data)).data.data
   }
 
   async getUser(appId: string, userId: string) {
