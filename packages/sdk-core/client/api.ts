@@ -51,7 +51,7 @@ export class ApiClient extends BaseClient {
     return (await this.http.get<{ data: User }>('/user/profile')).data.data
   }
 
-  async setReferrer(data: { referCode: string }) {
-    return (await this.http.post('/user/set-referrer', data)).data
+  async bindReferrer(data: { referCode: string }) {
+    return (await this.http.post('/user/bind-referrer', data)).data
   }
 }

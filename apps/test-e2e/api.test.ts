@@ -60,7 +60,7 @@ describe('OpenAuth API', () => {
         signature: encodeBase58(signature),
       })
       client.updateToken(token)
-      await client.api.setReferrer({ referCode })
+      await client.api.bindReferrer({ referCode })
       const { referCode: code } = await client.api.getUserProfile()
       assert(code !== null)
       referCode1 = code
@@ -78,7 +78,7 @@ describe('OpenAuth API', () => {
         signature: encodeBase58(signature),
       })
       client.updateToken(token)
-      await client.api.setReferrer({ referCode: referCode1 })
+      await client.api.bindReferrer({ referCode: referCode1 })
     }
 
     // verify referral chain
