@@ -12,9 +12,9 @@ export const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) 
       if (!request.url.startsWith('/admin/apps/')) {
         return reply.code(401).send({ message: 'Unauthorized' })
       }
-      const { id } = request.params as { id: string }
+      const { appId } = request.params as { appId: string }
       const secret = authorization.slice('Bearer '.length)
-      const app = await prisma.app.findUnique({ where: { id, secret } })
+      const app = await prisma.app.findUnique({ where: { id: appId, secret } })
       if (!app) {
         return reply.code(401).send({ message: 'Unauthorized' })
       }
