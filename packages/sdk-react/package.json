@@ -1,6 +1,6 @@
 {
   "name": "@open-auth/sdk-react",
-  "version": "0.0.0",
+  "version": "0.1.4",
   "description": "",
   "main": "dist/index.js",
   "exports": {
