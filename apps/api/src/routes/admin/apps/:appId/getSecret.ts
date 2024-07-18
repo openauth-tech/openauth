@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
+import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../utils/prisma'
-import { ERROR404_SCHEMA } from '../../../constants/schema'
-import { verifyAdmin } from '../../../handlers/verifyAdmin'
+import { prisma } from '../../../../utils/prisma'
+import { ERROR404_SCHEMA } from '../../../../constants/schema'
+import { verifyAdmin } from '../../../../handlers/verifyAdmin'
 import { TypeAppSecret } from '@open-auth/sdk-core'
 import { randomUUID } from 'node:crypto'
 
@@ -11,7 +11,7 @@ const schema = {
   tags: ['Admin - Apps'],
   summary: 'Get secret',
   params: Type.Object({
-    id: Type.String(),
+    appId: Type.String(),
   }),
   headers: Type.Object({
     Authorization: Type.String(),
@@ -25,9 +25,9 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { id } = request.params
+  const { appId } = request.params
   const app = await prisma.app.findUnique({
-    where: { id },
+    where: { id: appId },
   })
 
   if (!app) {
@@ -39,7 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (secret === null) {
     secret = 'oa_' + randomUUID().replaceAll('-', '')
     await prisma.app.update({
-      where: { id },
+      where: { id: appId },
       data: { secret },
     })
   }
@@ -52,7 +52,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/:id/secret',
+    url: '/secret',
     onRequest: [verifyAdmin],
     schema,
     handler,

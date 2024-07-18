@@ -28,7 +28,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/',
+    url: '',
     onRequest: [verifyAdmin],
     schema,
     handler,
