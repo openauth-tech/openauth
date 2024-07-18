@@ -65,8 +65,11 @@ export class AdminClient extends BaseClient {
   }
 
   async getUsers(appId: string, { page, limit }: PageParams) {
-    const queryStr = new URLSearchParams({ page: page.toString(), limit: limit.toString() }).toString()
-    return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users?${queryStr}`)).data.data
+    return (
+      await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users`, {
+        params: { page: page.toString(), limit: limit.toString() },
+      })
+    ).data
   }
 
   async createUser(appId: string, data: AdminCreateUser) {

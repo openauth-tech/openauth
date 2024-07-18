@@ -17,8 +17,7 @@ export default function () {
   const { data } = useQuery({
     queryKey: ['getUsers', appId, page, limit],
     queryFn: async () => {
-      if (!authClient) return []
-      return await authClient?.admin.getUsers(appId!, { page, limit })
+      return authClient?.admin.getUsers(appId!, { page, limit })
     },
     enabled: isAuthorized,
   })
@@ -31,19 +30,19 @@ export default function () {
         <Card>
           <CardContent className="py-3 px-4">
             <div className="">Active users</div>
-            <div className="text-lg font-bold">{data?.length || 0}</div>
+            <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="py-3 px-4">
             <div className="">New users</div>
-            <div className="text-lg font-bold">{data?.length || 0}</div>
+            <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="py-3 px-4">
             <div className="">Total users</div>
-            <div className="text-lg font-bold">{data?.length || 0}</div>
+            <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
       </div>
@@ -63,7 +62,7 @@ export default function () {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.map((i) => (
+              {data?.data.map((i) => (
                 <TableRow key={i.id} onClick={() => setSelectedUser(i)} className="cursor-pointer">
                   <TableCell>{i.id}</TableCell>
                   <TableCell>{i.id}</TableCell>
