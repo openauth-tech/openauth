@@ -9,5 +9,6 @@ export function useOpenAuth() {
     globalConfig: context.globalConfig,
     token: context.token,
     profile: context.profile,
+    client: context.client,
   }
 }
