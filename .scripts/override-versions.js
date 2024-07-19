@@ -1,7 +1,9 @@
 const fs = require('fs')
 const path = require('path')
 
-const newVersion = process.argv[2]
+const versionTag = process.argv[2]
+const newVersion = versionTag.startsWith('v') ? versionTag.substring(1) : versionTag
+
 const packagesDir = path.join(__dirname, '..', 'packages')
 
 fs.readdirSync(packagesDir).forEach((pkg) => {
