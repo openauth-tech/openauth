@@ -18,6 +18,12 @@ services:
     image: prom/prometheus:latest
     ports:
       - 5560:9090
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
     volumes:
       - prometheus_data:/prometheus
       - ./.scripts/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -32,11 +38,17 @@ services:
     image: grafana/grafana:latest
     ports:
       - 5561:3000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
     volumes:
       - grafana_data:/var/lib/grafana
       - grafana_config:/etc/grafana
     depends_on:
-      - prometheus
+      - openauth-prometheus
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=bjUbjqr88wMlPB3jL3MTWxSHIbDCoH
