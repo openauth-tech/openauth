@@ -29,6 +29,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { userId, appId } = request.user as JwtPayload
   const { ethAddress, signature } = request.body
 
+  // Tips: 可以加入 appid
   const user = await prisma.user.findUnique({ where: { id: userId } })
   const app = await prisma.app.findUnique({ where: { id: appId } })
   if (!user || !app) {
@@ -38,6 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid params' })
   }
 
+  // FIXME：加入 appid
   const count = await prisma.user.count({ where: { ethAddress } })
   if (count > 0) {
     return reply.status(400).send({ message: 'Wallet already binded' })

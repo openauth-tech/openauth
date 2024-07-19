@@ -40,7 +40,7 @@ export class AdminClient extends BaseClient {
     return (await this.http.patch<{ data: Admin }>(`/admin/admins/${id}`, data)).data.data
   }
 
-  async deleteAdmin(id: Admin) {
+  async deleteAdmin(id: string) {
     return (await this.http.delete(`/admin/admins/${id}`)).data
   }
 

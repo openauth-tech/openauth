@@ -43,6 +43,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid params' })
   }
 
+  // FIXME：加入 appid
   const user = await prisma.user.findFirst({ where: { google } })
   if (user) {
     return reply.status(400).send({ message: 'Google account already binded' })
