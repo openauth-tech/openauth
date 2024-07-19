@@ -1,4 +1,4 @@
-name: Release
+name: Deploy Web
 
 on:
   workflow_dispatch:
@@ -15,24 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20.x'
-          cache: 'pnpm'
-      - run: pnpm -r install
-      - run: pnpm -r build
-
-      # publish NPM package
-      - name: Publish NPM
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-        run: |
-          pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
-          pnpm publish packages/sdk-core --access public --no-git-checks || true
-          pnpm publish packages/sdk-react --access public --no-git-checks || true
+      - uses: ./.github/actions/build-steps
 
       # deploy home web
       - name: Deploy home web
