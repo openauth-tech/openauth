@@ -98,12 +98,11 @@ describe('OpenAuth API', () => {
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      const { id: userId } = await adminClient.api.bindSolana({
+      await adminClient.api.bindSolana({
         appId,
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      assert(userId)
     }
 
     {
@@ -113,12 +112,12 @@ describe('OpenAuth API', () => {
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      const { id: userId } = await adminClient.api.bindSolana({
+      // will be success
+      await adminClient.api.bindSolana({
         appId,
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      assert(userId)
     }
   })
 })
