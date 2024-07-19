@@ -18,6 +18,7 @@ server.setErrorHandler((error, request, reply) => {
 
 const start = async () => {
   await server.register(cors, {})
+  await server.register(require('fastify-metrics'), { endpoint: '/metrics' })
   await server.register(require('@fastify/swagger'))
   await server.register(require('@fastify/swagger-ui'), {
     routePrefix: '/docs',

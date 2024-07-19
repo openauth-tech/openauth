@@ -19,7 +19,7 @@ importers:
         version: 7.0.1(@babel/plugin-syntax-flow@7.24.7(@babel/core@7.24.7))(@babel/plugin-transform-react-jsx@7.24.7(@babel/core@7.24.7))(eslint@8.57.0)(typescript@5.5.2)
       eslint-plugin-import:
         specifier: ^2.27.5
-        version: 2.29.1(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)
+        version: 2.29.1(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@5.5.2))(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^4.2.1
         version: 4.2.1(eslint-config-prettier@8.10.0(eslint@8.57.0))(eslint@8.57.0)(prettier@2.8.3)
@@ -95,6 +95,9 @@ importers:
       fastify:
         specifier: ^4.26.2
         version: 4.28.1
+      fastify-metrics:
+        specifier: 11.0.0
+        version: 11.0.0(fastify@4.28.1)
       fluent-json-schema:
         specifier: ^4.2.1
         version: 4.2.1
@@ -445,7 +448,7 @@ importers:
         version: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@8.57.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.6.4(eslint@8.57.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
       vite-plugin-eslint:
         specifier: ^1.8.1
         version: 1.8.1(eslint@8.57.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
@@ -680,7 +683,7 @@ importers:
         version: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@8.57.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.6.4(eslint@8.57.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
       vite-plugin-eslint:
         specifier: ^1.8.1
         version: 1.8.1(eslint@8.57.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
@@ -826,7 +829,7 @@ importers:
         version: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@8.57.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.6.4(eslint@8.57.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
       vite-plugin-eslint:
         specifier: ^1.8.1
         version: 1.8.1(eslint@8.57.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
@@ -2276,6 +2279,10 @@ packages:
   '@npmcli/run-script@8.1.0':
     resolution: {integrity: sha512-y7efHHwghQfk28G2z3tlZ67pLG0XdfYbcVG26r7YIXALRsrVQcTq4/tdenSmdOrEsNahIYA/eh8aEVROWGFUDg==}
     engines: {node: ^16.14.0 || >=18.0.0}
+
+  '@opentelemetry/api@1.9.0':
+    resolution: {integrity: sha512-3giAOQvZiH5F9bMlMiv8+GSPMeqg0dbaeo58/0SlA9sxSqZhnUtxzX9/2FzyhS9sWQf5S0GJE0AKBrFqjpeYcg==}
+    engines: {node: '>=8.0.0'}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -4308,6 +4315,9 @@ packages:
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
 
+  bintrees@1.0.2:
+    resolution: {integrity: sha512-VOMgTMwjAaUG580SXn3LacVgjurrbMme7ZZNYGSSV7mmtY6QQRh0Eg3pwIcntQ77DErK1L0NxkbetjcoXzVwKw==}
+
   bn.js@4.12.0:
     resolution: {integrity: sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==}
 
@@ -5208,6 +5218,11 @@ packages:
   fastfall@1.5.1:
     resolution: {integrity: sha512-KH6p+Z8AKPXnmA7+Iz2Lh8ARCMr+8WNPVludm1LGkZoD2MjY6LVnRMtTKhkdzI+jr0RzQWXKzKyBJm1zoHEL4Q==}
     engines: {node: '>=0.10.0'}
+
+  fastify-metrics@11.0.0:
+    resolution: {integrity: sha512-2nv0pzkuRVRuAmW3fR2vh1FQF7sV/mgzOJ8cz3HjUzByudWvx2IOHKnJLWtUohiD1AaI2QxtLQKTDZv/nASBRQ==}
+    peerDependencies:
+      fastify: '>=4'
 
   fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
@@ -6615,6 +6630,10 @@ packages:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
 
+  prom-client@15.1.3:
+    resolution: {integrity: sha512-6ZiOBfCywsD4k1BN9IX0uZhF+tJkV8q8llP64G5Hajs4JOeVLPCwpPVcpXy3BwYiUGgyJzsJJQeOIv7+hDSq8g==}
+    engines: {node: ^16 || ^18 || >=20}
+
   promise-inflight@1.0.1:
     resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==}
     peerDependencies:
@@ -7255,6 +7274,9 @@ packages:
   tcompare@8.0.0:
     resolution: {integrity: sha512-sKu3LKg6WM6/pVmhPL/kTlXZKksQkKAhoqQ6JEtJ3FNY0BJ0H37M5zPcU5QcMkRUm4im9vppda0PyWzSCfgCig==}
     engines: {node: '>= 18.6.0'}
+
+  tdigest@0.1.2:
+    resolution: {integrity: sha512-+G0LLgjjo9BZX2MfdvPfH+MKLCrxlXSYec5DaPYP1fe6Iyhf0/fSmJ0bFiZ1F8BT6cGXl2LpltQptzjXKWEkKA==}
 
   telegraf@4.16.3:
     resolution: {integrity: sha512-yjEu2NwkHlXu0OARWoNhJlIjX09dRktiMQFsM678BAH/PEPVwctzL67+tvXqLCRQQvm3SDtki2saGO9hLlz68w==}
@@ -9883,6 +9905,8 @@ snapshots:
       - bluebird
       - supports-color
 
+  '@opentelemetry/api@1.9.0': {}
+
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
@@ -12343,6 +12367,8 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
 
+  bintrees@1.0.2: {}
+
   bn.js@4.12.0: {}
 
   bn.js@5.2.1: {}
@@ -13511,6 +13537,12 @@ snapshots:
   fastfall@1.5.1:
     dependencies:
       reusify: 1.0.4
+
+  fastify-metrics@11.0.0(fastify@4.28.1):
+    dependencies:
+      fastify: 4.28.1
+      fastify-plugin: 4.5.1
+      prom-client: 15.1.3
 
   fastify-plugin@4.5.1: {}
 
@@ -15019,6 +15051,11 @@ snapshots:
 
   process@0.11.10: {}
 
+  prom-client@15.1.3:
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      tdigest: 0.1.2
+
   promise-inflight@1.0.1: {}
 
   promise-retry@2.0.1:
@@ -15783,6 +15820,10 @@ snapshots:
       - react
       - react-dom
 
+  tdigest@0.1.2:
+    dependencies:
+      bintrees: 1.0.2
+
   telegraf@4.16.3(encoding@0.1.13):
     dependencies:
       '@telegraf/types': 7.1.0
@@ -16245,7 +16286,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  vite-plugin-checker@0.6.4(eslint@8.57.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)):
+  vite-plugin-checker@0.6.4(eslint@8.57.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)):
     dependencies:
       '@babel/code-frame': 7.24.7
       ansi-escapes: 4.3.2
@@ -16265,6 +16306,7 @@ snapshots:
       vscode-uri: 3.0.8
     optionalDependencies:
       eslint: 8.57.0
+      meow: 13.2.0
       optionator: 0.9.4
       typescript: 5.5.2
 
