@@ -23,6 +23,8 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, ethAddress, signature } = request.body
   const app = await prisma.app.findUnique({ where: { id: appId } })
+
+  // Tips: 建议加上时间戳校验
   if (!app || !verifyETH(app.name, ethAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid ETH signature' })
   }

@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { SALT_ROUNDS } from '../../../utils/auth'
 import { TypeCreateAdmin } from '@open-auth/sdk-core'
+import { TypeAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Admins'],
@@ -16,7 +17,7 @@ const schema = {
   body: TypeCreateAdmin,
   response: {
     201: Type.Object({
-      data: Type.Object({}),
+      data: TypeAdmin,
     }),
   },
 }
@@ -24,14 +25,14 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { username, password: rawPassword } = request.body
   const password = await bcrypt.hash(rawPassword, SALT_ROUNDS)
-  await prisma.admin.create({
+  const admin = await prisma.admin.create({
     data: {
       username,
       password,
     },
   })
 
-  reply.status(201).send({ data: {} })
+  reply.status(201).send({ data: admin })
 }
 
 export default async function (fastify: FastifyInstance) {

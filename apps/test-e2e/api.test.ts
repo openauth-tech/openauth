@@ -5,6 +5,7 @@ import { Keypair } from '@solana/web3.js'
 import { decodeUTF8 } from 'tweetnacl-util'
 import nacl from 'tweetnacl'
 import { encodeBase58 } from 'ethers'
+import { newUserAndLogin } from "./helper";
 
 const adminClient = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
@@ -85,5 +86,39 @@ describe('OpenAuth API', () => {
     const referrals = await adminClient.admin.getUserReferral(appId, userId)
     assert.equal(referrals.referrals1.length, 1)
     assert.equal(referrals.referrals2.length, 1)
+  })
+
+  it('Solana bundle to 2 apps', async () => {
+    const solanaKeypair = Keypair.generate()
+
+    {
+      const { id: appId } = await adminClient.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
+      await newUserAndLogin(adminClient, appId)
+
+      const { message } = await adminClient.api.getGlobalConfig(appId)
+      const messageBytes = decodeUTF8(message)
+      const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
+      const { id: userId } = await adminClient.api.bindSolana({
+        appId,
+        solAddress: solanaKeypair.publicKey.toBase58(),
+        signature: encodeBase58(signature),
+      })
+      assert(userId)
+    }
+
+    {
+      const { id: appId } = await adminClient.admin.createApp({ name: 'test_app2_' + new Date().getTime() })
+      await newUserAndLogin(adminClient, appId)
+
+      const { message } = await adminClient.api.getGlobalConfig(appId)
+      const messageBytes = decodeUTF8(message)
+      const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
+      const { id: userId } = await adminClient.api.bindSolana({
+        appId,
+        solAddress: solanaKeypair.publicKey.toBase58(),
+        signature: encodeBase58(signature),
+      })
+      assert(userId)
+    }
   })
 })

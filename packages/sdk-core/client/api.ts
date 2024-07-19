@@ -36,15 +36,15 @@ export class ApiClient extends BaseClient {
   }
 
   async bindSolana(data: SolanaLogin) {
-    return (await this.http.post('/bind/solana', data)).data
+    return (await this.http.post('/user/bind-solana', data)).data
   }
 
   async bindEthereum(data: EthereumLogin) {
-    return (await this.http.post('/bind/ethereum', data)).data
+    return (await this.http.post('/user/bind-ethereum', data)).data
   }
 
   async bindGoogle(data: GoogleLogin) {
-    return (await this.http.post('/bind/google', data)).data
+    return (await this.http.post('/user/bind-google', data)).data
   }
 
   async getUserProfile() {
