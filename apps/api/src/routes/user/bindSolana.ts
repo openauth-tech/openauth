@@ -38,8 +38,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid params' })
   }
 
-  // FIXME：加入 appid
-  const count = await prisma.user.count({ where: { solAddress } })
+  const count = await prisma.user.count({ where: { solAddress, appId } })
   if (count > 0) {
     return reply.status(400).send({ message: 'Wallet already binded' })
   }

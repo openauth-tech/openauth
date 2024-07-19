@@ -20,10 +20,10 @@ const schema = {
   },
 }
 
-// Tips: 可以加入 Fake 删除
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.params
-  await prisma.app.delete({
+  await prisma.app.update({
+    data: { isDeleted: true },
     where: {
       id: appId,
     },

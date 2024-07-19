@@ -22,7 +22,8 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { id } = request.params
-  await prisma.admin.delete({
+  await prisma.admin.update({
+    data: { isDeleted: true },
     where: {
       id,
     },

@@ -26,7 +26,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { appId, userId } = request.user as JwtPayload
   const { google, signature } = request.body
 
   const data = await prisma.user.findUnique({
@@ -43,8 +43,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid params' })
   }
 
-  // FIXME：加入 appid
-  const user = await prisma.user.findFirst({ where: { google } })
+  const user = await prisma.user.findFirst({ where: { google, appId } })
   if (user) {
     return reply.status(400).send({ message: 'Google account already binded' })
   }
