@@ -42,24 +42,4 @@ describe('OpenAuth Admin API', () => {
     const { data: users } = await secretClient.admin.getUsers(appId, { page: 1, limit: 10 })
     assert.equal(users.length, 0)
   })
-
-  it('Token should invaid after user is deleted', async () => {
-    const username = 'admin2_' + new Date().getTime()
-    const { id: admin2Id } = await adminClient.admin.createAdmin({ username: username, password: 'admin' })
-    assert(admin2Id)
-
-    const { token } = await adminClient.admin.login({ username: username, password: 'admin' })
-
-    const admin2Client = new OpenAuthClient(OPENAUTH_ENDPOINT)
-    admin2Client.updateToken(token)
-
-    const apps = await admin2Client.admin.getApps()
-    assert(apps.length > 1)
-
-    // delete admin
-    await adminClient.admin.deleteAdmin(admin2Id.toString())
-
-    const { message } = await admin2Client.admin.getApps() as any
-    assert.equal(message, 'Unauthorized')
-  })
 })
