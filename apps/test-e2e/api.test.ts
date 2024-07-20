@@ -5,7 +5,7 @@ import { Keypair } from '@solana/web3.js'
 import { decodeUTF8 } from 'tweetnacl-util'
 import nacl from 'tweetnacl'
 import { encodeBase58 } from 'ethers'
-import { newUserAndLogin } from "./helper";
+import { loginNewUserETH } from './helper'
 
 const adminClient = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
@@ -93,7 +93,7 @@ describe('OpenAuth API', () => {
 
     {
       const { id: appId } = await adminClient.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
-      await newUserAndLogin(adminClient, appId)
+      await loginNewUserETH(adminClient, appId)
 
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
@@ -107,7 +107,7 @@ describe('OpenAuth API', () => {
 
     {
       const { id: appId } = await adminClient.admin.createApp({ name: 'test_app2_' + new Date().getTime() })
-      await newUserAndLogin(adminClient, appId)
+      await loginNewUserETH(adminClient, appId)
 
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
@@ -126,7 +126,7 @@ describe('OpenAuth API', () => {
 
     // login with username
     const userData = {
-      username: 'test_'+new Date().getTime(),
+      username: 'test_' + new Date().getTime(),
       password: '123456',
     }
     await adminClient.admin.createUser(appId, userData)
@@ -138,8 +138,8 @@ describe('OpenAuth API', () => {
     assert(token)
 
     // update password
-    await adminClient.api.updateToken(token)
-    await adminClient.api.updateUserPassword({ password: '123456', newPassword: '234567' })
+    adminClient.api.updateToken(token)
+    await adminClient.api.updatePassword({ oldPassword: '123456', newPassword: '234567' })
     const { token: token2 } = await adminClient.api.loginUsername({
       appId,
       username: userData.username,
