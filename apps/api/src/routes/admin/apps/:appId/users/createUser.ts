@@ -23,7 +23,6 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.params
   const { email, ethAddress, solAddress, username, password } = request.body
-
   const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password })
   reply.status(200).send({
     data: user,

@@ -1,5 +1,5 @@
 import { Static, Type } from '@fastify/type-provider-typebox'
-import { Nullable } from '../common.ts'
+import { Nullable } from '../common'
 
 export const TypeUser = Type.Object({
   id: Type.String(),

@@ -6,6 +6,7 @@ import {
   GoogleLogin,
   LoginResponse,
   SolanaLogin,
+  UpdatePassword,
   User,
   UsernameLogin,
 } from '../types'
@@ -59,7 +60,7 @@ export class ApiClient extends BaseClient {
     return (await this.http.post<{ data: LoginResponse }>('/login/username', data)).data.data
   }
 
-  async updateUserPassword(data: { password: string, newPassword: string }) {
-    return (await this.http.put<{ data: User }>('/user/password', data)).data.data
+  async updatePassword(data: UpdatePassword) {
+    return (await this.http.post<{ data: User }>('/user/update-password', data)).data.data
   }
 }
