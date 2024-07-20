@@ -6,6 +6,7 @@ import {
   GoogleLogin,
   LoginResponse,
   SolanaLogin,
+  UpdatePassword,
   User,
   UsernameLogin,
 } from '../types'
@@ -53,5 +54,13 @@ export class ApiClient extends BaseClient {
 
   async bindReferrer(data: { referCode: string }) {
     return (await this.http.post('/user/bind-referrer', data)).data
+  }
+
+  async loginUsername(data: UsernameLogin) {
+    return (await this.http.post<{ data: LoginResponse }>('/login/username', data)).data.data
+  }
+
+  async updatePassword(data: UpdatePassword) {
+    return (await this.http.post<{ data: User }>('/user/update-password', data)).data.data
   }
 }

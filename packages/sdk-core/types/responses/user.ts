@@ -1,5 +1,5 @@
 import { Static, Type } from '@fastify/type-provider-typebox'
-import { Nullable } from '../common.ts'
+import { Nullable } from '../common'
 
 export const TypeUser = Type.Object({
   id: Type.String(),
@@ -10,6 +10,7 @@ export const TypeUser = Type.Object({
   ethAddress: Nullable(Type.String()),
   solAddress: Nullable(Type.String()),
   referCode: Nullable(Type.String()),
+  username: Nullable(Type.String()),
 })
 
 export type User = Static<typeof TypeUser>

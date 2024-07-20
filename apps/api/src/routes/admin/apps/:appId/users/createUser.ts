@@ -4,6 +4,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { verifyAdmin } from '../../../../../handlers/verifyAdmin'
 import { TypeAdminCreateUser, TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
 import { findOrCreateUser } from '../../../../../repositories/user'
+import { ERROR400_SCHEMA } from '../../../../../constants/schema'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -15,13 +16,14 @@ const schema = {
   body: TypeAdminCreateUser,
   response: {
     200: Type.Object({ data: TypeUser }),
+    400: ERROR400_SCHEMA,
   },
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.params
-  const { email, ethAddress, solAddress } = request.body
-  const user = await findOrCreateUser({ appId, email, ethAddress, solAddress })
+  const { email, ethAddress, solAddress, username, password } = request.body
+  const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password })
   reply.status(200).send({
     data: user,
   })

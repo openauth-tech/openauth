@@ -57,6 +57,8 @@ model User {
   apple      String?
   ethAddress String?
   solAddress String?
+  username   String?
+  password   String?
 
   referCode  String?
   referChain String?
@@ -71,6 +73,7 @@ model User {
   @@unique([appId, apple])
   @@unique([appId, ethAddress])
   @@unique([appId, solAddress])
+  @@unique([appId, username])
   @@map("oa_users")
 }
 

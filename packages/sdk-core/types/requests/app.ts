@@ -23,5 +23,7 @@ export const TypeAdminCreateUser = Type.Object({
   ethAddress: Type.Optional(Type.String()),
   solAddress: Type.Optional(Type.String()),
   email: Type.Optional(Type.String()),
+  username: Type.Optional(Type.String()),
+  password: Type.Optional(Type.String()),
 })
 export type AdminCreateUser = Static<typeof TypeAdminCreateUser>

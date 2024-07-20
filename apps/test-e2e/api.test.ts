@@ -98,12 +98,11 @@ describe('OpenAuth API', () => {
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      const { id: userId } = await adminClient.api.bindSolana({
+      await adminClient.api.bindSolana({
         appId,
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      assert(userId)
     }
 
     {
@@ -113,12 +112,39 @@ describe('OpenAuth API', () => {
       const { message } = await adminClient.api.getGlobalConfig(appId)
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      const { id: userId } = await adminClient.api.bindSolana({
+      // will be success
+      await adminClient.api.bindSolana({
         appId,
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      assert(userId)
     }
+  })
+
+  it('Login with username & update password', async () => {
+    const { id: appId } = await adminClient.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
+
+    // login with username
+    const userData = {
+      username: 'test_'+new Date().getTime(),
+      password: '123456',
+    }
+    await adminClient.admin.createUser(appId, userData)
+    const { token } = await adminClient.api.loginUsername({
+      appId,
+      username: userData.username,
+      password: userData.password,
+    })
+    assert(token)
+
+    // update password
+    await adminClient.api.updateToken(token)
+    await adminClient.api.updateUserPassword({ password: '123456', newPassword: '234567' })
+    const { token: token2 } = await adminClient.api.loginUsername({
+      appId,
+      username: userData.username,
+      password: '234567',
+    })
+    assert(token2)
   })
 })

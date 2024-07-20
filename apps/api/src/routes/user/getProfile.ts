@@ -25,7 +25,6 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
 
-  // FIXME：加入 appid
   let user = await prisma.user.findUnique({
     where: { id: userId },
   })
@@ -52,6 +51,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
       apple: user.apple,
       ethAddress: user.ethAddress,
       solAddress: user.solAddress,
+      username: user.username,
     },
   })
 }

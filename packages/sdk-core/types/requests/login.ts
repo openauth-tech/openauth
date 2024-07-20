@@ -4,6 +4,7 @@ export const TypeUsernameLogin = Type.Object({
   appId: Type.String(),
   username: Type.String(),
   password: Type.String(),
+  isRegister: Type.Optional(Type.Boolean()),
 })
 
 export const TypeEthereumLogin = Type.Object({
