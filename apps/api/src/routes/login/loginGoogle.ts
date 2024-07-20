@@ -20,20 +20,20 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, email, signature } = request.body as any
+  const { appId, email, token } = request.body
 
-  if (!signature) {
+  if (!token) {
     return reply.status(400).send({ message: 'Missing signature' })
   }
 
-  if (!(await verifyGoogle(email, signature))) {
+  if (!(await verifyGoogle(email, token))) {
     return reply.status(400).send({ message: 'Invalid Google access token' })
   }
 
   const user = await findOrCreateUser({ appId, email })
   const jwtPayload: JwtPayload = { userId: user.id, appId }
-  const token = await reply.jwtSign(jwtPayload)
-  reply.status(200).send({ data: { token } })
+  const jwtToken = await reply.jwtSign(jwtPayload)
+  reply.status(200).send({ data: { token: jwtToken } })
 }
 
 export default async function (fastify: FastifyInstance) {
