@@ -10,6 +10,8 @@ export const TypeUser = Type.Object({
   ethAddress: Nullable(Type.String()),
   solAddress: Nullable(Type.String()),
   referCode: Nullable(Type.String()),
+  username: Nullable(Type.String()),
+  password: Nullable(Type.String()),
 })
 
 export type User = Static<typeof TypeUser>
