@@ -73,15 +73,10 @@ async ${methodName}(${methosParamsStr}) {
 }`
   }
 
-  fs.writeFileSync(
-    path.join(__dirname, '../../../../packages/sdk-core/client/AdminClient.ts'),
-    adminTemplate(methods.admin)
-  )
-  fs.writeFileSync(path.join(__dirname, '../../../../packages/sdk-core/client/AppClient.ts'), appTemplate(methods.app))
-  fs.writeFileSync(
-    path.join(__dirname, '../../../../packages/sdk-core/client/UserClient.ts'),
-    userTemplate(methods.user)
-  )
+  const relativePathPrefix = '../../../../packages/sdk-core/client/'
+  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'AdminClient.ts'), adminTemplate(methods.admin))
+  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'AppClient.ts'), appTemplate(methods.app))
+  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'UserClient.ts'), userTemplate(methods.user))
 }
 
 const adminTemplate = (methods: string) => `
@@ -120,7 +115,6 @@ function getTypeModelFromSchema(schema: any): any {
   if (!schema) {
     return {}
   }
-  console.log(JSON.stringify(schema))
 
   if (schema.type === 'string') {
     return 'string'
