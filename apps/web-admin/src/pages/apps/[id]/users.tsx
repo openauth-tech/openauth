@@ -4,22 +4,23 @@ import { useParams } from 'react-router-dom'
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
 import { UserDetailDialog } from '@/components/user/UserDetailDialog'
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
-  const { id: appId } = useParams()
+  const { id: appId = '' } = useParams()
   const [selectedUser, setSelectedUser] = useState<any>()
   const [page, setPage] = useState<number>(1)
   const limit = 10
-  const { authClient, isAuthorized } = useAuth()
+  const { client } = useAdmin()
 
   // TODO: use data table
   const { data } = useQuery({
     queryKey: ['getUsers', appId, page, limit],
     queryFn: async () => {
-      return authClient?.admin.getUsers(appId!, { page, limit })
+      const { secret } = await client.admin.getAppSecret(appId)
+      client.app.updateToken(secret)
+      return client.app.listUsers({ page, limit })
     },
-    enabled: isAuthorized,
   })
 
   return (

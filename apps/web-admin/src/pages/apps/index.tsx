@@ -1,16 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
   const nav = useNavigate()
-  const { authClient } = useAuth()
+  const { client } = useAdmin()
   const { data } = useQuery({
     queryKey: ['getApps'],
-    queryFn: async () => {
-      return authClient?.admin.getApps()
-    },
+    queryFn: () => client.admin.listApps(),
     gcTime: 0,
   })
 

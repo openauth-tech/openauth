@@ -1,17 +1,17 @@
 import { FastifyInstance } from 'fastify'
-import { findOrCreateUser } from '../../repositories/user'
-import { verifyETH } from '../../utils/auth'
 import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { JwtPayload } from '../../models/request'
-import { TypeEthereumLogin, TypeLoginResponse } from '@open-auth/sdk-core'
+import { TypeLoginResponse, TypeUsernameLogin } from '@open-auth/sdk-core'
 import { prisma } from '../../utils/prisma'
+import bcrypt from 'bcrypt'
+import { SALT_ROUNDS } from '../../utils/auth'
 
 const schema = {
   tags: ['Login'],
-  summary: 'Login with Ethereum',
-  body: TypeEthereumLogin,
+  summary: 'Login with Username',
+  body: TypeUsernameLogin,
   response: {
     200: Type.Object({
       data: TypeLoginResponse,
@@ -21,14 +21,28 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, ethAddress, signature } = request.body
-  const app = await prisma.app.findUnique({ where: { id: appId } })
+  const { appId, username, password, isRegister } = request.body
 
-  if (!app || !verifyETH(app.name, ethAddress, signature)) {
-    return reply.status(400).send({ message: 'Invalid ETH signature' })
+  let user = await prisma.user.findFirst({ where: { appId, username } })
+
+  if (user) {
+    if (isRegister) {
+      return reply.status(400).send({ message: 'Username already taken' })
+    }
+    const ok = await bcrypt.compare(password, user.password ?? '')
+    if (!ok) {
+      return reply.status(400).send({ message: 'Wrong password' })
+    }
+  } else {
+    user = await prisma.user.create({
+      data: {
+        appId,
+        username,
+        password: await bcrypt.hash(password, SALT_ROUNDS),
+      },
+    })
   }
 
-  const user = await findOrCreateUser({ appId, ethAddress })
   const jwtPayload: JwtPayload = { userId: user.id, appId }
   const token = await reply.jwtSign(jwtPayload)
   reply.status(200).send({ data: { token } })
@@ -37,7 +51,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/ethereum',
+    url: '/login-username',
     schema,
     handler,
   })

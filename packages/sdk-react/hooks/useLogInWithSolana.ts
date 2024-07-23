@@ -5,7 +5,7 @@ import { OpenAuthContext } from '../context/OpenAuthContext'
 import { getSolanaProvider } from '../utils/getProvider'
 
 export function useLogInWithSolana() {
-  const { config, globalConfig, setToken, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
   const connect = useCallback(async () => {
@@ -22,13 +22,13 @@ export function useLogInWithSolana() {
       const address = resp.publicKey.toString()
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
-      const data = await client.api.loginSolana({ appId: config.appId, solAddress: address, signature })
-      setToken(data.token)
+      const data = await client.user.loginWithSolana({ appId: config.appId, solAddress: address, signature })
+      await logIn(data.token)
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
-  }, [globalConfig, client.api, config.appId, setToken])
+  }, [globalConfig, client.app, config.appId])
 
   return {
     connect,

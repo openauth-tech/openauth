@@ -2,6 +2,7 @@
   "name": "test-e2e",
   "private": true,
   "scripts": {
+    "build": "tsc",
     "test": "mocha --require ts-node/register **/*.test.ts"
   },
   "devDependencies": {

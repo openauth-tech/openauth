@@ -4,7 +4,7 @@ import { useCallback, useContext, useState } from 'react'
 import { OpenAuthContext } from '../context/OpenAuthContext'
 
 export function useLogInWithGoogle() {
-  const { setToken, config, client } = useContext(OpenAuthContext)
+  const { logIn, config, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
   const googleLogin = useGoogleLogin({
@@ -23,9 +23,9 @@ export function useLogInWithGoogle() {
       ).json()
       console.debug(userinfo)
       const email = userinfo.email
-      const data = await client.api.loginGoogle({ appId: config.appId, email, token })
+      const data = await client.user.loginWithGoogle({ appId: config.appId, email, token })
+      await logIn(data.token)
       setLoading(false)
-      setToken(data.token)
     },
   })
 

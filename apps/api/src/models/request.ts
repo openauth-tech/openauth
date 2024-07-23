@@ -6,3 +6,7 @@ export interface JwtPayload {
 export interface AdminJwtPayload {
   adminId: number
 }
+
+export interface AppAuthPayload {
+  appId: string
+}

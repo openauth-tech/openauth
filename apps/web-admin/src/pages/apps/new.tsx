@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
   const [name, setName] = useState('')
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
-  const { authClient } = useAuth()
+  const { client } = useAdmin()
 
   const onSubmit = async () => {
     setLoading(true)
     try {
-      await authClient?.admin.createApp({ name })
+      await client.admin.createApp({ name })
       toast.success('App created successfully')
       nav('/apps')
     } catch (error: any) {

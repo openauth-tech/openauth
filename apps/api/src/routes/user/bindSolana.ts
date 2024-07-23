@@ -9,7 +9,7 @@ import { JwtPayload } from '../../models/request'
 
 const schema = {
   tags: ['User'],
-  summary: 'Bind with Ethereum',
+  summary: 'Bind with Solana',
   headers: Type.Object({
     Authorization: Type.String(),
   }),

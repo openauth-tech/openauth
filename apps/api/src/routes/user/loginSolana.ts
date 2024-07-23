@@ -36,7 +36,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/solana',
+    url: '/login-solana',
     schema,
     handler,
   })

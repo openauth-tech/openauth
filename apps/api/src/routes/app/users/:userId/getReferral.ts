@@ -1,16 +1,16 @@
 import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../../models/typebox'
+import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../../../../utils/prisma'
-import { ERROR400_SCHEMA } from '../../../../../../constants/schema'
-import { verifyAdmin } from '../../../../../../handlers/verifyAdmin'
+import { prisma } from '../../../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../../../constants/schema'
 import { TypeReferralResponse } from '@open-auth/sdk-core'
+import { verifyApp } from '../../../../handlers/verifyApp'
+import { AppAuthPayload } from '../../../../models/request'
 
 const schema = {
-  tags: ['Admin - Apps'],
-  summary: 'Get app user referral',
+  tags: ['App - Users'],
+  summary: 'Get user referral',
   params: Type.Object({
-    appId: Type.String(),
     userId: Type.String(),
   }),
   headers: Type.Object({
@@ -25,7 +25,8 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, userId } = request.params
+  const { appId } = request.user as AppAuthPayload
+  const { userId } = request.params
   const user = await prisma.user.findUnique({
     where: { appId, id: userId },
   })
@@ -65,7 +66,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
     url: '/referral',
-    onRequest: [verifyAdmin],
+    onRequest: [verifyApp],
     schema,
     handler,
   })

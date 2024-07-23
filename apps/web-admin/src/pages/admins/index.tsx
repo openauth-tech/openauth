@@ -1,14 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
-  const { authClient } = useAuth()
+  const { client } = useAdmin()
   const { data } = useQuery({
     queryKey: ['getAdmins'],
-    queryFn: async () => {
-      return authClient?.admin.getAdmins({ page: 1, limit: 10 })
-    },
+    queryFn: () => client.admin.listAdmins(),
   })
 
   if (!data) {

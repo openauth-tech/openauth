@@ -5,8 +5,6 @@ import { Header } from '@/components/common/Header'
 import { useSetupChecker } from '@/hooks/useSetupChecker'
 import routes from '~react-pages'
 
-import { useAuth } from './context/ProviderAuth'
-
 function Redirect({ to }: { to: string }) {
   let navigate = useNavigate()
   useEffect(() => {
@@ -17,7 +15,6 @@ function Redirect({ to }: { to: string }) {
 
 export default function App() {
   useSetupChecker()
-  useAuth()
 
   return (
     <>

@@ -10,7 +10,7 @@ import { generateReferCode } from '../../utils/common'
 
 const schema = {
   tags: ['User'],
-  summary: 'Get user profile',
+  summary: 'Get profile',
   headers: Type.Object({
     Authorization: Type.String(),
   }),

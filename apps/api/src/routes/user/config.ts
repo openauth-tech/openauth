@@ -8,7 +8,7 @@ import { ERROR404_SCHEMA } from '../../constants/schema'
 
 const schema = {
   tags: ['Config'],
-  summary: 'Get global config',
+  summary: 'Get config',
   querystring: Type.Object({
     appId: Type.String(),
   }),
@@ -39,7 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/global',
+    url: '/config',
     schema,
     handler,
   })

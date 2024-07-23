@@ -3,16 +3,16 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
   const { pathname } = useLocation()
-  const { id } = useParams<{ id: string }>()
-  const { authClient } = useAuth()
+  const { id = '' } = useParams()
+  const { client } = useAdmin()
   const { data } = useQuery({
     queryKey: ['getApp', id],
     queryFn: async () => {
-      return authClient?.admin.getApp(id!)
+      return client.admin.getApp(id)
     },
     enabled: !!id,
   })

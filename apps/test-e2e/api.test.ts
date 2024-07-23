@@ -7,83 +7,83 @@ import nacl from 'tweetnacl'
 import { encodeBase58 } from 'ethers'
 import { loginNewUserETH } from './helper'
 
-const adminClient = new OpenAuthClient(OPENAUTH_ENDPOINT)
+const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
 describe('OpenAuth API', () => {
   before(async () => {
     try {
-      await adminClient.admin.setup({ username: USERNAME, password: PASSWORD })
+      await client.admin.setup({ username: USERNAME, password: PASSWORD })
     } catch (error) {}
 
     try {
-      const { token } = await adminClient.admin.login({
+      const { token } = await client.admin.login({
         username: USERNAME,
         password: PASSWORD,
       })
-      adminClient.updateToken(token)
+      client.admin.updateToken(token)
     } catch (error) {
       console.error(error)
     }
   })
 
   it('API + Admin', async () => {
-    const { id: appId } = await adminClient.admin.createApp({ name: 'test_api_' + new Date().getTime() })
-    const { message } = await adminClient.api.getGlobalConfig(appId)
+    const { id: appId } = await client.admin.createApp({ name: 'test_api_' + new Date().getTime() })
+    const { message } = await client.user.getConfig({ appId })
+    const { secret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(secret)
 
     // login solana
     const keypair = Keypair.generate()
     const messageBytes = decodeUTF8(message)
     const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-    const { token } = await adminClient.api.loginSolana({
+    const { token } = await client.user.loginWithSolana({
       appId,
       solAddress: keypair.publicKey.toBase58(),
       signature: encodeBase58(signature),
     })
-    const { data: users } = await adminClient.admin.getUsers(appId, { page: 1, limit: 10 })
+    const { data: users } = await client.app.listUsers({ page: 1, limit: 10 })
     assert.equal(users.length, 1)
 
     // get user profile
-    const apiClient = new OpenAuthClient(OPENAUTH_ENDPOINT, token)
-    const { id: userId, referCode, solAddress } = await apiClient.api.getUserProfile()
+    client.user.updateToken(token)
+    const { id: userId, referCode, solAddress } = await client.user.getProfile()
     assert.equal(solAddress, keypair.publicKey.toString())
     assert(referCode !== null)
 
     // test referral1
     let referCode1: string
     {
-      const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
       const keypair = Keypair.generate()
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-      const { token } = await adminClient.api.loginSolana({
+      const { token } = await client.user.loginWithSolana({
         appId,
         solAddress: keypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      client.updateToken(token)
-      await client.api.bindReferrer({ referCode })
-      const { referCode: code } = await client.api.getUserProfile()
+      client.user.updateToken(token)
+      await client.user.bindReferrer({ referCode })
+      const { referCode: code } = await client.user.getProfile()
       assert(code !== null)
       referCode1 = code
     }
 
     // test referral2
     {
-      const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
       const keypair = Keypair.generate()
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-      const { token } = await adminClient.api.loginSolana({
+      const { token } = await client.user.loginWithSolana({
         appId,
         solAddress: keypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
-      client.updateToken(token)
-      await client.api.bindReferrer({ referCode: referCode1 })
+      client.user.updateToken(token)
+      await client.user.bindReferrer({ referCode: referCode1 })
     }
 
     // verify referral chain
-    const referrals = await adminClient.admin.getUserReferral(appId, userId)
+    const referrals = await client.app.getUserReferral(userId)
     assert.equal(referrals.referrals1.length, 1)
     assert.equal(referrals.referrals2.length, 1)
   })
@@ -92,29 +92,26 @@ describe('OpenAuth API', () => {
     const solanaKeypair = Keypair.generate()
 
     {
-      const { id: appId } = await adminClient.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
-      await loginNewUserETH(adminClient, appId)
+      const { id: appId } = await client.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
+      await loginNewUserETH(client, appId)
 
-      const { message } = await adminClient.api.getGlobalConfig(appId)
+      const { message } = await client.user.getConfig({ appId })
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      await adminClient.api.bindSolana({
-        appId,
+      await client.user.bindWithSolana({
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
     }
 
     {
-      const { id: appId } = await adminClient.admin.createApp({ name: 'test_app2_' + new Date().getTime() })
-      await loginNewUserETH(adminClient, appId)
+      const { id: appId } = await client.admin.createApp({ name: 'test_app2_' + new Date().getTime() })
+      await loginNewUserETH(client, appId)
 
-      const { message } = await adminClient.api.getGlobalConfig(appId)
+      const { message } = await client.user.getConfig({ appId })
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, solanaKeypair.secretKey)
-      // will be success
-      await adminClient.api.bindSolana({
-        appId,
+      await client.user.bindWithSolana({
         solAddress: solanaKeypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
       })
@@ -122,15 +119,15 @@ describe('OpenAuth API', () => {
   })
 
   it('Login with username & update password', async () => {
-    const { id: appId } = await adminClient.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
+    const { id: appId } = await client.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
 
     // login with username
     const userData = {
       username: 'test_' + new Date().getTime(),
       password: '123456',
     }
-    await adminClient.admin.createUser(appId, userData)
-    const { token } = await adminClient.api.loginUsername({
+    await client.app.createUser(userData)
+    const { token } = await client.user.loginWithUsername({
       appId,
       username: userData.username,
       password: userData.password,
@@ -138,9 +135,9 @@ describe('OpenAuth API', () => {
     assert(token)
 
     // update password
-    adminClient.api.updateToken(token)
-    await adminClient.api.updatePassword({ oldPassword: '123456', newPassword: '234567' })
-    const { token: token2 } = await adminClient.api.loginUsername({
+    client.user.updateToken(token)
+    await client.user.updatePassword({ oldPassword: '123456', newPassword: '234567' })
+    const { token: token2 } = await client.user.loginWithUsername({
       appId,
       username: userData.username,
       password: '234567',

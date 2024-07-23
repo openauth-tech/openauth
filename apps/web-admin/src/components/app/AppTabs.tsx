@@ -4,7 +4,7 @@ import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { cn } from '@/utils/css'
 
 export function AppTabs() {
-  const { id } = useParams()
+  const { id = '' } = useParams()
   return (
     <div className="flex flex-col border-r gap-1">
       <Tab icon={<IconHome size={18} />} path={`/apps/${id}`} title="Home" />

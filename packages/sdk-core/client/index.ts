@@ -1,25 +1,15 @@
-import { ApiClient } from './api'
-import { AdminClient } from './admin'
-import { BaseClient } from './base'
+import { UserClient } from './UserClient.ts'
+import { AdminClient } from './AdminClient.ts'
+import { AppClient } from './AppClient.ts'
 
-export class OpenAuthClient extends BaseClient {
+export class OpenAuthClient {
   public readonly admin: AdminClient
-  public readonly api: ApiClient
-  private token?: string
+  public readonly app: AppClient
+  public readonly user: UserClient
 
-  constructor(baseURL: string, token?: string) {
-    super(baseURL, token)
-    this.admin = new AdminClient(baseURL, token)
-    this.api = new ApiClient(baseURL, token)
-  }
-
-  updateToken(token?: string) {
-    this.token = token
-    this.admin.updateToken(token)
-    this.api.updateToken(token)
-  }
-
-  get isAuthorized() {
-    return !!this.token
+  constructor(baseURL: string) {
+    this.admin = new AdminClient(baseURL)
+    this.app = new AppClient(baseURL)
+    this.user = new UserClient(baseURL)
   }
 }
