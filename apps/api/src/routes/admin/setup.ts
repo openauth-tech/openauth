@@ -9,7 +9,7 @@ import { TypeCreateAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin'],
-  summary: 'Initialize super admin account',
+  summary: 'Setup',
   body: TypeCreateAdmin,
   response: {
     200: Type.Object({

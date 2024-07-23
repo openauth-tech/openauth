@@ -2,7 +2,8 @@
   "name": "api",
   "private": true,
   "scripts": {
-    "dev": "tsx watch ./src/*.ts",
+    "dev": "tsx watch ./src/api.ts",
+    "generate": "tsx watch ./src/generate.ts",
     "build": "tsc",
     "postinstall": "prisma generate",
     "db:dev": "prisma migrate dev && prisma generate",
@@ -51,6 +52,7 @@
     "ethers": "^6.10.0",
     "fastify": "^4.26.2",
     "fastify-metrics": "11.0.0",
+    "fastify-plugin": "4.5.1",
     "fluent-json-schema": "^4.2.1",
     "google-auth-library": "^9.7.0",
     "into-stream": "^6.0.0",

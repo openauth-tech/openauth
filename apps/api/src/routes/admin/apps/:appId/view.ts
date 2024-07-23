@@ -8,7 +8,7 @@ import { TypeApp } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],
-  summary: 'View app',
+  summary: 'Get app',
   params: Type.Object({
     appId: Type.String(),
   }),

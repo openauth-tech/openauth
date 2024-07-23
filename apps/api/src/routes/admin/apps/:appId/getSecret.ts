@@ -9,7 +9,7 @@ import { randomUUID } from 'node:crypto'
 
 const schema = {
   tags: ['Admin - Apps'],
-  summary: 'Get secret',
+  summary: 'Get app secret',
   params: Type.Object({
     appId: Type.String(),
   }),

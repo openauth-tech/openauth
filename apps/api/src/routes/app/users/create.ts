@@ -5,13 +5,11 @@ import { TypeAdminCreateUser, TypeAuthHeaders, TypeUser } from '@open-auth/sdk-c
 import { findOrCreateUser } from '../../../repositories/user'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyApp } from '../../../handlers/verifyApp'
+import { AppAuthPayload } from '../../../models/request'
 
 const schema = {
-  tags: ['Admin - Apps'],
-  summary: 'Create app user',
-  params: Type.Object({
-    appId: Type.String(),
-  }),
+  tags: ['App - Users'],
+  summary: 'Create user',
   headers: TypeAuthHeaders,
   body: TypeAdminCreateUser,
   response: {
@@ -21,7 +19,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId } = request.params
+  const { appId } = request.user as AppAuthPayload
   const { email, ethAddress, solAddress, username, password } = request.body
   const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password })
   reply.status(200).send({

@@ -8,7 +8,7 @@ import { TypeAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Admins'],
-  summary: 'View admin',
+  summary: 'Get admin',
   params: Type.Object({
     id: Type.Number(),
   }),

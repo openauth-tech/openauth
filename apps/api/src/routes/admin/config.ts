@@ -6,7 +6,7 @@ import { TypeAdminConfig } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Config'],
-  summary: 'Get admin config',
+  summary: 'Get config',
   response: {
     200: Type.Object({
       data: TypeAdminConfig,
@@ -26,7 +26,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'GET',
-    url: '/admin',
+    url: '/config',
     schema,
     handler,
   })
