@@ -7,7 +7,6 @@ interface Headers {
 }
 
 export const get = async <T>(url: string, params: Params = {}, headers: Headers = {}): Promise<T> => {
-  // 构建查询字符串
   const queryString = new URLSearchParams(params).toString()
   const response = await fetch(`${url}?${queryString}`, {
     method: 'GET',

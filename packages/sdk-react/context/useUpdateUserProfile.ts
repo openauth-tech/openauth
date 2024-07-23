@@ -13,7 +13,7 @@ export function useUpdateUserProfile() {
         return
       }
       ;(async () => {
-        const data = await client.app.getUserProfile()
+        const data = await client.user.getProfile()
         setProfile(data)
       })()
     }

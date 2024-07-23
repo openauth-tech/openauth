@@ -29,6 +29,7 @@ function generateClient(routes: RouteData[]) {
     }
     const query = route.schema.querystring
     const body = route.schema.body
+    const response = route.schema.response as any
 
     const parts = route.url.split('/')
     const key = parts[1] as 'admin' | 'app' | 'user'
@@ -50,8 +51,10 @@ function generateClient(routes: RouteData[]) {
     }
 
     // process response body
-    const bodyTypeModel = getTypeModelFromSchema((route.schema.response as any)['200'])
-    const bodyStr = getStringFromTypeModel(bodyTypeModel)
+    const should201 = Object.keys(response['201'] ?? {}).length > 0
+    const responseTypeModel = getTypeModelFromSchema(should201 ? response['201'] : response['200'])
+    const responseStr = getStringFromTypeModel(responseTypeModel)
+    const dataSuffixStr = Object.keys(responseTypeModel).join(',') === 'data' ? '.data' : ''
 
     // process method params
     const methosParamsStr = Object.keys(methodParamsTypeModel)
@@ -65,11 +68,12 @@ function generateClient(routes: RouteData[]) {
     }
 
     // http params
-    const httpParamsStr = query ? '{ params }' : body ? 'data' : ''
+    let httpParamsStr = query ? '{ params }' : body ? 'data' : ''
+    httpParamsStr = httpParamsStr ? ', ' + httpParamsStr : ''
 
     methods[key] += `
 async ${methodName}(${methosParamsStr}) {
-  return (await this.http.${httpMethodName}<${bodyStr}>(\`${url}\`${httpParamsStr ? ', ' + httpParamsStr : ''})).data
+  return (await this.http.${httpMethodName}<${responseStr}>(\`${url}\`${httpParamsStr})).data${dataSuffixStr}
 }`
   }
 
@@ -133,7 +137,9 @@ function getTypeModelFromSchema(schema: any): any {
     const properties = schema.properties
     const result: any = {}
     for (let key in properties) {
-      result[key] = getTypeModelFromSchema(properties[key])
+      const property = properties[key]
+      const isOptional = property[Symbol.for('TypeBox.Optional')] === 'Optional'
+      result[isOptional ? key + '?' : key] = getTypeModelFromSchema(property)
     }
     return result
   }

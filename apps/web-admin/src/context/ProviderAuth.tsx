@@ -19,7 +19,7 @@ const useAuth = () => {
 
   useEffect(() => {
     if (token) {
-      authClient?.updateToken(token)
+      authClient?.admin.updateToken(token)
     }
   }, [authClient, token])
 

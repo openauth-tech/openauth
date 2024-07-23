@@ -2,11 +2,11 @@ import { BaseClient } from './BaseClient.ts'
 
 export class AppClient extends BaseClient {
   async createUser(data: {
-    ethAddress: string
-    solAddress: string
-    email: string
-    username: string
-    password: string
+    ethAddress?: string
+    solAddress?: string
+    email?: string
+    username?: string
+    password?: string
   }) {
     return (
       await this.http.post<{
@@ -22,7 +22,7 @@ export class AppClient extends BaseClient {
           username: string | null
         }
       }>(`/app/users/`, data)
-    ).data
+    ).data.data
   }
   async listUsers(params: { page: number; limit: number }) {
     return (
@@ -50,7 +50,7 @@ export class AppClient extends BaseClient {
           referrals2: { createdAt: number; userId: string }[]
         }
       }>(`/app/users/${userId}/referral`)
-    ).data
+    ).data.data
   }
   async getUser(userId: string, params: { page: number; limit: number }) {
     return (
@@ -67,6 +67,6 @@ export class AppClient extends BaseClient {
           username: string | null
         }
       }>(`/app/users/${userId}`, { params })
-    ).data
+    ).data.data
   }
 }
