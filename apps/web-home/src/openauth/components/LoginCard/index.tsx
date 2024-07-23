@@ -9,31 +9,31 @@ export function LoginCard() {
   const { toast } = useToast()
 
   const { globalConfig } = useOpenAuth()
-  const { connect: connectETH, loading: loadingETH } = useLogInWithEthereum()
-  const { connect: connectSOL, loading: loadingSOL } = useLogInWithSolana()
-  const { connect: connectGG, loading: loadingGG } = useLogInWithGoogle()
+  const { logInWithEthereum, loading: loadingETH } = useLogInWithEthereum()
+  const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
+  const { logInWithGoogle, loading: loadingGG } = useLogInWithGoogle()
 
   const onConnectETH = useCallback(async () => {
     try {
-      await connectETH()
+      await logInWithEthereum()
     } catch (error: any) {
       toast({ title: error.message })
     }
-  }, [connectETH, toast])
+  }, [logInWithEthereum, toast])
   const onConnectSOL = useCallback(async () => {
     try {
-      await connectSOL()
+      await logInWithSolana()
     } catch (error: any) {
       toast({ title: error.message })
     }
-  }, [connectSOL, toast])
+  }, [logInWithSolana, toast])
   const onConnectGG = useCallback(async () => {
     try {
-      await connectGG()
+      await logInWithGoogle()
     } catch (error: any) {
       toast({ title: error.message })
     }
-  }, [connectGG, toast])
+  }, [logInWithGoogle, toast])
 
   return (
     <Card className="py-10 px-16 shadow">

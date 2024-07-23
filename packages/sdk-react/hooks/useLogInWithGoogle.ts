@@ -29,13 +29,13 @@ export function useLogInWithGoogle() {
     },
   })
 
-  const connect = useCallback(async () => {
+  const logInWithGoogle = useCallback(async () => {
     setLoading(true)
     googleLogin()
   }, [googleLogin])
 
   return {
-    connect,
+    logInWithGoogle,
     loading,
   }
 }

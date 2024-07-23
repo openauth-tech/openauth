@@ -6,7 +6,7 @@ export function useLogInWithUsername() {
   const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
-  const login = useCallback(
+  const logInWithUsername = useCallback(
     async (username: string, password: string) => {
       setLoading(true)
       try {
@@ -21,7 +21,7 @@ export function useLogInWithUsername() {
   )
 
   return {
-    login,
+    logInWithUsername,
     loading,
   }
 }

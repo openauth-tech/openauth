@@ -8,7 +8,7 @@ export function useLogInWithSolana() {
   const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
-  const connect = useCallback(async () => {
+  const logInWithSolana = useCallback(async () => {
     if (!globalConfig) {
       return
     }
@@ -31,7 +31,7 @@ export function useLogInWithSolana() {
   }, [globalConfig, client.app, config.appId])
 
   return {
-    connect,
+    logInWithSolana,
     loading,
   }
 }

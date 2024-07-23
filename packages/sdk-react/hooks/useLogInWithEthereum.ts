@@ -8,7 +8,7 @@ export function useLogInWithEthereum() {
   const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
-  const connect = useCallback(async () => {
+  const logInWithEthereum = useCallback(async () => {
     if (!globalConfig) {
       return
     }
@@ -32,7 +32,7 @@ export function useLogInWithEthereum() {
   }, [client.app, config.appId, globalConfig])
 
   return {
-    connect,
+    logInWithEthereum,
     loading,
   }
 }
