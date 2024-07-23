@@ -2,9 +2,9 @@ import { AxiosInstance } from 'axios'
 import { buildHttpClient } from '../utils/buildHttpClient'
 
 export class BaseClient {
+  protected http: AxiosInstance
   private readonly baseURL: string
   private token?: string
-  protected http: AxiosInstance
 
   constructor(baseURL: string, token?: string) {
     this.baseURL = baseURL

@@ -1,85 +1,89 @@
 import { BaseClient } from './BaseClient.ts'
-import {
-  Admin,
-  AdminCreateUser,
-  App,
-  AppSecret,
-  CreateAdmin,
-  CreateApp,
-  LoginResponse,
-  PageMeta,
-  PageParams,
-  ReferralResponse,
-  UpdateApp,
-  User,
-} from '../types'
 
 export class AdminClient extends BaseClient {
-  async setup(data: CreateAdmin) {
-    return (await this.http.post('/admin/setup', data)).data
+  async getConfig() {
+    return (await this.http.get<{ data: { initialized: boolean } }>(`/admin/config`)).data
   }
-
-  async login(data: CreateAdmin) {
-    return (await this.http.post<{ data: LoginResponse }>('/admin/login', data)).data.data
+  async login(data: { username: string; password: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/admin/login`, data)).data
   }
-
-  async getAdmins(params: PageParams) {
-    return (await this.http.get<{ data: Admin[]; meta: PageMeta }>('/admin/admins?', { params })).data.data
+  async setup(data: { username: string; password: string }) {
+    return (await this.http.post<{ data: {} }>(`/admin/setup`, data)).data
   }
-
-  async getAdmin(id: string) {
-    return (await this.http.get<{ data: Admin }>(`/admin/admins/${id}`)).data.data
+  async createAdmin(data: { username: string; password: string }) {
+    return (await this.http.post<{}>(`/admin/admins`, data)).data
   }
-
-  async createAdmin(data: CreateAdmin) {
-    return (await this.http.post<{ data: Admin }>('/admin/admins', data)).data.data
+  async deleteAdmin(id: number) {
+    return (await this.http.delete<{ data: {} }>(`/admin/admins/${id}`)).data
   }
-
-  async updateAdmin(id: string, data: CreateAdmin) {
-    return (await this.http.patch<{ data: Admin }>(`/admin/admins/${id}`, data)).data.data
+  async listAdmins() {
+    return (await this.http.get<{ data: { id: number; username: string }[] }>(`/admin/admins`)).data
   }
-
-  async deleteAdmin(id: string) {
-    return (await this.http.delete(`/admin/admins/${id}`)).data
+  async updateAdmin(id: number, data: { username: string; password: string }) {
+    return (await this.http.patch<{ data: {} }>(`/admin/admins/${id}`, data)).data
   }
-
-  async getApps() {
-    return (await this.http.get<{ data: App[] }>('/admin/apps')).data.data
+  async getAdmin(id: number) {
+    return (await this.http.get<{ data: { id: number; username: string } }>(`/admin/admins/${id}`)).data
   }
-
-  async getApp(id: string) {
-    return (await this.http.get<{ data: App }>(`/admin/apps/${id}`)).data.data
+  async createApp(data: { name: string }) {
+    return (await this.http.post<{}>(`/admin/apps`, data)).data
   }
-
-  async createApp(data: CreateApp) {
-    return (await this.http.post<{ data: App }>('/admin/apps', data)).data.data
+  async listApps() {
+    return (
+      await this.http.get<{
+        data: {
+          id: string
+          name: string
+          description: string | null
+          logoUrl: string | null
+          emailEnabled: boolean
+          googleEnabled: boolean
+          twitterEnabled: boolean
+          appleEnabled: boolean
+          ethEnabled: boolean
+          solEnabled: boolean
+        }[]
+      }>(`/admin/apps`)
+    ).data
   }
-
-  async updateApp(id: string, data: UpdateApp) {
-    return (await this.http.patch<{ data: App }>(`/admin/apps/${id}`, data)).data.data
+  async deleteApp(appId: string) {
+    return (await this.http.delete<{ data: {} }>(`/admin/apps/${appId}`)).data
   }
-
-  async deleteApp(id: string) {
-    return (await this.http.delete(`/admin/apps/${id}`)).data
+  async getAppSecret(appId: string) {
+    return (await this.http.get<{ data: { secret: string } }>(`/admin/apps/${appId}/secret`)).data
   }
-
-  async getUsers(appId: string, params: PageParams) {
-    return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users`, { params })).data
+  async updateApp(
+    appId: string,
+    data: {
+      name: string
+      description: string
+      logoUrl: string
+      emailEnabled: boolean
+      googleEnabled: boolean
+      twitterEnabled: boolean
+      appleEnabled: boolean
+      ethEnabled: boolean
+      solEnabled: boolean
+    }
+  ) {
+    return (await this.http.patch<{ data: {} }>(`/admin/apps/${appId}`, data)).data
   }
-
-  async createUser(appId: string, data: AdminCreateUser) {
-    return (await this.http.post<{ data: User }>(`/admin/apps/${appId}/users`, data)).data.data
-  }
-
-  async getUser(appId: string, userId: string) {
-    return (await this.http.get<{ data: User }>(`/admin/apps/${appId}/users/${userId}`)).data.data
-  }
-
-  async getUserReferral(appId: string, userId: string) {
-    return (await this.http.get<{ data: ReferralResponse }>(`/admin/apps/${appId}/users/${userId}/referral`)).data.data
-  }
-
-  async getSecret(appId: string) {
-    return (await this.http.get<{ data: AppSecret }>(`/admin/apps/${appId}/secret`)).data.data
+  async getApp(appId: string) {
+    return (
+      await this.http.get<{
+        data: {
+          id: string
+          name: string
+          description: string | null
+          logoUrl: string | null
+          emailEnabled: boolean
+          googleEnabled: boolean
+          twitterEnabled: boolean
+          appleEnabled: boolean
+          ethEnabled: boolean
+          solEnabled: boolean
+        }
+      }>(`/admin/apps/${appId}`)
+    ).data
   }
 }

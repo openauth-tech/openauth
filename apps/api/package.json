@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch ./src/api.ts",
-    "generate": "tsx watch ./src/generate.ts",
+    "generate": "tsx ./src/generate.ts",
     "build": "tsc",
     "postinstall": "prisma generate",
     "db:dev": "prisma migrate dev && prisma generate",

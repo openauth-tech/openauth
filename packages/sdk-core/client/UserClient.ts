@@ -1,66 +1,53 @@
 import { BaseClient } from './BaseClient.ts'
-import {
-  AdminConfig,
-  EthereumLogin,
-  GlobalConfig,
-  GoogleLogin,
-  LoginResponse,
-  SolanaLogin,
-  UpdatePassword,
-  User,
-  UsernameLogin,
-} from '../types'
 
 export class UserClient extends BaseClient {
-  async getAdminConfig() {
-    return (await this.http.get<{ data: AdminConfig }>('/config/admin')).data.data
+  async bindWithEthereum(data: { ethAddress: string; signature: string }) {
+    return (await this.http.post<{ data: {} }>(`/user/bind-ethereum`, data)).data
   }
-
-  async getGlobalConfig(appId: string) {
-    return (await this.http.get<{ data: GlobalConfig }>(`/config/global?appId=${appId}`)).data.data
+  async bindWithGoogle(data: { google: string; signature: string }) {
+    return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data
   }
-
-  async loginSolana(data: SolanaLogin) {
-    return (await this.http.post<{ data: LoginResponse }>('/login/solana', data)).data.data
-  }
-
-  async loginEthereum(data: EthereumLogin) {
-    return (await this.http.post<{ data: LoginResponse }>('/login/ethereum', data)).data.data
-  }
-
-  async loginGoogle(data: GoogleLogin) {
-    return (await this.http.post<{ data: LoginResponse }>('/login/google', data)).data.data
-  }
-
-  async bindUsername(data: UsernameLogin) {
-    return (await this.http.post('/bind/username', data)).data
-  }
-
-  async bindSolana(data: SolanaLogin) {
-    return (await this.http.post('/user/bind-solana', data)).data
-  }
-
-  async bindEthereum(data: EthereumLogin) {
-    return (await this.http.post('/user/bind-ethereum', data)).data
-  }
-
-  async bindGoogle(data: GoogleLogin) {
-    return (await this.http.post('/user/bind-google', data)).data
-  }
-
-  async getUserProfile() {
-    return (await this.http.get<{ data: User }>('/user/profile')).data.data
-  }
-
   async bindReferrer(data: { referCode: string }) {
-    return (await this.http.post('/user/bind-referrer', data)).data
+    return (await this.http.post<{ data: {} }>(`/user/bind-referrer`, data)).data
   }
-
-  async loginUsername(data: UsernameLogin) {
-    return (await this.http.post<{ data: LoginResponse }>('/login/username', data)).data.data
+  async bindWithSolana(data: { solAddress: string; signature: string }) {
+    return (await this.http.post<{ data: {} }>(`/user/bind-solana`, data)).data
   }
-
-  async updatePassword(data: UpdatePassword) {
-    return (await this.http.post<{ data: User }>('/user/update-password', data)).data.data
+  async getConfig(params: { appId: string }) {
+    return (
+      await this.http.get<{ data: { production: boolean; brand: string; message: string } }>(`/user/config`, { params })
+    ).data
+  }
+  async getProfile() {
+    return (
+      await this.http.get<{
+        data: {
+          id: string
+          email: string | null
+          google: string | null
+          twitter: string | null
+          apple: string | null
+          ethAddress: string | null
+          solAddress: string | null
+          referCode: string | null
+          username: string | null
+        }
+      }>(`/user/profile`)
+    ).data
+  }
+  async loginWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-ethereum`, data)).data
+  }
+  async loginWithGoogle(data: { appId: string; email: string; token: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-google`, data)).data
+  }
+  async loginWithSolana(data: { appId: string; solAddress: string; signature: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-solana`, data)).data
+  }
+  async loginWithUsername(data: { appId: string; username: string; password: string; isRegister: boolean }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-username`, data)).data
+  }
+  async updatePassword(data: { oldPassword: string; newPassword: string }) {
+    return (await this.http.post<{ data: {} }>(`/user/update-password`, data)).data
   }
 }
