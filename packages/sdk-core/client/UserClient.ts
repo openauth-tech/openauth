@@ -1,4 +1,4 @@
-import { BaseClient } from './base'
+import { BaseClient } from './BaseClient.ts'
 import {
   AdminConfig,
   EthereumLogin,
@@ -11,7 +11,7 @@ import {
   UsernameLogin,
 } from '../types'
 
-export class ApiClient extends BaseClient {
+export class UserClient extends BaseClient {
   async getAdminConfig() {
     return (await this.http.get<{ data: AdminConfig }>('/config/admin')).data.data
   }

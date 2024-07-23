@@ -13,9 +13,9 @@ export function useUpdateUserProfile() {
         return
       }
       ;(async () => {
-        const data = await client.api.getUserProfile()
+        const data = await client.app.getUserProfile()
         setProfile(data)
       })()
     }
-  }, [config, preToken, token, setProfile, client.api])
+  }, [config, preToken, token, setProfile, client.app])
 }

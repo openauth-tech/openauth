@@ -22,13 +22,13 @@ export function useLogInWithSolana() {
       const address = resp.publicKey.toString()
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
-      const data = await client.api.loginSolana({ appId: config.appId, solAddress: address, signature })
+      const data = await client.app.loginSolana({ appId: config.appId, solAddress: address, signature })
       setToken(data.token)
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
-  }, [globalConfig, client.api, config.appId, setToken])
+  }, [globalConfig, client.app, config.appId, setToken])
 
   return {
     connect,

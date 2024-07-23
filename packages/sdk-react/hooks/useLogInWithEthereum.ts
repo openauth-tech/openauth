@@ -23,13 +23,13 @@ export function useLogInWithEthereum() {
       const signer = await provider.getSigner()
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
-      const data = await client.api.loginEthereum({ appId: config.appId, ethAddress: address, signature })
+      const data = await client.app.loginEthereum({ appId: config.appId, ethAddress: address, signature })
       setToken(data.token)
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
-  }, [client.api, config.appId, globalConfig, setToken])
+  }, [client.app, config.appId, globalConfig, setToken])
 
   return {
     connect,

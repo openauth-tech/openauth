@@ -23,7 +23,7 @@ export function useLogInWithGoogle() {
       ).json()
       console.debug(userinfo)
       const email = userinfo.email
-      const data = await client.api.loginGoogle({ appId: config.appId, email, token })
+      const data = await client.app.loginGoogle({ appId: config.appId, email, token })
       setLoading(false)
       setToken(data.token)
     },

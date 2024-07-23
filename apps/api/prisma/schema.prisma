@@ -30,7 +30,7 @@ model App {
   name        String  @unique
   description String?
   logoUrl     String?
-  secret      String?
+  secret      String? @unique
 
   emailEnabled   Boolean @default(false)
   googleEnabled  Boolean @default(false)

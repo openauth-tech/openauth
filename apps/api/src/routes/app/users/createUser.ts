@@ -1,10 +1,10 @@
 import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../models/typebox'
+import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { verifyAdmin } from '../../../../../handlers/verifyAdmin'
 import { TypeAdminCreateUser, TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
-import { findOrCreateUser } from '../../../../../repositories/user'
-import { ERROR400_SCHEMA } from '../../../../../constants/schema'
+import { findOrCreateUser } from '../../../repositories/user'
+import { ERROR400_SCHEMA } from '../../../constants/schema'
+import { verifyApp } from '../../../handlers/verifyApp'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -33,7 +33,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
     url: '/',
-    onRequest: [verifyAdmin],
+    onRequest: [verifyApp],
     schema,
     handler,
   })

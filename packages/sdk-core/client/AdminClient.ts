@@ -1,4 +1,4 @@
-import { BaseClient } from './base'
+import { BaseClient } from './BaseClient.ts'
 import {
   Admin,
   AdminCreateUser,
@@ -23,9 +23,8 @@ export class AdminClient extends BaseClient {
     return (await this.http.post<{ data: LoginResponse }>('/admin/login', data)).data.data
   }
 
-  async getAdmins({ page, limit }: { page: number; limit: number }) {
-    const queryStr = new URLSearchParams({ page: page.toString(), limit: limit.toString() }).toString()
-    return (await this.http.get<{ data: Admin[]; meta: PageMeta }>('/admin/admins?' + queryStr)).data.data
+  async getAdmins(params: PageParams) {
+    return (await this.http.get<{ data: Admin[]; meta: PageMeta }>('/admin/admins?', { params })).data.data
   }
 
   async getAdmin(id: string) {
@@ -64,12 +63,8 @@ export class AdminClient extends BaseClient {
     return (await this.http.delete(`/admin/apps/${id}`)).data
   }
 
-  async getUsers(appId: string, { page, limit }: PageParams) {
-    return (
-      await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users`, {
-        params: { page: page.toString(), limit: limit.toString() },
-      })
-    ).data
+  async getUsers(appId: string, params: PageParams) {
+    return (await this.http.get<{ data: User[]; meta: PageMeta }>(`/admin/apps/${appId}/users`, { params })).data
   }
 
   async createUser(appId: string, data: AdminCreateUser) {
