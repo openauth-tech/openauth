@@ -10,7 +10,7 @@ export function useLogInWithUsername() {
     async (username: string, password: string) => {
       setLoading(true)
       try {
-        const data = await client.user.loginWithUsername({ appId: config.appId, username, password })
+        const data = await client.user.logInWithUsername({ appId: config.appId, username, password })
         await logIn(data.token)
       } catch (error) {
         console.error(error)

@@ -35,16 +35,16 @@ export class UserClient extends BaseClient {
       }>(`/user/profile`)
     ).data.data
   }
-  async loginWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {
+  async logInWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-ethereum`, data)).data.data
   }
-  async loginWithGoogle(data: { appId: string; email: string; token: string }) {
+  async logInWithGoogle(data: { appId: string; email: string; token: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-google`, data)).data.data
   }
-  async loginWithSolana(data: { appId: string; solAddress: string; signature: string }) {
+  async logInWithSolana(data: { appId: string; solAddress: string; signature: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-solana`, data)).data.data
   }
-  async loginWithUsername(data: { appId: string; username: string; password: string; isRegister?: boolean }) {
+  async logInWithUsername(data: { appId: string; username: string; password: string; isRegister?: boolean }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-username`, data)).data.data
   }
   async updatePassword(data: { oldPassword: string; newPassword: string }) {

@@ -9,8 +9,8 @@ import bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from '../../utils/auth'
 
 const schema = {
-  tags: ['Login'],
-  summary: 'Login with Username',
+  tags: ['User'],
+  summary: 'Log in with Username',
   body: TypeUsernameLogin,
   response: {
     200: Type.Object({

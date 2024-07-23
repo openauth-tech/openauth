@@ -9,8 +9,8 @@ import { TypeEthereumLogin, TypeLoginResponse } from '@open-auth/sdk-core'
 import { prisma } from '../../utils/prisma'
 
 const schema = {
-  tags: ['Login'],
-  summary: 'Login with Ethereum',
+  tags: ['User'],
+  summary: 'Log in with Ethereum',
   body: TypeEthereumLogin,
   response: {
     200: Type.Object({

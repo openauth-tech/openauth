@@ -8,8 +8,8 @@ import { JwtPayload } from '../../models/request'
 import { TypeGoogleLogin, TypeLoginResponse } from '@open-auth/sdk-core'
 
 const schema = {
-  tags: ['Login'],
-  summary: 'Login with Google',
+  tags: ['User'],
+  summary: 'Log in with Google',
   body: TypeGoogleLogin,
   response: {
     200: Type.Object({

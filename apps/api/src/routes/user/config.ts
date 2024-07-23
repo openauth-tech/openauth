@@ -7,7 +7,7 @@ import { prisma } from '../../utils/prisma'
 import { ERROR404_SCHEMA } from '../../constants/schema'
 
 const schema = {
-  tags: ['Config'],
+  tags: ['User'],
   summary: 'Get config',
   querystring: Type.Object({
     appId: Type.String(),

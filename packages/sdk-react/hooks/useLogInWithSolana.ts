@@ -22,7 +22,7 @@ export function useLogInWithSolana() {
       const address = resp.publicKey.toString()
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
-      const data = await client.user.loginWithSolana({ appId: config.appId, solAddress: address, signature })
+      const data = await client.user.logInWithSolana({ appId: config.appId, solAddress: address, signature })
       await logIn(data.token)
     } catch (error) {
       console.error(error)

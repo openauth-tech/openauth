@@ -36,7 +36,7 @@ describe('OpenAuth API', () => {
     const keypair = Keypair.generate()
     const messageBytes = decodeUTF8(message)
     const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-    const { token } = await client.user.loginWithSolana({
+    const { token } = await client.user.logInWithSolana({
       appId,
       solAddress: keypair.publicKey.toBase58(),
       signature: encodeBase58(signature),
@@ -56,7 +56,7 @@ describe('OpenAuth API', () => {
       const keypair = Keypair.generate()
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-      const { token } = await client.user.loginWithSolana({
+      const { token } = await client.user.logInWithSolana({
         appId,
         solAddress: keypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
@@ -73,7 +73,7 @@ describe('OpenAuth API', () => {
       const keypair = Keypair.generate()
       const messageBytes = decodeUTF8(message)
       const signature = nacl.sign.detached(messageBytes, keypair.secretKey)
-      const { token } = await client.user.loginWithSolana({
+      const { token } = await client.user.logInWithSolana({
         appId,
         solAddress: keypair.publicKey.toBase58(),
         signature: encodeBase58(signature),
@@ -127,7 +127,7 @@ describe('OpenAuth API', () => {
       password: '123456',
     }
     await client.app.createUser(userData)
-    const { token } = await client.user.loginWithUsername({
+    const { token } = await client.user.logInWithUsername({
       appId,
       username: userData.username,
       password: userData.password,
@@ -137,7 +137,7 @@ describe('OpenAuth API', () => {
     // update password
     client.user.updateToken(token)
     await client.user.updatePassword({ oldPassword: '123456', newPassword: '234567' })
-    const { token: token2 } = await client.user.loginWithUsername({
+    const { token: token2 } = await client.user.logInWithUsername({
       appId,
       username: userData.username,
       password: '234567',

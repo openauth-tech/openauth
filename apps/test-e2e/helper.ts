@@ -13,6 +13,6 @@ async function generateEthCredential(message: string) {
 export async function loginNewUserETH(client: OpenAuthClient, appId: string) {
   const { message } = await client.user.getConfig({ appId })
   const { ethAddress, signature } = await generateEthCredential(message)
-  const { token } = await client.user.loginWithEthereum({ appId, ethAddress, signature })
+  const { token } = await client.user.logInWithEthereum({ appId, ethAddress, signature })
   client.user.updateToken(token)
 }

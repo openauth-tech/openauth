@@ -9,8 +9,8 @@ import { TypeLoginResponse, TypeSolanaLogin } from '@open-auth/sdk-core'
 import { prisma } from '../../utils/prisma'
 
 const schema = {
-  tags: ['Login'],
-  summary: 'Login with Solana',
+  tags: ['User'],
+  summary: 'Log in with Solana',
   body: TypeSolanaLogin,
   response: {
     200: Type.Object({
