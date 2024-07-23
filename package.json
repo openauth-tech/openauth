@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "postinstall": "npm run generate",
     "dev:api": "pnpm --filter ./packages/* build && pnpm --filter ./apps/api dev",
     "dev:admin": "pnpm --filter ./packages/* build && pnpm --filter ./apps/web-admin dev",
     "dev:home": "pnpm --filter ./packages/* build && pnpm --filter ./apps/web-home dev",
