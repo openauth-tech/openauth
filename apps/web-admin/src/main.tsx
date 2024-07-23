@@ -1,10 +1,9 @@
-import { OpenAuthClient } from '@open-auth/sdk-core'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
 import App from './App'
-import { ProviderAuth } from './context/ProviderAuth'
+import { AdminProvider } from './context/admin'
 
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
@@ -26,15 +25,13 @@ const queryClient = new QueryClient({
   },
 })
 
-const authClient = new OpenAuthClient(import.meta.env.VITE_OPENAUTH_ENDPOINT!)
-
 const root = createRoot(document.getElementById('root')!)
 root.render(
   <QueryClientProvider client={queryClient}>
-    <ProviderAuth client={authClient}>
+    <AdminProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </ProviderAuth>
+    </AdminProvider>
   </QueryClientProvider>
 )

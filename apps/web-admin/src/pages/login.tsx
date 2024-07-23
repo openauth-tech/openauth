@@ -1,26 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
-import { useAuth } from '@/context/ProviderAuth'
-import { useAppState } from '@/store/app'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const nav = useNavigate()
-  const { authClient } = useAuth()
-  const { saveToken } = useAppState()
+  const { logIn } = useAdmin()
 
   const onLogIn = async () => {
     setLoading(true)
     try {
-      const res = await authClient?.admin.login({
-        username,
-        password,
-      })
-      saveToken(username, res!.token)
-
+      await logIn(username, password)
       toast.success('Log in successfully')
       nav('/')
     } catch (error: any) {

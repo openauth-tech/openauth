@@ -1,11 +1,9 @@
 import { type GlobalConfig, OpenAuthClient, type User } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import { createContext, ReactNode, useMemo, useState } from 'react'
+import { createContext, ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import { IOpenAuthConfig, IOpenAuthContext } from '../utils/types'
 import { OpenAuthStorageKeys } from '../utils/constants'
-import { useUpdateGlobalConfig } from './useUpdateGlobalConfig'
-import { useUpdateUserProfile } from './useUpdateUserProfile'
 
 export const OpenAuthContext = createContext<IOpenAuthContext>({} as any)
 
@@ -14,7 +12,32 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const [globalConfig, setGlobalConfig] = useState<GlobalConfig>()
   const [profile, setProfile] = useState<User>()
 
-  const client = useMemo(() => new OpenAuthClient(config.endpoint, token), [config.endpoint, token])
+  const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
+
+  useEffect(() => {
+    if (config.endpoint) {
+      client.user
+        .getConfig({ appId: config.appId })
+        .then((data) => setGlobalConfig(data))
+        .catch(console.error)
+    }
+  }, [client, config, setGlobalConfig])
+
+  const logIn = useCallback(
+    async (token: string) => {
+      client.user.updateToken(token)
+      setToken(token)
+      const profile = await client.user.getProfile()
+      setProfile(profile)
+    },
+    [client, setToken]
+  )
+
+  const logOut = useCallback(() => {
+    client.user.updateToken(token)
+    setToken(undefined)
+    setProfile(undefined)
+  }, [client, setToken])
 
   const openAuthProvider = (
     <OpenAuthContext.Provider
@@ -22,14 +45,13 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         config,
         client,
         globalConfig,
-        setGlobalConfig,
         token,
-        setToken,
         profile,
-        setProfile,
+        logIn,
+        logOut,
       }}
     >
-      <Updater>{children}</Updater>
+      {children}
     </OpenAuthContext.Provider>
   )
 
@@ -38,11 +60,4 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   }
 
   return openAuthProvider
-}
-
-function Updater({ children }: { children: ReactNode }) {
-  useUpdateGlobalConfig()
-  useUpdateUserProfile()
-
-  return children
 }

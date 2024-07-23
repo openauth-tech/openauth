@@ -7,9 +7,9 @@ export class OpenAuthClient {
   public readonly app: AppClient
   public readonly user: UserClient
 
-  constructor(baseURL: string, token?: string) {
-    this.admin = new AdminClient(baseURL, token)
-    this.app = new AppClient(baseURL, token)
-    this.user = new UserClient(baseURL, token)
+  constructor(baseURL: string) {
+    this.admin = new AdminClient(baseURL)
+    this.app = new AppClient(baseURL)
+    this.user = new UserClient(baseURL)
   }
 }

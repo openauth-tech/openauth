@@ -3,10 +3,10 @@ import { NavLink } from 'react-router-dom'
 
 import ImgLogo from '@/assets/images/common/logo.png'
 import { NavButton } from '@/components/common/NavButton'
-import { useAppState } from '@/store/app'
+import { useAdmin } from '@/context/admin'
 
 export const Header = () => {
-  const { username } = useAppState()
+  const { username } = useAdmin()
   return (
     <header className="w-full">
       <div className="container mx-auto flex py-4 items-center justify-between mx-auto lt-sm:px-4">

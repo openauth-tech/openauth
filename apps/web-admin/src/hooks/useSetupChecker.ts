@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useHttpClient } from '@/hooks/useHttpClient'
+import { useAdmin } from '@/context/admin'
 
 export function useSetupChecker() {
   const nav = useNavigate()
@@ -20,10 +20,10 @@ export function useSetupChecker() {
 }
 
 export function useQueryAdminConfig() {
-  const http = useHttpClient()
+  const { client } = useAdmin()
 
   return useQuery<{ initialized: boolean }>({
     queryKey: ['getAdminConfig'],
-    queryFn: () => http.get('/config/admin').then((res: any) => res.data),
+    queryFn: () => client.admin.getConfig(),
   })
 }

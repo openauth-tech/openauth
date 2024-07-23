@@ -5,7 +5,7 @@ import { OpenAuthContext } from '../context/OpenAuthContext'
 import { getEthereumProvider } from '../utils/getProvider'
 
 export function useLogInWithEthereum() {
-  const { config, globalConfig, setToken, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
   const [loading, setLoading] = useState(false)
 
   const connect = useCallback(async () => {
@@ -24,12 +24,12 @@ export function useLogInWithEthereum() {
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
       const data = await client.user.loginWithEthereum({ appId: config.appId, ethAddress: address, signature })
-      setToken(data.token)
+      await logIn(data.token)
     } catch (error) {
       console.error(error)
     }
     setLoading(false)
-  }, [client.app, config.appId, globalConfig, setToken])
+  }, [client.app, config.appId, globalConfig])
 
   return {
     connect,

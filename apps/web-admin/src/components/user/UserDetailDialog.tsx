@@ -3,17 +3,15 @@ import { useParams } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export function UserDetailDialog({ user, onClose }: { user: any; onClose: any }) {
-  const { id } = useParams()
-  const { authClient } = useAuth()
+  const { id = '' } = useParams()
+  const { client } = useAdmin()
 
   const { data: referral } = useQuery({
-    queryKey: ['get-user-referral', id, user?.id],
-    queryFn: async () => {
-      return await authClient?.admin.getUserReferral(id!, user?.id)
-    },
+    queryKey: ['getUserReferral', id, user?.id],
+    queryFn: async () => client.app.getUserReferral(user?.id),
     enabled: !!user,
   })
 

@@ -5,19 +5,17 @@ import { useCopyToClipboard } from 'usehooks-ts'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
-  const { id } = useParams()
-  const { authClient, isAuthorized } = useAuth()
+  const { id = '' } = useParams()
+  const { client } = useAdmin()
   const [copiedText, copy] = useCopyToClipboard()
 
   const { data: secretData } = useQuery({
-    queryKey: ['get-api-key', id],
-    queryFn: async () => {
-      return await authClient?.admin.getSecret(id!)
-    },
-    enabled: isAuthorized,
+    queryKey: ['getAppSecret', id],
+    queryFn: () => client.admin.getAppSecret(id),
+    enabled: client.admin.isAuthorized(),
   })
 
   const [showKey, setShowKey] = useState(false)

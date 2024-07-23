@@ -3,16 +3,14 @@ import { useParams } from 'react-router-dom'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
-import { useAuth } from '@/context/ProviderAuth'
+import { useAdmin } from '@/context/admin'
 
 export default function () {
-  const { authClient } = useAuth()
-  const { id } = useParams()
+  const { client } = useAdmin()
+  const { id = '' } = useParams()
   const { data } = useQuery({
-    queryKey: ['app', 'branding', 'logoUrl'],
-    queryFn: async () => {
-      return await authClient?.admin.getApp(id!)
-    },
+    queryKey: ['getApp', id],
+    queryFn: async () => client.admin.getApp(id),
   })
 
   useEffect(() => {
@@ -28,7 +26,7 @@ export default function () {
   const [description, setDescription] = useState('')
   const changeMu = useMutation({
     mutationFn: async ({ logoUrl, name, description }: { logoUrl: string; name: string; description: string }) => {
-      await authClient?.admin.updateApp(id!, { logoUrl, name, description })
+      await client.admin.updateApp(id!, { logoUrl, name, description })
     },
   })
   const changeHandler = useCallback(async () => {

@@ -1,5 +1,4 @@
 import { GlobalConfig, OpenAuthClient, User } from '@open-auth/sdk-core'
-import { Dispatch, SetStateAction } from 'react'
 
 export interface IOpenAuthConfig {
   appId: string
@@ -12,11 +11,9 @@ export interface IOpenAuthContext {
   client: OpenAuthClient
 
   globalConfig?: GlobalConfig
-  setGlobalConfig: Dispatch<SetStateAction<GlobalConfig | undefined>>
-
   token?: string
-  setToken: Dispatch<SetStateAction<string | undefined>>
-
   profile?: User
-  setProfile: Dispatch<SetStateAction<User | undefined>>
+
+  logIn: (token: string) => Promise<void>
+  logOut: () => void
 }
