@@ -1,11 +1,11 @@
+import { Type } from '@fastify/type-provider-typebox'
+import { TypeGoogleLogin, TypeLoginResponse } from '@open-auth/sdk-core'
 import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
-import { findOrCreateUser } from '../../repositories/user'
-import { verifyGoogle } from '../../utils/auth'
-import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { JwtPayload } from '../../models/request'
-import { TypeGoogleLogin, TypeLoginResponse } from '@open-auth/sdk-core'
+import { findOrCreateUser } from '../../repositories/user'
+import { createJwtPayload, verifyGoogle } from '../../utils/auth'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['User'],
@@ -31,7 +31,13 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, email })
-  const jwtPayload: JwtPayload = { userId: user.id, appId }
+
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app) {
+    return reply.status(400).send({ message: 'App not found' })
+  }
+
+  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtExpireSeconds)
   const jwtToken = await reply.jwtSign(jwtPayload)
   reply.status(200).send({ data: { token: jwtToken } })
 }

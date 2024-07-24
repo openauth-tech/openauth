@@ -1,10 +1,10 @@
-import { OPENAUTH_ENDPOINT, PASSWORD, USERNAME } from './constants'
 import { OpenAuthClient } from '@open-auth/sdk-core'
-import assert from 'assert'
 import { Keypair } from '@solana/web3.js'
-import { decodeUTF8 } from 'tweetnacl-util'
-import nacl from 'tweetnacl'
+import assert from 'assert'
 import { encodeBase58 } from 'ethers'
+import nacl from 'tweetnacl'
+import { decodeUTF8 } from 'tweetnacl-util'
+import { OPENAUTH_ENDPOINT, PASSWORD, USERNAME } from './constants'
 import { loginNewUserETH } from './helper'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)

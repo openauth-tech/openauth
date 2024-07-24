@@ -1,11 +1,10 @@
+import { Type } from '@fastify/type-provider-typebox'
+import { TypeLoginResponse, TypeSolanaLogin } from '@open-auth/sdk-core'
 import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
-import { findOrCreateUser } from '../../repositories/user'
-import { verifySOL } from '../../utils/auth'
-import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { JwtPayload } from '../../models/request'
-import { TypeLoginResponse, TypeSolanaLogin } from '@open-auth/sdk-core'
+import { findOrCreateUser } from '../../repositories/user'
+import { createJwtPayload, verifySOL } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 
 const schema = {
@@ -28,7 +27,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, solAddress })
-  const jwtPayload: JwtPayload = { userId: user.id, appId }
+  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtExpireSeconds)
   const token = await reply.jwtSign(jwtPayload)
   reply.status(200).send({ data: { token } })
 }

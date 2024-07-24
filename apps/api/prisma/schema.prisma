@@ -27,10 +27,11 @@ model App {
   updatedAt DateTime @updatedAt
   isDeleted Boolean  @default(false)
 
-  name        String  @unique
-  description String?
-  logoUrl     String?
-  secret      String? @unique
+  name             String  @unique
+  description      String?
+  logoUrl          String?
+  secret           String? @unique
+  jwtExpireSeconds Int     @default(0)
 
   emailEnabled   Boolean @default(false)
   googleEnabled  Boolean @default(false)

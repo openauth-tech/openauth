@@ -3,11 +3,17 @@ export async function sleep(duration: number) {
 }
 
 export function generateReferCode(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let referCode = ''
-  for (let i = 0; i < 8; i++) {
+  return generateRandomString(8, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+}
+
+export function generateRandomString(
+  length: number,
+  chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+) {
+  let result = ''
+  for (let i = 0; i < length; i++) {
     const randomIndex = Math.floor(Math.random() * chars.length)
-    referCode += chars[randomIndex]
+    result += chars[randomIndex]
   }
-  return referCode
+  return result
 }
