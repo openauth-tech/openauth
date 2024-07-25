@@ -122,9 +122,6 @@ importers:
       tweetnacl:
         specifier: ^1.0.3
         version: 1.0.3
-      tweetnacl-util:
-        specifier: ^0.15.1
-        version: 0.15.1
       viem:
         specifier: ^2.9.12
         version: 2.16.5(bufferutil@4.0.8)(typescript@5.5.2)(utf-8-validate@5.0.10)
@@ -186,37 +183,6 @@ importers:
       typescript:
         specifier: ^5.4.2
         version: 5.5.2
-
-  apps/test-e2e:
-    dependencies:
-      ethers:
-        specifier: ^6.10.0
-        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      tweetnacl:
-        specifier: ^1.0.3
-        version: 1.0.3
-      tweetnacl-util:
-        specifier: ^0.15.1
-        version: 0.15.1
-    devDependencies:
-      '@open-auth/sdk-core':
-        specifier: workspace:*
-        version: link:../../packages/sdk-core
-      '@solana/web3.js':
-        specifier: 1.94.0
-        version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
-      '@types/mocha':
-        specifier: ^10.0.7
-        version: 10.0.7
-      '@types/node':
-        specifier: ^18.6.1
-        version: 18.19.39
-      axios:
-        specifier: ^1.6.8
-        version: 1.7.2
-      mocha:
-        specifier: ^10.5.2
-        version: 10.5.2
 
   apps/web-admin:
     dependencies:
@@ -709,9 +675,27 @@ importers:
         specifier: 1.7.2
         version: 1.7.2
     devDependencies:
+      '@solana/web3.js':
+        specifier: 1.94.0
+        version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@types/mocha':
+        specifier: ^10.0.7
+        version: 10.0.7
+      '@types/node':
+        specifier: ^18.6.1
+        version: 18.19.39
+      ethers:
+        specifier: ^6.13.1
+        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      mocha:
+        specifier: ^10.5.2
+        version: 10.5.2
       tsup:
         specifier: 8.1.0
         version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))(typescript@5.5.2)
+      tweetnacl:
+        specifier: ^1.0.3
+        version: 1.0.3
       typescript:
         specifier: ^5.5.2
         version: 5.5.2
@@ -7435,9 +7419,6 @@ packages:
   tuf-js@2.2.1:
     resolution: {integrity: sha512-GwIJau9XaA8nLVbUXsN3IlFi7WmQ48gBUrl3FTkkL/XLu/POhBzfmX9hd33FNMX1qAsfl6ozO1iMmW9NC8YniA==}
     engines: {node: ^16.14.0 || >=18.0.0}
-
-  tweetnacl-util@0.15.1:
-    resolution: {integrity: sha512-RKJBIj8lySrShN4w6i/BonWp2Z/uxwC3h4y7xsRrpP59ZboCd0GpEVsOnMDYLMmKBpYhb5TgHzZXy7wTfYFBRw==}
 
   tweetnacl@1.0.3:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
@@ -15997,8 +15978,6 @@ snapshots:
       make-fetch-happen: 13.0.1
     transitivePeerDependencies:
       - supports-color
-
-  tweetnacl-util@0.15.1: {}
 
   tweetnacl@1.0.3: {}
 

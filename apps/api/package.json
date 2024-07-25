@@ -60,7 +60,6 @@
     "prisma": "^5.13.0",
     "telegraf": "^4.16.3",
     "tweetnacl": "^1.0.3",
-    "tweetnacl-util": "^0.15.1",
     "viem": "^2.9.12"
   }
 }

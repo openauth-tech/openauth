@@ -1,5 +1,4 @@
 import { ethers } from 'ethers'
-import { decodeUTF8 } from 'tweetnacl-util'
 import nacl from 'tweetnacl'
 import base58 from 'bs58'
 import axios from 'axios'
@@ -21,7 +20,7 @@ export function verifyETH(appName: string, wallet: string, sig: string) {
 export function verifySOL(appName: string, wallet: string, sig: string) {
   try {
     const messageText = getMessageText(appName)
-    const messageBytes = decodeUTF8(messageText)
+    const messageBytes = new TextEncoder().encode(messageText)
     return nacl.sign.detached.verify(messageBytes, base58.decode(sig), base58.decode(wallet))
   } catch (e) {
     console.error(e)

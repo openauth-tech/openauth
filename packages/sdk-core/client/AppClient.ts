@@ -21,7 +21,7 @@ export class AppClient extends BaseClient {
           referCode: string | null
           username: string | null
         }
-      }>(`/app/users/`, data)
+      }>(`/app/users`, data)
     ).data.data
   }
   async listUsers(params: { page: number; limit: number }) {

@@ -1,25 +1,12 @@
-import { OPENAUTH_ENDPOINT, PASSWORD, USERNAME } from './constants'
-import { OpenAuthClient } from '@open-auth/sdk-core'
+import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
 import assert from 'assert'
+import { setupAdmin } from './lib/helper.ts'
+import { OpenAuthClient } from '../client'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
 describe('OpenAuth Admin API', () => {
-  before(async () => {
-    try {
-      await client.admin.setup({ username: USERNAME, password: PASSWORD })
-    } catch (error) {}
-
-    try {
-      const { token } = await client.admin.login({
-        username: USERNAME,
-        password: PASSWORD,
-      })
-      client.admin.updateToken(token)
-    } catch (error) {
-      console.error(error)
-    }
-  })
+  before(() => setupAdmin(client))
 
   it('Admin', async () => {
     const originAppCount = (await client.admin.listApps()).length
