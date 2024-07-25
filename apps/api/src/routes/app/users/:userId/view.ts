@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../../utils/prisma'
-import { TypePageParams, TypeUser } from '@open-auth/sdk-core'
+import { TypeUser } from '@open-auth/sdk-core'
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import { AppAuthPayload } from '../../../../models/request'
@@ -10,7 +10,6 @@ import { AppAuthPayload } from '../../../../models/request'
 const schema = {
   tags: ['App - Users'],
   summary: 'Get user',
-  querystring: TypePageParams,
   params: Type.Object({
     userId: Type.String(),
   }),
