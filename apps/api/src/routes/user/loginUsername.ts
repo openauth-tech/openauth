@@ -22,6 +22,10 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, username, password, isRegister } = request.body
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app) {
+    return reply.status(400).send({ message: 'App not found' })
+  }
 
   let user = await prisma.user.findFirst({ where: { appId, username } })
 
@@ -41,11 +45,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
         password: await bcrypt.hash(password, SALT_ROUNDS),
       },
     })
-  }
-
-  const app = await prisma.app.findUnique({ where: { id: appId } })
-  if (!app) {
-    return reply.status(400).send({ message: 'App not found' })
   }
 
   const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)

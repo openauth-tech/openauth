@@ -22,6 +22,10 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, email, token } = request.body
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app) {
+    return reply.status(400).send({ message: 'App not found' })
+  }
 
   if (!token) {
     return reply.status(400).send({ message: 'Missing signature' })
@@ -32,11 +36,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, email })
-
-  const app = await prisma.app.findUnique({ where: { id: appId } })
-  if (!app) {
-    return reply.status(400).send({ message: 'App not found' })
-  }
 
   const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
   const jwtToken = await reply.jwtSign(jwtPayload)

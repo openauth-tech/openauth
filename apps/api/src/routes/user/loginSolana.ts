@@ -23,7 +23,11 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, solAddress, signature } = request.body
   const app = await prisma.app.findUnique({ where: { id: appId } })
-  if (!app || !verifySOL(app.name, solAddress, signature)) {
+  if (!app) {
+    return reply.status(400).send({ message: 'App not found' })
+  }
+
+  if (!verifySOL(app.name, solAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid SOL signature' })
   }
 
