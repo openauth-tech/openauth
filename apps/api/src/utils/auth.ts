@@ -2,9 +2,12 @@ import { ethers } from 'ethers'
 import nacl from 'tweetnacl'
 import base58 from 'bs58'
 import axios from 'axios'
-import { getMessageText } from '../constants/common'
 
 export const SALT_ROUNDS = 10
+
+export function getMessageText(name: string) {
+  return `By signing, you are proving you own this wallet and logging in ${name}.`
+}
 
 export function verifyETH(appName: string, wallet: string, sig: string) {
   try {

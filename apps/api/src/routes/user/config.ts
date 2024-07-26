@@ -1,10 +1,11 @@
 import { FastifyInstance } from 'fastify'
-import { getMessageText, IS_PRODUCTION } from '../../constants/common'
+import { IS_PRODUCTION } from '../../constants/env'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { TypeGlobalConfig } from '@open-auth/sdk-core'
 import { prisma } from '../../utils/prisma'
 import { ERROR404_SCHEMA } from '../../constants/schema'
+import { getMessageText } from '../../utils/auth'
 
 const schema = {
   tags: ['User'],

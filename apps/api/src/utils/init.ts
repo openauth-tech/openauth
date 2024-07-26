@@ -1,4 +1,4 @@
-import { IS_PRODUCTION } from '../constants/common'
+import { IS_PRODUCTION } from '../constants/env'
 
 export function init() {
   // @ts-ignore

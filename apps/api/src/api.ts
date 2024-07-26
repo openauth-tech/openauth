@@ -1,7 +1,7 @@
 import Fastify from 'fastify'
 import jwt from '@fastify/jwt'
 import { prisma } from './utils/prisma'
-import { JWT_SECRET } from './constants/common'
+import { JWT_SECRET } from './constants/env'
 import { init } from './utils/init'
 import cors from '@fastify/cors'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'

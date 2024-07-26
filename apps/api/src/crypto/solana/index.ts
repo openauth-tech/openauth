@@ -1,6 +1,6 @@
 import { Keypair } from '@solana/web3.js'
 import * as crypto from 'node:crypto'
-import { WALLET_SEED_SALT } from '../../constants/common'
+import { WALLET_SEED_SALT } from '../../constants/env'
 
 export function getSolanaWallet(userId: string) {
   const seedStr = `${WALLET_SEED_SALT}_${userId}`
