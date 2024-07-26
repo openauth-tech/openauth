@@ -1,6 +1,7 @@
 export interface JwtPayload {
-  userId: string
   appId: string
+  userId: string
+  sessionId?: string
 }
 
 export interface AdminJwtPayload {

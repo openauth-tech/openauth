@@ -10,6 +10,7 @@ interface GridPatternProps {
   squares?: Array<[x: number, y: number]>
   strokeDasharray?: any
   className?: string
+
   [key: string]: any
 }
 

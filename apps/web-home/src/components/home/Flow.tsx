@@ -1,19 +1,7 @@
-import {
-  IconBrandGoogle,
-  IconBrandTwitter,
-  IconBrandX,
-  IconCurrencyBitcoin,
-  IconCurrencyEthereum,
-  IconCurrencySolana,
-  IconUser,
-} from '@tabler/icons-react'
+import { IconBrandGoogle, IconBrandX, IconCurrencyEthereum, IconCurrencySolana, IconUser } from '@tabler/icons-react'
 import React, { forwardRef, useRef } from 'react'
 
 import ImgKaiwa from '@/assets/images/common/logo.png'
-import ImgCommune from '@/assets/images/logo/commune.webp'
-import ImgEden from '@/assets/images/logo/eden.jpg'
-import ImgMosaic from '@/assets/images/logo/mosaic.jpg'
-import ImgScope from '@/assets/images/logo/scope.jpg'
 import { AnimatedBeam } from '@/components/magicui/animated-beam'
 import { cn } from '@/utils/css'
 

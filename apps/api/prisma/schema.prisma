@@ -31,6 +31,7 @@ model App {
   description String?
   logoUrl     String?
   secret      String? @unique
+  jwtTTL      Int     @default(0)
 
   emailEnabled   Boolean @default(false)
   googleEnabled  Boolean @default(false)

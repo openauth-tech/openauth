@@ -12,6 +12,15 @@ services:
         max-size: "200k"
         max-file: "10"
     restart: on-failure
+    depends_on:
+      - openauth-redis
+
+  openauth-redis:
+    image: redis:latest
+    container_name: openauth-redis
+    volumes:
+      - redis_data:/data
+    restart: on-failure
 
   openauth-prometheus:
     container_name: openauth-prometheus
@@ -54,6 +63,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=bjUbjqr88wMlPB3jL3MTWxSHIbDCoH
 
 volumes:
+  redis_data: { }
   prometheus_data: { }
   grafana_data: { }
   grafana_config: { }

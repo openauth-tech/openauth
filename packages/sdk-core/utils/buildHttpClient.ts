@@ -23,8 +23,8 @@ export function buildHttpClient(baseURL: string, token?: string) {
       }
       return res
     },
-    async ({ response }) => {
-      throw new Error(response?.data?.message ?? 'Unkown error')
+    async (error) => {
+      throw new Error(error.response?.data?.message ?? error.message ?? 'Unkown error')
     }
   )
 
