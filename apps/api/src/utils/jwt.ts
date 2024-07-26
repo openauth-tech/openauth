@@ -7,21 +7,15 @@ export async function validateSession(sessionId: string) {
   if (!jwtTTL) {
     return false
   }
-  if (jwtTTL === '0') {
-    await redis.set(sessionId, jwtTTL)
-  } else {
-    await redis.set(sessionId, jwtTTL, 'EX', jwtTTL)
-  }
 
+  await redis.set(sessionId, jwtTTL, 'EX', jwtTTL)
   return true
 }
 
 export async function createJwtPayload(userId: string, appId: string, jwtTTL: number): Promise<JwtPayload> {
-  const sessionId = randomUUID()
-  if (jwtTTL > 0) {
+  const sessionId = jwtTTL > 0 ? randomUUID() : undefined
+  if (sessionId) {
     await redis.set(sessionId, jwtTTL, 'EX', jwtTTL)
-  } else {
-    await redis.set(sessionId, jwtTTL)
   }
 
   return { userId, appId, sessionId }
