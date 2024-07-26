@@ -1,8 +1,7 @@
-import axios from 'axios'
-import base58 from 'bs58'
 import { ethers } from 'ethers'
 import nacl from 'tweetnacl'
-import { decodeUTF8 } from 'tweetnacl-util'
+import base58 from 'bs58'
+import axios from 'axios'
 import { getMessageText } from '../constants/common'
 import { JwtPayload } from '../models/request'
 import { generateRandomString } from './common'
@@ -24,7 +23,7 @@ export function verifyETH(appName: string, wallet: string, sig: string) {
 export function verifySOL(appName: string, wallet: string, sig: string) {
   try {
     const messageText = getMessageText(appName)
-    const messageBytes = decodeUTF8(messageText)
+    const messageBytes = new TextEncoder().encode(messageText)
     return nacl.sign.detached.verify(messageBytes, base58.decode(sig), base58.decode(wallet))
   } catch (e) {
     console.error(e)

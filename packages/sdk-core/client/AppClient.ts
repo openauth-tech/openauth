@@ -21,7 +21,7 @@ export class AppClient extends BaseClient {
           referCode: string | null
           username: string | null
         }
-      }>(`/app/users/`, data)
+      }>(`/app/users`, data)
     ).data.data
   }
   async listUsers(params: { page: number; limit: number }) {
@@ -52,7 +52,7 @@ export class AppClient extends BaseClient {
       }>(`/app/users/${userId}/referral`)
     ).data.data
   }
-  async getUser(userId: string, params: { page: number; limit: number }) {
+  async getUser(userId: string) {
     return (
       await this.http.get<{
         data: {
@@ -66,7 +66,7 @@ export class AppClient extends BaseClient {
           referCode: string | null
           username: string | null
         }
-      }>(`/app/users/${userId}`, { params })
+      }>(`/app/users/${userId}`)
     ).data.data
   }
 }
