@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <link rel="icon" type="image/png" href="/logo.png"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>OpenAuth</title>
-    <meta name="description"
-          content="OpenAuth is an open-source solution to add web2 and web3 authentication to your applications.">
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
-            rel="stylesheet">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TK78ZYXWGV"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+  <meta charset="UTF-8" />
+  <link href="/logo.png" rel="icon" type="image/png" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>OpenAuth</title>
+  <meta content="OpenAuth is an open-source solution to add web2 and web3 authentication to your applications."
+        name="description">
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TK78ZYXWGV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || []
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+    function gtag() {
+      dataLayer.push(arguments)
+    }
 
-        gtag('js', new Date());
+    gtag('js', new Date())
 
-        gtag('config', 'G-TK78ZYXWGV');
-    </script>
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    gtag('config', 'G-TK78ZYXWGV')
+  </script>
+  <script async src="https://accounts.google.com/gsi/client"></script>
 </head>
 <body>
 <div id="root"></div>
-<script type="module" src="/src/polyfill.ts"></script>
-<script type="module" src="/src/main.tsx"></script>
+<script src="/src/polyfill.ts" type="module"></script>
+<script src="/src/main.tsx" type="module"></script>
 </body>
 </html>
