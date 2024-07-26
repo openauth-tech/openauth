@@ -29,8 +29,8 @@ export class UserClient extends BaseClient {
           apple: string | null
           ethAddress: string | null
           solAddress: string | null
-          referCode: string | null
           username: string | null
+          referCode: string
         }
       }>(`/user/profile`)
     ).data.data

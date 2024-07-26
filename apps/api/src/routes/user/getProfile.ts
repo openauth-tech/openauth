@@ -6,7 +6,6 @@ import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
 import { TypeUser } from '@open-auth/sdk-core'
-import { generateReferCode } from '../../utils/common'
 
 const schema = {
   tags: ['User'],
@@ -31,14 +30,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 
   if (!user) {
     return reply.status(404).send({ message: 'User not found' })
-  }
-
-  if (!user.referCode) {
-    const referCode = generateReferCode()
-    user = await prisma.user.update({
-      where: { id: userId },
-      data: { referCode },
-    })
   }
 
   reply.status(200).send({

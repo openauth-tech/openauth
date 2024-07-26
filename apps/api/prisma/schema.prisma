@@ -61,7 +61,7 @@ model User {
   username   String?
   password   String?
 
-  referCode  String?
+  referCode  String
   referChain String?
 
   appId String

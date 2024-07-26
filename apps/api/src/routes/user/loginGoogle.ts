@@ -35,7 +35,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid Google access token' })
   }
 
-  const user = await findOrCreateUser({ appId, email })
+  const user = await findOrCreateUser({ appId, google: email })
 
   const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
   const jwtToken = await reply.jwtSign(jwtPayload)

@@ -1,9 +1,11 @@
 import { prisma } from '../utils/prisma'
 import bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from '../utils/auth'
+import { generateReferCode } from '../utils/common'
 
 export async function findOrCreateUser({
   appId,
+  google,
   email,
   ethAddress,
   solAddress,
@@ -12,22 +14,24 @@ export async function findOrCreateUser({
 }: {
   appId: string
   email?: string
+  google?: string
   ethAddress?: string
   solAddress?: string
   username?: string
   password?: string
 }) {
-  if (!email && !ethAddress && !solAddress && !username) {
+  if (!email && !google && !ethAddress && !solAddress && !username) {
     throw new Error('Missing required fields')
   }
 
   const user = await prisma.user.findFirst({
     where: {
       appId,
-      email,
+      google,
       ethAddress,
       solAddress,
       username,
+      email,
     },
   })
   if (user) {
@@ -42,6 +46,7 @@ export async function findOrCreateUser({
       data: {
         appId,
         username,
+        referCode: generateReferCode(),
         password: await bcrypt.hash(password, SALT_ROUNDS),
       },
     })
@@ -50,9 +55,11 @@ export async function findOrCreateUser({
   return prisma.user.create({
     data: {
       appId,
+      google,
       email,
       ethAddress,
       solAddress,
+      referCode: generateReferCode(),
     },
   })
 }

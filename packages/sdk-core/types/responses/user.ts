@@ -9,8 +9,8 @@ export const TypeUser = Type.Object({
   apple: Nullable(Type.String()),
   ethAddress: Nullable(Type.String()),
   solAddress: Nullable(Type.String()),
-  referCode: Nullable(Type.String()),
   username: Nullable(Type.String()),
+  referCode: Type.String(),
 })
 
 export type User = Static<typeof TypeUser>

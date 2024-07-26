@@ -18,8 +18,8 @@ export class AppClient extends BaseClient {
           apple: string | null
           ethAddress: string | null
           solAddress: string | null
-          referCode: string | null
           username: string | null
+          referCode: string
         }
       }>(`/app/users`, data)
     ).data.data
@@ -35,8 +35,8 @@ export class AppClient extends BaseClient {
           apple: string | null
           ethAddress: string | null
           solAddress: string | null
-          referCode: string | null
           username: string | null
+          referCode: string
         }[]
         meta: { totalItems: number; totalPages: number }
       }>(`/app/users`, { params })
@@ -66,8 +66,8 @@ export class AppClient extends BaseClient {
           apple: string | null
           ethAddress: string | null
           solAddress: string | null
-          referCode: string | null
           username: string | null
+          referCode: string
         }
       }>(`/app/users/${userId}`)
     ).data.data

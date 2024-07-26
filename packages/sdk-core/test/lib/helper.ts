@@ -1,5 +1,5 @@
 import { encodeBase58, ethers } from 'ethers'
-import { APP_NAME, PASSWORD, USERNAME } from './constants.ts'
+import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD } from './constants.ts'
 import { OpenAuthClient } from '../../client'
 import { App } from '../../types'
 import { Keypair } from '@solana/web3.js'
@@ -31,6 +31,13 @@ export async function logInNewSolanaUser(client: OpenAuthClient, appId: string) 
   return { solAddress, signature }
 }
 
+export async function logInUsernameUser(client: OpenAuthClient, appId: string, username?: string, password?: string) {
+  const userData = { username: username ?? MOCK_USERNAME, password: password ?? MOCK_PASSWORD }
+  const { token } = await client.user.logInWithUsername({ appId, ...userData })
+  client.user.updateToken(token)
+  return userData
+}
+
 export async function bindSolanaUser(client: OpenAuthClient, appId: string, solanaKeypair: Keypair) {
   const { message } = await client.user.getConfig({ appId })
   const messageBytes = new TextEncoder().encode(message)
@@ -45,21 +52,22 @@ export async function bindSolanaUser(client: OpenAuthClient, appId: string, sola
 // admin
 export async function setupAdmin(client: OpenAuthClient) {
   try {
-    await client.admin.setup({ username: USERNAME, password: PASSWORD })
+    await client.admin.setup({ username: MOCK_USERNAME, password: PASSWORD })
   } catch (error) {}
 
   const { token } = await client.admin.login({
-    username: USERNAME,
+    username: MOCK_USERNAME,
     password: PASSWORD,
   })
   client.admin.updateToken(token)
 }
 
+// mock data
 export async function getTestApp(client: OpenAuthClient): Promise<App> {
   const apps = await client.admin.listApps()
-  const app = apps.find((i) => i.name === APP_NAME)
+  const app = apps.find((i) => i.name === MOCK_APP_NAME)
   if (app) {
     return app
   }
-  return client.admin.createApp({ name: APP_NAME })
+  return client.admin.createApp({ name: MOCK_APP_NAME })
 }
