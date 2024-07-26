@@ -3,9 +3,6 @@ import nacl from 'tweetnacl'
 import base58 from 'bs58'
 import axios from 'axios'
 import { getMessageText } from '../constants/common'
-import { JwtPayload } from '../models/request'
-import { generateRandomString } from './common'
-import { redis } from './redis'
 
 export const SALT_ROUNDS = 10
 
@@ -43,30 +40,4 @@ export async function verifyGoogle(email: string, token: string) {
     console.error(e)
     return false
   }
-}
-
-export async function checkSessionId(sessionId: string, jwtExpireSeconds: number) {
-  if (await redis.exists(sessionId)) {
-    await redis.set(sessionId, '', 'EX', jwtExpireSeconds)
-    return true
-  }
-  return false
-}
-
-export async function generateSessionId(jwtExpireSeconds: number) {
-  if (jwtExpireSeconds > 0) {
-    const sessionId = generateRandomString(20)
-    await redis.set(sessionId, '', 'EX', jwtExpireSeconds)
-    return sessionId
-  }
-}
-
-export async function createJwtPayload(userId: string, appId: string, jwtExpireSeconds: number) {
-  const payload: JwtPayload = { userId, appId }
-
-  if (jwtExpireSeconds > 0) {
-    payload.sessionId = await generateSessionId(jwtExpireSeconds)
-  }
-
-  return payload
 }

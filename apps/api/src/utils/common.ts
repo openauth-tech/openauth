@@ -6,7 +6,7 @@ export function generateReferCode(): string {
   return generateRandomString(8, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
 }
 
-export function generateRandomString(
+function generateRandomString(
   length: number,
   chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 ) {

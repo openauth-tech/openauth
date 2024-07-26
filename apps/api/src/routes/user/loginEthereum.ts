@@ -4,8 +4,9 @@ import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { findOrCreateUser } from '../../repositories/user'
-import { createJwtPayload, verifyETH } from '../../utils/auth'
+import { verifyETH } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { createJwtPayload } from '../../utils/jwt'
 
 const schema = {
   tags: ['User'],
@@ -28,7 +29,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, ethAddress })
-  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtExpireSeconds)
+  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
   const token = await reply.jwtSign(jwtPayload)
   reply.status(200).send({ data: { token } })
 }

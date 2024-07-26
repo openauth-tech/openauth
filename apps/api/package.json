@@ -43,7 +43,6 @@
     "@open-auth/sdk-core": "workspace:*",
     "@prisma/client": "^5.13.0",
     "@sinclair/typebox": "^0.32.34",
-    "@types/ioredis": "5.0.0",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "bignumber.js": "^9.1.2",
