@@ -1,5 +1,5 @@
 import { encodeBase58, ethers } from 'ethers'
-import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD } from './constants.ts'
+import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants.ts'
 import { OpenAuthClient } from '../../client'
 import { App } from '../../types'
 import { Keypair } from '@solana/web3.js'
@@ -52,11 +52,11 @@ export async function bindSolanaUser(client: OpenAuthClient, appId: string, sola
 // admin
 export async function setupAdmin(client: OpenAuthClient) {
   try {
-    await client.admin.setup({ username: MOCK_USERNAME, password: PASSWORD })
+    await client.admin.setup({ username: USERNAME, password: PASSWORD })
   } catch (error) {}
 
   const { token } = await client.admin.login({
-    username: MOCK_USERNAME,
+    username: USERNAME,
     password: PASSWORD,
   })
   client.admin.updateToken(token)
