@@ -71,6 +71,9 @@ importers:
       '@sinclair/typebox':
         specifier: ^0.32.34
         version: 0.32.34
+      '@solana/web3.js':
+        specifier: 1.94.0
+        version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       axios:
         specifier: ^1.6.8
         version: 1.7.2
