@@ -63,8 +63,9 @@ jobs:
         uses: appleboy/ssh-action@master
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          WALLET_SEED_SALT: ${{ secrets.WALLET_SEED_SALT }}
         with:
-          envs: DATABASE_URL
+          envs: DATABASE_URL,WALLET_SEED_SALT
           host: 20.212.6.4
           port: 2222
           username: why

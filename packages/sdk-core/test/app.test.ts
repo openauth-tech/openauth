@@ -26,5 +26,9 @@ describe('OpenAuth App API', () => {
     const user = data[0]
     const userDetail = await client.app.getUser(user.id)
     assert.equal(userDetail.id, user.id)
+
+    // wallets
+    const wallets = await client.app.getWallets(user.id)
+    assert(wallets.solWallet.length > 0)
   })
 })

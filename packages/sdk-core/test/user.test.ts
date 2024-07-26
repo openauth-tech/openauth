@@ -64,6 +64,8 @@ describe('OpenAuth User API', () => {
 
   it('Login with username & update password', async () => {
     const { id: appId } = await client.admin.createApp({ name: 'test_app1_' + new Date().getTime() })
+    const { secret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(secret)
 
     // login with username
     const userData = {
@@ -87,5 +89,9 @@ describe('OpenAuth User API', () => {
       password: '234567',
     })
     assert(token2)
+
+    // wallets
+    const wallets = await client.user.getWallets()
+    assert(wallets.solWallet.length > 0)
   })
 })

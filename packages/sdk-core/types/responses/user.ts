@@ -14,3 +14,9 @@ export const TypeUser = Type.Object({
 })
 
 export type User = Static<typeof TypeUser>
+
+export const TypeUserWallets = Type.Object({
+  solWallet: Type.String(),
+})
+
+export type UserWallets = Static<typeof TypeUserWallets>

@@ -4,6 +4,7 @@ services:
     image: callmewhy/openauth-api:latest
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - WALLET_SEED_SALT=${WALLET_SEED_SALT}
     ports:
       - 5566:5566
     logging:

@@ -52,6 +52,9 @@ export class AppClient extends BaseClient {
       }>(`/app/users/${userId}/referral`)
     ).data.data
   }
+  async getWallets(userId: string) {
+    return (await this.http.get<{ data: { solWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
+  }
   async getUser(userId: string) {
     return (
       await this.http.get<{

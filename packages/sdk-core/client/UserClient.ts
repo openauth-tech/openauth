@@ -50,4 +50,7 @@ export class UserClient extends BaseClient {
   async updatePassword(data: { oldPassword: string; newPassword: string }) {
     return (await this.http.post<{ data: {} }>(`/user/update-password`, data)).data.data
   }
+  async getWallets() {
+    return (await this.http.get<{ data: { solWallet: string } }>(`/user/wallet/profile`)).data.data
+  }
 }
