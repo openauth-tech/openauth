@@ -22,7 +22,7 @@ export async function findOrCreateUser({
   username?: string
   password?: string
 }) {
-  if (!email && !google && !ethAddress && !solAddress && !username) {
+  if (!email && !google && !ethAddress && !solAddress && !username && !telegram) {
     throw new Error('Missing required fields')
   }
 
