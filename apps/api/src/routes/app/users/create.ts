@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { TypeAdminCreateUser, TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
-import { findOrCreateUser } from '../../../repositories/user'
+import { findOrCreateUser } from '../../../repositories/findOrCreateUser'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyApp } from '../../../handlers/verifyApp'
 import { AppAuthPayload } from '../../../models/request'
@@ -20,8 +20,8 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
-  const { email, ethAddress, solAddress, username, password } = request.body
-  const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password })
+  const { email, ethAddress, solAddress, username, password, telegram } = request.body
+  const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password, telegram })
   reply.status(200).send({
     data: user,
   })

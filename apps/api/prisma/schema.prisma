@@ -56,6 +56,7 @@ model User {
   google     String?
   twitter    String?
   apple      String?
+  telegram   String?
   ethAddress String?
   solAddress String?
   username   String?
@@ -71,6 +72,7 @@ model User {
   @@unique([appId, email])
   @@unique([appId, google])
   @@unique([appId, twitter])
+  @@unique([appId, telegram])
   @@unique([appId, apple])
   @@unique([appId, ethAddress])
   @@unique([appId, solAddress])

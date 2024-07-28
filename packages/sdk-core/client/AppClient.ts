@@ -2,9 +2,10 @@ import { BaseClient } from './BaseClient.ts'
 
 export class AppClient extends BaseClient {
   async createUser(data: {
+    email?: string
+    telegram?: string
     ethAddress?: string
     solAddress?: string
-    email?: string
     username?: string
     password?: string
   }) {
@@ -16,6 +17,7 @@ export class AppClient extends BaseClient {
           google: string | null
           twitter: string | null
           apple: string | null
+          telegram: string | null
           ethAddress: string | null
           solAddress: string | null
           username: string | null
@@ -33,6 +35,7 @@ export class AppClient extends BaseClient {
           google: string | null
           twitter: string | null
           apple: string | null
+          telegram: string | null
           ethAddress: string | null
           solAddress: string | null
           username: string | null
@@ -64,6 +67,7 @@ export class AppClient extends BaseClient {
           google: string | null
           twitter: string | null
           apple: string | null
+          telegram: string | null
           ethAddress: string | null
           solAddress: string | null
           username: string | null

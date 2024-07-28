@@ -27,6 +27,7 @@ export class UserClient extends BaseClient {
           google: string | null
           twitter: string | null
           apple: string | null
+          telegram: string | null
           ethAddress: string | null
           solAddress: string | null
           username: string | null

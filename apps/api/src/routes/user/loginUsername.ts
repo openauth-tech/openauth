@@ -5,7 +5,7 @@ import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { prisma } from '../../utils/prisma'
 import { createJwtPayload } from '../../utils/jwt'
-import { findOrCreateUser } from '../../repositories/user'
+import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import bcrypt from 'bcrypt'
 
 const schema = {

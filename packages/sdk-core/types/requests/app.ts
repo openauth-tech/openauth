@@ -20,9 +20,10 @@ export const TypeUpdateApp = Type.Object({
 export type UpdateApp = Static<typeof TypeUpdateApp>
 
 export const TypeAdminCreateUser = Type.Object({
+  email: Type.Optional(Type.String()),
+  telegram: Type.Optional(Type.String()),
   ethAddress: Type.Optional(Type.String()),
   solAddress: Type.Optional(Type.String()),
-  email: Type.Optional(Type.String()),
   username: Type.Optional(Type.String()),
   password: Type.Optional(Type.String()),
 })

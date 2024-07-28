@@ -33,9 +33,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!data) {
     return reply.status(404).send({ message: 'User not found' })
   }
-  reply.status(200).send({
-    data,
-  })
+  reply.status(200).send({ data })
 }
 
 export default async function (fastify: FastifyInstance) {

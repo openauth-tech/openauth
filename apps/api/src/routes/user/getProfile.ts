@@ -24,27 +24,15 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
 
-  let user = await prisma.user.findUnique({
+  const data = await prisma.user.findUnique({
     where: { id: userId },
   })
 
-  if (!user) {
+  if (!data) {
     return reply.status(404).send({ message: 'User not found' })
   }
 
-  reply.status(200).send({
-    data: {
-      id: user.id,
-      email: user.email,
-      google: user.google,
-      twitter: user.twitter,
-      referCode: user.referCode,
-      apple: user.apple,
-      ethAddress: user.ethAddress,
-      solAddress: user.solAddress,
-      username: user.username,
-    },
-  })
+  reply.status(200).send({ data })
 }
 
 export default async function (fastify: FastifyInstance) {

@@ -7,14 +7,16 @@ export async function findOrCreateUser({
   appId,
   google,
   email,
+  telegram,
   ethAddress,
   solAddress,
   username,
   password,
 }: {
   appId: string
-  email?: string
   google?: string
+  email?: string
+  telegram?: string
   ethAddress?: string
   solAddress?: string
   username?: string
@@ -57,6 +59,7 @@ export async function findOrCreateUser({
       appId,
       google,
       email,
+      telegram,
       ethAddress,
       solAddress,
       referCode: generateReferCode(),
