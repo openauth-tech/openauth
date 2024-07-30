@@ -51,6 +51,7 @@ model User {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
+  referCode  String
 
   email      String?
   google     String?
@@ -61,9 +62,6 @@ model User {
   solAddress String?
   username   String?
   password   String?
-
-  referCode  String
-  referChain String?
 
   appId String
   app   App    @relation(fields: [appId], references: [id])

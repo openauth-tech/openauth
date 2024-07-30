@@ -64,11 +64,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     },
   })
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: { referChain: referrer.referChain ? `${referrer.referChain},${referrer.id}` : referrer.id },
-  })
-
   reply.status(200).send({ data: {} })
 }
 
