@@ -58,6 +58,9 @@ export class AppClient extends BaseClient {
   async getWallets(userId: string) {
     return (await this.http.get<{ data: { solWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
   }
+  async setReferrer(userId: string, data: { referCode: string }) {
+    return (await this.http.post<{ data: {} }>(`/app/users/${userId}/bind-referrer`, data)).data.data
+  }
   async getUser(userId: string) {
     return (
       await this.http.get<{

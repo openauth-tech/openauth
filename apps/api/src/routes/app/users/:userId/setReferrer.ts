@@ -1,14 +1,17 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../../utils/prisma'
+import { prisma } from '../../../../utils/prisma'
 import { Type } from '@fastify/type-provider-typebox'
-import { ERROR401_SCHEMA } from '../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { verifyUser } from '../../handlers/verifyUser'
-import { JwtPayload } from '../../models/request'
+import { ERROR401_SCHEMA } from '../../../../constants/schema'
+import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { verifyUser } from '../../../../handlers/verifyUser'
+import { AppAuthPayload } from '../../../../models/request'
 
 const schema = {
-  tags: ['User'],
-  summary: 'Bind referrer',
+  tags: ['App - Users'],
+  summary: 'Set referrer',
+  params: Type.Object({
+    userId: Type.String(),
+  }),
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -24,7 +27,8 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId, appId } = request.user as JwtPayload
+  const { appId } = request.user as AppAuthPayload
+  const { userId } = request.params
   const { referCode } = request.body
 
   const user = await prisma.user.findUnique({
@@ -43,9 +47,13 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'Referrer not found' })
   }
 
-  const referCount = await prisma.referral.count({ where: { referee: userId } })
-  if (referCount > 0) {
-    return reply.status(401).send({ message: 'You have already set referrer' })
+  const referral = await prisma.referral.findFirst({ where: { referee: userId } })
+  if (referral) {
+    if (referral.referrer === referrer.id) {
+      return reply.status(200).send({ data: {} })
+    } else {
+      return reply.status(401).send({ message: 'You have already set referrer' })
+    }
   }
 
   await prisma.referral.create({

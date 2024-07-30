@@ -7,9 +7,6 @@ export class UserClient extends BaseClient {
   async bindWithGoogle(data: { google: string; signature: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data.data
   }
-  async bindReferrer(data: { referCode: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/bind-referrer`, data)).data.data
-  }
   async bindWithSolana(data: { solAddress: string; signature: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-solana`, data)).data.data
   }
