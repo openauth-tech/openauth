@@ -30,10 +30,11 @@ export async function findOrCreateUser({
     where: {
       appId,
       google,
+      email,
+      telegram,
       ethAddress,
       solAddress,
       username,
-      email,
     },
   })
   if (user) {
