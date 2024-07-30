@@ -3,8 +3,8 @@ import { prisma } from '../../../../utils/prisma'
 import { Type } from '@fastify/type-provider-typebox'
 import { ERROR401_SCHEMA } from '../../../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
-import { verifyUser } from '../../../../handlers/verifyUser'
 import { AppAuthPayload } from '../../../../models/request'
+import { verifyApp } from '../../../../handlers/verifyApp'
 
 const schema = {
   tags: ['App - Users'],
@@ -76,7 +76,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
     url: '/bind-referrer',
-    onRequest: [verifyUser],
+    onRequest: [verifyApp],
     schema,
     handler,
   })

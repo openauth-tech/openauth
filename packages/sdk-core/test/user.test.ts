@@ -58,37 +58,6 @@ describe('OpenAuth User API', () => {
     await bindSolanaUser(client, appId, solanaKeypair)
   })
 
-  it('Referral', async () => {
-    const { id: appId } = await getTestApp(client)
-    const { secret } = await client.admin.getAppSecret(appId)
-    client.app.updateToken(secret)
-
-    // login solana
-    await logInNewSolanaUser(client, appId)
-    const { id: userId, referCode } = await client.user.getProfile()
-
-    // test referral1
-    let referCode1: string
-    {
-      await logInNewSolanaUser(client, appId)
-      await client.user.bindReferrer({ referCode })
-      const { referCode: code } = await client.user.getProfile()
-      assert(code !== null)
-      referCode1 = code
-    }
-
-    // test referral2
-    {
-      await logInNewSolanaUser(client, appId)
-      await client.user.bindReferrer({ referCode: referCode1 })
-    }
-
-    // verify referral chain
-    const referrals = await client.app.getUserReferral(userId)
-    assert.equal(referrals.referrals1.length, 1)
-    assert.equal(referrals.referrals2.length, 1)
-  })
-
   it('Wallets', async () => {
     const { id } = await getTestApp(client)
     await logInUsernameUser(client, id)

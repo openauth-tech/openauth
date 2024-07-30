@@ -1,6 +1,6 @@
 import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
 import { OpenAuthClient } from '../client'
-import { getTestApp, setupAdmin } from './lib/helper.ts'
+import { getTestApp, logInNewSolanaUser, setupAdmin } from './lib/helper.ts'
 import assert from 'assert'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
@@ -8,7 +8,7 @@ const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 describe('OpenAuth App API', () => {
   before(() => setupAdmin(client))
 
-  it('App', async () => {
+  it('User wallet profile', async () => {
     // init app
     const app = await getTestApp(client)
     const { secret } = await client.admin.getAppSecret(app.id)
@@ -30,5 +30,37 @@ describe('OpenAuth App API', () => {
     // wallet
     const wallets = await client.app.getWallets(user.id)
     assert(wallets.solWallet.length > 0)
+  })
+
+  it('Referral', async () => {
+    const { id: appId } = await getTestApp(client)
+    const { secret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(secret)
+
+    // login solana
+    await logInNewSolanaUser(client, appId)
+    const { id: userId, referCode } = await client.user.getProfile()
+
+    // test referral1
+    let referCode1: string
+    {
+      await logInNewSolanaUser(client, appId)
+      const { referCode: code, id } = await client.user.getProfile()
+      assert(code !== null)
+      referCode1 = code
+      await client.app.setReferrer(id, { referCode })
+    }
+
+    // test referral2
+    {
+      await logInNewSolanaUser(client, appId)
+      const { id } = await client.user.getProfile()
+      await client.app.setReferrer(id, { referCode: referCode1 })
+    }
+
+    // verify referral chain
+    const referrals = await client.app.getUserReferral(userId)
+    assert.equal(referrals.referrals1.length, 1)
+    assert.equal(referrals.referrals2.length, 1)
   })
 })
