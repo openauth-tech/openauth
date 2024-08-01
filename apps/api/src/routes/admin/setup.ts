@@ -5,12 +5,14 @@ import bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { ERROR403_SCHEMA } from '../../constants/schema'
-import { TypeCreateAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin'],
   summary: 'Setup',
-  body: TypeCreateAdmin,
+  body: Type.Object({
+    username: Type.String(),
+    password: Type.String(),
+  }),
   response: {
     200: Type.Object({
       data: Type.Object({}),

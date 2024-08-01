@@ -5,7 +5,7 @@ import { prisma } from '../../../utils/prisma'
 import bcrypt from 'bcrypt'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { SALT_ROUNDS } from '../../../utils/auth'
-import { TypeAdmin, TypeCreateAdmin } from '@open-auth/sdk-core'
+import { TypeAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Admins'],
@@ -13,7 +13,10 @@ const schema = {
   headers: Type.Object({
     Authorization: Type.String(),
   }),
-  body: TypeCreateAdmin,
+  body: Type.Object({
+    username: Type.String(),
+    password: Type.String(),
+  }),
   response: {
     201: Type.Object({
       data: TypeAdmin,

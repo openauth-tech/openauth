@@ -3,7 +3,6 @@ import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/t
 import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../../utils/prisma'
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
-import { TypeUpdateApp } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -14,7 +13,17 @@ const schema = {
   headers: Type.Object({
     Authorization: Type.String(),
   }),
-  body: TypeUpdateApp,
+  body: Type.Object({
+    name: Type.Optional(Type.String()),
+    description: Type.Optional(Type.String()),
+    logoUrl: Type.Optional(Type.String()),
+    emailEnabled: Type.Optional(Type.Boolean()),
+    googleEnabled: Type.Optional(Type.Boolean()),
+    twitterEnabled: Type.Optional(Type.Boolean()),
+    appleEnabled: Type.Optional(Type.Boolean()),
+    ethEnabled: Type.Optional(Type.Boolean()),
+    solEnabled: Type.Optional(Type.Boolean()),
+  }),
   response: {
     200: Type.Object({
       data: Type.Object({}),

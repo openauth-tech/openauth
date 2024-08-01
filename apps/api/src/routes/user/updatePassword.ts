@@ -7,7 +7,6 @@ import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
 import bcrypt from 'bcrypt'
 import { SALT_ROUNDS } from '../../utils/auth'
-import { TypeUpdatePassword } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['User'],
@@ -15,7 +14,10 @@ const schema = {
   headers: Type.Object({
     Authorization: Type.String(),
   }),
-  body: TypeUpdatePassword,
+  body: Type.Object({
+    oldPassword: Type.String(),
+    newPassword: Type.String(),
+  }),
   response: {
     200: Type.Object({
       data: Type.Object({}),

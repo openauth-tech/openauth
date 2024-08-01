@@ -5,12 +5,14 @@ import { prisma } from '../../utils/prisma'
 import bcrypt from 'bcrypt'
 import { ERROR401_SCHEMA } from '../../constants/schema'
 import { AdminJwtPayload } from '../../models/request'
-import { TypeCreateAdmin } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin'],
   summary: 'Login',
-  body: TypeCreateAdmin,
+  body: Type.Object({
+    username: Type.String(),
+    password: Type.String(),
+  }),
   response: {
     200: Type.Object({
       data: Type.Object({

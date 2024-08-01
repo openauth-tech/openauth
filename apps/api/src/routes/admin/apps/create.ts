@@ -4,7 +4,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../utils/prisma'
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
-import { TypeApp, TypeCreateApp } from '@open-auth/sdk-core'
+import { TypeApp } from '@open-auth/sdk-core'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -12,7 +12,9 @@ const schema = {
   headers: Type.Object({
     Authorization: Type.String(),
   }),
-  body: TypeCreateApp,
+  body: Type.Object({
+    name: Type.String(),
+  }),
   response: {
     201: Type.Object({
       data: TypeApp,
