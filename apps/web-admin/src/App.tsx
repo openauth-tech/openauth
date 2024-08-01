@@ -1,7 +1,9 @@
 import { useEffect } from 'react'
 import { useNavigate, useRoutes } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { Header } from '@/components/common/Header'
+import { useAdmin } from '@/context/admin'
 import { useSetupChecker } from '@/hooks/useSetupChecker'
 import routes from '~react-pages'
 
@@ -14,6 +16,18 @@ function Redirect({ to }: { to: string }) {
 }
 
 export default function App() {
+  const nav = useNavigate()
+  const { client, logOut } = useAdmin()
+  useEffect(() => {
+    client.admin.onError = async (error) => {
+      toast.error(error.message)
+      if (error.message === 'Unauthorized') {
+        logOut()
+        nav('/login')
+      }
+    }
+  }, [client, logOut, nav])
+
   useSetupChecker()
 
   return (

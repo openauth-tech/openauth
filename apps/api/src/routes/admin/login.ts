@@ -36,7 +36,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const payload: AdminJwtPayload = {
     adminId: user.id,
   }
-  const token = await reply.jwtSign(payload, { expiresIn: 3600 })
+  const token = await reply.jwtSign(payload, { expiresIn: 3600 * 24 })
   reply.status(200).send({
     data: {
       token,

@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-export function buildHttpClient(baseURL: string, token?: string) {
+export type ErrorHandler = (error: Error) => Promise<void>
+
+export function buildHttpClient(baseURL: string, token?: string, onError?: ErrorHandler) {
   const instance = axios.create({ baseURL })
 
   instance.interceptors.request.use(
@@ -18,13 +20,22 @@ export function buildHttpClient(baseURL: string, token?: string) {
   instance.interceptors.response.use(
     async (res) => {
       if (res.status >= 400) {
-        console.info(res)
-        throw new Error(res?.data?.message ?? 'Unkown error')
+        const error = new Error(res?.data?.message ?? 'Unkown error')
+        if (onError) {
+          await onError(error)
+        } else {
+          throw error
+        }
       }
       return res
     },
-    async (error) => {
-      throw new Error(error.response?.data?.message ?? error.message ?? 'Unkown error')
+    async (err) => {
+      const error = new Error(err.response?.data?.message ?? err.message ?? 'Unkown error')
+      if (onError) {
+        await onError(error)
+      } else {
+        throw error
+      }
     }
   )
 
