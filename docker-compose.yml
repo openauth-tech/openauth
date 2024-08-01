@@ -5,6 +5,7 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - WALLET_SEED_SALT=${WALLET_SEED_SALT}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
     ports:
       - 5566:5566
     logging:

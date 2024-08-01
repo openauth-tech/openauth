@@ -64,8 +64,9 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           WALLET_SEED_SALT: ${{ secrets.WALLET_SEED_SALT }}
+          JWT_PRIVATE_KEY: ${{ secrets.JWT_PRIVATE_KEY }}
         with:
-          envs: DATABASE_URL,WALLET_SEED_SALT
+          envs: DATABASE_URL,WALLET_SEED_SALT,JWT_PRIVATE_KEY
           host: 20.212.6.4
           port: 2222
           username: why
