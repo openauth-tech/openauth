@@ -8,4 +8,7 @@ export const WALLET_SEED_SALT = process.env.WALLET_SEED_SALT ?? ''
 if (!JWT_SECRET) {
   throw new Error('JWT_SECRET is not defined')
 }
+if (!WALLET_SEED_SALT) {
+  throw new Error('WALLET_SEED_SALT is not defined')
+}
 console.info(`IS_PRODUCTION: ${IS_PRODUCTION}`)
