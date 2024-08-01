@@ -4,8 +4,8 @@ import { Type } from '@fastify/type-provider-typebox'
 import { prisma } from '../../../../utils/prisma'
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
-import { TypeAppSecret } from '@open-auth/sdk-core'
 import { randomUUID } from 'node:crypto'
+import { JWT_PUBLIC_KEY } from '../../../../constants/env'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -18,7 +18,10 @@ const schema = {
   }),
   response: {
     200: Type.Object({
-      data: TypeAppSecret,
+      data: Type.Object({
+        appSecret: Type.String(),
+        jwtSecret: Type.String(),
+      }),
     }),
     404: ERROR404_SCHEMA,
   },
@@ -34,18 +37,21 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'App not found' })
   }
 
-  let secret = app.secret
+  let appSecret = app.secret
 
-  if (secret === null) {
-    secret = 'oa_' + randomUUID().replaceAll('-', '')
+  if (appSecret === null) {
+    appSecret = 'oa_' + randomUUID().replaceAll('-', '')
     await prisma.app.update({
       where: { id: appId },
-      data: { secret },
+      data: { secret: appSecret },
     })
   }
 
   reply.status(200).send({
-    data: { secret },
+    data: {
+      appSecret,
+      jwtSecret: JWT_PUBLIC_KEY,
+    },
   })
 }
 

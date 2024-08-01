@@ -23,6 +23,7 @@ const schema = {
     appleEnabled: Type.Optional(Type.Boolean()),
     ethEnabled: Type.Optional(Type.Boolean()),
     solEnabled: Type.Optional(Type.Boolean()),
+    jwtTTL: Type.Optional(Type.Number()),
   }),
   response: {
     200: Type.Object({

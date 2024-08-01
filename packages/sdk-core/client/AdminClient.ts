@@ -39,6 +39,7 @@ export class AdminClient extends BaseClient {
           appleEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
+          jwtTTL: number
         }
       }>(`/admin/apps`, data)
     ).data.data
@@ -57,6 +58,7 @@ export class AdminClient extends BaseClient {
           appleEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
+          jwtTTL: number
         }[]
       }>(`/admin/apps`)
     ).data.data
@@ -65,7 +67,8 @@ export class AdminClient extends BaseClient {
     return (await this.http.delete<{ data: {} }>(`/admin/apps/${appId}`)).data.data
   }
   async getAppSecret(appId: string) {
-    return (await this.http.get<{ data: { secret: string } }>(`/admin/apps/${appId}/secret`)).data.data
+    return (await this.http.get<{ data: { appSecret: string; jwtSecret: string } }>(`/admin/apps/${appId}/secret`)).data
+      .data
   }
   async updateApp(
     appId: string,
@@ -79,6 +82,7 @@ export class AdminClient extends BaseClient {
       appleEnabled?: boolean
       ethEnabled?: boolean
       solEnabled?: boolean
+      jwtTTL?: number
     }
   ) {
     return (await this.http.patch<{ data: {} }>(`/admin/apps/${appId}`, data)).data.data
@@ -97,6 +101,7 @@ export class AdminClient extends BaseClient {
           appleEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
+          jwtTTL: number
         }
       }>(`/admin/apps/${appId}`)
     ).data.data

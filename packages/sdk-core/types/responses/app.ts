@@ -12,11 +12,7 @@ export const TypeApp = Type.Object({
   appleEnabled: Type.Boolean(),
   ethEnabled: Type.Boolean(),
   solEnabled: Type.Boolean(),
-})
-
-export const TypeAppSecret = Type.Object({
-  secret: Type.String(),
+  jwtTTL: Type.Number(),
 })
 
 export type App = Static<typeof TypeApp>
-export type AppSecret = Static<typeof TypeAppSecret>

@@ -17,6 +17,7 @@ export function AppContainer({ children, loading }: Props) {
   const { data } = useQuery({
     queryKey: ['getApp', id],
     queryFn: () => client.admin.getApp(id),
+    enabled: client.admin.isAuthorized(),
   })
 
   if (!data) {

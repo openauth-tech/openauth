@@ -1,21 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
-import { useAdmin } from '@/context/admin'
 
 export default function () {
   const { pathname } = useLocation()
-  const { id = '' } = useParams()
-  const { client } = useAdmin()
-  const { data } = useQuery({
-    queryKey: ['getApp', id],
-    queryFn: async () => {
-      return client.admin.getApp(id)
-    },
-    enabled: !!id,
-  })
 
   return (
     <AppContainer>

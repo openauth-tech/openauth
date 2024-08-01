@@ -11,6 +11,7 @@ export default function () {
   const { data } = useQuery({
     queryKey: ['getApp', id],
     queryFn: async () => client.admin.getApp(id),
+    enabled: client.admin.isAuthorized(),
   })
 
   useEffect(() => {
@@ -53,7 +54,6 @@ export default function () {
           </div>
           <Input value={name ?? ''} placeholder="App name" onChange={(e) => setName(e.target.value)} />
         </div>
-
         <div className="space-y-2">
           <div>Description</div>
           <div className="text-sm text-muted-foreground">This description is description.</div>

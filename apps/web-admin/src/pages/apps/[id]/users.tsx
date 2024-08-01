@@ -17,8 +17,8 @@ export default function () {
   const { data } = useQuery({
     queryKey: ['getUsers', appId, page, limit],
     queryFn: async () => {
-      const { secret } = await client.admin.getAppSecret(appId)
-      client.app.updateToken(secret)
+      const { appSecret } = await client.admin.getAppSecret(appId)
+      client.app.updateToken(appSecret)
       return client.app.listUsers({ page, limit })
     },
   })
