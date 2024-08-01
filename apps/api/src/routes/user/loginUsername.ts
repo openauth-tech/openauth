@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypeLoginResponse, TypeUsernameLogin } from '@open-auth/sdk-core'
+import { TypeLoginResponse } from '@open-auth/sdk-core'
 import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
@@ -11,7 +11,12 @@ import bcrypt from 'bcrypt'
 const schema = {
   tags: ['User'],
   summary: 'Log in with Username',
-  body: TypeUsernameLogin,
+  body: Type.Object({
+    appId: Type.String(),
+    username: Type.String(),
+    password: Type.String(),
+    isRegister: Type.Optional(Type.Boolean()),
+  }),
   response: {
     200: Type.Object({
       data: TypeLoginResponse,

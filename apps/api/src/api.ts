@@ -1,7 +1,7 @@
 import Fastify from 'fastify'
 import jwt from '@fastify/jwt'
 import { prisma } from './utils/prisma'
-import { JWT_SECRET } from './constants/env'
+import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants/env'
 import { init } from './utils/init'
 import cors from '@fastify/cors'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
@@ -34,7 +34,13 @@ const start = async () => {
     },
   })
 
-  server.register(jwt, { secret: JWT_SECRET })
+  server.register(jwt, {
+    secret: {
+      private: JWT_PRIVATE_KEY,
+      public: JWT_PUBLIC_KEY,
+    },
+    sign: { algorithm: 'EdDSA' },
+  })
   server.register(require('@fastify/autoload'), {
     dir: path.join(__dirname, 'routes'),
   })

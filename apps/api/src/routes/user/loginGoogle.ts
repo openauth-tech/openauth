@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypeGoogleLogin, TypeLoginResponse } from '@open-auth/sdk-core'
+import { TypeLoginResponse } from '@open-auth/sdk-core'
 import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
@@ -11,7 +11,11 @@ import { createJwtPayload } from '../../utils/jwt'
 const schema = {
   tags: ['User'],
   summary: 'Log in with Google',
-  body: TypeGoogleLogin,
+  body: Type.Object({
+    appId: Type.String(),
+    email: Type.String(),
+    token: Type.String(),
+  }),
   response: {
     200: Type.Object({
       data: TypeLoginResponse,

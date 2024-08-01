@@ -42,6 +42,9 @@ export class UserClient extends BaseClient {
   async logInWithSolana(data: { appId: string; solAddress: string; signature: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-solana`, data)).data.data
   }
+  async logInWithTelegram(data: { appId: string; data: string; hash: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-telegram`, data)).data.data
+  }
   async logInWithUsername(data: { appId: string; username: string; password: string; isRegister?: boolean }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-username`, data)).data.data
   }
