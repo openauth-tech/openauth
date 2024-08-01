@@ -6,7 +6,7 @@ import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox
 import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import { verifySOL } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
-import { createJwtPayload } from '../../utils/jwt'
+import { generateJwtToken } from '../../utils/jwt'
 
 const schema = {
   tags: ['User'],
@@ -36,8 +36,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, solAddress })
-  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
-  const token = await reply.jwtSign(jwtPayload)
+  const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   reply.status(200).send({ data: { token } })
 }
 

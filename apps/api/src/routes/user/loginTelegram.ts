@@ -3,6 +3,10 @@ import { TypeLoginResponse } from '@open-auth/sdk-core'
 import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { findOrCreateUser } from '../../repositories/findOrCreateUser'
+import { generateJwtToken } from '../../utils/jwt'
+import { parseTelegramData, verifyTelegram } from '../../utils/auth'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['User'],
@@ -10,7 +14,6 @@ const schema = {
   body: Type.Object({
     appId: Type.String(),
     data: Type.String(),
-    hash: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -21,12 +24,20 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  //
-  // const user = await findOrCreateUser({ appId, google: email })
-  //
-  // const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
-  // const jwtToken = await reply.jwtSign(jwtPayload)
-  // reply.status(200).send({ data: { token: jwtToken } })
+  const { appId, data } = request.body
+  const app = await prisma.app.findUnique({ where: { id: appId } })
+  if (!app || !app.telegramBotToken) {
+    return reply.status(400).send({ message: 'Bot token is null' })
+  }
+  if (!verifyTelegram(data, app.telegramBotToken)) {
+    return reply.status(400).send({ message: 'Invalid signature' })
+  }
+
+  const { userId } = parseTelegramData(data)
+  const user = await findOrCreateUser({ appId, telegram: userId.toString() })
+
+  const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
+  reply.status(200).send({ data: { token } })
 }
 
 export default async function (fastify: FastifyInstance) {

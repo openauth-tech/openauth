@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { prisma } from '../../utils/prisma'
-import { createJwtPayload } from '../../utils/jwt'
+import { generateJwtToken } from '../../utils/jwt'
 import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import bcrypt from 'bcrypt'
 
@@ -40,14 +40,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const user = await findOrCreateUser({ appId, username, password })
-  // verify password
   const ok = await bcrypt.compare(password, user.password ?? '')
   if (!ok) {
     return reply.status(400).send({ message: 'Wrong password' })
   }
 
-  const jwtPayload = await createJwtPayload(user.id, appId, app.jwtTTL)
-  const token = await reply.jwtSign(jwtPayload)
+  const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   reply.status(200).send({ data: { token } })
 }
 
