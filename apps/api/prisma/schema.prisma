@@ -33,12 +33,15 @@ model App {
   secret      String? @unique
   jwtTTL      Int     @default(0)
 
-  emailEnabled   Boolean @default(false)
-  googleEnabled  Boolean @default(false)
-  twitterEnabled Boolean @default(false)
-  appleEnabled   Boolean @default(false)
-  ethEnabled     Boolean @default(false)
-  solEnabled     Boolean @default(false)
+  emailEnabled    Boolean @default(false)
+  googleEnabled   Boolean @default(false)
+  twitterEnabled  Boolean @default(false)
+  appleEnabled    Boolean @default(false)
+  ethEnabled      Boolean @default(false)
+  solEnabled      Boolean @default(false)
+  telegramEnabled Boolean @default(false)
+
+  telegramBotToken String?
 
   users     User[]
   referrals Referral[]
