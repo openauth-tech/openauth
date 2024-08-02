@@ -79,17 +79,18 @@ export function TelegramDialog() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState('')
-  const { config, globalConfig, client, logIn } = useOpenAuth()
+  const { config, client, logIn } = useOpenAuth()
 
   const onLogInTelegram = useCallback(async () => {
     setLoading(true)
     try {
-      await client.user.logInWithTelegram({ appId: config.appId, data })
+      const { token } = await client.user.logInWithTelegram({ appId: config.appId, data })
+      await logIn(token)
     } catch (error: any) {
       toast({ title: error.message })
     }
     setLoading(false)
-  }, [client.user, config.appId, data, toast])
+  }, [client.user, config.appId, data, logIn, toast])
 
   return (
     <Dialog>
