@@ -14,6 +14,8 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
 
+  useEffect(() => client.user.updateToken(token), [token])
+
   useEffect(() => {
     if (config.endpoint) {
       client.user

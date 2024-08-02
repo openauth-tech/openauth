@@ -1,5 +1,5 @@
 import { encodeBase58, ethers } from 'ethers'
-import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants.ts'
+import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants'
 import { OpenAuthClient } from '../../client'
 import { App } from '../../types'
 import { Keypair } from '@solana/web3.js'

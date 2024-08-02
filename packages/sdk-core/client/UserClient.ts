@@ -33,6 +33,9 @@ export class UserClient extends BaseClient {
       }>(`/user/profile`)
     ).data.data
   }
+  async getWallets() {
+    return (await this.http.get<{ data: { solWallet: string } }>(`/user/wallets`)).data.data
+  }
   async logInWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-ethereum`, data)).data.data
   }
@@ -51,7 +54,7 @@ export class UserClient extends BaseClient {
   async updatePassword(data: { oldPassword: string; newPassword: string }) {
     return (await this.http.post<{ data: {} }>(`/user/update-password`, data)).data.data
   }
-  async getWallets() {
-    return (await this.http.get<{ data: { solWallet: string } }>(`/user/wallet/profile`)).data.data
+  async exportSolanaPrivateKey() {
+    return (await this.http.post<{ data: string }>(`/user/solana/private-key`)).data.data
   }
 }
