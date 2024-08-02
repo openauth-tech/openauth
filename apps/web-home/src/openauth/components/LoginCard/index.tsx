@@ -84,12 +84,12 @@ export function TelegramDialog() {
   const onLogInTelegram = useCallback(async () => {
     setLoading(true)
     try {
-      await client.user.logInWithTelegram({ appId: config.appId, data: '' })
+      await client.user.logInWithTelegram({ appId: config.appId, data })
     } catch (error: any) {
       toast({ title: error.message })
     }
     setLoading(false)
-  }, [client.user, config.appId, toast])
+  }, [client.user, config.appId, data, toast])
 
   return (
     <Dialog>
