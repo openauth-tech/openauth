@@ -10,7 +10,7 @@ import { getSolanaWallet } from '../../../../crypto/solana'
 
 const schema = {
   tags: ['App - Users'],
-  summary: 'Get wallets',
+  summary: 'Get user wallets',
   params: Type.Object({
     userId: Type.String(),
   }),

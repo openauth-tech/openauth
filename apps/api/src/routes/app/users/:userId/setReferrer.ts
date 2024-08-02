@@ -8,7 +8,7 @@ import { verifyApp } from '../../../../handlers/verifyApp'
 
 const schema = {
   tags: ['App - Users'],
-  summary: 'Set referrer',
+  summary: 'Set user referrer',
   params: Type.Object({
     userId: Type.String(),
   }),
