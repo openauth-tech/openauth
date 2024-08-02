@@ -10,9 +10,11 @@ export const TypeApp = Type.Object({
   googleEnabled: Type.Boolean(),
   twitterEnabled: Type.Boolean(),
   appleEnabled: Type.Boolean(),
+  telegramEnabled: Type.Boolean(),
   ethEnabled: Type.Boolean(),
   solEnabled: Type.Boolean(),
   jwtTTL: Type.Number(),
+  telegramBotToken: Nullable(Type.String()),
 })
 
 export type App = Static<typeof TypeApp>

@@ -37,9 +37,11 @@ export class AdminClient extends BaseClient {
           googleEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
+          telegramEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
           jwtTTL: number
+          telegramBotToken: string | null
         }
       }>(`/admin/apps`, data)
     ).data.data
@@ -56,9 +58,11 @@ export class AdminClient extends BaseClient {
           googleEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
+          telegramEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
           jwtTTL: number
+          telegramBotToken: string | null
         }[]
       }>(`/admin/apps`)
     ).data.data
@@ -79,10 +83,12 @@ export class AdminClient extends BaseClient {
       emailEnabled?: boolean
       googleEnabled?: boolean
       twitterEnabled?: boolean
+      telegramEnabled?: boolean
       appleEnabled?: boolean
       ethEnabled?: boolean
       solEnabled?: boolean
       jwtTTL?: number
+      telegramBotToken?: string
     }
   ) {
     return (await this.http.patch<{ data: {} }>(`/admin/apps/${appId}`, data)).data.data
@@ -99,9 +105,11 @@ export class AdminClient extends BaseClient {
           googleEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
+          telegramEnabled: boolean
           ethEnabled: boolean
           solEnabled: boolean
           jwtTTL: number
+          telegramBotToken: string | null
         }
       }>(`/admin/apps/${appId}`)
     ).data.data

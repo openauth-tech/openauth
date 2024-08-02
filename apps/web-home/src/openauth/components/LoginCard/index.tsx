@@ -1,8 +1,16 @@
 import { useLogInWithEthereum, useLogInWithGoogle, useLogInWithSolana, useOpenAuth } from '@open-auth/sdk-react'
-import { IconBrandGoogle, IconCurrencyEthereum, IconCurrencySolana, IconLoader2 } from '@tabler/icons-react'
+import {
+  IconBrandGoogle,
+  IconBrandTelegram,
+  IconCurrencyEthereum,
+  IconCurrencySolana,
+  IconLoader2,
+} from '@tabler/icons-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 export function LoginCard() {
@@ -61,7 +69,51 @@ export function LoginCard() {
             <span>Sign in with Google</span>
           </div>
         </Button>
+        <TelegramDialog />
       </CardContent>
     </Card>
+  )
+}
+
+export function TelegramDialog() {
+  const { toast } = useToast()
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState('')
+  const { config, globalConfig, client, logIn } = useOpenAuth()
+
+  const onLogInTelegram = useCallback(async () => {
+    setLoading(true)
+    try {
+      await client.user.logInWithTelegram({ appId: config.appId, data: '' })
+    } catch (error: any) {
+      toast({ title: error.message })
+    }
+    setLoading(false)
+  }, [client.user, config.appId, toast])
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="w-full px-6 py-6 text-base">
+          <div className="flex gap-2 justify-start items-center w-50">
+            {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandTelegram size={20} />}
+            <span>Sign in with Telegram</span>
+          </div>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Input Telegram Mini App initData</DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <Input value={data} onChange={(e) => setData(e.target.value)} className="w-full" />
+        </div>
+        <DialogFooter>
+          <Button type="submit" onClick={onLogInTelegram} disabled={loading}>
+            Log In
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }

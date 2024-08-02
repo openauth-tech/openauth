@@ -20,10 +20,12 @@ const schema = {
     emailEnabled: Type.Optional(Type.Boolean()),
     googleEnabled: Type.Optional(Type.Boolean()),
     twitterEnabled: Type.Optional(Type.Boolean()),
+    telegramEnabled: Type.Optional(Type.Boolean()),
     appleEnabled: Type.Optional(Type.Boolean()),
     ethEnabled: Type.Optional(Type.Boolean()),
     solEnabled: Type.Optional(Type.Boolean()),
     jwtTTL: Type.Optional(Type.Number()),
+    telegramBotToken: Type.Optional(Type.String()),
   }),
   response: {
     200: Type.Object({
