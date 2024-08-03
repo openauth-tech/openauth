@@ -24,6 +24,8 @@ services:
     environment:
       - DATABASE_URL=${DATABASE_URL}
       - AWS_SECRET=${AWS_SECRET}
+      - WALLET_SEED_SALT=${WALLET_SEED_SALT}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
     ports:
       - 5567:5567
     logging:
