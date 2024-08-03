@@ -27,6 +27,12 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, username, password, isRegister } = request.body
+  if (username.length < 3) {
+    return reply.status(400).send({ message: 'Username must be at least 3 characters' })
+  }
+  if (password.length < 6) {
+    return reply.status(400).send({ message: 'Password must be at least 6 characters' })
+  }
   const app = await prisma.app.findUnique({ where: { id: appId } })
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })

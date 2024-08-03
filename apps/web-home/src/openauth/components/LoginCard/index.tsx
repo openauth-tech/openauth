@@ -5,6 +5,7 @@ import {
   IconCurrencyEthereum,
   IconCurrencySolana,
   IconLoader2,
+  IconUser,
 } from '@tabler/icons-react'
 
 import { Button } from '@/components/ui/button'
@@ -70,6 +71,7 @@ export function LoginCard() {
           </div>
         </Button>
         <TelegramDialog />
+        <UsernameDialog />
       </CardContent>
     </Card>
   )
@@ -111,6 +113,63 @@ export function TelegramDialog() {
         </div>
         <DialogFooter>
           <Button type="submit" onClick={onLogInTelegram} disabled={loading}>
+            Log In
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+export function UsernameDialog() {
+  const { toast } = useToast()
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const { config, client, logIn } = useOpenAuth()
+
+  const onLogInUsername = useCallback(async () => {
+    setLoading(true)
+    try {
+      const { token } = await client.user.logInWithUsername({ appId: config.appId, username, password })
+      await logIn(token)
+    } catch (error: any) {
+      toast({ title: error.message })
+    }
+    setLoading(false)
+  }, [client.user, config.appId, username, password, logIn, toast])
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="w-full px-6 py-6 text-base">
+          <div className="flex gap-2 justify-start items-center w-50">
+            {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconUser size={20} />}
+            <span>Sign in with Username</span>
+          </div>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Input username and password</DialogTitle>
+        </DialogHeader>
+        <div className="py-4 flex-col-center gap-y-4">
+          <Input
+            value={username}
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full"
+          />
+          <Input
+            value={password}
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full"
+          />
+        </div>
+        <DialogFooter>
+          <Button type="submit" onClick={onLogInUsername} disabled={loading}>
             Log In
           </Button>
         </DialogFooter>
