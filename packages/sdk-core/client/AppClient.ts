@@ -23,11 +23,13 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
+          createdAt: string
+          lastSeenAt: string | null
         }
       }>(`/app/users`, data)
     ).data.data
   }
-  async listUsers(params: { page: number; limit: number }) {
+  async listUsers(params: {}) {
     return (
       await this.http.get<{
         data: {
@@ -42,6 +44,8 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
+          createdAt: string
+          lastSeenAt: string | null
         }[]
         meta: { totalItems: number; totalPages: number }
       }>(`/app/users`, { params })
@@ -78,6 +82,8 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
+          createdAt: string
+          lastSeenAt: string | null
         }
       }>(`/app/users/${userId}`)
     ).data.data
