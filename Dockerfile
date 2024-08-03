@@ -24,3 +24,15 @@ COPY --from=build /app/api/package.json ./package.json
 COPY --from=build /app/api/node_modules ./node_modules
 
 CMD [ "node", "--env-file=.env.production", "dist/api.js" ]
+
+
+FROM build AS queue-prod
+WORKDIR /app
+
+COPY --from=build /app/api/.env.* ./
+COPY --from=build /app/api/dist ./dist
+COPY --from=build /app/api/prisma ./prisma
+COPY --from=build /app/api/package.json ./package.json
+COPY --from=build /app/api/node_modules ./node_modules
+
+CMD [ "node", "--env-file=.env.production", "dist/queue.js" ]
