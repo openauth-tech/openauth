@@ -4,10 +4,28 @@ services:
     image: callmewhy/openauth-api:latest
     environment:
       - DATABASE_URL=${DATABASE_URL}
+      - AWS_SECRET=${AWS_SECRET}
       - WALLET_SEED_SALT=${WALLET_SEED_SALT}
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
     ports:
       - 5566:5566
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    depends_on:
+      - openauth-redis
+
+  openauth-queue:
+    container_name: openauth-queue
+    image: callmewhy/openauth-queue:latest
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - AWS_SECRET=${AWS_SECRET}
+    ports:
+      - 5567:5567
     logging:
       driver: "json-file"
       options:

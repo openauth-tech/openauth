@@ -12,6 +12,7 @@ export const TypeUser = Type.Object({
   solAddress: Nullable(Type.String()),
   username: Nullable(Type.String()),
   referCode: Type.String(),
+  avatar: Nullable(Type.String()),
 })
 
 export type User = Static<typeof TypeUser>

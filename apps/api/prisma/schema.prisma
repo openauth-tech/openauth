@@ -55,6 +55,7 @@ model User {
   updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
   referCode  String
+  avatar     String?
 
   email      String?
   google     String?

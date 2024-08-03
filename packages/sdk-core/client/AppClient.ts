@@ -22,6 +22,7 @@ export class AppClient extends BaseClient {
           solAddress: string | null
           username: string | null
           referCode: string
+          avatar: string | null
         }
       }>(`/app/users`, data)
     ).data.data
@@ -40,6 +41,7 @@ export class AppClient extends BaseClient {
           solAddress: string | null
           username: string | null
           referCode: string
+          avatar: string | null
         }[]
         meta: { totalItems: number; totalPages: number }
       }>(`/app/users`, { params })
@@ -75,6 +77,7 @@ export class AppClient extends BaseClient {
           solAddress: string | null
           username: string | null
           referCode: string
+          avatar: string | null
         }
       }>(`/app/users/${userId}`)
     ).data.data

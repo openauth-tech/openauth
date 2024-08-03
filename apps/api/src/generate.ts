@@ -4,6 +4,7 @@ import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import path from 'node:path'
 import { clientGeneratorPlugin } from './plugins/generator'
 import { redis } from './utils/redis'
+import { avatarQueue } from './utils/queue'
 
 const server = Fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
 
@@ -19,6 +20,7 @@ const start = async () => {
 start()
   .then(async () => {
     await prisma.$disconnect()
+    await avatarQueue.close()
     redis.disconnect()
   })
   .catch(async (error) => {

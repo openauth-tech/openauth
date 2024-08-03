@@ -1,4 +1,7 @@
+import dotenv from 'dotenv'
 import * as crypto from 'node:crypto'
+
+dotenv.config()
 
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 export const REDIS_HOST = IS_PRODUCTION ? 'openauth-redis' : '127.0.0.1'

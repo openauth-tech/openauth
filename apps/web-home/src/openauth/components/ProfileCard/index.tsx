@@ -34,6 +34,9 @@ export function ProfileCard() {
       </CardHeader>
       <CardContent className="mx-auto flex flex-col gap-y-6">
         <div>
+          <img src={profile.avatar ?? ''} className="w-12 h-12" alt="" />
+        </div>
+        <div>
           <div className="text-sm opacity-60">User ID:</div>
           <div>{profile.id.toString()}</div>
         </div>

@@ -29,6 +29,7 @@ export class UserClient extends BaseClient {
           solAddress: string | null
           username: string | null
           referCode: string
+          avatar: string | null
         }
       }>(`/user/profile`)
     ).data.data

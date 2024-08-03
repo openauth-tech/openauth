@@ -6,6 +6,7 @@ import { findOrCreateUser } from '../../../repositories/findOrCreateUser'
 import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyApp } from '../../../handlers/verifyApp'
 import { AppAuthPayload } from '../../../models/request'
+import { avatarQueue } from '../../../utils/queue'
 
 const schema = {
   tags: ['App - Users'],
@@ -31,6 +32,9 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { appId } = request.user as AppAuthPayload
   const { email, ethAddress, solAddress, username, password, telegram } = request.body
   const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password, telegram })
+  if (user.telegram) {
+    await avatarQueue.add({ userId: user.id })
+  }
   reply.status(200).send({
     data: user,
   })

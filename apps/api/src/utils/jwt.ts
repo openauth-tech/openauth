@@ -22,7 +22,8 @@ export async function generateJwtToken(
 
   if (sessionId) {
     await redis.set(sessionId, jwtTTL, 'EX', jwtTTL)
-    return reply.jwtSign(payload, { expiresIn: jwtTTL })
+    return reply.jwtSign(payload)
+    // return reply.jwtSign(payload, { expiresIn: jwtTTL })
   }
 
   return reply.jwtSign(payload)
