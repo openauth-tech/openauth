@@ -101,6 +101,9 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.11
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       ethers:
         specifier: ^6.10.0
         version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -159,9 +162,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.2.0
         version: 7.14.1(eslint@8.57.0)(typescript@5.5.2)
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
       dotenv-cli:
         specifier: ^7.4.2
         version: 7.4.2
