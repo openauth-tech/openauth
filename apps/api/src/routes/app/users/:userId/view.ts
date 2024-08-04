@@ -6,6 +6,7 @@ import { TypeUser } from '@open-auth/sdk-core'
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import { AppAuthPayload } from '../../../../models/request'
+import { transformUserToReponse } from '../../../../repositories/transform'
 
 const schema = {
   tags: ['App - Users'],
@@ -34,11 +35,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
   reply.status(200).send({
-    data: {
-      ...user,
-      lastSeenAt: user.lastSeenAt.getTime(),
-      createdAt: user.createdAt.getTime(),
-    },
+    data: transformUserToReponse(user),
   })
 }
 

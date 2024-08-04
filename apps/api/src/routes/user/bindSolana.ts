@@ -6,6 +6,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
+import { transformUserToReponse } from '../../repositories/transform'
 
 const schema = {
   tags: ['User'],
@@ -34,6 +35,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!user || !app) {
     return reply.status(404).send({ message: 'User or app not found' })
   }
+  const userResponse = transformUserToReponse(user)
   if (!verifySOL(app.name, solAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid params' })
   }
@@ -47,7 +49,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     data: { solAddress },
   })
 
-  reply.status(200).send({ data: user })
+  reply.status(200).send({ data: userResponse })
 }
 
 export default async function (fastify: FastifyInstance) {

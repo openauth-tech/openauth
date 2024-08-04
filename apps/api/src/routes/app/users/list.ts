@@ -5,11 +5,20 @@ import { TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
 import { verifyApp } from '../../../handlers/verifyApp'
 import { prisma } from '../../../utils/prisma'
 import { AppAuthPayload } from '../../../models/request'
+import { transformUserToReponse } from '../../../repositories/transform'
+import { Prisma } from '@prisma/client'
 
 const schema = {
   tags: ['App - Users'],
   summary: 'List users',
-  querystring: TypePageParams,
+  querystring: Type.Intersect([
+    TypePageParams,
+    Type.Object({
+      id: Type.Optional(Type.String()),
+      sortBy: Type.Optional(Type.String()),
+      order: Type.Optional(Type.Union([Type.Literal(Prisma.SortOrder.asc), Type.Literal(Prisma.SortOrder.desc)])),
+    }),
+  ]),
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -23,19 +32,22 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
-  const { page, limit } = request.query
-  const totalCount = await prisma.user.count({ where: { appId } })
+  const { id, page, limit, sortBy, order } = request.query
+  const whereFilters: Prisma.UserWhereInput = {
+    appId,
+  }
+  if (id) {
+    whereFilters.id = id
+  }
+  const totalCount = await prisma.user.count({ where: whereFilters })
   const users = await prisma.user.findMany({
-    where: { appId },
+    where: whereFilters,
     take: limit,
     skip: (page - 1) * limit,
+    orderBy: sortBy ? { [sortBy]: order } : undefined,
   })
   reply.status(200).send({
-    data: users.map((user) => ({
-      ...user,
-      lastSeenAt: user.lastSeenAt.getTime(),
-      createdAt: user.createdAt.getTime(),
-    })),
+    data: users.map((user) => transformUserToReponse(user)),
     meta: {
       totalItems: totalCount,
       totalPages: Math.ceil(totalCount / limit),

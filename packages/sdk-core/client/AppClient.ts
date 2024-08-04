@@ -29,7 +29,7 @@ export class AppClient extends BaseClient {
       }>(`/app/users`, data)
     ).data.data
   }
-  async listUsers(params: { page: number; limit: number }) {
+  async listUsers(params: {}) {
     return (
       await this.http.get<{
         data: {

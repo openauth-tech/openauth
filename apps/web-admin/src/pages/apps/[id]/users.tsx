@@ -1,8 +1,13 @@
+import { User } from '@open-auth/sdk-core'
+import { CaretSortIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
+import type { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/react-table'
+import dayjs from 'dayjs'
 import { useParams } from 'react-router-dom'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
+import { UserAccountIcons } from '@/components/user/UserAccountIcons'
 import { UserDetailDialog } from '@/components/user/UserDetailDialog'
 import { useAdmin } from '@/context/admin'
 
@@ -10,16 +15,92 @@ export default function () {
   const { id: appId = '' } = useParams()
   const [selectedUser, setSelectedUser] = useState<any>()
   const [page, setPage] = useState<number>(1)
-  const limit = 10
+  const [limit, setLimit] = useState<number>(10)
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [filters, setFilters] = useState<ColumnFiltersState>([])
   const { client } = useAdmin()
 
+  const columns: ColumnDef<User>[] = [
+    {
+      accessorKey: 'id',
+      header: 'ID',
+      cell: ({ row }) => <div>{row.getValue('id')}</div>,
+    },
+    {
+      accessorKey: 'accounts',
+      header: 'Linked Accounts',
+      cell: ({ row }) => (
+        <div className="w-30">
+          <UserAccountIcons user={row.original} />
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'createdAt',
+      header: ({ column }) => {
+        return (
+          <span
+            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Registered At
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </span>
+        )
+      },
+      cell: ({ row }) => (
+        <div className="w-35">
+          {row.getValue('createdAt') ? dayjs(row.getValue('createdAt')).format('YYYY-MM-DD HH:mm') : '-'}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'lastSeenAt',
+      header: ({ column }) => {
+        return (
+          <span
+            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Last Seen
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </span>
+        )
+      },
+      cell: ({ row }) => (
+        <div className="w-35">
+          {row.getValue('lastSeenAt') ? dayjs(row.getValue('lastSeenAt')).format('YYYY-MM-DD HH:mm') : '-'}
+        </div>
+      ),
+    },
+  ]
   // TODO: use data table
-  const { data } = useQuery({
-    queryKey: ['getUsers', appId, page, limit],
+  const { data, isPending } = useQuery({
+    queryKey: ['getUsers', appId, page, limit, filters, sorting],
     queryFn: async () => {
       const { appSecret } = await client.admin.getAppSecret(appId)
       client.app.updateToken(appSecret)
-      return client.app.listUsers({ page, limit })
+
+      let queryParams = {
+        page,
+        limit,
+      }
+
+      if (sorting?.[0]) {
+        const sortingParams = {
+          sortBy: sorting[0]?.id,
+          order: sorting[0]?.desc ? 'desc' : 'asc',
+        }
+        Object.assign(queryParams, sortingParams)
+      }
+      if (filters.length > 0) {
+        const filterParams = filters.reduce((acc, filter) => {
+          acc[filter.id] = filter.value
+          return acc
+        }, {} as Record<string, unknown>)
+        Object.assign(queryParams, filterParams)
+      }
+      return client.app.listUsers(queryParams)
     },
   })
 
@@ -53,26 +134,21 @@ export default function () {
           <CardTitle>All users</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Linked accounts</TableHead>
-                <TableHead>Registered at</TableHead>
-                <TableHead>Last seen</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data?.data.map((i) => (
-                <TableRow key={i.id} onClick={() => setSelectedUser(i)} className="cursor-pointer">
-                  <TableCell>{i.id}</TableCell>
-                  <TableCell>{i.id}</TableCell>
-                  <TableCell>{i.id}</TableCell>
-                  <TableCell>{i.id}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <div className="flex flex-col gap-2">
+            <DataTableServer
+              columns={columns}
+              data={data?.data ?? []}
+              total={data?.meta.totalItems ?? 0}
+              pageIndex={page}
+              pageSize={limit}
+              pending={isPending}
+              onPageChange={setPage}
+              onPageSizeChange={setLimit}
+              onSortingChange={setSorting}
+              onColumnFiltersChange={setFilters}
+              searchKey={'id'}
+            />
+          </div>
         </CardContent>
       </Card>
       <UserDetailDialog user={selectedUser} onClose={() => setSelectedUser(undefined)} />
