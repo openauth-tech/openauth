@@ -28,11 +28,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const user = await prisma.user.findUnique({
     where: { id: userId },
   })
-  const userResponse = transformUserToReponse(user)
-
-  if (!userResponse) {
+  if (!user) {
     return reply.status(404).send({ message: 'User not found' })
   }
+
+  const userResponse = transformUserToReponse(user)
 
   reply.status(200).send({
     data: userResponse,
