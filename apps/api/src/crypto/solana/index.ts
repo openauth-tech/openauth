@@ -13,6 +13,7 @@ export function getSolanaWallet(userId: string) {
   const keypair = Keypair.fromSeed(result)
 
   return {
+    keypair,
     walletAddress: keypair.publicKey.toBase58(),
     privateKey: base58.encode(keypair.secretKey),
   }

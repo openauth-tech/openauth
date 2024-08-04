@@ -40,8 +40,8 @@ function generateClient(routes: RouteData[]) {
     // process query string
     const paramsTypeModel = getTypeModelFromSchema(route.schema.params)
     let methodParamsTypeModel = paramsTypeModel
+    const queryTypeModel = query ? getTypeModelFromSchema(query) : undefined
     if (query) {
-      const queryTypeModel = getTypeModelFromSchema(query)
       methodParamsTypeModel = { ...methodParamsTypeModel, params: queryTypeModel }
     }
     // process request body
@@ -68,8 +68,13 @@ function generateClient(routes: RouteData[]) {
     }
 
     // http params
-    let httpParamsStr = query ? '{ params }' : body ? 'data' : ''
-    httpParamsStr = httpParamsStr ? ', ' + httpParamsStr : ''
+    let httpParamsStr = ''
+    if (body) {
+      httpParamsStr += ', data'
+    }
+    if (query) {
+      httpParamsStr += ', { params }'
+    }
 
     methods[key] += `
 async ${methodName}(${methosParamsStr}) {
@@ -120,8 +125,19 @@ function getTypeModelFromSchema(schema: any): any {
     return {}
   }
 
+  if (schema.anyOf) {
+    return schema.anyOf.map((i: any) => getTypeModelFromSchema(i)).join(' | ')
+  }
+
+  if (schema.allOf) {
+    return getTypeModelFromSchema({
+      type: 'object',
+      properties: Object.assign({}, ...schema.allOf.map((i: any) => i.properties)),
+    })
+  }
+
   if (schema.type === 'string') {
-    return 'string'
+    return schema.const ? `'${schema.const}'` : 'string'
   }
   if (schema.type === 'integer') {
     return 'number'
@@ -131,6 +147,9 @@ function getTypeModelFromSchema(schema: any): any {
   }
   if (schema.type === 'boolean') {
     return 'boolean'
+  }
+  if (schema.type === 'null') {
+    return 'null'
   }
 
   if (schema.type === 'object') {
@@ -146,10 +165,6 @@ function getTypeModelFromSchema(schema: any): any {
 
   if (schema.type === 'array') {
     return [getTypeModelFromSchema(schema.items)]
-  }
-
-  if (schema.anyOf) {
-    return schema.anyOf.map((i: any) => i.type).join(' | ')
   }
 
   throw new Error(`Unsupported schema type: ${schema.type}`)

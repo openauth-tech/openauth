@@ -77,4 +77,20 @@ describe('OpenAuth User API', () => {
     console.log(wallets.solWallet)
     assert.equal(wallets.solWallet.length, 44)
   })
+
+  it('Send Solana Transfer', async () => {
+    const { id } = await getTestApp(client)
+    await logInUsernameUser(client, id)
+
+    const wallets = await client.user.getWallets()
+    console.log(wallets.solWallet)
+    const { signature } = await client.user.sendSolanaToken({
+      network: 'SonicDevnet',
+      address: 'GTRCpd5GwML8mxbqcHcunLmVWnxr7fmdd7avCa5KzBAk',
+      token: 'SOL',
+      amount: 0.01,
+    })
+    console.log(signature)
+    assert(signature.length > 0)
+  })
 })
