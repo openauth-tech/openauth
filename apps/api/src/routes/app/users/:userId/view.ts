@@ -27,13 +27,19 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
   const { userId } = request.params
-  const data = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { appId, id: userId },
   })
-  if (!data) {
+  if (!user) {
     return reply.status(404).send({ message: 'User not found' })
   }
-  reply.status(200).send({ data })
+  reply.status(200).send({
+    data: {
+      ...user,
+      lastSeenAt: user.lastSeenAt.getTime(),
+      createdAt: user.createdAt.getTime(),
+    },
+  })
 }
 
 export default async function (fastify: FastifyInstance) {

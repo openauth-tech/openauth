@@ -50,10 +50,10 @@ model App {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  lastSeenAt DateTime?
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastSeenAt DateTime @default(now())
   referCode  String
   avatar     String?
 

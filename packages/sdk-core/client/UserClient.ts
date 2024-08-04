@@ -30,6 +30,8 @@ export class UserClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
+          createdAt: number
+          lastSeenAt: number
         }
       }>(`/user/profile`)
     ).data.data

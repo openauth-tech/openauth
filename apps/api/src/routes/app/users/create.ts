@@ -36,7 +36,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     await avatarQueue.add({ userId: user.id })
   }
   reply.status(200).send({
-    data: user,
+    data: {
+      ...user,
+      lastSeenAt: user.lastSeenAt.getTime(),
+      createdAt: user.createdAt.getTime(),
+    },
   })
 }
 

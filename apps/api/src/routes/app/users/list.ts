@@ -31,7 +31,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     skip: (page - 1) * limit,
   })
   reply.status(200).send({
-    data: users,
+    data: users.map((user) => ({
+      ...user,
+      lastSeenAt: user.lastSeenAt.getTime(),
+      createdAt: user.createdAt.getTime(),
+    })),
     meta: {
       totalItems: totalCount,
       totalPages: Math.ceil(totalCount / limit),
