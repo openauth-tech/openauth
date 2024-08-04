@@ -23,8 +23,8 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
-          createdAt: string
-          lastSeenAt: string | null
+          createdAt: number
+          lastSeenAt: number
         }
       }>(`/app/users`, data)
     ).data.data
@@ -44,8 +44,8 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
-          createdAt: string
-          lastSeenAt: string | null
+          createdAt: number
+          lastSeenAt: number
         }[]
         meta: { totalItems: number; totalPages: number }
       }>(`/app/users`, { params })
@@ -82,8 +82,8 @@ export class AppClient extends BaseClient {
           username: string | null
           referCode: string
           avatar: string | null
-          createdAt: string
-          lastSeenAt: string | null
+          createdAt: number
+          lastSeenAt: number
         }
       }>(`/app/users/${userId}`)
     ).data.data

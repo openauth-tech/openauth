@@ -13,8 +13,8 @@ export const TypeUser = Type.Object({
   username: Nullable(Type.String()),
   referCode: Type.String(),
   avatar: Nullable(Type.String()),
-  createdAt: Type.String(),
-  lastSeenAt: Nullable(Type.String()),
+  createdAt: Type.Number(),
+  lastSeenAt: Type.Number(),
 })
 
 export type User = Static<typeof TypeUser>

@@ -5,6 +5,7 @@ import { TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
 import { verifyApp } from '../../../handlers/verifyApp'
 import { prisma } from '../../../utils/prisma'
 import { AppAuthPayload } from '../../../models/request'
+import { transformUserToReponse } from '../../../repositories/transform'
 import { Prisma } from '@prisma/client'
 
 const schema = {
@@ -46,11 +47,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     orderBy: sortBy ? { [sortBy]: order } : undefined,
   })
   reply.status(200).send({
-    data: users.map((i) => ({
-      ...i,
-      createdAt: i.createdAt.toString(),
-      lastSeenAt: i.lastSeenAt?.toString() ?? null,
-    })),
+    data: users.map((user) => transformUserToReponse(user)!),
     meta: {
       totalItems: totalCount,
       totalPages: Math.ceil(totalCount / limit),

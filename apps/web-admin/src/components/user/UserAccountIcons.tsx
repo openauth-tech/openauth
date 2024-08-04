@@ -1,5 +1,11 @@
 import { User } from '@open-auth/sdk-core'
-import { IconBrandGoogle, IconBrandTelegram, IconCurrencyEthereum, IconCurrencySolana } from '@tabler/icons-react'
+import {
+  IconBrandGoogle,
+  IconBrandTelegram,
+  IconCurrencyEthereum,
+  IconCurrencySolana,
+  IconUser,
+} from '@tabler/icons-react'
 
 export function UserAccountIcons({ user }: { user: User }) {
   return (
@@ -8,6 +14,7 @@ export function UserAccountIcons({ user }: { user: User }) {
       {user.google && <IconBrandGoogle />}
       {user.telegram && <IconBrandTelegram />}
       {user.solAddress && <IconCurrencySolana />}
+      {user.username && <IconUser />}
     </div>
   )
 }
