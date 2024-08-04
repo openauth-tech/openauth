@@ -7,6 +7,7 @@ import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyApp } from '../../../handlers/verifyApp'
 import { AppAuthPayload } from '../../../models/request'
 import { avatarQueue } from '../../../utils/queue'
+import { transformUserToReponse } from '../../../repositories/transform'
 
 const schema = {
   tags: ['App - Users'],
@@ -35,12 +36,13 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (user.telegram) {
     await avatarQueue.add({ userId: user.id })
   }
+  const userResponse = transformUserToReponse(user)
+  if (!userResponse) {
+    throw new Error('transformUserToReponse failed: user response is empty')
+  }
+
   reply.status(200).send({
-    data: {
-      ...user,
-      lastSeenAt: user.lastSeenAt.getTime(),
-      createdAt: user.createdAt.getTime(),
-    },
+    data: userResponse,
   })
 }
 

@@ -6,6 +6,7 @@ import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
 import { TypeUser } from '@open-auth/sdk-core'
+import { transformUserToReponse } from '../../repositories/transform'
 
 const schema = {
   tags: ['User'],
@@ -27,17 +28,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const user = await prisma.user.findUnique({
     where: { id: userId },
   })
+  const userResponse = transformUserToReponse(user)
 
-  if (!user) {
+  if (!userResponse) {
     return reply.status(404).send({ message: 'User not found' })
   }
 
   reply.status(200).send({
-    data: {
-      ...user,
-      lastSeenAt: user.lastSeenAt.getTime(),
-      createdAt: user.createdAt.getTime(),
-    },
+    data: userResponse,
   })
 }
 

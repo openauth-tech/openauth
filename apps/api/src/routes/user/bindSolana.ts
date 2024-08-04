@@ -6,6 +6,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
+import { transformUserToReponse } from '../../repositories/transform'
 
 const schema = {
   tags: ['User'],
@@ -30,8 +31,9 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { solAddress, signature } = request.body
 
   const user = await prisma.user.findUnique({ where: { id: userId } })
+  const userResponse = transformUserToReponse(user)
   const app = await prisma.app.findUnique({ where: { id: appId } })
-  if (!user || !app) {
+  if (!userResponse || !app) {
     return reply.status(404).send({ message: 'User or app not found' })
   }
   if (!verifySOL(app.name, solAddress, signature)) {
@@ -47,7 +49,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     data: { solAddress },
   })
 
-  reply.status(200).send({ data: user })
+  reply.status(200).send({ data: userResponse })
 }
 
 export default async function (fastify: FastifyInstance) {
