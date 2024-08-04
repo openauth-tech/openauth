@@ -55,6 +55,7 @@ export class AppClient extends BaseClient {
     return (
       await this.http.get<{
         data: {
+          referralChain: string[]
           referrals1: { createdAt: number; userId: string }[]
           referrals2: { createdAt: number; userId: string }[]
         }

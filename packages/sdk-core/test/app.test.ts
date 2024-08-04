@@ -11,8 +11,8 @@ describe('OpenAuth App API', () => {
   it('User wallet profile', async () => {
     // init app
     const app = await getTestApp(client)
-    const { secret } = await client.admin.getAppSecret(app.id)
-    client.app.updateToken(secret)
+    const { appSecret } = await client.admin.getAppSecret(app.id)
+    client.app.updateToken(appSecret)
 
     // user
     for (let i = 0; i < 15; i++) {
@@ -28,14 +28,14 @@ describe('OpenAuth App API', () => {
     assert.equal(userDetail.id, user.id)
 
     // wallet
-    const wallets = await client.app.getWallets(user.id)
+    const wallets = await client.app.getUserWallets(user.id)
     assert(wallets.solWallet.length > 0)
   })
 
   it('Referral', async () => {
     const { id: appId } = await getTestApp(client)
-    const { secret } = await client.admin.getAppSecret(appId)
-    client.app.updateToken(secret)
+    const { appSecret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(appSecret)
 
     // login solana
     await logInNewSolanaUser(client, appId)
@@ -43,19 +43,24 @@ describe('OpenAuth App API', () => {
 
     // test referral1
     let referCode1: string
+    let userId1: string
     {
       await logInNewSolanaUser(client, appId)
       const { referCode: code, id } = await client.user.getProfile()
       assert(code !== null)
       referCode1 = code
-      await client.app.setReferrer(id, { referCode })
+      userId1 = id
+      await client.app.setUserReferrer(id, { referCode })
     }
 
     // test referral2
     {
       await logInNewSolanaUser(client, appId)
       const { id } = await client.user.getProfile()
-      await client.app.setReferrer(id, { referCode: referCode1 })
+      await client.app.setUserReferrer(id, { referCode: referCode1 })
+
+      const referral = await client.app.getUserReferral(id)
+      assert.deepEqual(referral.referralChain, [id, userId1, userId])
     }
 
     // verify referral chain
