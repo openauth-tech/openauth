@@ -47,7 +47,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     orderBy: sortBy ? { [sortBy]: order } : undefined,
   })
   reply.status(200).send({
-    data: users.map((user) => transformUserToReponse(user)!),
+    data: users.map((user) => transformUserToReponse(user)),
     meta: {
       totalItems: totalCount,
       totalPages: Math.ceil(totalCount / limit),

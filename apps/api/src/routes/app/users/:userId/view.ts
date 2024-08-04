@@ -35,7 +35,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
   reply.status(200).send({
-    data: transformUserToReponse(user)!,
+    data: transformUserToReponse(user),
   })
 }
 

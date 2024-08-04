@@ -37,9 +37,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     await avatarQueue.add({ userId: user.id })
   }
   const userResponse = transformUserToReponse(user)
-  if (!userResponse) {
-    throw new Error('transformUserToReponse failed: user response is empty')
-  }
 
   reply.status(200).send({
     data: userResponse,

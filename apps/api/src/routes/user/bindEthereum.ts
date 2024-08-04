@@ -31,11 +31,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { ethAddress, signature } = request.body
 
   const user = await prisma.user.findUnique({ where: { id: userId } })
-  const userResponse = transformUserToReponse(user)
   const app = await prisma.app.findUnique({ where: { id: appId } })
-  if (!userResponse || !app) {
+  if (!user || !app) {
     return reply.status(404).send({ message: 'User not found' })
   }
+  const userResponse = transformUserToReponse(user)
   if (!verifyETH(app.name, ethAddress, signature)) {
     return reply.status(400).send({ message: 'Invalid params' })
   }
