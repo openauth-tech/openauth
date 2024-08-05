@@ -27,9 +27,9 @@ export function AppContainer({ children, loading }: Props) {
   return (
     <div className="">
       <div className="text-2xl font-semibold border-b pb-4 px-20 ">{data.name}</div>
-      <div className="flex flex-row mt-4 px-20 ">
+      <div className="flex flex-row mt-4 px-5 xl:px-10 2xl:px-20">
         <AppTabs />
-        <div className="px-20 py-2 flex-1 max-w-6xl">
+        <div className="px-5 xl:px-10 2xl:px-20 py-2 flex-1 max-w-6xl">
           {loading ? (
             <div className="flex-center p-8">
               <Loading />

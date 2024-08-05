@@ -15,6 +15,7 @@ const schema = {
     TypePageParams,
     Type.Object({
       id: Type.Optional(Type.String()),
+      referCode: Type.Optional(Type.String()),
       sortBy: Type.Optional(Type.String()),
       order: Type.Optional(Type.Union([Type.Literal(Prisma.SortOrder.asc), Type.Literal(Prisma.SortOrder.desc)])),
     }),
@@ -32,12 +33,15 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
-  const { id, page, limit, sortBy, order } = request.query
+  const { page, limit, sortBy, order, id, referCode } = request.query
   const whereFilters: Prisma.UserWhereInput = {
     appId,
   }
   if (id) {
     whereFilters.id = id
+  }
+  if (referCode) {
+    whereFilters.referCode = referCode
   }
   const totalCount = await prisma.user.count({ where: whereFilters })
   const users = await prisma.user.findMany({
