@@ -87,3 +87,4 @@ jobs:
             docker compose -f docker-compose.yml pull
             docker compose -f docker-compose.yml up -d --no-deps --build
             docker exec openauth-api npx dotenv-cli -e .env.production -- prisma migrate deploy
+            docker system prune --filter "until=24h"
