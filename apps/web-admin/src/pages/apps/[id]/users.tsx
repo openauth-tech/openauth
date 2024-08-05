@@ -17,8 +17,19 @@ export default function () {
   const [page, setPage] = useState<number>(1)
   const [limit, setLimit] = useState<number>(10)
   const [sorting, setSorting] = useState<SortingState>([])
-  const [filters, setFilters] = useState<ColumnFiltersState>([])
+  const [filtersValue, setFiltersValue] = useState<ColumnFiltersState>([])
   const { client } = useAdmin()
+
+  const filtersConfig = [
+    {
+      key: 'id',
+      placeholder: 'Search ID',
+    },
+    {
+      key: 'referCode',
+      placeholder: 'Search Refer Code',
+    },
+  ]
 
   const columns: ColumnDef<User>[] = [
     {
@@ -34,6 +45,11 @@ export default function () {
           <UserAccountIcons user={row.original} />
         </div>
       ),
+    },
+    {
+      accessorKey: 'referCode',
+      header: 'Refer Code',
+      cell: ({ row }) => <div className="w-20">{row.getValue('referCode')}</div>,
     },
     {
       accessorKey: 'createdAt',
@@ -73,10 +89,19 @@ export default function () {
         </div>
       ),
     },
+    {
+      accessorKey: 'operate',
+      header: 'Operate',
+      cell: ({ row }) => (
+        <Button variant={'secondary'} size="sm" onClick={() => setSelectedUser(row.original)}>
+          Detail
+        </Button>
+      ),
+    },
   ]
-  // TODO: use data table
+
   const { data, isPending } = useQuery({
-    queryKey: ['getUsers', appId, page, limit, filters, sorting],
+    queryKey: ['getUsers', appId, page, limit, filtersValue, sorting],
     queryFn: async () => {
       const { appSecret } = await client.admin.getAppSecret(appId)
       client.app.updateToken(appSecret)
@@ -93,8 +118,8 @@ export default function () {
         }
         Object.assign(queryParams, sortingParams)
       }
-      if (filters.length > 0) {
-        const filterParams = filters.reduce((acc, filter) => {
+      if (filtersValue.length > 0) {
+        const filterParams = filtersValue.reduce((acc, filter) => {
           acc[filter.id] = filter.value
           return acc
         }, {} as Record<string, unknown>)
@@ -134,21 +159,19 @@ export default function () {
           <CardTitle>All users</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col gap-2">
-            <DataTableServer
-              columns={columns}
-              data={data?.data ?? []}
-              total={data?.meta.totalItems ?? 0}
-              pageIndex={page}
-              pageSize={limit}
-              pending={isPending}
-              onPageChange={setPage}
-              onPageSizeChange={setLimit}
-              onSortingChange={setSorting}
-              onColumnFiltersChange={setFilters}
-              searchKey={'id'}
-            />
-          </div>
+          <DataTableServer
+            filters={filtersConfig}
+            columns={columns}
+            data={data?.data ?? []}
+            total={data?.meta.totalItems ?? 0}
+            pageIndex={page}
+            pageSize={limit}
+            pending={isPending}
+            onPageChange={setPage}
+            onPageSizeChange={setLimit}
+            onSortingChange={setSorting}
+            onColumnFiltersChange={setFiltersValue}
+          />
         </CardContent>
       </Card>
       <UserDetailDialog user={selectedUser} onClose={() => setSelectedUser(undefined)} />

@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon, ReloadIcon } from '@radix-ui/react-icons'
+import { IconFilterSearch, IconLoader2 } from '@tabler/icons-react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,6 +14,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 import { Pagination } from './pagination'
 
+interface Filter {
+  key: string
+  label?: string
+  placeholder?: string
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -21,7 +27,7 @@ interface DataTableProps<TData, TValue> {
   pageIndex: number
   pageSize: number
   pagers?: number[]
-  searchKey?: string
+  filters?: Filter[]
   pending?: boolean
   onPageChange: (pageIndex: number) => void
   onPageSizeChange: (pageSize: number) => void
@@ -36,7 +42,7 @@ export function DataTableServer<TData, TValue>({
   pageIndex,
   pageSize,
   pagers = [10, 25, 50, 100],
-  searchKey,
+  filters = [],
   pending = false,
   onPageChange,
   onPageSizeChange,
@@ -74,28 +80,34 @@ export function DataTableServer<TData, TValue>({
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
-        {searchKey && (
+        {filters?.length && (
           <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
-              <div className="relative">
-                <MagnifyingGlassIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-
-                <Input
-                  placeholder="Search"
-                  className="pl-8"
-                  value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
-                  onChange={(event) => {
-                    event.preventDefault()
-                    table.getColumn(searchKey)?.setFilterValue(event.target.value)
-                  }}
-                />
+              <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-cols-4">
+                {filters.map((item) => (
+                  <div className="flex items-center gap-2">
+                    {item.label && <span className="font-medium text-gray-500">{item.label}</span>}
+                    <div key={`table_filter_${item.key}`} className="relative">
+                      <IconFilterSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder={item.placeholder ?? 'Search...'}
+                        className="pl-8"
+                        value={(table.getColumn(item.key)?.getFilterValue() as string) ?? ''}
+                        onChange={(event) => {
+                          event.preventDefault()
+                          table.getColumn(item.key)?.setFilterValue(event.target.value)
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
             </form>
           </div>
         )}
       </div>
 
-      <div className="border rounded-md">
+      <div className="relative border rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -114,7 +126,7 @@ export function DataTableServer<TData, TValue>({
             {pending ? (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  Loading...
+                  <IconLoader2 size={32} className="mx-auto animate-spin opacity-40" />
                 </TableCell>
               </TableRow>
             ) : table.getRowModel().rows?.length ? (
