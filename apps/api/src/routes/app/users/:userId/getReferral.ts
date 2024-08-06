@@ -19,18 +19,8 @@ const schema = {
     200: Type.Object({
       data: Type.Object({
         referralChain: Type.Array(Type.String()),
-        referrals1: Type.Array(
-          Type.Object({
-            createdAt: Type.Number(),
-            userId: Type.String(),
-          })
-        ),
-        referrals2: Type.Array(
-          Type.Object({
-            createdAt: Type.Number(),
-            userId: Type.String(),
-          })
-        ),
+        referrals1: Type.Array(Type.String()),
+        referrals2: Type.Array(Type.String()),
       }),
     }),
     400: ERROR400_SCHEMA,
@@ -58,30 +48,20 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const referral1 = await prisma.referral.findMany({
-    select: {
-      createdAt: true,
-      referee: true,
-    },
-    where: {
-      referrer: userId,
-    },
+    select: { referee: true },
+    where: { referrer: userId },
   })
 
   const referral2 = await prisma.referral.findMany({
-    select: {
-      createdAt: true,
-      referee: true,
-    },
-    where: {
-      referrer: { in: referral1.map((r) => r.referee) },
-    },
+    select: { referee: true },
+    where: { referrer: { in: referral1.map((r) => r.referee) } },
   })
 
   reply.status(200).send({
     data: {
       referralChain,
-      referrals1: referral1.map((i) => ({ userId: i.referee, createdAt: i.createdAt.getTime() })),
-      referrals2: referral2.map((i) => ({ userId: i.referee, createdAt: i.createdAt.getTime() })),
+      referrals1: referral1.map((i) => i.referee),
+      referrals2: referral2.map((i) => i.referee),
     },
   })
 }

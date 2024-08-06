@@ -33,6 +33,7 @@ export class AppClient extends BaseClient {
     page: number
     limit: number
     id?: string
+    ids?: string[]
     referCode?: string
     sortBy?: string
     order?: 'asc' | 'desc'
@@ -60,13 +61,9 @@ export class AppClient extends BaseClient {
   }
   async getUserReferral(userId: string) {
     return (
-      await this.http.get<{
-        data: {
-          referralChain: string[]
-          referrals1: { createdAt: number; userId: string }[]
-          referrals2: { createdAt: number; userId: string }[]
-        }
-      }>(`/app/users/${userId}/referral`)
+      await this.http.get<{ data: { referralChain: string[]; referrals1: string[]; referrals2: string[] } }>(
+        `/app/users/${userId}/referral`
+      )
     ).data.data
   }
   async getUserWallets(userId: string) {

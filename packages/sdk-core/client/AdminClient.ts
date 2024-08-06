@@ -10,6 +10,21 @@ export class AdminClient extends BaseClient {
   async setup(data: { username: string; password: string }) {
     return (await this.http.post<{ data: {} }>(`/admin/setup`, data)).data.data
   }
+  async createAdmin(data: { username: string; password: string }) {
+    return (await this.http.post<{ data: { id: number; username: string } }>(`/admin/admins`, data)).data.data
+  }
+  async deleteAdmin(id: number) {
+    return (await this.http.delete<{ data: {} }>(`/admin/admins/${id}`)).data.data
+  }
+  async listAdmins() {
+    return (await this.http.get<{ data: { id: number; username: string }[] }>(`/admin/admins`)).data.data
+  }
+  async updateAdmin(id: number, data: { username: string; password: string }) {
+    return (await this.http.patch<{ data: {} }>(`/admin/admins/${id}`, data)).data.data
+  }
+  async getAdmin(id: number) {
+    return (await this.http.get<{ data: { id: number; username: string } }>(`/admin/admins/${id}`)).data.data
+  }
   async createApp(data: { name: string }) {
     return (
       await this.http.post<{
@@ -51,21 +66,6 @@ export class AdminClient extends BaseClient {
         }[]
       }>(`/admin/apps`)
     ).data.data
-  }
-  async createAdmin(data: { username: string; password: string }) {
-    return (await this.http.post<{ data: { id: number; username: string } }>(`/admin/admins`, data)).data.data
-  }
-  async deleteAdmin(id: number) {
-    return (await this.http.delete<{ data: {} }>(`/admin/admins/${id}`)).data.data
-  }
-  async listAdmins() {
-    return (await this.http.get<{ data: { id: number; username: string }[] }>(`/admin/admins`)).data.data
-  }
-  async updateAdmin(id: number, data: { username: string; password: string }) {
-    return (await this.http.patch<{ data: {} }>(`/admin/admins/${id}`, data)).data.data
-  }
-  async getAdmin(id: number) {
-    return (await this.http.get<{ data: { id: number; username: string } }>(`/admin/admins/${id}`)).data.data
   }
   async deleteApp(appId: string) {
     return (await this.http.delete<{ data: {} }>(`/admin/apps/${appId}`)).data.data
