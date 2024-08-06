@@ -12,10 +12,11 @@ export function useLogInWithUsername() {
       try {
         const data = await client.user.logInWithUsername({ appId: config.appId, username, password })
         await logIn(data.token)
+        setLoading(false)
       } catch (error) {
-        console.error(error)
+        setLoading(false)
+        throw error
       }
-      setLoading(false)
     },
     [client.app, config.appId, globalConfig]
   )

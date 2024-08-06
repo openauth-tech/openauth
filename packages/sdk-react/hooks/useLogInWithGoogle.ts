@@ -14,17 +14,21 @@ export function useLogInWithGoogle() {
     },
     onSuccess: async (tokenResponse) => {
       const token = tokenResponse.access_token
-      const userinfo = await (
-        await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      ).json()
-      console.debug(userinfo)
-      const email = userinfo.email
-      const data = await client.user.logInWithGoogle({ appId: config.appId, email, token })
-      await logIn(data.token)
+      try {
+        const userinfo = await (
+          await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        ).json()
+        console.debug(userinfo)
+        const email = userinfo.email
+        const data = await client.user.logInWithGoogle({ appId: config.appId, email, token })
+        await logIn(data.token)
+      } catch (error) {
+        console.error(error)
+      }
       setLoading(false)
     },
   })

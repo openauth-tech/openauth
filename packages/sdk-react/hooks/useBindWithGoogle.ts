@@ -13,15 +13,19 @@ export function useBindWithGoogle() {
       setLoading(false)
     },
     onSuccess: async (tokenResponse) => {
-      const token = tokenResponse.access_token
-      const userinfo = await (
-        await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-      ).json()
-      await client.user.bindWithGoogle({ google: userinfo.email, token })
+      try {
+        const token = tokenResponse.access_token
+        const userinfo = await (
+          await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        ).json()
+        await client.user.bindWithGoogle({ google: userinfo.email, token })
+      } catch (error) {
+        console.error(error)
+      }
       setLoading(false)
     },
   })

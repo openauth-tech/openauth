@@ -17,12 +17,17 @@ export function useBindWithSolana() {
       throw new Error('No wallet found')
     }
     setLoading(true)
-    const resp = await provider.connect()
-    const address = resp.publicKey.toString()
-    const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
-    const signature = encodeBase58(sig.signature)
-    await client.user.bindWithSolana({ solAddress: address, signature })
-    setLoading(false)
+    try {
+      const resp = await provider.connect()
+      const address = resp.publicKey.toString()
+      const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
+      const signature = encodeBase58(sig.signature)
+      await client.user.bindWithSolana({ solAddress: address, signature })
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      throw error
+    }
   }, [globalConfig, client.app, config.appId])
 
   return {

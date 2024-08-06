@@ -17,13 +17,18 @@ export function useBindWithEthereum() {
       throw new Error('No wallet found')
     }
     setLoading(true)
-    const provider = new ethers.BrowserProvider(ethereum)
-    await provider.send('eth_requestAccounts', [])
-    const signer = await provider.getSigner()
-    const address = await signer.getAddress()
-    const signature = await signer.signMessage(globalConfig.message)
-    await client.user.bindWithEthereum({ ethAddress: address, signature })
-    setLoading(false)
+    try {
+      const provider = new ethers.BrowserProvider(ethereum)
+      await provider.send('eth_requestAccounts', [])
+      const signer = await provider.getSigner()
+      const address = await signer.getAddress()
+      const signature = await signer.signMessage(globalConfig.message)
+      await client.user.bindWithEthereum({ ethAddress: address, signature })
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      throw error
+    }
   }, [client.app, config.appId, globalConfig])
 
   return {
