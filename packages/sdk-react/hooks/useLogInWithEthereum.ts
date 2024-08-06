@@ -12,22 +12,18 @@ export function useLogInWithEthereum() {
     if (!globalConfig) {
       return
     }
-    const provider = getEthereumProvider()
-    if (!provider) {
+    const ethereum = getEthereumProvider()
+    if (!ethereum) {
       throw new Error('No wallet found')
     }
     setLoading(true)
-    try {
-      const provider = new ethers.BrowserProvider((window as any).ethereum)
-      await provider.send('eth_requestAccounts', [])
-      const signer = await provider.getSigner()
-      const address = await signer.getAddress()
-      const signature = await signer.signMessage(globalConfig.message)
-      const data = await client.user.logInWithEthereum({ appId: config.appId, ethAddress: address, signature })
-      await logIn(data.token)
-    } catch (error) {
-      console.error(error)
-    }
+    const provider = new ethers.BrowserProvider(ethereum)
+    await provider.send('eth_requestAccounts', [])
+    const signer = await provider.getSigner()
+    const address = await signer.getAddress()
+    const signature = await signer.signMessage(globalConfig.message)
+    const data = await client.user.logInWithEthereum({ appId: config.appId, ethAddress: address, signature })
+    await logIn(data.token)
     setLoading(false)
   }, [client.app, config.appId, globalConfig])
 
