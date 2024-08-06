@@ -1,10 +1,9 @@
 import { useGoogleLogin } from '@react-oauth/google'
-import { useCallback, useContext, useState } from 'react'
-
-import { OpenAuthContext } from '../context/OpenAuthContext'
+import { useCallback, useState } from 'react'
+import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithGoogle() {
-  const { client } = useContext(OpenAuthContext)
+  const { client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const googleLogin = useGoogleLogin({

@@ -1,11 +1,10 @@
 import { ethers } from 'ethers'
-import { useCallback, useContext, useState } from 'react'
-
-import { OpenAuthContext } from '../context/OpenAuthContext'
+import { useCallback, useState } from 'react'
 import { getEthereumProvider } from '../utils/getProvider'
+import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useLogInWithEthereum() {
-  const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, logIn, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const logInWithEthereum = useCallback(async () => {

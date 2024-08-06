@@ -1,9 +1,8 @@
-import { useCallback, useContext, useState } from 'react'
-
-import { OpenAuthContext } from '../context/OpenAuthContext'
+import { useCallback, useState } from 'react'
+import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useLogInWithUsername() {
-  const { config, globalConfig, logIn, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, logIn, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const logInWithUsername = useCallback(

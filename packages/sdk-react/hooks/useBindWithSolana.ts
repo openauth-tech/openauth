@@ -1,11 +1,10 @@
 import { encodeBase58 } from 'ethers'
-import { useCallback, useContext, useState } from 'react'
-
-import { OpenAuthContext } from '../context/OpenAuthContext'
+import { useCallback, useState } from 'react'
 import { getSolanaProvider } from '../utils/getProvider'
+import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithSolana() {
-  const { config, globalConfig, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithSolana = useCallback(async () => {

@@ -1,11 +1,10 @@
 import { ethers } from 'ethers'
-import { useCallback, useContext, useState } from 'react'
-
-import { OpenAuthContext } from '../context/OpenAuthContext'
+import { useCallback, useState } from 'react'
 import { getEthereumProvider } from '../utils/getProvider'
+import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithEthereum() {
-  const { config, globalConfig, client } = useContext(OpenAuthContext)
+  const { config, globalConfig, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithEthereum = useCallback(async () => {
