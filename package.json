@@ -1,21 +1,30 @@
 {
   "name": "root",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev:api": "pnpm --filter './packages/*' build && pnpm --filter ./apps/api dev",
-    "dev:admin": "pnpm --filter './packages/*' build && pnpm --filter ./apps/web-admin dev",
-    "dev:home": "pnpm --filter './packages/*' build && pnpm --filter ./apps/web-home dev",
+    "dev": "pnpm run dev:packages && concurrently -n api,admin -c \"green.bold,magenta.bold\" \"pnpm run dev:api\" \"pnpm run dev:admin\"",
+    "dev:api": "pnpm --filter ./apps/api dev",
+    "dev:admin": "pnpm --filter ./apps/web-admin dev",
+    "dev:home": "pnpm --filter ./apps/web-home dev",
+    "dev:packages": "concurrently -n sdk-core,sdk-react -c \"yellow,green\" \"pnpm --filter @open-auth/sdk-core build\" \"pnpm --filter @open-auth/sdk-react build\"",
     "generate": "pnpm --filter api generate && eslint --fix --ext .ts ./packages/sdk-core/client && pnpm -r build"
   },
   "devDependencies": {
-    "typescript": "^5.5.2",
-    "eslint": "^8.33.0",
+    "@eslint-react/eslint-plugin": "1.9.0",
+    "@sxzz/eslint-config": "3.16.3",
+    "concurrently": "8.2.2",
+    "eslint": "^9.8.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-hooks": "5.1.0-rc-187dd6a7-20240806",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "2.8.3"
+    "prettier": "2.8.3",
+    "typescript": "^5.5.2",
+    "unocss": "0.59.4",
+    "unocss-preset-animations": "1.0.1",
+    "unocss-preset-shadcn": "^0.2.3"
   }
 }

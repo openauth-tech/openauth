@@ -10,11 +10,9 @@ export function useSetupChecker() {
   const { data } = useQueryAdminConfig()
 
   useEffect(() => {
-    if (data) {
-      if (pathname !== '/setup' && !data.initialized) {
-        console.log('Redirect to /setup', pathname, data)
-        nav('/setup')
-      }
+    if (data && pathname !== '/setup' && !data.initialized) {
+      console.log('Redirect to /setup', pathname, data)
+      nav('/setup')
     }
   }, [nav, pathname, data])
 }

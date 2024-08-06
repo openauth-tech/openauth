@@ -38,7 +38,9 @@ export default defineConfig(({ mode }) => {
         exclude: ['**/[A-Z]*.tsx'],
         importMode: 'sync'
       }),
-      UnoCSS(),
+      UnoCSS({
+        configFile: '../../uno.config.ts',
+      }),
       AutoImport({
         imports: ['react'],
         dts: './src/auto-imports.d.ts',

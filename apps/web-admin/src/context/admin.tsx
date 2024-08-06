@@ -1,5 +1,5 @@
 import { OpenAuthClient } from '@open-auth/sdk-core'
-import { createContext, ReactNode, useEffect } from 'react'
+import { createContext, type ReactNode, useEffect } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 
 import { OPENAUTH_ENDPOINT } from '@/utils/constants'
@@ -31,7 +31,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       setUsername(username)
       setToken(token)
     },
-    [setToken, setUsername]
+    [setToken, setUsername],
   )
 
   const logOut = useCallback(() => {
@@ -42,6 +42,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
   return (
     <AdminContext.Provider
+      // eslint-disable-next-line @eslint-react/no-unstable-context-value
       value={{
         client,
         username,

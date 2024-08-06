@@ -25,7 +25,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const root = createRoot(document.getElementById('root')!)
+const root = createRoot(document.querySelector('#root')!)
 root.render(
   <QueryClientProvider client={queryClient}>
     <AdminProvider>
@@ -33,5 +33,5 @@ root.render(
         <App />
       </BrowserRouter>
     </AdminProvider>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 )

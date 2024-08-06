@@ -25,7 +25,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const root = createRoot(document.getElementById('root')!)
+const root = createRoot(document.querySelector('#root')!)
 root.render(
   <OpenAuthProvider
     config={{
@@ -39,5 +39,5 @@ root.render(
         <App />
       </BrowserRouter>
     </QueryClientProvider>
-  </OpenAuthProvider>
+  </OpenAuthProvider>,
 )

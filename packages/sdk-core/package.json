@@ -2,15 +2,18 @@
   "name": "@open-auth/sdk-core",
   "version": "0.0.0",
   "description": "",
+  "type": "module",
+  "files": [
+    "dist/"
+  ],
   "main": "dist/index.js",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.js"
     }
   },
-  "type": "module",
   "scripts": {
     "build": "tsup",
     "test": "mocha test/*.test.ts"
@@ -43,8 +46,5 @@
     "sourcemap": true,
     "clean": true,
     "dts": true
-  },
-  "files": [
-    "dist/"
-  ]
+  }
 }

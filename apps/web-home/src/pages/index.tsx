@@ -6,7 +6,7 @@ import { cn } from '@/utils/css'
 
 export default function () {
   return (
-    <div className="max-w-6xl mx-auto min-h-80vh flex-col-center gap-10 relative">
+    <div className="relative mx-auto max-w-6xl min-h-80vh flex-col-center gap-10">
       <div className="relative flex-col-center gap-8 text-center">
         <div className="text-6xl">Web3 Auth Service</div>
         <div className="text-xl">
