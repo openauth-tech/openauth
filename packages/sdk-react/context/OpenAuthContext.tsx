@@ -25,12 +25,16 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     }
   }, [client, config, setGlobalConfig])
 
+  const refetch = useCallback(async () => {
+    const profile = await client.user.getProfile()
+    setProfile(profile)
+  }, [client, setProfile])
+
   const logIn = useCallback(
     async (token: string) => {
       client.user.updateToken(token)
       setToken(token)
-      const profile = await client.user.getProfile()
-      setProfile(profile)
+      await refetch()
     },
     [client, setToken]
   )
@@ -51,6 +55,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         profile,
         logIn,
         logOut,
+        refetch,
       }}
     >
       {children}
