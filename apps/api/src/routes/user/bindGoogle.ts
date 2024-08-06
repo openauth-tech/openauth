@@ -15,7 +15,7 @@ const schema = {
   }),
   body: Type.Object({
     google: Type.String(),
-    signature: Type.String(),
+    token: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -27,7 +27,7 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, userId } = request.user as JwtPayload
-  const { google, signature } = request.body
+  const { google, token } = request.body
 
   const data = await prisma.user.findUnique({
     where: { id: userId },
@@ -39,7 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!google) {
     return reply.status(400).send({ message: 'Invalid params' })
   }
-  if (!(await verifyGoogle(google, signature))) {
+  if (!(await verifyGoogle(google, token))) {
     return reply.status(400).send({ message: 'Invalid params' })
   }
 

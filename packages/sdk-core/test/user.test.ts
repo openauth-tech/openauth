@@ -67,6 +67,9 @@ describe('OpenAuth User API', () => {
     await logInNewEthereumUser(client, appId)
     const solanaKeypair = Keypair.generate()
     await bindSolanaUser(client, appId, solanaKeypair)
+
+    const profile = await client.user.getProfile()
+    assert.equal(profile.solAddress, solanaKeypair.publicKey.toBase58())
   })
 
   it('Wallets', async () => {

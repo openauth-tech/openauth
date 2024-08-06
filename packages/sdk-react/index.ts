@@ -1,8 +1,8 @@
 export * from './context/OpenAuthContext'
 
-export * from './hooks/useBindEthereum'
-export * from './hooks/useBindGoogle'
-export * from './hooks/useBindSolana'
+export * from './hooks/useBindWithEthereum.ts'
+export * from './hooks/useBindWithGoogle.ts'
+export * from './hooks/useBindWithSolana.ts'
 
 export * from './hooks/useLogInWithEthereum'
 export * from './hooks/useLogInWithGoogle'

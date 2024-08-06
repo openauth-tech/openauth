@@ -4,7 +4,7 @@ export class UserClient extends BaseClient {
   async bindWithEthereum(data: { ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-ethereum`, data)).data.data
   }
-  async bindWithGoogle(data: { google: string; signature: string }) {
+  async bindWithGoogle(data: { google: string; token: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data.data
   }
   async bindWithSolana(data: { solAddress: string; signature: string }) {

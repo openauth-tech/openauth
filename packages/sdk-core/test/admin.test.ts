@@ -22,8 +22,8 @@ describe('OpenAuth Admin API', () => {
     assert.equal(app.name, APP_NAME)
 
     // test secret api
-    const { secret } = await client.admin.getAppSecret(appId)
-    client.app.updateToken(secret)
+    const { appSecret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(appSecret)
 
     const { data: users } = await client.app.listUsers({ page: 1, limit: 10 })
     assert.equal(users.length, 0)
