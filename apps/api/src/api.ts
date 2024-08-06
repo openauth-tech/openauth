@@ -1,4 +1,5 @@
 import Fastify from 'fastify'
+import qs from 'qs'
 import jwt from '@fastify/jwt'
 import { prisma } from './utils/prisma'
 import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants/env'
@@ -9,7 +10,10 @@ import path from 'node:path'
 
 init()
 
-const server = Fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
+const server = Fastify({
+  logger: true,
+  querystringParser: (str) => qs.parse(str),
+}).withTypeProvider<TypeBoxTypeProvider>()
 
 server.setErrorHandler((error, request, reply) => {
   console.error(error)
