@@ -1,13 +1,14 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
-import { findOrCreateUser } from '../../../repositories/findOrCreateUser'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { verifyApp } from '../../../handlers/verifyApp'
-import { AppAuthPayload } from '../../../models/request'
-import { avatarQueue } from '../../../utils/queue'
+import type { AppAuthPayload } from '../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
+import { findOrCreateUser } from '../../../repositories/findOrCreateUser'
 import { transformUserToReponse } from '../../../repositories/transform'
+import { avatarQueue } from '../../../utils/queue'
 
 const schema = {
   tags: ['App - Users'],

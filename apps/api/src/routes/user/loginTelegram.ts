@@ -1,11 +1,12 @@
 import { Type } from '@fastify/type-provider-typebox'
 import { TypeLoginResponse } from '@open-auth/sdk-core'
-import { FastifyInstance } from 'fastify'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR400_SCHEMA } from '../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { findOrCreateUser } from '../../repositories/findOrCreateUser'
-import { generateJwtToken } from '../../utils/jwt'
 import { parseTelegramData, verifyTelegram } from '../../utils/auth'
+import { generateJwtToken } from '../../utils/jwt'
 import { prisma } from '../../utils/prisma'
 import { avatarQueue } from '../../utils/queue'
 

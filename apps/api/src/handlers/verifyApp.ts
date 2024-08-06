@@ -1,4 +1,5 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
+import type { FastifyReply, FastifyRequest } from 'fastify'
+
 import { prisma } from '../utils/prisma'
 
 export const verifyApp = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -10,7 +11,7 @@ export const verifyApp = async (request: FastifyRequest, reply: FastifyReply) =>
       return reply.code(401).send({ message: 'Unauthorized' })
     }
     request.user = { appId: app.id }
-  } catch (error) {
+  } catch {
     return reply.code(401).send({ message: 'Unauthorized' })
   }
 }

@@ -1,7 +1,8 @@
-import { prisma } from '../utils/prisma'
 import bcrypt from 'bcrypt'
+
 import { SALT_ROUNDS } from '../utils/auth'
 import { generateReferCode } from '../utils/common'
+import { prisma } from '../utils/prisma'
 
 export async function findOrCreateUser({
   appId,

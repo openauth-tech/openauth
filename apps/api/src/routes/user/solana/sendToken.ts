@@ -1,14 +1,15 @@
-import { FastifyInstance } from 'fastify'
 import { Type } from '@fastify/type-provider-typebox'
+import { createTransferInstruction, getOrCreateAssociatedTokenAccount } from '@solana/spl-token'
+import { LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR400_SCHEMA } from '../../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
-import { JwtPayload } from '../../../models/request'
-import { prisma } from '../../../utils/prisma'
 import { getSolanaWallet } from '../../../crypto/solana'
 import { verifyUser } from '../../../handlers/verifyUser'
+import type { JwtPayload } from '../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
+import { prisma } from '../../../utils/prisma'
 import { getConnection, SolanaNetwork } from '../../../utils/solana'
-import { LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js'
-import { createTransferInstruction, getOrCreateAssociatedTokenAccount } from '@solana/spl-token'
 
 const schema = {
   tags: ['User'],

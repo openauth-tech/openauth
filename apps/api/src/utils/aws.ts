@@ -17,13 +17,13 @@ async function uploadFile(folder: string, filename: string, data: any) {
     },
   })
 
-  const path = folder + '/' + filename
+  const path = `${folder}/${filename}`
   await s3.send(
     new PutObjectCommand({
       Bucket: 'cdn.openauth.tech',
       Key: path,
       Body: data,
-    })
+    }),
   )
   return `https://cdn.openauth.tech/${path}`
 }

@@ -1,10 +1,11 @@
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import Fastify from 'fastify'
-import { prisma } from './utils/prisma'
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import path from 'node:path'
+
 import { clientGeneratorPlugin } from './plugins/generator'
-import { redis } from './utils/redis'
+import { prisma } from './utils/prisma'
 import { avatarQueue } from './utils/queue'
+import { redis } from './utils/redis'
 
 const server = Fastify({ logger: true }).withTypeProvider<TypeBoxTypeProvider>()
 

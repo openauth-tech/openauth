@@ -1,4 +1,5 @@
-import {
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import type {
   ContextConfigDefault,
   FastifyReply,
   FastifyRequest,
@@ -6,9 +7,8 @@ import {
   RawRequestDefaultExpression,
   RawServerDefault,
 } from 'fastify'
-import { RouteGenericInterface } from 'fastify/types/route'
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
-import { FastifySchema } from 'fastify/types/schema'
+import type { RouteGenericInterface } from 'fastify/types/route'
+import type { FastifySchema } from 'fastify/types/schema'
 
 export type FastifyRequestTypebox<TSchema extends FastifySchema> = FastifyRequest<
   RouteGenericInterface,

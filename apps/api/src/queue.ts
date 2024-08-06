@@ -1,12 +1,11 @@
+import { createBullBoard } from '@bull-board/api'
+import { BullAdapter } from '@bull-board/api/bullAdapter'
+import { FastifyAdapter } from '@bull-board/fastify'
+import fastify from 'fastify'
+
+import { processAvatarJob } from './queue/avatar'
 import { init } from './utils/init'
 import { avatarQueue, fullSyncAvatar } from './utils/queue'
-
-import { BullAdapter } from '@bull-board/api/bullAdapter'
-import { createBullBoard } from '@bull-board/api'
-import { FastifyAdapter } from '@bull-board/fastify'
-
-import fastify from 'fastify'
-import { processAvatarJob } from './queue/avatar'
 
 init()
 
@@ -26,7 +25,7 @@ async function run() {
   await app.listen({ host: '0.0.0.0', port: 5567 })
 }
 
-run().catch((e) => {
-  console.error(e)
+run().catch((error) => {
+  console.error(error)
   process.exit(1)
 })

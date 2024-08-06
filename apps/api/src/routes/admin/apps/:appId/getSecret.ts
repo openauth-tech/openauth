@@ -1,11 +1,12 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../../utils/prisma'
+import type { FastifyInstance } from 'fastify'
+import { randomUUID } from 'node:crypto'
+
+import { JWT_PUBLIC_KEY } from '../../../../constants/env'
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
-import { randomUUID } from 'node:crypto'
-import { JWT_PUBLIC_KEY } from '../../../../constants/env'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { prisma } from '../../../../utils/prisma'
 
 const schema = {
   tags: ['Admin - Apps'],
@@ -40,7 +41,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   let appSecret = app.secret
 
   if (appSecret === null) {
-    appSecret = 'oa_' + randomUUID().replaceAll('-', '')
+    appSecret = `oa_${randomUUID().replaceAll('-', '')}`
     await prisma.app.update({
       where: { id: appId },
       data: { secret: appSecret },

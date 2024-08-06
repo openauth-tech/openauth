@@ -1,12 +1,13 @@
-import Fastify from 'fastify'
-import qs from 'qs'
+import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
-import { prisma } from './utils/prisma'
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import Fastify from 'fastify'
+import path from 'node:path'
+import qs from 'qs'
+
 import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants/env'
 import { init } from './utils/init'
-import cors from '@fastify/cors'
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
-import path from 'node:path'
+import { prisma } from './utils/prisma'
 
 init()
 

@@ -1,8 +1,9 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../utils/prisma'
 import { TypeAdminConfig } from '@open-auth/sdk-core'
+import type { FastifyInstance } from 'fastify'
+
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['Config'],

@@ -1,5 +1,6 @@
-import { FastifyReply, FastifyRequest } from 'fastify'
-import { AdminJwtPayload } from '../models/request'
+import type { FastifyReply, FastifyRequest } from 'fastify'
+
+import type { AdminJwtPayload } from '../models/request'
 import { prisma } from '../utils/prisma'
 
 export const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -12,7 +13,7 @@ export const verifyAdmin = async (request: FastifyRequest, reply: FastifyReply) 
     if (!admin) {
       return reply.code(401).send({ message: 'Unauthorized' })
     }
-  } catch (error) {
+  } catch {
     return reply.code(401).send({ message: 'Unauthorized' })
   }
 }

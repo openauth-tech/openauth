@@ -1,12 +1,13 @@
-import { FastifyInstance } from 'fastify'
-import { prisma } from '../../utils/prisma'
-import { ERROR400_SCHEMA } from '../../constants/schema'
 import { Type } from '@fastify/type-provider-typebox'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { verifyUser } from '../../handlers/verifyUser'
-import { JwtPayload } from '../../models/request'
 import bcrypt from 'bcrypt'
+import type { FastifyInstance } from 'fastify'
+
+import { ERROR400_SCHEMA } from '../../constants/schema'
+import { verifyUser } from '../../handlers/verifyUser'
+import type { JwtPayload } from '../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { SALT_ROUNDS } from '../../utils/auth'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['User'],

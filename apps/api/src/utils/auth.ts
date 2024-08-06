@@ -1,8 +1,8 @@
-import { ethers } from 'ethers'
-import nacl from 'tweetnacl'
-import base58 from 'bs58'
 import axios from 'axios'
+import base58 from 'bs58'
+import { ethers } from 'ethers'
 import { createHmac } from 'node:crypto'
+import nacl from 'tweetnacl'
 
 export const SALT_ROUNDS = 10
 
@@ -15,8 +15,8 @@ export function verifyETH(appName: string, wallet: string, sig: string) {
     const messageText = getMessageText(appName)
     const address_returned = ethers.verifyMessage(messageText, sig)
     return wallet.toLowerCase() === address_returned.toLowerCase()
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     return false
   }
 }
@@ -26,8 +26,8 @@ export function verifySOL(appName: string, wallet: string, sig: string) {
     const messageText = getMessageText(appName)
     const messageBytes = new TextEncoder().encode(messageText)
     return nacl.sign.detached.verify(messageBytes, base58.decode(sig), base58.decode(wallet))
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     return false
   }
 }
@@ -40,8 +40,8 @@ export async function verifyGoogle(email: string, token: string) {
       },
     })
     return data.data?.email.toLowerCase() === email.toLowerCase()
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
     return false
   }
 }
