@@ -1,7 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon, DotsHorizontalIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 
-import { Button, ButtonProps } from '@/components/ui/button'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/utils/css'
 
 import usePagination, { type PaginationProps } from './use-pagination'
@@ -14,7 +14,7 @@ PaginationRoot.displayName = 'PaginationRoot'
 const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(
   ({ className, ...props }, ref) => (
     <ul ref={ref} className={cn('flex flex-row items-center gap-1', className)} {...props} />
-  )
+  ),
 )
 PaginationContent.displayName = 'PaginationContent'
 

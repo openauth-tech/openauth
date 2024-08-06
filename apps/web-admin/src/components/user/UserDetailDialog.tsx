@@ -28,7 +28,7 @@ export function UserDetailDialog({ user, onClose }: { user: any; onClose: any })
         <div className="grid gap-4 py-4">
           <ul className="grid gap-3">
             {['id', 'email', 'google', 'twitter', 'apple', 'ethAddress', 'solAddress'].map((key) => (
-              <li key={'user-' + key} className="flex items-center">
+              <li key={`user-${key}`} className="flex items-center">
                 <div className="w-1/3 text-muted-foreground capitalize">{key}</div>
                 <div className="flex-1">{user[key]}</div>
               </li>

@@ -89,7 +89,7 @@ export default function () {
             The JWT Public Key is used to verify the JWT tokens that are issued by OpenAuth.
           </div>
           <div className="flex-center gap-2">
-            <Textarea rows={3} value={jwtSecret} readOnly className="text-muted-foreground resize-none" />
+            <Textarea rows={3} value={jwtSecret} readOnly className="resize-none text-muted-foreground" />
             <Button
               variant="outline"
               className="px-3"
@@ -115,7 +115,7 @@ export default function () {
               variant="outline"
               className="px-3"
               onClick={async () => {
-                await client.admin.updateApp(id, { jwtTTL: parseInt(ttl) })
+                await client.admin.updateApp(id, { jwtTTL: Number.parseInt(ttl) })
                 toast.success('Update successfully')
               }}
             >

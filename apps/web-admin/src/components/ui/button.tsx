@@ -27,7 +27,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 )
 
 export interface ButtonProps
@@ -51,7 +51,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Slottable>{children}</Slottable>
       </Comp>
     )
-  }
+  },
 )
 Button.displayName = 'Button'
 

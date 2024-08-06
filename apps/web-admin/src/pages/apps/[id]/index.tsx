@@ -20,9 +20,9 @@ export default function () {
             <CardDescription>Select the login methods you want to enable in your app.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Link to={`${pathname}/login-methods`} className="flex-center gap-1 font-bold text-purple-500">
+            <Link to={`${pathname}/login-methods`} className="flex-center gap-1 text-purple-500 font-bold">
               Login methods
-              <span className="i-lucide:arrow-right inline-flex w-4 h-4 translate-y-0.25"></span>
+              <span className="i-lucide:arrow-right h-4 w-4 inline-flex translate-y-0.25"></span>
             </Link>
           </CardFooter>
         </Card>
@@ -33,9 +33,9 @@ export default function () {
             <CardDescription>Add your logo and colors to make OpenAuth yours.</CardDescription>
           </CardHeader>
           <CardFooter>
-            <Link to={`${pathname}/branding`} className="flex-center gap-1 font-bold text-purple-500">
+            <Link to={`${pathname}/branding`} className="flex-center gap-1 text-purple-500 font-bold">
               Branding
-              <span className="i-lucide:arrow-right inline-flex w-4 h-4 translate-y-0.25"></span>
+              <span className="i-lucide:arrow-right h-4 w-4 inline-flex translate-y-0.25"></span>
             </Link>
           </CardFooter>
         </Card>

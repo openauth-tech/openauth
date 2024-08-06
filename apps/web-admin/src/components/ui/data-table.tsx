@@ -1,13 +1,13 @@
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
+  type SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import * as React from 'react'
@@ -70,7 +70,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, loading = f
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-black/90 font-semibold text-base">
+                    <TableHead key={header.id} className="text-base text-black/90 font-semibold">
                       {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
                   )
@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, loading = f
               table.getRowModel().rows.map((row, index) => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-black/90 text-sm">
+                    <TableCell key={cell.id} className="text-sm text-black/90">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -100,8 +100,8 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, loading = f
         </Table>
       </div>
       {table.getFilteredRowModel().rows.length > 0 && (
-        <div className="flex justify-between items-center">
-          <div className="flex gap-1 text-gray-400 text-sm">
+        <div className="flex items-center justify-between">
+          <div className="flex gap-1 text-sm text-gray-400">
             Showing
             <span className="text-gray-600 font-semibold">
               {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
@@ -110,13 +110,13 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, loading = f
             <span className="text-gray-600 font-semibold">
               {Math.min(
                 (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-                table.getFilteredRowModel().rows.length
+                table.getFilteredRowModel().rows.length,
               )}{' '}
             </span>
             of <span className="text-gray-600 font-semibold">{table.getFilteredRowModel().rows.length} </span>
             records
           </div>
-          <div className="flex gap-6 items-center justify-end">
+          <div className="flex items-center justify-end gap-6">
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({ columns, data, searchKey, loading = f
               <SelectContent>
                 {pagers.map((item) => (
                   <SelectItem key={item} value={`${item}`}>
-                    <span className="flex justify-between items-center gap-2">
+                    <span className="flex items-center justify-between gap-2">
                       {item}
                       <span className="text-gray-500">rows/page</span>
                     </span>

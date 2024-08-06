@@ -9,7 +9,7 @@ export const Header = () => {
   const { username } = useAdmin()
   return (
     <header className="w-full">
-      <div className="container mx-auto flex py-4 items-center justify-between mx-auto lt-sm:px-4">
+      <div className="mx-auto mx-auto flex items-center justify-between py-4 container lt-sm:px-4">
         <div className="flex items-center gap-2">
           <NavLink className="flex items-center" to="/">
             <img src={ImgLogo} alt="" className="h-8" />

@@ -24,7 +24,7 @@ export default function () {
   }
 
   return (
-    <Card className="w-full max-w-sm mx-auto my-20">
+    <Card className="mx-auto my-20 max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-2xl">Create App</CardTitle>
       </CardHeader>

@@ -1,4 +1,4 @@
-import { User } from '@open-auth/sdk-core'
+import type { User } from '@open-auth/sdk-core'
 import {
   IconBrandGoogle,
   IconBrandTelegram,

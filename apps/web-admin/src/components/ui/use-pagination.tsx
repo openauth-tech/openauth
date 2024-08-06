@@ -72,10 +72,10 @@ export default function usePagination(props: PaginationProps = {}) {
       // Natural start
       page - siblingCount,
       // Lower boundary when page is high
-      count - boundaryCount - siblingCount * 2 - 1
+      count - boundaryCount - siblingCount * 2 - 1,
     ),
     // Greater than startPages
-    boundaryCount + 2
+    boundaryCount + 2,
   )
 
   const siblingsEnd = Math.min(
@@ -83,10 +83,10 @@ export default function usePagination(props: PaginationProps = {}) {
       // Natural end
       page + siblingCount,
       // Upper boundary when page is low
-      boundaryCount + siblingCount * 2 + 2
+      boundaryCount + siblingCount * 2 + 2,
     ),
     // Less than endPages
-    endPages.length > 0 ? endPages[0] - 2 : count - 1
+    endPages.length > 0 ? endPages[0] - 2 : count - 1,
   )
 
   const itemList: (number | string)[] = [
@@ -96,14 +96,14 @@ export default function usePagination(props: PaginationProps = {}) {
     ...(siblingsStart > boundaryCount + 2
       ? ['start-ellipsis']
       : boundaryCount + 1 < count - boundaryCount
-      ? [boundaryCount + 1]
-      : []),
+        ? [boundaryCount + 1]
+        : []),
     ...range(siblingsStart, siblingsEnd),
     ...(siblingsEnd < count - boundaryCount - 1
       ? ['end-ellipsis']
       : count - boundaryCount > boundaryCount
-      ? [count - boundaryCount]
-      : []),
+        ? [count - boundaryCount]
+        : []),
     ...endPages,
     ...(hideNextButton ? [] : ['next']),
     ...(showLastButton ? ['last'] : []),
@@ -147,7 +147,7 @@ export default function usePagination(props: PaginationProps = {}) {
           selected: false,
           disabled:
             disabled ||
-            (item.indexOf('ellipsis') === -1 && (item === 'next' || item === 'last' ? page >= count : page <= 1)),
+            (!item.includes('ellipsis') && (item === 'next' || item === 'last' ? page >= count : page <= 1)),
         }
   })
 

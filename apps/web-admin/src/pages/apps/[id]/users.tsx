@@ -1,4 +1,4 @@
-import { User } from '@open-auth/sdk-core'
+import type { User } from '@open-auth/sdk-core'
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import type { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/react-table'
@@ -56,7 +56,7 @@ export default function () {
       header: ({ column }) => {
         return (
           <span
-            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
+            className="inline-flex cursor-pointer items-center gap-1 break-keep px-1 hover:text-accent-foreground"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Registered At
@@ -75,7 +75,7 @@ export default function () {
       header: ({ column }) => {
         return (
           <span
-            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
+            className="inline-flex cursor-pointer items-center gap-1 break-keep px-1 hover:text-accent-foreground"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Last Seen
@@ -106,7 +106,7 @@ export default function () {
       const { appSecret } = await client.admin.getAppSecret(appId)
       client.app.updateToken(appSecret)
 
-      let queryParams = {
+      const queryParams = {
         page,
         limit,
       }
@@ -119,10 +119,13 @@ export default function () {
         Object.assign(queryParams, sortingParams)
       }
       if (filtersValue.length > 0) {
-        const filterParams = filtersValue.reduce((acc, filter) => {
-          acc[filter.id] = filter.value
-          return acc
-        }, {} as Record<string, unknown>)
+        const filterParams = filtersValue.reduce(
+          (acc, filter) => {
+            acc[filter.id] = filter.value
+            return acc
+          },
+          {} as Record<string, unknown>,
+        )
         Object.assign(queryParams, filterParams)
       }
       return client.app.listUsers(queryParams)
@@ -133,21 +136,21 @@ export default function () {
     <AppContainer>
       <AppHeader title="User snapshot" />
 
-      <div className="mt-5 grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-3 mt-5 gap-5">
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">Active users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">New users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">Total users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
