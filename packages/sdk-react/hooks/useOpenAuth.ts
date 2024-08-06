@@ -12,5 +12,6 @@ export function useOpenAuth() {
     profile: context.profile,
     logIn: context.logIn,
     logOut: context.logOut,
+    refetch: context.refetch,
   }
 }
