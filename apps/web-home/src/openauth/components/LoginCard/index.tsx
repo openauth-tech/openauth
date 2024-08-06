@@ -45,7 +45,7 @@ export function LoginCard() {
   }, [logInWithGoogle, toast])
 
   return (
-    <Card className="py-10 px-16 shadow">
+    <Card className="px-16 py-10 shadow">
       <CardHeader>
         <CardTitle className="text-2xl">
           <span className="font-400">Welcome to</span> <span className="font-bold">{globalConfig?.brand}</span>
@@ -53,19 +53,19 @@ export function LoginCard() {
       </CardHeader>
       <CardContent className="mx-auto flex flex-col items-center justify-center gap-4">
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectSOL} disabled={loadingSOL}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingSOL ? <IconLoader2 size={20} className="animate-spin" /> : <IconCurrencySolana size={20} />}
             <span>Sign in with Solana</span>
           </div>
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectETH} disabled={loadingETH}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingETH ? <IconLoader2 size={20} className="animate-spin" /> : <IconCurrencyEthereum size={20} />}
             <span>Sign in with Ethereum</span>
           </div>
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectGG} disabled={loadingGG}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingGG ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGoogle size={20} />}
             <span>Sign in with Google</span>
           </div>
@@ -98,7 +98,7 @@ export function TelegramDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full px-6 py-6 text-base">
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandTelegram size={20} />}
             <span>Sign in with Telegram</span>
           </div>
@@ -143,7 +143,7 @@ export function UsernameDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full px-6 py-6 text-base">
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconUser size={20} />}
             <span>Sign in with Username</span>
           </div>
@@ -153,7 +153,7 @@ export function UsernameDialog() {
         <DialogHeader>
           <DialogTitle>Input username and password</DialogTitle>
         </DialogHeader>
-        <div className="py-4 flex-col-center gap-y-4">
+        <div className="flex-col-center gap-y-4 py-4">
           <Input
             value={username}
             placeholder="Username"

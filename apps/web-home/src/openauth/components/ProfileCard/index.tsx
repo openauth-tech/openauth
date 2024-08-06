@@ -26,7 +26,7 @@ export function ProfileCard() {
   }
 
   return (
-    <Card className="py-10 px-12 shadow">
+    <Card className="px-12 py-10 shadow">
       <CardHeader>
         <CardTitle className="text-2xl">
           <span className="font-400">Welcome to</span> <span className="font-bold">{globalConfig?.brand}</span>
@@ -34,7 +34,7 @@ export function ProfileCard() {
       </CardHeader>
       <CardContent className="mx-auto flex flex-col gap-y-6">
         <div>
-          <img src={profile.avatar ?? ''} className="w-12 h-12" alt="" />
+          <img src={profile.avatar ?? ''} className="h-12 w-12" alt="" />
         </div>
         <div>
           <div className="text-sm opacity-60">User ID:</div>
