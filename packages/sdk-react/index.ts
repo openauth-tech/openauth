@@ -6,7 +6,7 @@ export * from './hooks/useBindWithSolana'
 
 export * from './hooks/useLogInWithEthereum'
 export * from './hooks/useLogInWithGoogle'
-export * from './hooks/useLoginWithDiscord'
+export * from './hooks/useLogInWithDiscord'
 export * from './hooks/useLogInWithSolana'
 export * from './hooks/useLogInWithUsername'
 

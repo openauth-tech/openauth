@@ -1,11 +1,10 @@
-import type { DiscordLoginPopupParams, SuccessResponse, ErrorResponse } from './types'
-import { generateAuthUrl, isAccessTokenResponse, isCodeResponse, isErrorResponse } from './utils'
+import type { DiscordLoginPopupParams, ErrorResponse, SuccessResponse } from './types.ts'
+import { generateAuthUrl, isAccessTokenResponse, isCodeResponse, isErrorResponse } from './utils.ts'
 
-export const discordLoginPopup = ({
+export const popupDiscordLogin = ({
+  clientId,
   popupWidth = 700,
   popupHeight = 800,
-  clientId,
-  redirectUri = window.location.origin,
   scopes = ['identify'],
   responseType = 'token',
   onStart,
@@ -13,15 +12,15 @@ export const discordLoginPopup = ({
   onSuccess,
   onClose,
 }: DiscordLoginPopupParams) => {
-  const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=${popupWidth},height=${popupHeight},left=${
-    window.innerWidth / 2 - popupWidth / 2
-  },top=${window.innerHeight / 2 - popupHeight / 2}`
+  const popupLeft = window.innerWidth / 2 - popupWidth / 2
+  const popupTop = window.innerHeight / 2 - popupHeight / 2
+  const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=${popupWidth},height=${popupHeight},left=${popupLeft},top=${popupTop}`
 
-  const url = generateAuthUrl({ clientId, responseType, redirectUri, scopes })
+  const url = generateAuthUrl({ clientId, responseType, scopes })
 
-  const popup = window.open(url, 'Discord Auth', params)
+  const popup = window.open(url, 'open-auth-discord', params)
 
-  typeof onStart === 'function' && onStart()
+  onStart()
 
   const discordLoginMessageInterval = window.setInterval(() => {
     popup!.postMessage({ params: { responseType }, source: 'open-auth-discord' }, window?.location?.origin || '*')
@@ -30,7 +29,7 @@ export const discordLoginPopup = ({
   const closeTimer = window.setInterval(function () {
     if (popup?.closed) {
       window.clearInterval(closeTimer)
-      typeof onClose === 'function' && onClose()
+      onClose()
     }
   }, 500)
 
@@ -40,10 +39,10 @@ export const discordLoginPopup = ({
       let closePopup = false
       const eventData = event.data
       if (isAccessTokenResponse(eventData) || isCodeResponse(eventData)) {
-        typeof onSuccess === 'function' && onSuccess(eventData)
+        onSuccess(eventData)
         closePopup = true
       } else if (isErrorResponse(eventData)) {
-        typeof onError === 'function' && onError(eventData)
+        onError(eventData)
         closePopup = true
       }
 

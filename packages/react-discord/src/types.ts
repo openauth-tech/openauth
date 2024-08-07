@@ -6,7 +6,7 @@ export interface DiscordLoginParams {
 }
 
 export interface DiscordLoginConfig extends DiscordLoginParams {
-  redirectUri: string
+  redirectUri?: string
   responseType: 'token' | 'code'
   scopes: string[]
 }
@@ -43,14 +43,6 @@ export interface TokenResponse {
 
 export type SuccessResponse = CodeResponse | TokenResponse
 
-type OnFailureFunc = (error: ErrorResponse) => Promise<void> | void
-type OnSuccessFunc = (response: SuccessResponse) => Promise<void> | void
-
-export type UseDiscordLoginParams = DiscordLoginParams & {
-  onSuccess?: OnSuccessFunc
-  onError?: OnFailureFunc
-}
-
 export type CallbackResponse = {
   type: null | 'error' | 'token' | 'code'
   error?: ErrorResponse
@@ -59,10 +51,10 @@ export type CallbackResponse = {
 }
 
 export type DiscordLoginPopupParams = DiscordLoginParams & {
-  onClose?: () => void
-  onError?: (data: ErrorResponse) => void
-  onStart?: () => void
-  onSuccess?: (data: TokenResponse | CodeResponse) => void
+  onStart: () => void
+  onClose: () => void
+  onSuccess: (data: TokenResponse | CodeResponse) => void
+  onError: (data: ErrorResponse) => void
   popupHeight?: number
   popupWidth?: number
 }

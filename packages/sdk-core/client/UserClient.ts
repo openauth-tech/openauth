@@ -42,7 +42,7 @@ export class UserClient extends BaseClient {
   async getWallets() {
     return (await this.http.get<{ data: { solWallet: string } }>(`/user/wallets`)).data.data
   }
-  async logInWithDiscord(data: { appId: string; id: string; token: string }) {
+  async logInWithDiscord(data: { appId: string; discord: string; token: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-discord`, data)).data.data
   }
   async logInWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {

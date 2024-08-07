@@ -13,7 +13,7 @@ const schema = {
   summary: 'Log in with Discord',
   body: Type.Object({
     appId: Type.String(),
-    id: Type.String(),
+    discord: Type.String(),
     token: Type.String(),
   }),
   response: {
@@ -25,7 +25,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, id, token } = request.body
+  const { appId, discord, token } = request.body
   const app = await prisma.app.findUnique({ where: { id: appId } })
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })
@@ -35,11 +35,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Missing signature' })
   }
 
-  if (!(await verifyDiscord(id, token))) {
+  if (!(await verifyDiscord(discord, token))) {
     return reply.status(400).send({ message: 'Invalid Discord access token' })
   }
 
-  const user = await findOrCreateUser({ appId, discord: id })
+  const user = await findOrCreateUser({ appId, discord })
 
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   reply.status(200).send({ data: { token: jwtToken } })
