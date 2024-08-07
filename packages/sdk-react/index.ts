@@ -1,5 +1,6 @@
 export * from './context/OpenAuthProvider'
 
+export * from './hooks/useBindWithDiscord'
 export * from './hooks/useBindWithEthereum'
 export * from './hooks/useBindWithGoogle'
 export * from './hooks/useBindWithSolana'
