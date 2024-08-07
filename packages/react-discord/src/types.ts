@@ -26,11 +26,6 @@ export interface DiscordUser {
 
 export interface ErrorResponse {
   error: string
-  description: string
-}
-
-export interface CodeResponse {
-  code: string
 }
 
 export interface TokenResponse {
@@ -41,19 +36,10 @@ export interface TokenResponse {
   user?: DiscordUser
 }
 
-export type SuccessResponse = CodeResponse | TokenResponse
-
-export type CallbackResponse = {
-  type: null | 'error' | 'token' | 'code'
-  error?: ErrorResponse
-  token?: TokenResponse
-  code?: CodeResponse
-}
-
 export type DiscordLoginPopupParams = DiscordLoginParams & {
   onStart: () => void
   onClose: () => void
-  onSuccess: (data: TokenResponse | CodeResponse) => void
+  onSuccess: (data: TokenResponse) => void
   onError: (data: ErrorResponse) => void
   popupHeight?: number
   popupWidth?: number

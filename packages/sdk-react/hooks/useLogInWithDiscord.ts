@@ -1,16 +1,21 @@
-import { useCallback, useState } from 'react'
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useState } from 'react'
+import { useOpenAuth } from './useOpenAuth'
 import { fetchDiscordUser, useDiscordLogin } from '@open-auth/react-discord'
 
 export function useLogInWithDiscord() {
   const { logIn, config, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
-  const discordLogin = useDiscordLogin({
+  const logInWithDiscord = useDiscordLogin({
     clientId: config.discordClientId,
+    onStart: () => {
+      setLoading(true)
+    },
+    onClose: () => {
+      setLoading(false)
+    },
     onError: (error) => {
       console.error(error)
-      setLoading(false)
     },
     onSuccess: async (token) => {
       try {
@@ -27,11 +32,6 @@ export function useLogInWithDiscord() {
       setLoading(false)
     },
   })
-
-  const logInWithDiscord = useCallback(async () => {
-    setLoading(true)
-    discordLogin()
-  }, [discordLogin])
 
   return {
     logInWithDiscord,

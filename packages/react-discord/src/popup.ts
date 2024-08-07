@@ -1,5 +1,5 @@
-import type { DiscordLoginPopupParams, ErrorResponse, SuccessResponse } from './types.ts'
-import { generateAuthUrl, isAccessTokenResponse, isCodeResponse, isErrorResponse } from './utils.ts'
+import { DiscordLoginPopupParams, TokenResponse } from './types.ts'
+import { generateAuthUrl, getQueryAndHash } from './utils.ts'
 
 export const popupDiscordLogin = ({
   clientId,
@@ -22,36 +22,58 @@ export const popupDiscordLogin = ({
 
   onStart()
 
-  const discordLoginMessageInterval = window.setInterval(() => {
-    popup!.postMessage({ params: { responseType }, source: 'open-auth-discord' }, window?.location?.origin || '*')
-  }, 500)
-
-  const closeTimer = window.setInterval(function () {
-    if (popup?.closed) {
-      window.clearInterval(closeTimer)
+  const checkTimer = window.setInterval(function () {
+    if (!popup) {
+      return
+    }
+    if (popup.closed) {
+      window.clearInterval(checkTimer)
       onClose()
+      return
+    }
+
+    if (popup.window.origin !== window.origin) {
+      return
+    }
+
+    try {
+      const { error, token } = parseRedirectURI(popup.window.location)
+      if (token) {
+        onSuccess(token)
+        popup.close()
+      }
+      if (error) {
+        onError({ error })
+        popup.close()
+      }
+    } catch (error: any) {
+      onError({ error: error.message })
+      popup.close()
     }
   }, 500)
+}
 
-  window.addEventListener(
-    'message',
-    (event: { data: SuccessResponse | ErrorResponse }) => {
-      let closePopup = false
-      const eventData = event.data
-      if (isAccessTokenResponse(eventData) || isCodeResponse(eventData)) {
-        onSuccess(eventData)
-        closePopup = true
-      } else if (isErrorResponse(eventData)) {
-        onError(eventData)
-        closePopup = true
-      }
+function parseRedirectURI(location: Location): { error?: string; token?: TokenResponse } {
+  const params = getQueryAndHash(location)
+  const error = params.get('error')
+  if (error) {
+    return { error }
+  }
 
-      if (closePopup) {
-        window.clearInterval(closeTimer)
-        window.clearInterval(discordLoginMessageInterval)
-        popup!.close()
-      }
-    },
-    false
-  )
+  const access_token = params.get('access_token')
+  if (access_token) {
+    const expires_in = params.get('expires_in')
+    const token_type = params.get('token_type')
+    const scope = params.get('scope')
+    return {
+      token: {
+        access_token,
+        expires_in: parseInt(expires_in ?? '0'),
+        token_type: token_type ?? '',
+        scope: scope ? scope.split(' ') : [],
+      },
+    }
+  }
+
+  return {}
 }
