@@ -14,20 +14,13 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
 
-  useEffect(() => client.user.updateToken(token), [token])
-
-  useEffect(() => {
-    if (config.endpoint) {
-      client.user
-        .getConfig({ appId: config.appId })
-        .then((data) => setGlobalConfig(data))
-        .catch(console.error)
-    }
-  }, [client, config, setGlobalConfig])
-
   const refetch = useCallback(async () => {
-    const profile = await client.user.getProfile()
-    setProfile(profile)
+    if (client.user.isAuthorized()) {
+      const profile = await client.user.getProfile()
+      setProfile(profile)
+    } else {
+      setProfile(undefined)
+    }
   }, [client, setProfile])
 
   const logIn = useCallback(
@@ -44,6 +37,23 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     setToken(undefined)
     setProfile(undefined)
   }, [client, setToken])
+
+  useEffect(() => {
+    client.user.updateToken(token)
+  }, [token])
+
+  useEffect(() => {
+    refetch().catch(console.error)
+  }, [])
+
+  useEffect(() => {
+    if (config.endpoint) {
+      client.user
+        .getConfig({ appId: config.appId })
+        .then((data) => setGlobalConfig(data))
+        .catch(console.error)
+    }
+  }, [client, config, setGlobalConfig])
 
   let openAuthProvider = (
     <OpenAuthContext.Provider

@@ -39,10 +39,10 @@ export async function verifyGoogle(email: string, token: string) {
         Authorization: `Bearer ${token}`,
       },
     })
-    return data.data?.email.toLowerCase() === email.toLowerCase()
+    return { verified: data.data?.email.toLowerCase() === email.toLowerCase(), avatar: data.data?.picture }
   } catch (e) {
     console.error(e)
-    return false
+    return { verified: false }
   }
 }
 
@@ -53,10 +53,15 @@ export async function verifyDiscord(id: string, token: string) {
         Authorization: `Bearer ${token}`,
       },
     })
-    return data.data?.id === id
+    return {
+      verified: data.data?.id === id,
+      avatar: data.data?.avatar
+        ? `https://cdn.discordapp.com/avatars/${data.data.id}/${data.data.avatar}.png`
+        : undefined,
+    }
   } catch (e) {
     console.error(e)
-    return false
+    return { verified: false }
   }
 }
 

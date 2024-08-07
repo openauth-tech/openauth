@@ -6,6 +6,7 @@ import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
+import { avatarQueue } from '../../utils/queue'
 
 const schema = {
   tags: ['User'],
@@ -14,7 +15,7 @@ const schema = {
     Authorization: Type.String(),
   }),
   body: Type.Object({
-    discord: Type.String(),
+    discordId: Type.String(),
     token: Type.String(),
   }),
   response: {
@@ -27,32 +28,28 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, userId } = request.user as JwtPayload
-  const { discord, token } = request.body
+  const { discordId, token } = request.body
 
-  const data = await prisma.user.findUnique({
-    where: { id: userId },
-  })
-
-  if (!data) {
-    return reply.status(404).send({ message: 'User not found' })
-  }
-  if (!discord) {
-    return reply.status(400).send({ message: 'Invalid params' })
-  }
-  if (!(await verifyDiscord(discord, token))) {
-    return reply.status(400).send({ message: 'Invalid params' })
-  }
-
-  const user = await prisma.user.findFirst({ where: { discord, appId } })
-  if (user) {
+  const exUser = await prisma.user.findFirst({ where: { discord: discordId, appId } })
+  if (exUser) {
     return reply.status(400).send({ message: 'Discord account already binded' })
   }
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) {
+    return reply.status(404).send({ message: 'User not found' })
+  }
+
+  const { verified, avatar } = await verifyDiscord(discordId, token)
+  if (!verified) {
+    return reply.status(400).send({ message: 'Invalid discord token' })
+  }
+
   await prisma.user.update({
     where: { id: userId },
-    data: { discord },
+    data: { discord: discordId },
   })
-
-  reply.status(200).send({ data })
+  await avatarQueue.add({ userId, imageURL: avatar, skipIfExist: true })
+  reply.status(200).send({ data: user })
 }
 
 export default async function (fastify: FastifyInstance) {

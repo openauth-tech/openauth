@@ -7,6 +7,7 @@ import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import { verifyGoogle } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { generateJwtToken } from '../../utils/jwt'
+import { avatarQueue } from '../../utils/queue'
 
 const schema = {
   tags: ['User'],
@@ -31,17 +32,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'App not found' })
   }
 
-  if (!token) {
-    return reply.status(400).send({ message: 'Missing signature' })
-  }
-
-  if (!(await verifyGoogle(email, token))) {
+  const { verified, avatar } = await verifyGoogle(email, token)
+  if (!verified) {
     return reply.status(400).send({ message: 'Invalid Google access token' })
   }
 
   const user = await findOrCreateUser({ appId, google: email })
-
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
+  await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })
 }
 

@@ -7,6 +7,7 @@ import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import { verifyDiscord } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { generateJwtToken } from '../../utils/jwt'
+import { avatarQueue } from '../../utils/queue'
 
 const schema = {
   tags: ['User'],
@@ -30,18 +31,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })
   }
-
-  if (!token) {
-    return reply.status(400).send({ message: 'Missing signature' })
-  }
-
-  if (!(await verifyDiscord(discord, token))) {
+  const { verified, avatar } = await verifyDiscord(discord, token)
+  if (!verified) {
     return reply.status(400).send({ message: 'Invalid Discord access token' })
   }
 
   const user = await findOrCreateUser({ appId, discord })
-
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
+  await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })
 }
 

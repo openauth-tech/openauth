@@ -6,6 +6,7 @@ import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
 import { JwtPayload } from '../../models/request'
+import { avatarQueue } from '../../utils/queue'
 
 const schema = {
   tags: ['User'],
@@ -14,7 +15,7 @@ const schema = {
     Authorization: Type.String(),
   }),
   body: Type.Object({
-    google: Type.String(),
+    email: Type.String(),
     token: Type.String(),
   }),
   response: {
@@ -27,32 +28,28 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId, userId } = request.user as JwtPayload
-  const { google, token } = request.body
+  const { email, token } = request.body
 
-  const data = await prisma.user.findUnique({
-    where: { id: userId },
-  })
-
-  if (!data) {
-    return reply.status(404).send({ message: 'User not found' })
-  }
-  if (!google) {
-    return reply.status(400).send({ message: 'Invalid params' })
-  }
-  if (!(await verifyGoogle(google, token))) {
-    return reply.status(400).send({ message: 'Invalid params' })
-  }
-
-  const user = await prisma.user.findFirst({ where: { google, appId } })
-  if (user) {
+  const exUser = await prisma.user.findFirst({ where: { google: email, appId } })
+  if (exUser) {
     return reply.status(400).send({ message: 'Google account already binded' })
   }
+  const user = await prisma.user.findUnique({ where: { id: userId } })
+  if (!user) {
+    return reply.status(404).send({ message: 'User not found' })
+  }
+
+  const { verified, avatar } = await verifyGoogle(email, token)
+  if (!verified) {
+    return reply.status(400).send({ message: 'Invalid params' })
+  }
+
   await prisma.user.update({
     where: { id: userId },
-    data: { google },
+    data: { google: email },
   })
-
-  reply.status(200).send({ data })
+  await avatarQueue.add({ userId, imageURL: avatar, skipIfExist: true })
+  reply.status(200).send({ data: user })
 }
 
 export default async function (fastify: FastifyInstance) {

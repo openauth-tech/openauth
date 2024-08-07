@@ -1,13 +1,13 @@
 import { BaseClient } from './BaseClient.ts'
 
 export class UserClient extends BaseClient {
-  async bindWithDiscord(data: { discord: string; token: string }) {
+  async bindWithDiscord(data: { discordId: string; token: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-discord`, data)).data.data
   }
   async bindWithEthereum(data: { ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-ethereum`, data)).data.data
   }
-  async bindWithGoogle(data: { google: string; token: string }) {
+  async bindWithGoogle(data: { email: string; token: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data.data
   }
   async bindWithSolana(data: { solAddress: string; signature: string }) {
