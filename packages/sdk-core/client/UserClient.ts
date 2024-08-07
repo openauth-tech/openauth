@@ -1,10 +1,13 @@
 import { BaseClient } from './BaseClient.ts'
 
 export class UserClient extends BaseClient {
+  async bindWithDiscord(data: { discordId: string; token: string }) {
+    return (await this.http.post<{ data: {} }>(`/user/bind-discord`, data)).data.data
+  }
   async bindWithEthereum(data: { ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-ethereum`, data)).data.data
   }
-  async bindWithGoogle(data: { google: string; token: string }) {
+  async bindWithGoogle(data: { email: string; token: string }) {
     return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data.data
   }
   async bindWithSolana(data: { solAddress: string; signature: string }) {
@@ -38,6 +41,9 @@ export class UserClient extends BaseClient {
   }
   async getWallets() {
     return (await this.http.get<{ data: { solWallet: string } }>(`/user/wallets`)).data.data
+  }
+  async logInWithDiscord(data: { appId: string; discord: string; token: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-discord`, data)).data.data
   }
   async logInWithEthereum(data: { appId: string; ethAddress: string; signature: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-ethereum`, data)).data.data

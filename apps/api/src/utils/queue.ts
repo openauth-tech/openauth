@@ -7,7 +7,13 @@ const queueOptions: QueueOptions = {
   prefix: 'openauth',
 }
 
-export const avatarQueue = new Queue<{ userId: string }>('avatar', queueOptions)
+export interface AvatarQueuePayload {
+  userId: string
+  imageURL?: string
+  skipIfExist?: boolean
+}
+
+export const avatarQueue = new Queue<AvatarQueuePayload>('avatar', queueOptions)
 
 export async function fullSyncAvatar() {
   const users = await prisma.user.findMany({

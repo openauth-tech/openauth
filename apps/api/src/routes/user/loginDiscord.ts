@@ -4,17 +4,17 @@ import { FastifyInstance } from 'fastify'
 import { ERROR400_SCHEMA } from '../../constants/schema'
 import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { findOrCreateUser } from '../../repositories/findOrCreateUser'
-import { verifyGoogle } from '../../utils/auth'
+import { verifyDiscord } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
 import { generateJwtToken } from '../../utils/jwt'
 import { avatarQueue } from '../../utils/queue'
 
 const schema = {
   tags: ['User'],
-  summary: 'Log in with Google',
+  summary: 'Log in with Discord',
   body: Type.Object({
     appId: Type.String(),
-    email: Type.String(),
+    discord: Type.String(),
     token: Type.String(),
   }),
   response: {
@@ -26,18 +26,17 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, email, token } = request.body
+  const { appId, discord, token } = request.body
   const app = await prisma.app.findUnique({ where: { id: appId } })
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })
   }
-
-  const { verified, avatar } = await verifyGoogle(email, token)
+  const { verified, avatar } = await verifyDiscord(discord, token)
   if (!verified) {
-    return reply.status(400).send({ message: 'Invalid Google access token' })
+    return reply.status(400).send({ message: 'Invalid Discord access token' })
   }
 
-  const user = await findOrCreateUser({ appId, google: email })
+  const user = await findOrCreateUser({ appId, discord })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })
@@ -46,7 +45,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/login-google',
+    url: '/login-discord',
     schema,
     handler,
   })

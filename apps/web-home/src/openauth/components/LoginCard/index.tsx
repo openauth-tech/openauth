@@ -1,5 +1,12 @@
-import { useLogInWithEthereum, useLogInWithGoogle, useLogInWithSolana, useOpenAuth } from '@open-auth/sdk-react'
 import {
+  useLogInWithDiscord,
+  useLogInWithEthereum,
+  useLogInWithGoogle,
+  useLogInWithSolana,
+  useOpenAuth,
+} from '@open-auth/sdk-react'
+import {
+  IconBrandDiscord,
   IconBrandGoogle,
   IconBrandTelegram,
   IconCurrencyEthereum,
@@ -20,7 +27,8 @@ export function LoginCard() {
   const { globalConfig } = useOpenAuth()
   const { logInWithEthereum, loading: loadingETH } = useLogInWithEthereum()
   const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
-  const { logInWithGoogle, loading: loadingGG } = useLogInWithGoogle()
+  const { logInWithGoogle, loading: loadingGoogle } = useLogInWithGoogle()
+  const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
 
   const onConnectETH = useCallback(async () => {
     try {
@@ -44,6 +52,14 @@ export function LoginCard() {
     }
   }, [logInWithGoogle, toast])
 
+  const onConnectDiscord = useCallback(async () => {
+    try {
+      await logInWithDiscord()
+    } catch (error: any) {
+      toast({ title: error.message })
+    }
+  }, [logInWithDiscord, toast])
+
   return (
     <Card className="py-10 px-16 shadow">
       <CardHeader>
@@ -64,10 +80,16 @@ export function LoginCard() {
             <span>Sign in with Ethereum</span>
           </div>
         </Button>
-        <Button className="w-full px-6 py-6 text-base" onClick={onConnectGG} disabled={loadingGG}>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectGG} disabled={loadingGoogle}>
           <div className="flex gap-2 justify-start items-center w-50">
-            {loadingGG ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGoogle size={20} />}
+            {loadingGoogle ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGoogle size={20} />}
             <span>Sign in with Google</span>
+          </div>
+        </Button>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectDiscord} disabled={loadingDiscord}>
+          <div className="flex gap-2 justify-start items-center w-50">
+            {loadingDiscord ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandDiscord size={20} />}
+            <span>Sign in with Discord</span>
           </div>
         </Button>
         <TelegramDialog />
