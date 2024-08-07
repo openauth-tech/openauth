@@ -21,7 +21,7 @@ export function useBindWithGoogle() {
             },
           })
         ).json()
-        await client.user.bindWithGoogle({ google: userinfo.email, token })
+        await client.user.bindWithGoogle({ email: userinfo.email, token })
       } catch (error) {
         console.error(error)
       }
