@@ -11,6 +11,10 @@ export function useLogInWithGoogle() {
       console.error(error)
       setLoading(false)
     },
+    onNonOAuthError: (error) => {
+      console.error(error)
+      setLoading(false)
+    },
     onSuccess: async (tokenResponse) => {
       const token = tokenResponse.access_token
       try {

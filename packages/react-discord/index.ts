@@ -3,20 +3,20 @@ import { popupDiscordLogin } from './src/popup.ts'
 import { DiscordUser, TokenResponse } from './src/types.ts'
 
 type UseDiscordLoginParams = {
-  clientId?: string
+  applicationId?: string
   onStart: () => void
   onClose: () => void
   onSuccess: (token: TokenResponse) => Promise<void> | void
   onError: (error: string) => Promise<void> | void
 }
 
-export function useDiscordLogin({ clientId, onStart, onClose, onSuccess, onError }: UseDiscordLoginParams) {
+export function useDiscordLogin({ applicationId, onStart, onClose, onSuccess, onError }: UseDiscordLoginParams) {
   return useCallback(() => {
-    if (!clientId) {
+    if (!applicationId) {
       throw new Error('Discord clientId is required')
     }
     popupDiscordLogin({
-      clientId,
+      applicationId,
       onStart,
       onClose,
       onError: (data) => {
@@ -26,7 +26,7 @@ export function useDiscordLogin({ clientId, onStart, onClose, onSuccess, onError
         onSuccess(data as TokenResponse)
       },
     })
-  }, [clientId, onError, onSuccess])
+  }, [applicationId, onError, onSuccess])
 }
 
 export const fetchDiscordUser = async ({ access_token }: { access_token: string }) => {

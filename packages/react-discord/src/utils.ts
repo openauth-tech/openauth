@@ -1,8 +1,8 @@
 import { DiscordLoginConfig } from './types.ts'
 
-export const generateAuthUrl = ({ clientId, responseType, scopes }: DiscordLoginConfig) => {
+export const generateAuthUrl = ({ applicationId, responseType, scopes }: DiscordLoginConfig) => {
   const searchParams = new URLSearchParams()
-  searchParams.append('client_id', clientId)
+  searchParams.append('client_id', applicationId)
   searchParams.append('response_type', responseType)
   searchParams.append('redirect_uri', window.location.origin)
   searchParams.append('scope', scopes.join(' '))

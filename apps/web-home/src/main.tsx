@@ -31,8 +31,8 @@ root.render(
     config={{
       appId: import.meta.env.VITE_OPENAUTH_APPID,
       endpoint: import.meta.env.VITE_OPENAUTH_ENDPOINT,
-      googleClientId: '452271051220-4il4djv5iv30gli03ospbrg09rppoerq.apps.googleusercontent.com',
-      discordClientId: '1270439118052130817',
+      googleClientId: '868364359161-r53l284na254rqkd7r92rlguufc6aahd.apps.googleusercontent.com',
+      discordApplicationId: '1270776138020687882',
     }}
   >
     <QueryClientProvider client={queryClient}>

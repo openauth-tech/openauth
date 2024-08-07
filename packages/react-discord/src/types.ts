@@ -1,5 +1,5 @@
 export interface DiscordLoginParams {
-  clientId: string
+  applicationId: string
   redirectUri?: string
   responseType?: 'token' | 'code'
   scopes?: string[]

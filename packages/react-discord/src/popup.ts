@@ -2,7 +2,7 @@ import { DiscordLoginPopupParams, TokenResponse } from './types.ts'
 import { generateAuthUrl, getQueryAndHash } from './utils.ts'
 
 export const popupDiscordLogin = ({
-  clientId,
+  applicationId,
   popupWidth = 700,
   popupHeight = 800,
   scopes = ['identify'],
@@ -16,7 +16,7 @@ export const popupDiscordLogin = ({
   const popupTop = window.innerHeight / 2 - popupHeight / 2
   const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=${popupWidth},height=${popupHeight},left=${popupLeft},top=${popupTop}`
 
-  const url = generateAuthUrl({ clientId, responseType, scopes })
+  const url = generateAuthUrl({ applicationId, responseType, scopes })
 
   const popup = window.open(url, 'open-auth-discord', params)
 
