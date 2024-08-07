@@ -6,6 +6,7 @@ import { StorageKeys } from '../utils/constants'
 import type { GlobalConfig, User } from '@open-auth/sdk-core'
 import { OpenAuthClient } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import DiscrodOAuthProvider from './DiscrodOAuthProvider'
 
 export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig; children: ReactNode }) {
   const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token, undefined)
@@ -45,7 +46,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     setProfile(undefined)
   }, [client, setToken])
 
-  const openAuthProvider = (
+  let openAuthProvider = (
     <OpenAuthContext.Provider
       value={{
         config,
@@ -63,7 +64,14 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   )
 
   if (config.googleClientId) {
-    return <GoogleOAuthProvider clientId={config.googleClientId}>{openAuthProvider}</GoogleOAuthProvider>
+    openAuthProvider = <GoogleOAuthProvider clientId={config.googleClientId}>{openAuthProvider}</GoogleOAuthProvider>
+  }
+  if (config.discordClientId) {
+    openAuthProvider = (
+      <DiscrodOAuthProvider clientId={config.discordClientId} redirectUri={config.redirectUri}>
+        {openAuthProvider}
+      </DiscrodOAuthProvider>
+    )
   }
 
   return openAuthProvider

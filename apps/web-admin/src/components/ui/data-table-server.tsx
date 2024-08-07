@@ -185,7 +185,7 @@ export function DataTableServer<TData, TValue>({
               onChange={(page) => {
                 onPageChange(page)
               }}
-            ></Pagination>
+            />
           </div>
         </div>
       )}

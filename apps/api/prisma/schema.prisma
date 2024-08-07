@@ -35,6 +35,7 @@ model App {
 
   emailEnabled    Boolean @default(false)
   googleEnabled   Boolean @default(false)
+  discordEnabled  Boolean @default(false)
   twitterEnabled  Boolean @default(false)
   appleEnabled    Boolean @default(false)
   ethEnabled      Boolean @default(false)
@@ -59,6 +60,7 @@ model User {
 
   email      String?
   google     String?
+  discord     String?
   twitter    String?
   apple      String?
   telegram   String?
@@ -73,6 +75,7 @@ model User {
   @@unique([appId, referCode])
   @@unique([appId, email])
   @@unique([appId, google])
+  @@unique([appId, discord])
   @@unique([appId, twitter])
   @@unique([appId, telegram])
   @@unique([appId, apple])

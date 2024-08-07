@@ -4,6 +4,8 @@ export interface IOpenAuthConfig {
   appId: string
   endpoint: string
   googleClientId?: string
+  discordClientId?: string
+  redirectUri?: string
 }
 
 export interface IOpenAuthContext {

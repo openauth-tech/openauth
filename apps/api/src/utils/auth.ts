@@ -46,6 +46,20 @@ export async function verifyGoogle(email: string, token: string) {
   }
 }
 
+export async function verifyDiscord(id: string, token: string) {
+  try {
+    const data = await axios.get('https://discord.com/api/users/@me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return data.data?.id === id
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+}
+
 export function parseTelegramData(initData: string) {
   const data = new URLSearchParams(initData)
   const user = JSON.parse(data.get('user') ?? '{}')

@@ -6,6 +6,7 @@ import { generateReferCode } from '../utils/common'
 export async function findOrCreateUser({
   appId,
   google,
+  discord,
   email,
   telegram,
   ethAddress,
@@ -15,6 +16,7 @@ export async function findOrCreateUser({
 }: {
   appId: string
   google?: string
+  discord?: string
   email?: string
   telegram?: string
   ethAddress?: string
@@ -22,7 +24,7 @@ export async function findOrCreateUser({
   username?: string
   password?: string
 }) {
-  if (!email && !google && !ethAddress && !solAddress && !username && !telegram) {
+  if (!email && !google && !discord && !ethAddress && !solAddress && !username && !telegram) {
     throw new Error('Missing required fields')
   }
 
@@ -30,6 +32,7 @@ export async function findOrCreateUser({
     where: {
       appId,
       google,
+      discord,
       email,
       telegram,
       ethAddress,
@@ -59,6 +62,7 @@ export async function findOrCreateUser({
     data: {
       appId,
       google,
+      discord,
       email,
       telegram,
       ethAddress,

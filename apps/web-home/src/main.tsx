@@ -32,6 +32,8 @@ root.render(
       appId: import.meta.env.VITE_OPENAUTH_APPID,
       endpoint: import.meta.env.VITE_OPENAUTH_ENDPOINT,
       googleClientId: '452271051220-4il4djv5iv30gli03ospbrg09rppoerq.apps.googleusercontent.com',
+      discordClientId: '1270439118052130817', // TODO
+      redirectUri: window.location.origin + '/demo', // TODO
     }}
   >
     <QueryClientProvider client={queryClient}>
