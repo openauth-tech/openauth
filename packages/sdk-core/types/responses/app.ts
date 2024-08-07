@@ -8,6 +8,7 @@ export const TypeApp = Type.Object({
   logoUrl: Nullable(Type.String()),
   emailEnabled: Type.Boolean(),
   googleEnabled: Type.Boolean(),
+  discordEnabled: Type.Boolean(),
   twitterEnabled: Type.Boolean(),
   appleEnabled: Type.Boolean(),
   telegramEnabled: Type.Boolean(),

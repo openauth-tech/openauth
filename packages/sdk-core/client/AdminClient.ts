@@ -35,6 +35,7 @@ export class AdminClient extends BaseClient {
           logoUrl: string | null
           emailEnabled: boolean
           googleEnabled: boolean
+          discordEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
           telegramEnabled: boolean
@@ -56,6 +57,7 @@ export class AdminClient extends BaseClient {
           logoUrl: string | null
           emailEnabled: boolean
           googleEnabled: boolean
+          discordEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
           telegramEnabled: boolean
@@ -82,6 +84,7 @@ export class AdminClient extends BaseClient {
       logoUrl?: string
       emailEnabled?: boolean
       googleEnabled?: boolean
+      discordEnabled?: boolean
       twitterEnabled?: boolean
       telegramEnabled?: boolean
       appleEnabled?: boolean
@@ -103,6 +106,7 @@ export class AdminClient extends BaseClient {
           logoUrl: string | null
           emailEnabled: boolean
           googleEnabled: boolean
+          discordEnabled: boolean
           twitterEnabled: boolean
           appleEnabled: boolean
           telegramEnabled: boolean

@@ -25,6 +25,7 @@ export class UserClient extends BaseClient {
           id: string
           email: string | null
           google: string | null
+          discord: string | null
           twitter: string | null
           apple: string | null
           telegram: string | null

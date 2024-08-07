@@ -1,11 +1,26 @@
+import { User } from '@open-auth/sdk-core'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { useAdmin } from '@/context/admin'
+import { cn } from '@/utils/css'
 
-export function UserDetailDialog({ user, onClose }: { user: any; onClose: any }) {
+const userFields: (keyof User)[] = [
+  'id',
+  'email',
+  'google',
+  'discord',
+  'telegram',
+  'twitter',
+  'apple',
+  'username',
+  'ethAddress',
+  'solAddress',
+]
+
+export function UserDetailDialog({ user, onClose }: { user: User; onClose: any }) {
   const { id = '' } = useParams()
   const { client } = useAdmin()
 
@@ -26,16 +41,17 @@ export function UserDetailDialog({ user, onClose }: { user: any; onClose: any })
           <DialogTitle>User Profile</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {user.avatar ? <img src={user.avatar} className="h-20" alt="" /> : null}
           <ul className="grid gap-3">
-            {['id', 'email', 'google', 'twitter', 'apple', 'ethAddress', 'solAddress'].map((key) => (
-              <li key={'user-' + key} className="flex items-center">
+            {userFields.map((key) => (
+              <li key={'user-' + key} className={cn('flex items-center', user[key] ? '' : 'hidden')}>
                 <div className="w-1/3 text-muted-foreground capitalize">{key}</div>
                 <div className="flex-1">{user[key]}</div>
               </li>
             ))}
             {referral && (
               <>
-                <li className="flex items-center">
+                <li className="flex">
                   <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
                   <div className="flex-1">
                     refee1Count: {referral.referrals1.length} <br /> refee2Count: {referral.referrals2.length}

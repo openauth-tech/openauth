@@ -19,6 +19,7 @@ const schema = {
     logoUrl: Type.Optional(Type.String()),
     emailEnabled: Type.Optional(Type.Boolean()),
     googleEnabled: Type.Optional(Type.Boolean()),
+    discordEnabled: Type.Optional(Type.Boolean()),
     twitterEnabled: Type.Optional(Type.Boolean()),
     telegramEnabled: Type.Optional(Type.Boolean()),
     appleEnabled: Type.Optional(Type.Boolean()),

@@ -19,5 +19,6 @@ jobs:
         run: |
           pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
           node ./.scripts/override-versions.js ${{ github.event.release.tag_name }}
+          pnpm publish packages/react-discord --access public --no-git-checks || true
           pnpm publish packages/sdk-core --access public --no-git-checks || true
           pnpm publish packages/sdk-react --access public --no-git-checks || true

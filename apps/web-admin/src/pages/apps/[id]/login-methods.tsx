@@ -14,6 +14,7 @@ const FormSchema = z.object({
   solana: z.boolean(),
   ethereum: z.boolean(),
   google: z.boolean(),
+  discord: z.boolean(),
   telegram: z.boolean(),
   telegramBotToken: z.string().optional(),
 })
@@ -39,6 +40,7 @@ export default function () {
       form.setValue('solana', data.solEnabled)
       form.setValue('ethereum', data.ethEnabled)
       form.setValue('google', data.googleEnabled)
+      form.setValue('discord', data.discordEnabled)
       form.setValue('telegram', data.telegramEnabled)
       form.setValue('telegramBotToken', data.telegramBotToken ?? undefined)
     }
@@ -49,6 +51,7 @@ export default function () {
       solEnabled: data.solana,
       ethEnabled: data.ethereum,
       googleEnabled: data.google,
+      discordEnabled: data.discord,
       telegramEnabled: data.telegram,
       telegramBotToken: data.telegramBotToken,
     })
@@ -68,6 +71,7 @@ export default function () {
             <Checker form={form} id="ethereum" label="Ethereum" />
             <Checker form={form} id="solana" label="Solana" />
             <Checker form={form} id="google" label="Google" />
+            <Checker form={form} id="discord" label="Discord" />
             <Checker form={form} id="telegram" label="Telegram" />
             <FormField
               control={form.control}

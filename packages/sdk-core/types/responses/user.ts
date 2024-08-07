@@ -5,6 +5,7 @@ export const TypeUser = Type.Object({
   id: Type.String(),
   email: Nullable(Type.String()),
   google: Nullable(Type.String()),
+  discord: Nullable(Type.String()),
   twitter: Nullable(Type.String()),
   apple: Nullable(Type.String()),
   telegram: Nullable(Type.String()),

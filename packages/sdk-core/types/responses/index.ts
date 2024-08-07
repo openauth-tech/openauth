@@ -1,5 +1,0 @@
-export * from './admin'
-export * from './app'
-export * from './config'
-export * from './login'
-export * from './user'
