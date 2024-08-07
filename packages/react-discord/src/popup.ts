@@ -32,7 +32,11 @@ export const popupDiscordLogin = ({
       return
     }
 
-    if (popup.window.origin !== window.origin) {
+    try {
+      if (popup.window.origin !== window.origin) {
+        return
+      }
+    } catch (error) {
       return
     }
 
