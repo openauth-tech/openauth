@@ -3,10 +3,14 @@ import { useCallback, useState } from 'react'
 import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithGoogle() {
-  const { client } = useOpenAuth()
+  const { client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const googleLogin = useGoogleLogin({
+    onNonOAuthError: (error) => {
+      console.error(error)
+      setLoading(false)
+    },
     onError: (error) => {
       console.error(error)
       setLoading(false)
@@ -22,6 +26,7 @@ export function useBindWithGoogle() {
           })
         ).json()
         await client.user.bindWithGoogle({ email: userinfo.email, token })
+        await refetch()
       } catch (error) {
         console.error(error)
       }

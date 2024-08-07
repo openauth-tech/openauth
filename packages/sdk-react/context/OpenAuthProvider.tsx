@@ -23,24 +23,17 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     }
   }, [client, setProfile])
 
-  const logIn = useCallback(
-    async (token: string) => {
+  const updateToken = useCallback(
+    async (token?: string) => {
       client.user.updateToken(token)
       setToken(token)
       await refetch()
     },
-    [client, setToken]
+    [setToken, client, refetch]
   )
 
-  const logOut = useCallback(() => {
-    client.user.updateToken(token)
-    setToken(undefined)
-    setProfile(undefined)
-  }, [client, setToken])
-
-  useEffect(() => {
-    client.user.updateToken(token)
-  }, [token])
+  const logIn = useCallback((token: string) => updateToken(token), [client, updateToken])
+  const logOut = useCallback(() => updateToken(undefined), [client, updateToken])
 
   useEffect(() => {
     refetch().catch(console.error)

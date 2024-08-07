@@ -4,7 +4,7 @@ import { getSolanaProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithSolana() {
-  const { config, globalConfig, client } = useOpenAuth()
+  const { config, globalConfig, client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithSolana = useCallback(async () => {
@@ -22,12 +22,13 @@ export function useBindWithSolana() {
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
       await client.user.bindWithSolana({ solAddress: address, signature })
+      await refetch()
       setLoading(false)
     } catch (error) {
       setLoading(false)
       throw error
     }
-  }, [globalConfig, client.app, config.appId])
+  }, [globalConfig, client.app, config.appId, refetch])
 
   return {
     bindWithSolana,

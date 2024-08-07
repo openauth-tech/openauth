@@ -15,7 +15,7 @@ export interface IOpenAuthContext {
   token?: string
   profile?: User
 
-  logIn: (token: string) => Promise<void>
+  logIn: (token: string) => void
   logOut: () => void
   refetch: () => Promise<void>
 }

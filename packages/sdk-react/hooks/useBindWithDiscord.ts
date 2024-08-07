@@ -3,7 +3,7 @@ import { useOpenAuth } from './useOpenAuth'
 import { fetchDiscordUser, useDiscordLogin } from '@open-auth/react-discord'
 
 export function useBindWithDiscord() {
-  const { config, client } = useOpenAuth()
+  const { config, client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithDiscord = useDiscordLogin({
@@ -24,6 +24,7 @@ export function useBindWithDiscord() {
           discordId: user.id,
           token: token.access_token,
         })
+        await refetch()
       } catch (error) {
         console.error(error)
       }

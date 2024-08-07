@@ -4,7 +4,7 @@ import { getEthereumProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithEthereum() {
-  const { config, globalConfig, client } = useOpenAuth()
+  const { config, globalConfig, client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithEthereum = useCallback(async () => {
@@ -23,12 +23,13 @@ export function useBindWithEthereum() {
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
       await client.user.bindWithEthereum({ ethAddress: address, signature })
+      await refetch()
       setLoading(false)
     } catch (error) {
       setLoading(false)
       throw error
     }
-  }, [client.app, config.appId, globalConfig])
+  }, [client.app, config.appId, globalConfig, refetch])
 
   return {
     bindWithEthereum,
