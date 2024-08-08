@@ -6,7 +6,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:dev": "prisma migrate dev && prisma generate",
     "db:generate": "prisma generate",
-    "dev": "tsx watch ./src/api.ts",
+    "dev:api": "tsx watch ./src/api.ts",
     "dev:queue": "tsx watch ./src/queue.ts",
     "generate": "tsx ./src/generate.ts",
     "postinstall": "prisma generate"
