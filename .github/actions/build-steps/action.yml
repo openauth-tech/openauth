@@ -1,0 +1,16 @@
+name: "Build OpenAuth"
+description: "Build OpenAuth packages"
+runs:
+  using: "composite"
+  steps:
+    - uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+        cache: 'pnpm'
+    - run: pnpm -r install
+      shell: bash
+    - run: pnpm -r build
+      shell: bash

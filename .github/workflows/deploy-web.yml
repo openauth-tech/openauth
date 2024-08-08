@@ -1,0 +1,42 @@
+name: Deploy Web
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web-admin/**/*'
+      - 'apps/web-home/**/*'
+      - 'packages/**/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/build-steps
+
+      # deploy home web
+      - name: Deploy home web
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-home/dist/*
+          remote_path: /data/openauth-web
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}
+
+      # deploy admin web
+      - name: Deploy admin web
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --filter=':- .gitignore'
+          path: apps/web-admin/dist/*
+          remote_path: /data/openauth-admin
+          remote_host: 20.212.6.4
+          remote_port: 2222
+          remote_user: why
+          remote_key: ${{ secrets.DEPLOY_KEY }}

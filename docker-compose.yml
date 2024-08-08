@@ -1,0 +1,91 @@
+services:
+  openauth-api:
+    container_name: openauth-api
+    image: callmewhy/openauth-api:latest
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - AWS_KEY=${AWS_KEY}
+      - AWS_SECRET=${AWS_SECRET}
+      - WALLET_SEED_SALT=${WALLET_SEED_SALT}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+    ports:
+      - 5566:5566
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    depends_on:
+      - openauth-redis
+
+  openauth-queue:
+    container_name: openauth-queue
+    image: callmewhy/openauth-queue:latest
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - AWS_KEY=${AWS_KEY}
+      - AWS_SECRET=${AWS_SECRET}
+      - WALLET_SEED_SALT=${WALLET_SEED_SALT}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+    ports:
+      - 5567:5567
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    depends_on:
+      - openauth-redis
+
+  openauth-redis:
+    image: redis:latest
+    container_name: openauth-redis
+    volumes:
+      - redis_data:/data
+    restart: on-failure
+
+  openauth-prometheus:
+    container_name: openauth-prometheus
+    image: prom/prometheus:latest
+    ports:
+      - 5560:9090
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    volumes:
+      - prometheus_data:/prometheus
+      - ./.scripts/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+
+  openauth-grafana:
+    container_name: openauth-grafana
+    image: grafana/grafana:latest
+    ports:
+      - 5561:3000
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    restart: on-failure
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - grafana_config:/etc/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GF_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_ADMIN_PASSWORD}
+
+volumes:
+  redis_data: { }
+  prometheus_data: { }
+  grafana_data: { }
+  grafana_config: { }

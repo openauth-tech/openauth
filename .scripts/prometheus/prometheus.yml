@@ -1,0 +1,11 @@
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [
+        'openauth-api:5566',
+      ]
+        labels:
+          service: 'app-exporter'
+          group: 'openauth'
+          name: 'app-exporter'

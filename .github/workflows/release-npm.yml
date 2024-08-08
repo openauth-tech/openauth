@@ -1,0 +1,24 @@
+name: Release NPM
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/build-steps
+
+      # publish NPM package
+      - name: Publish NPM
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        run: |
+          pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+          node ./.scripts/override-versions.js ${{ github.event.release.tag_name }}
+          pnpm publish packages/react-discord --access public --no-git-checks || true
+          pnpm publish packages/sdk-core --access public --no-git-checks || true
+          pnpm publish packages/sdk-react --access public --no-git-checks || true
