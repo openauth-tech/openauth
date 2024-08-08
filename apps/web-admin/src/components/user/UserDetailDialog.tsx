@@ -50,22 +50,20 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
               </li>
             ))}
             {referral && (
-              <>
-                <li className="flex">
-                  <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
-                  <div className="flex-1">
-                    refee1Count:
-                    {' '}
-                    {referral.referrals1.length}
-                    {' '}
-                    <br />
-                    {' '}
-                    refee2Count:
-                    {' '}
-                    {referral.referrals2.length}
-                  </div>
-                </li>
-              </>
+              <li className="flex">
+                <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
+                <div className="flex-1">
+                  refee1Count:
+                  {' '}
+                  {referral.referrals1.length}
+                  {' '}
+                  <br />
+                  {' '}
+                  refee2Count:
+                  {' '}
+                  {referral.referrals2.length}
+                </div>
+              </li>
             )}
           </ul>
         </div>

@@ -27,7 +27,7 @@ export function useDiscordLogin({ applicationId, onStart, onClose, onSuccess, on
         onSuccess(data as TokenResponse)
       },
     })
-  }, [applicationId, onError, onSuccess])
+  }, [applicationId, onClose, onError, onStart, onSuccess])
 }
 
 export async function fetchDiscordUser({ access_token }: { access_token: string }) {

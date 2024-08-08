@@ -74,7 +74,7 @@ function parseRedirectURI(location: Location): { error?: string, token?: TokenRe
     return {
       token: {
         access_token,
-        expires_in: Number.parseInt(expires_in ?? '0'),
+        expires_in: Number.parseInt(expires_in ?? '0', 10),
         token_type: token_type ?? '',
         scope: scope ? scope.split(' ') : [],
       },

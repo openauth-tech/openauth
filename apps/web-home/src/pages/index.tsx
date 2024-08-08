@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Flow } from '@/components/home/Flow'
 import GridPattern from '@/components/magicui/grid-pattern'
 import { cn } from '@/utils/css'

@@ -11,7 +11,6 @@ export function useSetupChecker() {
 
   useEffect(() => {
     if (data && pathname !== '/setup' && !data.initialized) {
-      console.log('Redirect to /setup', pathname, data)
       nav('/setup')
     }
   }, [nav, pathname, data])

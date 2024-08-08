@@ -16,7 +16,7 @@ describe('OpenAuth App API', () => {
     client.app.updateToken(appSecret)
 
     // user
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 15; i += 1) {
       await client.app.createUser({ username: `test_user_${i}_${Date.now()}`, password: `password_${i}` })
     }
 

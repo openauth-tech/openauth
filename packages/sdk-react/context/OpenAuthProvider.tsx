@@ -35,8 +35,8 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     [setToken, client, refetch],
   )
 
-  const logIn = useCallback((token: string) => updateToken(token), [client, updateToken])
-  const logOut = useCallback(() => updateToken(), [client, updateToken])
+  const logIn = useCallback((token: string) => updateToken(token), [updateToken])
+  const logOut = useCallback(() => updateToken(), [updateToken])
 
   useEffect(() => {
     client.user.updateToken(token)
@@ -52,22 +52,18 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     }
   }, [client, config, setGlobalConfig])
 
-  let openAuthProvider = (
-    <OpenAuthContext.Provider
-      value={{
-        config,
-        client,
-        globalConfig,
-        token,
-        profile,
-        logIn,
-        logOut,
-        refetch,
-      }}
-    >
-      {children}
-    </OpenAuthContext.Provider>
-  )
+  const value = useMemo(() => ({
+    config,
+    client,
+    globalConfig,
+    token,
+    profile,
+    logIn,
+    logOut,
+    refetch,
+  }), [client, config, globalConfig, logIn, logOut, profile, refetch, token])
+
+  let openAuthProvider = <OpenAuthContext.Provider value={value}>{children}</OpenAuthContext.Provider>
 
   if (config.googleClientId) {
     openAuthProvider = <GoogleOAuthProvider clientId={config.googleClientId}>{openAuthProvider}</GoogleOAuthProvider>

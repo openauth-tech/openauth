@@ -6,7 +6,7 @@ import { prisma } from '../utils/prisma'
 import type { AvatarQueuePayload } from '../utils/queue'
 
 export async function processAvatarJob({ data: { userId, imageURL, skipIfExist } }: Job<AvatarQueuePayload>) {
-  console.log(`Process avatar for user ${userId}`)
+  console.info(`Process avatar for user ${userId}`)
   const user = await prisma.user.findUnique({ include: { app: true }, where: { id: userId } })
   if (!user) {
     throw new Error(`User not found: ${userId}`)

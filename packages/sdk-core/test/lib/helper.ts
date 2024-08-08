@@ -3,7 +3,7 @@ import { encodeBase58, ethers } from 'ethers'
 import nacl from 'tweetnacl'
 
 import type { OpenAuthClient } from '../../client'
-import type { App } from '../../types'
+import type { App } from '../../types/responses/app'
 import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants'
 
 // user
@@ -55,7 +55,7 @@ export async function setupAdmin(client: OpenAuthClient) {
   try {
     await client.admin.setup({ username: USERNAME, password: PASSWORD })
   }
-  catch {}
+  catch { /* empty */ }
 
   const { token } = await client.admin.login({
     username: USERNAME,

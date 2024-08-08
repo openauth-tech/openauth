@@ -19,7 +19,7 @@ export default function App() {
   const nav = useNavigate()
   const { client, logOut } = useAdmin()
   useEffect(() => {
-    client.admin.onError = async (error) => {
+    client.admin.onError = (error) => {
       toast.error(error.message)
       if (error.message === 'Unauthorized') {
         logOut()

@@ -2,48 +2,27 @@ import { BaseClient } from './BaseClient.ts'
 
 export class UserClient extends BaseClient {
   async bindWithDiscord(data: { discordId: string, token: string }) {
-    return (await this.http.post<{ data: unknown }>(`/user/bind-discord`, data)).data.data
+    return (await this.http.post<{ data: any }>(`/user/bind-discord`, data)).data.data
   }
 
   async bindWithEthereum(data: { ethAddress: string, signature: string }) {
-    return (await this.http.post<{ data: unknown }>(`/user/bind-ethereum`, data)).data.data
+    return (await this.http.post<{ data: any }>(`/user/bind-ethereum`, data)).data.data
   }
 
   async bindWithGoogle(data: { email: string, token: string }) {
-    return (await this.http.post<{ data: unknown }>(`/user/bind-google`, data)).data.data
+    return (await this.http.post<{ data: any }>(`/user/bind-google`, data)).data.data
   }
 
   async bindWithSolana(data: { solAddress: string, signature: string }) {
-    return (await this.http.post<{ data: unknown }>(`/user/bind-solana`, data)).data.data
+    return (await this.http.post<{ data: any }>(`/user/bind-solana`, data)).data.data
   }
 
   async getConfig(params: { appId: string }) {
-    return (
-      await this.http.get<{ data: { production: boolean, brand: string, message: string } }>(`/user/config`, { params })
-    ).data.data
+    return (await this.http.get<{ data: { production: boolean, brand: string, message: string } }>(`/user/config`, { params })).data.data
   }
 
   async getProfile() {
-    return (
-      await this.http.get<{
-        data: {
-          id: string
-          email: string | null
-          google: string | null
-          discord: string | null
-          twitter: string | null
-          apple: string | null
-          telegram: string | null
-          ethAddress: string | null
-          solAddress: string | null
-          username: string | null
-          referCode: string
-          avatar: string | null
-          createdAt: number
-          lastSeenAt: number
-        }
-      }>(`/user/profile`)
-    ).data.data
+    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number } }>(`/user/profile`)).data.data
   }
 
   async getWallets() {
@@ -75,19 +54,14 @@ export class UserClient extends BaseClient {
   }
 
   async updatePassword(data: { oldPassword: string, newPassword: string }) {
-    return (await this.http.post<{ data: unknown }>(`/user/update-password`, data)).data.data
+    return (await this.http.post<{ data: any }>(`/user/update-password`, data)).data.data
   }
 
   async exportSolanaPrivateKey() {
     return (await this.http.post<{ data: string }>(`/user/solana/private-key`)).data.data
   }
 
-  async sendSolanaToken(data: {
-    network: 'SolanaMainnet' | 'SonicDevnet'
-    address: string
-    token: string
-    amount: number
-  }) {
+  async sendSolanaToken(data: { network: 'SolanaMainnet' | 'SonicDevnet', address: string, token: string, amount: number }) {
     return (await this.http.post<{ data: { signature: string } }>(`/user/solana/send-token`, data)).data.data
   }
 }

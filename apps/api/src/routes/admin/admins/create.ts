@@ -38,7 +38,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   reply.status(201).send({ data: admin })
 }
 
-// eslint-disable-next-line unicorn/no-anonymous-default-export, func-names, require-await
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',

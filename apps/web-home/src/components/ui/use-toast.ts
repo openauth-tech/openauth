@@ -13,6 +13,7 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement
 }
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 const actionTypes = {
   ADD_TOAST: 'ADD_TOAST',
   UPDATE_TOAST: 'UPDATE_TOAST',
@@ -122,6 +123,9 @@ export function reducer(state: State, action: Action): State {
         ...state,
         toasts: state.toasts.filter(t => t.id !== action.toastId),
       }
+    }
+    default: {
+      return state
     }
   }
 }

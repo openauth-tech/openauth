@@ -9,13 +9,6 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import { AdminProvider } from './context/admin'
 
-console.table(import.meta.env)
-
-if (import.meta.env.PROD) {
-  console.debug = () => {}
-  console.log = () => {}
-}
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

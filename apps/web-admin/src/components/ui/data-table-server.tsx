@@ -37,14 +37,16 @@ interface DataTableProps<TData, TValue> {
   onColumnFiltersChange: (filters: ColumnFiltersState) => void
 }
 
+const defualtPagers = [10, 25, 50, 100]
+const defaultFilter: Filter[] = []
 export function DataTableServer<TData, TValue>({
   columns,
   data,
   total,
   pageIndex,
   pageSize,
-  pagers = [10, 25, 50, 100],
-  filters = [],
+  pagers = defualtPagers,
+  filters = defaultFilter,
   pending = false,
   onPageChange,
   onPageSizeChange,
@@ -87,9 +89,9 @@ export function DataTableServer<TData, TValue>({
             <form>
               <div className="grid grid-cols-1 grid-cols-4 gap-2 lg:grid-cols-3 md:grid-cols-2">
                 {filters.map(item => (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2" key={`table_filter_${item.key}`}>
                     {item.label && <span className="text-gray-500 font-medium">{item.label}</span>}
-                    <div key={`table_filter_${item.key}`} className="relative">
+                    <div className="relative">
                       <IconFilterSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
                         placeholder={item.placeholder ?? 'Search...'}
@@ -131,7 +133,7 @@ export function DataTableServer<TData, TValue>({
               </TableRow>
             ) : table.getRowModel().rows?.length
               ? (
-                  table.getRowModel().rows.map((row, index) => (
+                  table.getRowModel().rows.map(row => (
                     <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                       {row.getVisibleCells().map(cell => (
                         <TableCell key={cell.id} className="text-sm text-black/90">

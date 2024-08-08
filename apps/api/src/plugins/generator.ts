@@ -161,6 +161,7 @@ function getTypeModelFromSchema(schema: any): any {
     const { properties } = schema
     const result: any = {}
     for (const key in properties) {
+      if (!key) { continue }
       const property = properties[key]
       const isOptional = property[Symbol.for('TypeBox.Optional')] === 'Optional'
       result[isOptional ? `${key}?` : key] = getTypeModelFromSchema(property)
@@ -190,8 +191,12 @@ function getStringFromTypeModel(typeModel: any): string {
   }
 
   // object
+  if (Object.keys(typeModel).length === 0) {
+    return 'any'
+  }
   const result = []
   for (const key in typeModel) {
+    if (!key) { continue }
     result.push(`${key}: ${getStringFromTypeModel(typeModel[key])}`)
   }
   return `{ ${result.join(', ')} }`

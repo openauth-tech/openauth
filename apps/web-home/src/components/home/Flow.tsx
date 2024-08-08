@@ -1,16 +1,19 @@
 import { IconBrandGoogle, IconBrandX, IconCurrencyEthereum, IconCurrencySolana, IconUser } from '@tabler/icons-react'
-import React, { forwardRef, useRef } from 'react'
+import type { ReactNode } from 'react'
+import { forwardRef, useRef } from 'react'
 
 import ImgKaiwa from '@/assets/images/common/logo.png'
 import { AnimatedBeam } from '@/components/magicui/animated-beam'
 import { cn } from '@/utils/css'
 
-const Circle = forwardRef<HTMLDivElement, { className?: string, children?: React.ReactNode }>(
-  ({ className, children }, ref) => (
-    <div ref={ref} className={cn('z-10 flex-center rounded-xl border-1 bg-white shadow-sm', className)}>
-      {children}
-    </div>
-  ),
+const Circle = forwardRef<HTMLDivElement, { className?: string, children?: ReactNode }>(
+  function Circle({ className, children }, ref) {
+    return (
+      <div ref={ref} className={cn('z-10 flex-center rounded-xl border-1 bg-white shadow-sm', className)}>
+        {children}
+      </div>
+    )
+  },
 )
 
 export function Flow({ className }: { className?: string }) {

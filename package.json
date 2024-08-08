@@ -5,7 +5,7 @@
     "dev:api": "pnpm --filter './packages/*' build && pnpm --filter ./apps/api dev",
     "dev:admin": "pnpm --filter './packages/*' build && pnpm --filter ./apps/web-admin dev",
     "dev:home": "pnpm --filter './packages/*' build && pnpm --filter ./apps/web-home dev",
-    "generate": "pnpm --filter api generate && eslint --fix --ext .ts ./packages/sdk-core/client && pnpm -r build"
+    "generate": "pnpm --filter api generate && npx eslint --fix ./packages/sdk-core/client && pnpm -r build"
   },
   "devDependencies": {
     "@typescript-eslint/utils": "8.0.1",

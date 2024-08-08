@@ -9,7 +9,7 @@ import { AppHeader } from '@/components/app/AppHeader'
 import { Textarea } from '@/components/ui/textarea'
 import { useAdmin } from '@/context/admin'
 
-export default function () {
+export default function ApiKeys() {
   const { id = '' } = useParams()
   const { client } = useAdmin()
   const [_, copy] = useCopyToClipboard()
@@ -115,7 +115,7 @@ export default function () {
               variant="outline"
               className="px-3"
               onClick={async () => {
-                await client.admin.updateApp(id, { jwtTTL: Number.parseInt(ttl) })
+                await client.admin.updateApp(id, { jwtTTL: Number.parseInt(ttl, 10) })
                 toast.success('Update successfully')
               }}
             >

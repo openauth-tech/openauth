@@ -11,6 +11,7 @@ import usePagination from './use-pagination'
 function PaginationRoot({ className, ...props }: React.ComponentProps<'nav'>) {
   return <nav role="navigation" aria-label="pagination" className={cn('flex', className)} {...props} />
 }
+
 PaginationRoot.displayName = 'PaginationRoot'
 
 const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProps<'ul'>>(
@@ -29,7 +30,7 @@ type PaginationLinkProps = {
   isActive?: boolean
 } & ButtonProps
 
-function PaginationLink({ className, isActive, size = 'icon', type = 'button', ...props }: PaginationLinkProps) {
+function PaginationLink({ className, isActive, size = 'icon', ...props }: PaginationLinkProps) {
   return (
     <Button
       aria-current={isActive ? 'page' : undefined}
@@ -40,6 +41,7 @@ function PaginationLink({ className, isActive, size = 'icon', type = 'button', .
     />
   )
 }
+
 PaginationLink.displayName = 'PaginationLink'
 
 function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
@@ -49,6 +51,7 @@ function PaginationPrevious({ className, ...props }: React.ComponentProps<typeof
     </PaginationLink>
   )
 }
+
 PaginationPrevious.displayName = 'PaginationPrevious'
 
 function PaginationNext({ className, ...props }: React.ComponentProps<typeof PaginationLink>) {
@@ -58,6 +61,7 @@ function PaginationNext({ className, ...props }: React.ComponentProps<typeof Pag
     </PaginationLink>
   )
 }
+
 PaginationNext.displayName = 'PaginationNext'
 
 function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'>) {
@@ -68,6 +72,7 @@ function PaginationEllipsis({ className, ...props }: React.ComponentProps<'span'
     </span>
   )
 }
+
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 const Pagination: React.FC<PaginationProps> = (props) => {
@@ -75,7 +80,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   return (
     <PaginationRoot className={props.className}>
       <PaginationContent>
-        {items.map(({ page, type, selected, ...item }, index) => {
+        {items.map(({ page, type, selected, ...item }) => {
           let children = null
 
           switch (type) {
@@ -113,7 +118,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
             }
           }
 
-          return <PaginationItem key={index}>{children}</PaginationItem>
+          return <PaginationItem key={`pagination-item-${page}`}>{children}</PaginationItem>
         })}
       </PaginationContent>
     </PaginationRoot>

@@ -79,7 +79,7 @@ describe('OpenAuth User API', () => {
     await logInUsernameUser(client, id)
 
     const wallets = await client.user.getWallets()
-    console.log(wallets.solWallet)
+    console.info(wallets.solWallet)
     assert.equal(wallets.solWallet.length, 44)
   })
 
@@ -88,14 +88,14 @@ describe('OpenAuth User API', () => {
     await logInUsernameUser(client, id)
 
     const wallets = await client.user.getWallets()
-    console.log(wallets.solWallet)
+    console.info(wallets.solWallet)
     const { signature } = await client.user.sendSolanaToken({
       network: 'SonicDevnet',
       address: 'GTRCpd5GwML8mxbqcHcunLmVWnxr7fmdd7avCa5KzBAk',
       token: 'SOL',
       amount: 0.01,
     })
-    console.log(signature)
+    console.info(signature)
     assert(signature.length > 0)
   })
 })

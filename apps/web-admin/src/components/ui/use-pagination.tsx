@@ -28,7 +28,6 @@ interface PaginationItem {
 export default function usePagination(props: PaginationProps = {}) {
   const {
     boundaryCount = 1,
-    componentName = 'usePagination',
     count = 1,
     defaultPage = 1,
     disabled = false,
