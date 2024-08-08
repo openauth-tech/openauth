@@ -21,6 +21,11 @@ export default defineConfig(
       '@typescript-eslint/no-explicit-any': 'off',
 
       'react-compiler/react-compiler': 'off',
+      'unicorn/no-anonymous-default-export': 'warn',
+      'require-await': 'warn',
+      'func-names': 'warn',
+      'no-plusplus': 'warn',
+      'max-params': 'off'
     },
   },
   {
