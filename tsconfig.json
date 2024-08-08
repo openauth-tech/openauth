@@ -17,6 +17,7 @@
     "node_modules"
   ],
   "include": [
-    "**/*.ts"
-, "packages/sdk-core/tsconfig.json"  ]
+    "**/*.ts",
+    "packages/sdk-core/tsconfig.json"
+  ]
 }

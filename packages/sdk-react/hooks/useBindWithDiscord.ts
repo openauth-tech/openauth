@@ -26,8 +26,7 @@ export function useBindWithDiscord() {
           token: token.access_token,
         })
         await refetch()
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error)
       }
     },

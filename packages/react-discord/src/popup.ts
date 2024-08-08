@@ -36,8 +36,7 @@ export function popupDiscordLogin({
       if (popup.window.origin !== window.origin) {
         return
       }
-    }
-    catch {
+    } catch {
       return
     }
 
@@ -51,8 +50,7 @@ export function popupDiscordLogin({
         onError({ error })
         popup.close()
       }
-    }
-    catch (error: any) {
+    } catch (error: any) {
       onError({ error: error.message })
       popup.close()
     }

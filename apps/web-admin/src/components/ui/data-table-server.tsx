@@ -1,14 +1,6 @@
 import { IconFilterSearch, IconLoader2 } from '@tabler/icons-react'
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-} from '@tanstack/react-table'
-import {
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import type { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/react-table'
+import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import * as React from 'react'
 
 import { Input } from '@/components/ui/input'
@@ -39,6 +31,7 @@ interface DataTableProps<TData, TValue> {
 
 const defualtPagers = [10, 25, 50, 100]
 const defaultFilter: Filter[] = []
+
 export function DataTableServer<TData, TValue>({
   columns,
   data,
@@ -80,6 +73,38 @@ export function DataTableServer<TData, TValue>({
     },
     getCoreRowModel: getCoreRowModel(),
   })
+
+  const tableBody = useMemo(() => {
+    if (pending) {
+      return (
+        <TableRow>
+          <TableCell colSpan={columns.length} className="h-24 text-center">
+            <IconLoader2 size={32} className="mx-auto animate-spin opacity-40" />
+          </TableCell>
+        </TableRow>
+      )
+    }
+
+    if (table.getRowModel().rows.length > 0) {
+      return table.getRowModel().rows.map(row => (
+        <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+          {row.getVisibleCells().map(cell => (
+            <TableCell key={cell.id} className="text-sm text-black/90">
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </TableCell>
+          ))}
+        </TableRow>
+      ))
+    }
+
+    return (
+      <TableRow>
+        <TableCell colSpan={columns.length} className="h-24 text-center">
+          No results.
+        </TableCell>
+      </TableRow>
+    )
+  }, [columns.length, pending, table])
 
   return (
     <div className="space-y-4">
@@ -125,31 +150,7 @@ export function DataTableServer<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {pending ? (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  <IconLoader2 size={32} className="mx-auto animate-spin opacity-40" />
-                </TableCell>
-              </TableRow>
-            ) : table.getRowModel().rows?.length
-              ? (
-                  table.getRowModel().rows.map(row => (
-                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                      {row.getVisibleCells().map(cell => (
-                        <TableCell key={cell.id} className="text-sm text-black/90">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                )
-              : (
-                  <TableRow>
-                    <TableCell colSpan={columns.length} className="h-24 text-center">
-                      No results.
-                    </TableCell>
-                  </TableRow>
-                )}
+            {tableBody}
           </TableBody>
         </Table>
       </div>

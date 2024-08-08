@@ -13,8 +13,7 @@ export async function verifyAdmin(request: FastifyRequest, reply: FastifyReply) 
     if (!admin) {
       return reply.code(401).send({ message: 'Unauthorized' })
     }
-  }
-  catch {
+  } catch {
     return reply.code(401).send({ message: 'Unauthorized' })
   }
 }

@@ -52,8 +52,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const transaction = new Transaction()
   if (token === 'SOL') {
     transaction.add(SystemProgram.transfer({ fromPubkey, toPubkey, lamports }))
-  }
-  else {
+  } else {
     const mint = new PublicKey(token)
     const fromTokenAccount = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, fromPubkey)
     const toTokenAccount = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, toPubkey)

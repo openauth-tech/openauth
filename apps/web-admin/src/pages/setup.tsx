@@ -28,12 +28,10 @@ export default function () {
       await refetch()
       toast.success('Setup successfully')
       nav('/login')
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.error(error)
       toast.error(error.message)
-    }
-    finally {
+    } finally {
       setLoading(false)
     }
   }

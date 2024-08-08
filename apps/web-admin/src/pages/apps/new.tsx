@@ -15,12 +15,10 @@ export default function () {
       await client.admin.createApp({ name })
       toast.success('App created successfully')
       nav('/apps')
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.error(error)
       toast.error(error.message)
-    }
-    finally {
+    } finally {
       setLoading(false)
     }
   }

@@ -2,29 +2,14 @@
   "name": "api",
   "private": true,
   "scripts": {
+    "build": "tsc",
+    "db:deploy": "prisma migrate deploy",
+    "db:dev": "prisma migrate dev && prisma generate",
+    "db:generate": "prisma generate",
     "dev": "tsx watch ./src/api.ts",
     "dev:queue": "tsx watch ./src/queue.ts",
     "generate": "tsx ./src/generate.ts",
-    "build": "tsc",
-    "postinstall": "prisma generate",
-    "db:dev": "prisma migrate dev && prisma generate",
-    "db:generate": "prisma generate",
-    "db:deploy": "prisma migrate deploy"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/mocha": "^10.0.7",
-    "@types/node": "^18.6.1",
-    "@types/pg": "^8.6.4",
-    "@types/qs": "6.9.15",
-    "dotenv-cli": "^7.4.2",
-    "mocha": "^10.5.2",
-    "onchange": "^7.1.0",
-    "prettier": "^2.7.1",
-    "run-script-os": "^1.1.6",
-    "tap": "^20.0.3",
-    "ts-node": "^10.9.1",
-    "tsx": "4.16.0"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.564.0",
@@ -64,5 +49,20 @@
     "telegraf": "^4.16.3",
     "tweetnacl": "^1.0.3",
     "viem": "^2.9.12"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^18.6.1",
+    "@types/pg": "^8.6.4",
+    "@types/qs": "6.9.15",
+    "dotenv-cli": "^7.4.2",
+    "mocha": "^10.5.2",
+    "onchange": "^7.1.0",
+    "prettier": "^2.7.1",
+    "run-script-os": "^1.1.6",
+    "tap": "^20.0.3",
+    "ts-node": "^10.9.1",
+    "tsx": "4.16.0"
   }
 }

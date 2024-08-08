@@ -23,8 +23,7 @@ export function NavButton({
     if (to) {
       if (to.startsWith('http')) {
         window.open(to, '_blank')
-      }
-      else {
+      } else {
         nav(to)
       }
     }

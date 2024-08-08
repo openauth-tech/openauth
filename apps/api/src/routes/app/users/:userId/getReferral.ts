@@ -43,8 +43,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     const referral = await prisma.referral.findUnique({ where: { referee: referralChain.at(-1) } })
     if (referral) {
       referralChain.push(referral.referrer)
-    }
-    else {
+    } else {
       break
     }
   }

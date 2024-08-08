@@ -20,8 +20,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     if (client.user.isAuthorized()) {
       const profile = await client.user.getProfile()
       setProfile(profile)
-    }
-    else {
+    } else {
       setProfile(undefined)
     }
   }, [client, setProfile])

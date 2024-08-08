@@ -28,8 +28,7 @@ export function useBindWithGoogle() {
         ).json()
         await client.user.bindWithGoogle({ email: userinfo.email, token })
         await refetch()
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error)
       }
       setLoading(false)

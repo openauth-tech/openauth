@@ -1,8 +1,8 @@
 {
   "name": "@open-auth/sdk-react",
+  "type": "module",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -10,7 +10,10 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "tsup"
   },
@@ -20,10 +23,10 @@
     "@open-auth/sdk-core": "workspace:*",
     "@react-oauth/google": "^0.12.1",
     "class-variance-authority": "^0.6.0",
+    "ethers": "6.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "usehooks-ts": "^3.1.0",
-    "ethers": "6.13.1"
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
@@ -41,8 +44,5 @@
     "sourcemap": true,
     "clean": true,
     "dts": true
-  },
-  "files": [
-    "dist/"
-  ]
+  }
 }

@@ -54,8 +54,7 @@ export async function bindSolanaUser(client: OpenAuthClient, appId: string, sola
 export async function setupAdmin(client: OpenAuthClient) {
   try {
     await client.admin.setup({ username: USERNAME, password: PASSWORD })
-  }
-  catch { /* empty */ }
+  } catch { /* empty */ }
 
   const { token } = await client.admin.login({
     username: USERNAME,

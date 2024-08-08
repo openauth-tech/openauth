@@ -1,8 +1,8 @@
 {
   "name": "@open-auth/react-discord",
+  "type": "module",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -10,7 +10,10 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "tsup"
   },
@@ -38,8 +41,5 @@
     "sourcemap": true,
     "clean": true,
     "dts": true
-  },
-  "files": [
-    "dist/"
-  ]
+  }
 }

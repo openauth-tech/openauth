@@ -14,6 +14,7 @@ export default defineConfig(
     rules: {
       '@stylistic/brace-style': ['error', '1tbs', { allowSingleLine: true }],
       '@typescript-eslint/no-explicit-any': 'off',
+      '@eslint-react/naming-convention/filename-extension': 'off',
       'unicorn/no-anonymous-default-export': 'off',
       'unicorn/no-useless-undefined': 'off',
       'unicorn/no-process-exit': 'off',

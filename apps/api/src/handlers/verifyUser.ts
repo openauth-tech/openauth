@@ -16,8 +16,7 @@ export async function verifyUser(request: FastifyRequest, reply: FastifyReply) {
         return reply.code(401).send({ message: 'Unauthorized' })
       }
     }
-  }
-  catch {
+  } catch {
     return reply.code(401).send({ message: 'Unauthorized' })
   }
 }

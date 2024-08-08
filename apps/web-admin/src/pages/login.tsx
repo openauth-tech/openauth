@@ -16,12 +16,10 @@ export default function () {
       await logIn(username, password)
       toast.success('Log in successfully')
       nav('/')
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.error(error)
       toast.error(error.message)
-    }
-    finally {
+    } finally {
       setLoading(false)
     }
   }

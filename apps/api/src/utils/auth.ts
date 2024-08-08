@@ -16,8 +16,7 @@ export function verifyETH(appName: string, wallet: string, sig: string) {
     const messageText = getMessageText(appName)
     const address_returned = ethers.verifyMessage(messageText, sig)
     return wallet.toLowerCase() === address_returned.toLowerCase()
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e)
     return false
   }
@@ -28,8 +27,7 @@ export function verifySOL(appName: string, wallet: string, sig: string) {
     const messageText = getMessageText(appName)
     const messageBytes = new TextEncoder().encode(messageText)
     return nacl.sign.detached.verify(messageBytes, base58.decode(sig), base58.decode(wallet))
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e)
     return false
   }
@@ -43,8 +41,7 @@ export async function verifyGoogle(email: string, token: string) {
       },
     })
     return { verified: data.data?.email.toLowerCase() === email.toLowerCase(), avatar: data.data?.picture }
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e)
     return { verified: false }
   }
@@ -63,8 +60,7 @@ export async function verifyDiscord(id: string, token: string) {
         ? `https://cdn.discordapp.com/avatars/${data.data.id}/${data.data.avatar}.png`
         : undefined,
     }
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e)
     return { verified: false }
   }

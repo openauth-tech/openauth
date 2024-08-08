@@ -77,8 +77,9 @@ PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 const Pagination: React.FC<PaginationProps> = (props) => {
   const { items } = usePagination(props)
+  const { className } = props
   return (
-    <PaginationRoot className={props.className}>
+    <PaginationRoot className={className}>
       <PaginationContent>
         {items.map(({ page, type, selected, ...item }) => {
           let children = null
