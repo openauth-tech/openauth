@@ -78,6 +78,7 @@ export default defineConfig(({ mode }) => {
           }
 
           handler(level, log)
+        },
       },
     },
     optimizeDeps: {
