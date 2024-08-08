@@ -5,6 +5,8 @@ export interface IOpenAuthConfig {
   endpoint: string
   googleClientId?: string
   discordApplicationId?: string
+  twitterClientId?: string
+  twitterClientSecret?: string
 }
 
 export interface IOpenAuthContext {

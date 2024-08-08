@@ -26,6 +26,8 @@ root.render(
       endpoint: import.meta.env.VITE_OPENAUTH_ENDPOINT,
       googleClientId: '868364359161-r53l284na254rqkd7r92rlguufc6aahd.apps.googleusercontent.com',
       discordApplicationId: '1270776138020687882',
+      twitterClientId: 'LTZPeHJaS3QzTVI0ck42aE1rRDE6MTpjaQ',
+      twitterClientSecret: 'dJqA2MCVZthtLBNGWMOddcUPDW1XxlZyH661AMg_lB7Bou_L0X',
     }}
   >
     <QueryClientProvider client={queryClient}>

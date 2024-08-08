@@ -22,22 +22,22 @@ importers:
         version: 9.8.0
       eslint-config-hyoban:
         specifier: 3.0.1
-        version: 3.0.1(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)))(typescript@5.5.2)
+        version: 3.0.1(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2)))(typescript@5.5.2)
       tsup:
         specifier: 8.2.4
-        version: 8.2.4(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.0)(typescript@5.5.2)(yaml@2.4.5)
+        version: 8.2.4(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.5)(typescript@5.5.2)(yaml@2.4.5)
       typescript:
         specifier: ^5.5.2
         version: 5.5.2
       unocss:
         specifier: 0.61.9
-        version: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
       unocss-preset-animations:
         specifier: 1.1.0
-        version: 1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)))
+        version: 1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1)))
       unocss-preset-shadcn:
         specifier: 0.3.1
-        version: 0.3.1(unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))))(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)))
+        version: 0.3.1(unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))))(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1)))
 
   apps/api:
     dependencies:
@@ -393,7 +393,7 @@ importers:
         version: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@9.8.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.6.4(eslint@9.8.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
       vite-plugin-node-stdlib-browser:
         specifier: ^0.2.1
         version: 0.2.1(node-stdlib-browser@1.2.0)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
@@ -586,7 +586,7 @@ importers:
         version: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
       vite-plugin-checker:
         specifier: ^0.6.4
-        version: 0.6.4(eslint@9.8.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+        version: 0.6.4(eslint@9.8.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
       vite-plugin-node-stdlib-browser:
         specifier: ^0.2.1
         version: 0.2.1(node-stdlib-browser@1.2.0)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
@@ -621,6 +621,43 @@ importers:
         specifier: ^4.5.2
         version: 4.5.4(@types/react@18.3.3)(react@18.3.1)
     devDependencies:
+      '@types/react':
+        specifier: ^18.0.27
+        version: 18.3.3
+
+  packages/react-twitter:
+    dependencies:
+      '@did-network/dapp-sdk':
+        specifier: ^0.1.9
+        version: 0.1.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@open-auth/sdk-core':
+        specifier: workspace:*
+        version: link:../sdk-core
+      '@react-oauth/google':
+        specifier: ^0.12.1
+        version: 0.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      crypto:
+        specifier: 1.0.1
+        version: 1.0.1
+      ethers:
+        specifier: 6.13.1
+        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+      usehooks-ts:
+        specifier: ^3.1.0
+        version: 3.1.0(react@18.3.1)
+      zustand:
+        specifier: ^4.5.2
+        version: 4.5.4(@types/react@18.3.3)(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: 22.1.0
+        version: 22.1.0
       '@types/react':
         specifier: ^18.0.27
         version: 18.3.3
@@ -664,6 +701,9 @@ importers:
       '@open-auth/react-discord':
         specifier: workspace:*
         version: link:../react-discord
+      '@open-auth/react-twitter':
+        specifier: workspace:*
+        version: link:../react-twitter
       '@open-auth/sdk-core':
         specifier: workspace:*
         version: link:../sdk-core
@@ -3998,6 +4038,9 @@ packages:
   '@types/node@18.19.39':
     resolution: {integrity: sha512-nPwTRDKUctxw3di5b4TfT3I0sWDiWoPQCZjXhvdkINntwr8lcoVCKsTgnXeRubKIlfnV+eN/HYk6Jb40tbcEAQ==}
 
+  '@types/node@22.1.0':
+    resolution: {integrity: sha512-AOmuRF0R2/5j1knA3c6G3HOk523Ga+l+ZXltX8SF1+5oqcXijjfTd8fY3XRZqSihEu9XhtQnKYLmkFaoxgsJHw==}
+
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
 
@@ -4843,6 +4886,10 @@ packages:
 
   crypto-browserify@3.12.0:
     resolution: {integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==}
+
+  crypto@1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
 
   css-tree@2.3.1:
     resolution: {integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==}
@@ -7865,6 +7912,9 @@ packages:
 
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+
+  undici-types@6.13.0:
+    resolution: {integrity: sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==}
 
   unicode-canonical-property-names-ecmascript@2.0.0:
     resolution: {integrity: sha512-yY5PpDlfVIU5+y/BSCxAJRBIS1Zc2dDG3Ujq+sR0U+JjUevW2JhocOF+soROYDSaAezOzOKuyyixhD6mBknSmQ==}
@@ -12463,6 +12513,10 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@22.1.0':
+    dependencies:
+      undici-types: 6.13.0
+
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/parse-json@4.0.2': {}
@@ -12653,13 +12707,13 @@ snapshots:
       '@typescript-eslint/types': 8.0.1
       eslint-visitor-keys: 3.4.3
 
-  '@unocss/astro@0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))':
+  '@unocss/astro@0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))':
     dependencies:
       '@unocss/core': 0.61.9
       '@unocss/reset': 0.61.9
-      '@unocss/vite': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+      '@unocss/vite': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
     optionalDependencies:
-      vite: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
+      vite: 5.2.8(@types/node@22.1.0)(terser@5.31.1)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -12818,7 +12872,7 @@ snapshots:
     dependencies:
       '@unocss/core': 0.61.9
 
-  '@unocss/vite@0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))':
+  '@unocss/vite@0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@rollup/pluginutils': 5.1.0(rollup@4.20.0)
@@ -12830,7 +12884,7 @@ snapshots:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       magic-string: 0.30.11
-      vite: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
+      vite: 5.2.8(@types/node@22.1.0)(terser@5.31.1)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -13511,6 +13565,8 @@ snapshots:
       randombytes: 2.1.0
       randomfill: 1.0.4
 
+  crypto@1.0.1: {}
+
   css-tree@2.3.1:
     dependencies:
       mdn-data: 2.0.30
@@ -13833,7 +13889,7 @@ snapshots:
       find-up-simple: 1.0.0
       parse-gitignore: 2.0.0
 
-  eslint-config-hyoban@3.0.1(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)))(typescript@5.5.2):
+  eslint-config-hyoban@3.0.1(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2)))(typescript@5.5.2):
     dependencies:
       '@eslint-react/eslint-plugin': 1.9.0(eslint@9.8.0)(typescript@5.5.2)
       '@eslint/js': 9.8.0
@@ -13853,7 +13909,7 @@ snapshots:
       eslint-plugin-react-refresh: 0.4.9(eslint@9.8.0)
       eslint-plugin-regexp: 2.6.0(eslint@9.8.0)
       eslint-plugin-simple-import-sort: 12.1.1(eslint@9.8.0)
-      eslint-plugin-tailwindcss: 3.17.4(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)))
+      eslint-plugin-tailwindcss: 3.17.4(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2)))
       eslint-plugin-unicorn: 55.0.0(eslint@9.8.0)
       eslint-plugin-unused-imports: 4.0.1(@typescript-eslint/eslint-plugin@8.0.1(@typescript-eslint/parser@8.0.1(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)(typescript@5.5.2))(eslint@9.8.0)
       globals: 15.9.0
@@ -14064,11 +14120,11 @@ snapshots:
     dependencies:
       eslint: 9.8.0
 
-  eslint-plugin-tailwindcss@3.17.4(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))):
+  eslint-plugin-tailwindcss@3.17.4(tailwindcss@3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2))):
     dependencies:
       fast-glob: 3.3.2
       postcss: 8.4.39
-      tailwindcss: 3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))
+      tailwindcss: 3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2))
 
   eslint-plugin-unicorn@55.0.0(eslint@9.8.0):
     dependencies:
@@ -15767,21 +15823,21 @@ snapshots:
       camelcase-css: 2.0.1
       postcss: 8.4.39
 
-  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)):
+  postcss-load-config@4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2)):
     dependencies:
       lilconfig: 3.1.2
       yaml: 2.4.5
     optionalDependencies:
       postcss: 8.4.39
-      ts-node: 10.9.2(@types/node@18.19.39)(typescript@5.5.2)
+      ts-node: 10.9.2(@types/node@22.1.0)(typescript@5.5.2)
 
-  postcss-load-config@6.0.1(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.0)(yaml@2.4.5):
+  postcss-load-config@6.0.1(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.5)(yaml@2.4.5):
     dependencies:
       lilconfig: 3.1.2
     optionalDependencies:
       jiti: 1.21.6
       postcss: 8.4.39
-      tsx: 4.16.0
+      tsx: 4.16.5
       yaml: 2.4.5
 
   postcss-nested@6.2.0(postcss@8.4.39):
@@ -16603,7 +16659,7 @@ snapshots:
 
   tailwind-merge@1.14.0: {}
 
-  tailwindcss@3.4.8(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2)):
+  tailwindcss@3.4.8(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2
@@ -16622,7 +16678,7 @@ snapshots:
       postcss: 8.4.39
       postcss-import: 15.1.0(postcss@8.4.39)
       postcss-js: 4.0.1(postcss@8.4.39)
-      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@18.19.39)(typescript@5.5.2))
+      postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2))
       postcss-nested: 6.2.0(postcss@8.4.39)
       postcss-selector-parser: 6.1.1
       resolve: 1.22.8
@@ -16802,6 +16858,25 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  ts-node@10.9.2(@types/node@22.1.0)(typescript@5.5.2):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 22.1.0
+      acorn: 8.12.0
+      acorn-walk: 8.3.3
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.5.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    optional: true
+
   ts-pattern@5.2.0: {}
 
   tshy@1.16.2:
@@ -16822,7 +16897,7 @@ snapshots:
 
   tslib@2.6.3: {}
 
-  tsup@8.2.4(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.0)(typescript@5.5.2)(yaml@2.4.5):
+  tsup@8.2.4(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.5)(typescript@5.5.2)(yaml@2.4.5):
     dependencies:
       bundle-require: 5.0.0(esbuild@0.23.0)
       cac: 6.7.14
@@ -16834,7 +16909,7 @@ snapshots:
       globby: 11.1.0
       joycon: 3.1.1
       picocolors: 1.0.1
-      postcss-load-config: 6.0.1(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.0)(yaml@2.4.5)
+      postcss-load-config: 6.0.1(jiti@1.21.6)(postcss@8.4.39)(tsx@4.16.5)(yaml@2.4.5)
       resolve-from: 5.0.0
       rollup: 4.20.0
       source-map: 0.8.0-beta.0
@@ -16914,6 +16989,8 @@ snapshots:
 
   undici-types@5.26.5: {}
 
+  undici-types@6.13.0: {}
+
   unicode-canonical-property-names-ecmascript@2.0.0: {}
 
   unicode-match-property-ecmascript@2.0.0:
@@ -16953,19 +17030,19 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))):
+  unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))):
     dependencies:
       '@unocss/preset-wind': 0.61.9
-      unocss: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+      unocss: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
 
-  unocss-preset-shadcn@0.3.1(unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))))(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))):
+  unocss-preset-shadcn@0.3.1(unocss-preset-animations@1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))))(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))):
     dependencies:
-      unocss: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
-      unocss-preset-animations: 1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)))
+      unocss: 0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
+      unocss-preset-animations: 1.1.0(@unocss/preset-wind@0.61.9)(unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1)))
 
-  unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)):
+  unocss@0.61.9(postcss@8.4.39)(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1)):
     dependencies:
-      '@unocss/astro': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+      '@unocss/astro': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
       '@unocss/cli': 0.61.9(rollup@4.20.0)
       '@unocss/core': 0.61.9
       '@unocss/extractor-arbitrary-variants': 0.61.9
@@ -16984,9 +17061,9 @@ snapshots:
       '@unocss/transformer-compile-class': 0.61.9
       '@unocss/transformer-directives': 0.61.9
       '@unocss/transformer-variant-group': 0.61.9
-      '@unocss/vite': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1))
+      '@unocss/vite': 0.61.9(rollup@4.20.0)(vite@5.2.8(@types/node@22.1.0)(terser@5.31.1))
     optionalDependencies:
-      vite: 5.2.8(@types/node@18.19.39)(terser@5.31.1)
+      vite: 5.2.8(@types/node@22.1.0)(terser@5.31.1)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -17142,7 +17219,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  vite-plugin-checker@0.6.4(eslint@9.8.0)(meow@13.2.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)):
+  vite-plugin-checker@0.6.4(eslint@9.8.0)(optionator@0.9.4)(typescript@5.5.2)(vite@5.2.8(@types/node@18.19.39)(terser@5.31.1)):
     dependencies:
       '@babel/code-frame': 7.24.7
       ansi-escapes: 4.3.2
@@ -17162,7 +17239,6 @@ snapshots:
       vscode-uri: 3.0.8
     optionalDependencies:
       eslint: 9.8.0
-      meow: 13.2.0
       optionator: 0.9.4
       typescript: 5.5.2
 
@@ -17198,6 +17274,16 @@ snapshots:
       rollup: 4.18.0
     optionalDependencies:
       '@types/node': 18.19.39
+      fsevents: 2.3.3
+      terser: 5.31.1
+
+  vite@5.2.8(@types/node@22.1.0)(terser@5.31.1):
+    dependencies:
+      esbuild: 0.20.2
+      postcss: 8.4.39
+      rollup: 4.18.0
+    optionalDependencies:
+      '@types/node': 22.1.0
       fsevents: 2.3.3
       terser: 5.31.1
 

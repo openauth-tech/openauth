@@ -1,5 +1,5 @@
 {
-  "name": "@open-auth/sdk-react",
+  "name": "@open-auth/react-twitter",
   "type": "module",
   "version": "0.0.0",
   "description": "",
@@ -19,20 +19,18 @@
   },
   "dependencies": {
     "@did-network/dapp-sdk": "^0.1.9",
-    "@open-auth/react-discord": "workspace:*",
-    "@open-auth/react-twitter": "workspace:*",
     "@open-auth/sdk-core": "workspace:*",
     "@react-oauth/google": "^0.12.1",
-    "class-variance-authority": "^0.6.0",
+    "crypto": "1.0.1",
     "ethers": "6.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "usehooks-ts": "^3.1.0"
+    "usehooks-ts": "^3.1.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@types/node": "^18.15.11",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10"
+    "@types/node": "22.1.0",
+    "@types/react": "^18.0.27"
   },
   "tsup": {
     "entry": [

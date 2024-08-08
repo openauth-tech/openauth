@@ -3,12 +3,14 @@ import {
   useLogInWithEthereum,
   useLogInWithGoogle,
   useLogInWithSolana,
+  useLogInWithTwitter,
   useOpenAuth,
 } from '@open-auth/sdk-react'
 import {
   IconBrandDiscord,
   IconBrandGoogle,
   IconBrandTelegram,
+  IconBrandX,
   IconCurrencyEthereum,
   IconCurrencySolana,
   IconLoader2,
@@ -27,6 +29,7 @@ export function LoginCard() {
   const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
   const { logInWithGoogle, loading: loadingGoogle } = useLogInWithGoogle()
   const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
+  const { logInWithTwitter, loading: loadingTwitter } = useLogInWithTwitter()
 
   const onConnectETH = useCallback(async () => {
     try {
@@ -57,6 +60,14 @@ export function LoginCard() {
       toast.error(error.message)
     }
   }, [logInWithDiscord])
+
+  const onConnectTwitter = useCallback(async () => {
+    try {
+      logInWithTwitter()
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }, [logInWithTwitter])
 
   return (
     <Card className="px-16 py-10 shadow">
@@ -90,6 +101,12 @@ export function LoginCard() {
           <div className="w-50 flex items-center justify-start gap-2">
             {loadingDiscord ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandDiscord size={20} />}
             <span>Sign in with Discord</span>
+          </div>
+        </Button>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectTwitter} disabled={loadingDiscord}>
+          <div className="w-50 flex items-center justify-start gap-2">
+            {loadingTwitter ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandX size={20} />}
+            <span>Sign in with X</span>
           </div>
         </Button>
         <TelegramDialog />
