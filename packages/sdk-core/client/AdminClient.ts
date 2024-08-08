@@ -10,7 +10,7 @@ export class AdminClient extends BaseClient {
   }
 
   async setup(data: { username: string, password: string }) {
-    return (await this.http.post<{ data: {} }>(`/admin/setup`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/admin/setup`, data)).data.data
   }
 
   async createAdmin(data: { username: string, password: string }) {
@@ -18,7 +18,7 @@ export class AdminClient extends BaseClient {
   }
 
   async deleteAdmin(id: number) {
-    return (await this.http.delete<{ data: {} }>(`/admin/admins/${id}`)).data.data
+    return (await this.http.delete<{ data: unknown }>(`/admin/admins/${id}`)).data.data
   }
 
   async listAdmins() {
@@ -26,7 +26,7 @@ export class AdminClient extends BaseClient {
   }
 
   async updateAdmin(id: number, data: { username: string, password: string }) {
-    return (await this.http.patch<{ data: {} }>(`/admin/admins/${id}`, data)).data.data
+    return (await this.http.patch<{ data: unknown }>(`/admin/admins/${id}`, data)).data.data
   }
 
   async getAdmin(id: number) {
@@ -80,7 +80,7 @@ export class AdminClient extends BaseClient {
   }
 
   async deleteApp(appId: string) {
-    return (await this.http.delete<{ data: {} }>(`/admin/apps/${appId}`)).data.data
+    return (await this.http.delete<{ data: unknown }>(`/admin/apps/${appId}`)).data.data
   }
 
   async getAppSecret(appId: string) {
@@ -106,7 +106,7 @@ export class AdminClient extends BaseClient {
       telegramBotToken?: string
     },
   ) {
-    return (await this.http.patch<{ data: {} }>(`/admin/apps/${appId}`, data)).data.data
+    return (await this.http.patch<{ data: unknown }>(`/admin/apps/${appId}`, data)).data.data
   }
 
   async getApp(appId: string) {

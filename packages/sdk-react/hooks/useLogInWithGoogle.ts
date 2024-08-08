@@ -38,7 +38,7 @@ export function useLogInWithGoogle() {
     },
   })
 
-  const logInWithGoogle = useCallback(async () => {
+  const logInWithGoogle = useCallback(() => {
     setLoading(true)
     googleLogin()
   }, [googleLogin])

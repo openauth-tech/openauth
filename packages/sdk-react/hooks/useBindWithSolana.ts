@@ -30,6 +30,7 @@ export function useBindWithSolana() {
       setLoading(false)
       throw error
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [globalConfig, client.app, config.appId, refetch])
 
   return {

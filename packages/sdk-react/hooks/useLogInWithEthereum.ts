@@ -31,6 +31,7 @@ export function useLogInWithEthereum() {
       setLoading(false)
       throw error
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client.app, config.appId, globalConfig])
 
   return {

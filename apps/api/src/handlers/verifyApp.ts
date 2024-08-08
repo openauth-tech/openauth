@@ -10,6 +10,7 @@ export async function verifyApp(request: FastifyRequest, reply: FastifyReply) {
     if (!app) {
       return reply.code(401).send({ message: 'Unauthorized' })
     }
+    // eslint-disable-next-line require-atomic-updates
     request.user = { appId: app.id }
   }
   catch {

@@ -28,7 +28,7 @@ export async function processAvatarJob({ data: { userId, imageURL, skipIfExist }
       throw new Error(`No bot token found for telegram user: ${userId}`)
     }
     const bot = new Telegraf(botToken)
-    const photos = await bot.telegram.getUserProfilePhotos(Number.parseInt(user.telegram))
+    const photos = await bot.telegram.getUserProfilePhotos(Number.parseInt(user.telegram, 10))
     if (photos.photos.length === 0) {
       console.info(`No avatar found: ${userId}`)
       return

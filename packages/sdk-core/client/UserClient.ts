@@ -2,19 +2,19 @@ import { BaseClient } from './BaseClient.ts'
 
 export class UserClient extends BaseClient {
   async bindWithDiscord(data: { discordId: string, token: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/bind-discord`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/user/bind-discord`, data)).data.data
   }
 
   async bindWithEthereum(data: { ethAddress: string, signature: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/bind-ethereum`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/user/bind-ethereum`, data)).data.data
   }
 
   async bindWithGoogle(data: { email: string, token: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/bind-google`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/user/bind-google`, data)).data.data
   }
 
   async bindWithSolana(data: { solAddress: string, signature: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/bind-solana`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/user/bind-solana`, data)).data.data
   }
 
   async getConfig(params: { appId: string }) {
@@ -75,7 +75,7 @@ export class UserClient extends BaseClient {
   }
 
   async updatePassword(data: { oldPassword: string, newPassword: string }) {
-    return (await this.http.post<{ data: {} }>(`/user/update-password`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/user/update-password`, data)).data.data
   }
 
   async exportSolanaPrivateKey() {

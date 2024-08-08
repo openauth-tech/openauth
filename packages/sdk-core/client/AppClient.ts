@@ -76,7 +76,7 @@ export class AppClient extends BaseClient {
   }
 
   async setUserReferrer(userId: string, data: { referCode: string }) {
-    return (await this.http.post<{ data: {} }>(`/app/users/${userId}/bind-referrer`, data)).data.data
+    return (await this.http.post<{ data: unknown }>(`/app/users/${userId}/bind-referrer`, data)).data.data
   }
 
   async getUser(userId: string) {

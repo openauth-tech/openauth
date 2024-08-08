@@ -36,7 +36,7 @@ export function useBindWithGoogle() {
     },
   })
 
-  const bindWithGoogle = useCallback(async () => {
+  const bindWithGoogle = useCallback(() => {
     setLoading(true)
     googleLogin()
   }, [googleLogin])

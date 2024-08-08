@@ -41,7 +41,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   useEffect(() => {
     client.user.updateToken(token)
     refetch().catch(console.error)
-  }, [])
+  }, [client.user, refetch, token])
 
   useEffect(() => {
     if (config.endpoint) {

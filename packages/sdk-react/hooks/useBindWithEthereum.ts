@@ -31,6 +31,7 @@ export function useBindWithEthereum() {
       setLoading(false)
       throw error
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client.app, config.appId, globalConfig, refetch])
 
   return {
