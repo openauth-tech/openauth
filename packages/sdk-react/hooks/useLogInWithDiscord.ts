@@ -1,6 +1,7 @@
-import { useState } from 'react'
-import { useOpenAuth } from './useOpenAuth'
 import { fetchDiscordUser, useDiscordLogin } from '@open-auth/react-discord'
+import { useState } from 'react'
+
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithDiscord() {
   const { logIn, config, client } = useOpenAuth()
@@ -26,7 +27,8 @@ export function useLogInWithDiscord() {
           token: token.access_token,
         })
         await logIn(data.token)
-      } catch (error) {
+      }
+      catch (error) {
         console.error(error)
       }
       setLoading(false)

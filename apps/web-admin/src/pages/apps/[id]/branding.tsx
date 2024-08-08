@@ -26,7 +26,7 @@ export default function () {
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const changeMu = useMutation({
-    mutationFn: async ({ logoUrl, name, description }: { logoUrl: string; name: string; description: string }) => {
+    mutationFn: async ({ logoUrl, name, description }: { logoUrl: string, name: string, description: string }) => {
       await client.admin.updateApp(id!, { logoUrl, name, description })
     },
   })
@@ -39,11 +39,11 @@ export default function () {
       <AppHeader
         title="Branding"
         subtitle="Set your preferences for your usersʼ experience."
-        button={
+        button={(
           <Button loading={changeMu.isPending} onClick={changeHandler}>
             Save Changes
           </Button>
-        }
+        )}
       />
 
       <div className="mt-5 space-y-3">
@@ -52,12 +52,12 @@ export default function () {
           <div className="text-sm text-muted-foreground">
             This name is visible to users on modals, emails, and SMS messages.
           </div>
-          <Input value={name ?? ''} placeholder="App name" onChange={(e) => setName(e.target.value)} />
+          <Input value={name ?? ''} placeholder="App name" onChange={e => setName(e.target.value)} />
         </div>
         <div className="space-y-2">
           <div>Description</div>
           <div className="text-sm text-muted-foreground">This description is description.</div>
-          <Input value={description ?? ''} placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
+          <Input value={description ?? ''} placeholder="Description" onChange={e => setDescription(e.target.value)} />
         </div>
         <div className="space-y-2">
           <div>Your Logo</div>
@@ -65,7 +65,7 @@ export default function () {
             Add a URL of a PNG to display to your users on login. The aspect ratio is 2:1 and recommended size is
             180x90px.
           </div>
-          <Input value={logoUrl ?? ''} placeholder="Add logo URL" onChange={(e) => setLogoUrl(e.target.value)} />
+          <Input value={logoUrl ?? ''} placeholder="Add logo URL" onChange={e => setLogoUrl(e.target.value)} />
         </div>
       </div>
     </AppContainer>

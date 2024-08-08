@@ -1,7 +1,7 @@
-import { DiscordLoginPopupParams, TokenResponse } from './types.ts'
+import type { DiscordLoginPopupParams, TokenResponse } from './types.ts'
 import { generateAuthUrl, getQueryAndHash } from './utils.ts'
 
-export const popupDiscordLogin = ({
+export function popupDiscordLogin({
   applicationId,
   popupWidth = 700,
   popupHeight = 800,
@@ -11,7 +11,7 @@ export const popupDiscordLogin = ({
   onError,
   onSuccess,
   onClose,
-}: DiscordLoginPopupParams) => {
+}: DiscordLoginPopupParams) {
   const popupLeft = window.innerWidth / 2 - popupWidth / 2
   const popupTop = window.innerHeight / 2 - popupHeight / 2
   const params = `scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=${popupWidth},height=${popupHeight},left=${popupLeft},top=${popupTop}`
@@ -22,7 +22,7 @@ export const popupDiscordLogin = ({
 
   onStart()
 
-  const checkTimer = window.setInterval(function () {
+  const checkTimer = window.setInterval(() => {
     if (!popup) {
       return
     }
@@ -36,7 +36,8 @@ export const popupDiscordLogin = ({
       if (popup.window.origin !== window.origin) {
         return
       }
-    } catch (error) {
+    }
+    catch {
       return
     }
 
@@ -50,14 +51,15 @@ export const popupDiscordLogin = ({
         onError({ error })
         popup.close()
       }
-    } catch (error: any) {
+    }
+    catch (error: any) {
       onError({ error: error.message })
       popup.close()
     }
   }, 500)
 }
 
-function parseRedirectURI(location: Location): { error?: string; token?: TokenResponse } {
+function parseRedirectURI(location: Location): { error?: string, token?: TokenResponse } {
   const params = getQueryAndHash(location)
   const error = params.get('error')
   if (error) {
@@ -72,7 +74,7 @@ function parseRedirectURI(location: Location): { error?: string; token?: TokenRe
     return {
       token: {
         access_token,
-        expires_in: parseInt(expires_in ?? '0'),
+        expires_in: Number.parseInt(expires_in ?? '0'),
         token_type: token_type ?? '',
         scope: scope ? scope.split(' ') : [],
       },

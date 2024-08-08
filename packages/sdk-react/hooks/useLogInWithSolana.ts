@@ -1,5 +1,6 @@
 import { encodeBase58 } from 'ethers'
 import { useCallback, useState } from 'react'
+
 import { getSolanaProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
@@ -24,7 +25,8 @@ export function useLogInWithSolana() {
       const data = await client.user.logInWithSolana({ appId: config.appId, solAddress: address, signature })
       await logIn(data.token)
       setLoading(false)
-    } catch (error) {
+    }
+    catch (error) {
       setLoading(false)
       throw error
     }

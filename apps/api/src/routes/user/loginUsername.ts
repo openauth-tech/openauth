@@ -1,12 +1,13 @@
 import { Type } from '@fastify/type-provider-typebox'
 import { TypeLoginResponse } from '@open-auth/sdk-core'
-import { FastifyInstance } from 'fastify'
-import { ERROR400_SCHEMA } from '../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { prisma } from '../../utils/prisma'
-import { generateJwtToken } from '../../utils/jwt'
-import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import bcrypt from 'bcrypt'
+import type { FastifyInstance } from 'fastify'
+
+import { ERROR400_SCHEMA } from '../../constants/schema'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { findOrCreateUser } from '../../repositories/findOrCreateUser'
+import { generateJwtToken } from '../../utils/jwt'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['User'],

@@ -1,4 +1,4 @@
-import { User } from '@open-auth/sdk-core'
+import type { User } from '@open-auth/sdk-core'
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { useQuery } from '@tanstack/react-query'
 import type { ColumnDef, ColumnFiltersState, SortingState } from '@tanstack/react-table'
@@ -31,7 +31,7 @@ export default function () {
     },
   ]
 
-  const columns: ColumnDef<User>[] = [
+  const columns: Array<ColumnDef<User>> = [
     {
       accessorKey: 'id',
       header: 'ID',
@@ -53,17 +53,15 @@ export default function () {
     },
     {
       accessorKey: 'createdAt',
-      header: ({ column }) => {
-        return (
-          <span
-            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Registered At
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </span>
-        )
-      },
+      header: ({ column }) => (
+        <span
+          className="inline-flex cursor-pointer items-center gap-1 break-keep px-1 hover:text-accent-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Registered At
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </span>
+      ),
       cell: ({ row }) => (
         <div className="w-35">
           {row.getValue('createdAt') ? dayjs(row.getValue('createdAt')).format('YYYY-MM-DD HH:mm') : '-'}
@@ -72,17 +70,15 @@ export default function () {
     },
     {
       accessorKey: 'lastSeenAt',
-      header: ({ column }) => {
-        return (
-          <span
-            className="px-1 break-keep inline-flex items-center gap-1 cursor-pointer hover:text-accent-foreground"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          >
-            Last Seen
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </span>
-        )
-      },
+      header: ({ column }) => (
+        <span
+          className="inline-flex cursor-pointer items-center gap-1 break-keep px-1 hover:text-accent-foreground"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Last Seen
+          <CaretSortIcon className="ml-2 h-4 w-4" />
+        </span>
+      ),
       cell: ({ row }) => (
         <div className="w-35">
           {row.getValue('lastSeenAt') ? dayjs(row.getValue('lastSeenAt')).format('YYYY-MM-DD HH:mm') : '-'}
@@ -93,7 +89,7 @@ export default function () {
       accessorKey: 'operate',
       header: 'Operate',
       cell: ({ row }) => (
-        <Button variant={'secondary'} size="sm" onClick={() => setSelectedUser(row.original)}>
+        <Button variant="secondary" size="sm" onClick={() => setSelectedUser(row.original)}>
           Detail
         </Button>
       ),
@@ -106,7 +102,7 @@ export default function () {
       const { appSecret } = await client.admin.getAppSecret(appId)
       client.app.updateToken(appSecret)
 
-      let queryParams = {
+      const queryParams = {
         page,
         limit,
       }
@@ -133,21 +129,21 @@ export default function () {
     <AppContainer>
       <AppHeader title="User snapshot" />
 
-      <div className="mt-5 grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-3 mt-5 gap-5">
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">Active users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">New users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="py-3 px-4">
+          <CardContent className="px-4 py-3">
             <div className="">Total users</div>
             <div className="text-lg font-bold">{data?.meta.totalItems || 0}</div>
           </CardContent>

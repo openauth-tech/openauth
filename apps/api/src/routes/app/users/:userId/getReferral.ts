@@ -1,10 +1,11 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../../utils/prisma'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR400_SCHEMA } from '../../../../constants/schema'
 import { verifyApp } from '../../../../handlers/verifyApp'
-import { AppAuthPayload } from '../../../../models/request'
+import type { AppAuthPayload } from '../../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { prisma } from '../../../../utils/prisma'
 
 const schema = {
   tags: ['App - Users'],
@@ -39,10 +40,11 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 
   const referralChain = [userId]
   while (true) {
-    const referral = await prisma.referral.findUnique({ where: { referee: referralChain[referralChain.length - 1] } })
+    const referral = await prisma.referral.findUnique({ where: { referee: referralChain.at(-1) } })
     if (referral) {
       referralChain.push(referral.referrer)
-    } else {
+    }
+    else {
       break
     }
   }
@@ -54,14 +56,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 
   const referral2 = await prisma.referral.findMany({
     select: { referee: true },
-    where: { referrer: { in: referral1.map((r) => r.referee) } },
+    where: { referrer: { in: referral1.map(r => r.referee) } },
   })
 
   reply.status(200).send({
     data: {
       referralChain,
-      referrals1: referral1.map((i) => i.referee),
-      referrals2: referral2.map((i) => i.referee),
+      referrals1: referral1.map(i => i.referee),
+      referrals2: referral2.map(i => i.referee),
     },
   })
 }

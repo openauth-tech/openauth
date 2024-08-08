@@ -1,5 +1,6 @@
 import { encodeBase58 } from 'ethers'
 import { useCallback, useState } from 'react'
+
 import { getSolanaProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
@@ -24,7 +25,8 @@ export function useBindWithSolana() {
       await client.user.bindWithSolana({ solAddress: address, signature })
       await refetch()
       setLoading(false)
-    } catch (error) {
+    }
+    catch (error) {
       setLoading(false)
       throw error
     }

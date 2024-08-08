@@ -1,9 +1,10 @@
-import { encodeBase58, ethers } from 'ethers'
-import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants'
-import { OpenAuthClient } from '../../client'
-import { App } from '../../types'
 import { Keypair } from '@solana/web3.js'
+import { encodeBase58, ethers } from 'ethers'
 import nacl from 'tweetnacl'
+
+import type { OpenAuthClient } from '../../client'
+import type { App } from '../../types'
+import { MOCK_APP_NAME, MOCK_PASSWORD, MOCK_USERNAME, PASSWORD, USERNAME } from './constants'
 
 // user
 export async function logInNewEthereumUser(client: OpenAuthClient, appId: string) {
@@ -53,7 +54,8 @@ export async function bindSolanaUser(client: OpenAuthClient, appId: string, sola
 export async function setupAdmin(client: OpenAuthClient) {
   try {
     await client.admin.setup({ username: USERNAME, password: PASSWORD })
-  } catch (error) {}
+  }
+  catch {}
 
   const { token } = await client.admin.login({
     username: USERNAME,
@@ -65,7 +67,7 @@ export async function setupAdmin(client: OpenAuthClient) {
 // mock data
 export async function getTestApp(client: OpenAuthClient): Promise<App> {
   const apps = await client.admin.listApps()
-  const app = apps.find((i) => i.name === MOCK_APP_NAME)
+  const app = apps.find(i => i.name === MOCK_APP_NAME)
   if (app) {
     return app
   }

@@ -1,5 +1,6 @@
-import { Static, Type } from '@fastify/type-provider-typebox'
-import { TSchema } from '@sinclair/typebox'
+import type { Static } from '@fastify/type-provider-typebox'
+import { Type } from '@fastify/type-provider-typebox'
+import type { TSchema } from '@sinclair/typebox'
 
 export const Nullable = <T extends TSchema>(schema: T) => Type.Union([schema, Type.Null()])
 

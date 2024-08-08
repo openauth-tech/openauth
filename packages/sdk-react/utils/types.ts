@@ -1,4 +1,4 @@
-import { GlobalConfig, OpenAuthClient, User } from '@open-auth/sdk-core'
+import type { GlobalConfig, OpenAuthClient, User } from '@open-auth/sdk-core'
 
 export interface IOpenAuthConfig {
   appId: string

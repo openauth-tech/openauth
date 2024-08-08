@@ -1,5 +1,7 @@
-import { AxiosInstance } from 'axios'
-import { buildHttpClient, ErrorHandler } from '../utils/buildHttpClient'
+import type { AxiosInstance } from 'axios'
+
+import type { ErrorHandler } from '../utils/buildHttpClient'
+import { buildHttpClient } from '../utils/buildHttpClient'
 
 export class BaseClient {
   private readonly baseURL: string

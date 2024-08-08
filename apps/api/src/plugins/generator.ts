@@ -1,12 +1,13 @@
-import fastifyPlugin from 'fastify-plugin'
-import { FastifyError, FastifyInstance, FastifyPluginOptions, RouteOptions } from 'fastify'
 import * as fs from 'node:fs'
 import path from 'node:path'
+
+import type { FastifyError, FastifyInstance, FastifyPluginOptions, RouteOptions } from 'fastify'
+import fastifyPlugin from 'fastify-plugin'
 
 type RouteData = RouteOptions & { path: string }
 
 export const clientGeneratorPlugin = fastifyPlugin(
-  function (instance: FastifyInstance, options: FastifyPluginOptions, done: (error?: FastifyError) => void): void {
+  (instance: FastifyInstance, options: FastifyPluginOptions, done: (error?: FastifyError) => void): void => {
     const routes: RouteData[] = []
     instance.addHook('onRoute', (route) => {
       routes.push(route)
@@ -17,18 +18,18 @@ export const clientGeneratorPlugin = fastifyPlugin(
     })
     done()
   },
-  { name: 'openauth-client-generator', fastify: '4.x' }
+  { name: 'openauth-client-generator', fastify: '4.x' },
 )
 
 function generateClient(routes: RouteData[]) {
   const methods = { admin: '', app: '', user: '' }
 
-  for (let route of routes) {
+  for (const route of routes) {
     if (!route.schema || !['GET', 'POST', 'PATCH', 'DELETE'].includes(route.method.toString())) {
       continue
     }
     const query = route.schema.querystring
-    const body = route.schema.body
+    const { body } = route.schema
     const response = route.schema.response as any
 
     const parts = route.url.split('/')
@@ -58,12 +59,12 @@ function generateClient(routes: RouteData[]) {
 
     // process method params
     const methosParamsStr = Object.keys(methodParamsTypeModel)
-      .map((key) => `${key}: ${getStringFromTypeModel(methodParamsTypeModel[key])}`)
+      .map(key => `${key}: ${getStringFromTypeModel(methodParamsTypeModel[key])}`)
       .join(', ')
 
     // build URL
-    let url = route.url
-    for (let key of Object.keys(paramsTypeModel)) {
+    let { url } = route
+    for (const key of Object.keys(paramsTypeModel)) {
       url = url.replace(`:${key}`, `\${${key}}`)
     }
 
@@ -83,41 +84,45 @@ async ${methodName}(${methosParamsStr}) {
   }
 
   const relativePathPrefix = '../../../../packages/sdk-core/client/'
-  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'AdminClient.ts'), adminTemplate(methods.admin))
-  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'AppClient.ts'), appTemplate(methods.app))
-  fs.writeFileSync(path.join(__dirname, relativePathPrefix + 'UserClient.ts'), userTemplate(methods.user))
+  fs.writeFileSync(path.join(__dirname, `${relativePathPrefix}AdminClient.ts`), adminTemplate(methods.admin))
+  fs.writeFileSync(path.join(__dirname, `${relativePathPrefix}AppClient.ts`), appTemplate(methods.app))
+  fs.writeFileSync(path.join(__dirname, `${relativePathPrefix}UserClient.ts`), userTemplate(methods.user))
 }
 
-const adminTemplate = (methods: string) => `
+function adminTemplate(methods: string) {
+  return `
 import { BaseClient } from './BaseClient.ts'
 
 export class AdminClient extends BaseClient {
   ${methods}
 }
 `
+}
 
-const appTemplate = (methods: string) => `
+function appTemplate(methods: string) {
+  return `
 import { BaseClient } from './BaseClient.ts'
 
 export class AppClient extends BaseClient {
   ${methods}
 }
 `
+}
 
-const userTemplate = (methods: string) => `
+function userTemplate(methods: string) {
+  return `
 import { BaseClient } from './BaseClient.ts'
 
 export class UserClient extends BaseClient {
   ${methods}
 }
 `
+}
 
 function camelize(str: string) {
   return str
-    .replace(/^\w|[A-Z]|\b\w/g, function (word, index) {
-      return index === 0 ? word.toLowerCase() : word.toUpperCase()
-    })
-    .replace(/\s+/g, '')
+    .replaceAll(/^\w|[A-Z]|\b\w/g, (word, index) => index === 0 ? word.toLowerCase() : word.toUpperCase())
+    .replaceAll(/\s+/g, '')
 }
 
 function getTypeModelFromSchema(schema: any): any {
@@ -153,12 +158,12 @@ function getTypeModelFromSchema(schema: any): any {
   }
 
   if (schema.type === 'object') {
-    const properties = schema.properties
+    const { properties } = schema
     const result: any = {}
-    for (let key in properties) {
+    for (const key in properties) {
       const property = properties[key]
       const isOptional = property[Symbol.for('TypeBox.Optional')] === 'Optional'
-      result[isOptional ? key + '?' : key] = getTypeModelFromSchema(property)
+      result[isOptional ? `${key}?` : key] = getTypeModelFromSchema(property)
     }
     return result
   }
@@ -186,7 +191,7 @@ function getStringFromTypeModel(typeModel: any): string {
 
   // object
   const result = []
-  for (let key in typeModel) {
+  for (const key in typeModel) {
     result.push(`${key}: ${getStringFromTypeModel(typeModel[key])}`)
   }
   return `{ ${result.join(', ')} }`

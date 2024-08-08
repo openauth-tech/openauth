@@ -1,11 +1,12 @@
-import { FastifyInstance } from 'fastify'
-import { prisma } from '../../utils/prisma'
-import { verifyGoogle } from '../../utils/auth'
 import { Type } from '@fastify/type-provider-typebox'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR400_SCHEMA } from '../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { verifyUser } from '../../handlers/verifyUser'
-import { JwtPayload } from '../../models/request'
+import type { JwtPayload } from '../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { verifyGoogle } from '../../utils/auth'
+import { prisma } from '../../utils/prisma'
 import { avatarQueue } from '../../utils/queue'
 
 const schema = {

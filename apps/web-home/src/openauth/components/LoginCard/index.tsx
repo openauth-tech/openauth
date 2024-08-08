@@ -33,21 +33,24 @@ export function LoginCard() {
   const onConnectETH = useCallback(async () => {
     try {
       await logInWithEthereum()
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
   }, [logInWithEthereum, toast])
   const onConnectSOL = useCallback(async () => {
     try {
       await logInWithSolana()
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
   }, [logInWithSolana, toast])
   const onConnectGG = useCallback(async () => {
     try {
       await logInWithGoogle()
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
   }, [logInWithGoogle, toast])
@@ -55,39 +58,42 @@ export function LoginCard() {
   const onConnectDiscord = useCallback(async () => {
     try {
       await logInWithDiscord()
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
   }, [logInWithDiscord, toast])
 
   return (
-    <Card className="py-10 px-16 shadow">
+    <Card className="px-16 py-10 shadow">
       <CardHeader>
         <CardTitle className="text-2xl">
-          <span className="font-400">Welcome to</span> <span className="font-bold">{globalConfig?.brand}</span>
+          <span className="font-400">Welcome to</span>
+          {' '}
+          <span className="font-bold">{globalConfig?.brand}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="mx-auto flex flex-col items-center justify-center gap-4">
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectSOL} disabled={loadingSOL}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingSOL ? <IconLoader2 size={20} className="animate-spin" /> : <IconCurrencySolana size={20} />}
             <span>Sign in with Solana</span>
           </div>
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectETH} disabled={loadingETH}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingETH ? <IconLoader2 size={20} className="animate-spin" /> : <IconCurrencyEthereum size={20} />}
             <span>Sign in with Ethereum</span>
           </div>
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectGG} disabled={loadingGoogle}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingGoogle ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGoogle size={20} />}
             <span>Sign in with Google</span>
           </div>
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectDiscord} disabled={loadingDiscord}>
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loadingDiscord ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandDiscord size={20} />}
             <span>Sign in with Discord</span>
           </div>
@@ -110,7 +116,8 @@ export function TelegramDialog() {
     try {
       const { token } = await client.user.logInWithTelegram({ appId: config.appId, data })
       await logIn(token)
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
     setLoading(false)
@@ -120,7 +127,7 @@ export function TelegramDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full px-6 py-6 text-base">
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandTelegram size={20} />}
             <span>Sign in with Telegram</span>
           </div>
@@ -131,7 +138,7 @@ export function TelegramDialog() {
           <DialogTitle>Input Telegram Mini App initData</DialogTitle>
         </DialogHeader>
         <div className="py-4">
-          <Input value={data} onChange={(e) => setData(e.target.value)} className="w-full" />
+          <Input value={data} onChange={e => setData(e.target.value)} className="w-full" />
         </div>
         <DialogFooter>
           <Button type="submit" onClick={onLogInTelegram} disabled={loading}>
@@ -155,7 +162,8 @@ export function UsernameDialog() {
     try {
       const { token } = await client.user.logInWithUsername({ appId: config.appId, username, password })
       await logIn(token)
-    } catch (error: any) {
+    }
+    catch (error: any) {
       toast({ title: error.message })
     }
     setLoading(false)
@@ -165,7 +173,7 @@ export function UsernameDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="w-full px-6 py-6 text-base">
-          <div className="flex gap-2 justify-start items-center w-50">
+          <div className="w-50 flex items-center justify-start gap-2">
             {loading ? <IconLoader2 size={20} className="animate-spin" /> : <IconUser size={20} />}
             <span>Sign in with Username</span>
           </div>
@@ -175,18 +183,18 @@ export function UsernameDialog() {
         <DialogHeader>
           <DialogTitle>Input username and password</DialogTitle>
         </DialogHeader>
-        <div className="py-4 flex-col-center gap-y-4">
+        <div className="flex-col-center gap-y-4 py-4">
           <Input
             value={username}
             placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
             className="w-full"
           />
           <Input
             value={password}
             type="password"
             placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             className="w-full"
           />
         </div>

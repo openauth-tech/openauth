@@ -1,10 +1,11 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../utils/prisma'
-import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import bcrypt from 'bcrypt'
+import type { FastifyInstance } from 'fastify'
+
+import { verifyAdmin } from '../../../handlers/verifyAdmin'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { SALT_ROUNDS } from '../../../utils/auth'
+import { prisma } from '../../../utils/prisma'
 
 const schema = {
   tags: ['Admin - Admins'],

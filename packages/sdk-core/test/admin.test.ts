@@ -1,7 +1,8 @@
-import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
-import assert from 'assert'
-import { setupAdmin } from './lib/helper.ts'
+import assert from 'node:assert'
+
 import { OpenAuthClient } from '../client'
+import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
+import { setupAdmin } from './lib/helper.ts'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
@@ -11,10 +12,10 @@ describe('OpenAuth Admin API', () => {
   it('Admin', async () => {
     const originAppCount = (await client.admin.listApps()).length
 
-    const { id: appId } = await client.admin.createApp({ name: 'init_test_admin_' + new Date().getTime() })
+    const { id: appId } = await client.admin.createApp({ name: `init_test_admin_${Date.now()}` })
 
     // test app api
-    const APP_NAME = 'test_admin_' + new Date().getTime()
+    const APP_NAME = `test_admin_${Date.now()}`
     const apps = await client.admin.listApps()
     assert.equal(apps.length, originAppCount + 1)
     await client.admin.updateApp(appId, { name: APP_NAME })

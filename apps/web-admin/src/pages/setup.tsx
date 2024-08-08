@@ -28,16 +28,18 @@ export default function () {
       await refetch()
       toast.success('Setup successfully')
       nav('/login')
-    } catch (error: any) {
+    }
+    catch (error: any) {
       console.error(error)
       toast.error(error.message)
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
 
   return (
-    <Card className="w-full max-w-sm mx-auto my-20">
+    <Card className="mx-auto my-20 max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-2xl">Setup</CardTitle>
         <CardDescription>Setup your admin account.</CardDescription>
@@ -45,15 +47,15 @@ export default function () {
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="username">Username</Label>
-          <Input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <Input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Confirm Password</Label>
-          <Input id="password" type="password" value={password2} onChange={(e) => setPassword2(e.target.value)} />
+          <Input id="password" type="password" value={password2} onChange={e => setPassword2(e.target.value)} />
         </div>
       </CardContent>
       <CardFooter>

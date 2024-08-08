@@ -1,6 +1,8 @@
-import Queue, { QueueOptions } from 'bull'
-import { prisma } from './prisma'
+import type { QueueOptions } from 'bull'
+import Queue from 'bull'
+
 import { REDIS_HOST, REDIS_PORT } from '../constants/env'
+import { prisma } from './prisma'
 
 const queueOptions: QueueOptions = {
   redis: { port: REDIS_PORT, host: REDIS_HOST },
@@ -24,7 +26,7 @@ export async function fullSyncAvatar() {
     },
   })
   console.info('start fullSyncAvatar:', users.length)
-  for (let user of users) {
+  for (const user of users) {
     await avatarQueue.add({ userId: user.id })
   }
 }

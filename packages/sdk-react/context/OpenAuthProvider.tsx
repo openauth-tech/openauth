@@ -1,16 +1,18 @@
-import { IOpenAuthConfig } from '../utils/types'
-import { OpenAuthContext } from './OpenAuthContext'
-import { ReactNode, useCallback, useEffect, useMemo } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
-import { StorageKeys } from '../utils/constants'
 import type { GlobalConfig, User } from '@open-auth/sdk-core'
 import { OpenAuthClient } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import type { ReactNode } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
 
-export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig; children: ReactNode }) {
-  const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token, undefined)
-  const [profile, setProfile] = useLocalStorage<User | undefined>(StorageKeys.Profile, undefined)
-  const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
+import { StorageKeys } from '../utils/constants'
+import type { IOpenAuthConfig } from '../utils/types'
+import { OpenAuthContext } from './OpenAuthContext'
+
+export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig, children: ReactNode }) {
+  const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token)
+  const [profile, setProfile] = useLocalStorage<User | undefined>(StorageKeys.Profile)
+  const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config)
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
 
@@ -18,7 +20,8 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     if (client.user.isAuthorized()) {
       const profile = await client.user.getProfile()
       setProfile(profile)
-    } else {
+    }
+    else {
       setProfile(undefined)
     }
   }, [client, setProfile])
@@ -29,11 +32,11 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
       client.user.updateToken(token)
       await refetch()
     },
-    [setToken, client, refetch]
+    [setToken, client, refetch],
   )
 
   const logIn = useCallback((token: string) => updateToken(token), [client, updateToken])
-  const logOut = useCallback(() => updateToken(undefined), [client, updateToken])
+  const logOut = useCallback(() => updateToken(), [client, updateToken])
 
   useEffect(() => {
     client.user.updateToken(token)
@@ -44,7 +47,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     if (config.endpoint) {
       client.user
         .getConfig({ appId: config.appId })
-        .then((data) => setGlobalConfig(data))
+        .then(data => setGlobalConfig(data))
         .catch(console.error)
     }
   }, [client, config, setGlobalConfig])

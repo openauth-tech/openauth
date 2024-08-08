@@ -22,7 +22,7 @@ export default function () {
         <div>Apps</div>
         <Button onClick={() => nav('/apps/new')}>New App</Button>
       </div>
-      <div className="py-6 grid grid-cols-4 gap-2">
+      <div className="grid grid-cols-4 gap-2 py-6">
         {data.map((i: any) => (
           <NavLink to={`/apps/${i.id}`} key={i.id}>
             <Card className="p-6" key={i.id}>

@@ -8,7 +8,7 @@ import { useSetupChecker } from '@/hooks/useSetupChecker'
 import routes from '~react-pages'
 
 function Redirect({ to }: { to: string }) {
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   useEffect(() => {
     navigate(to)
   }, [navigate, to])
@@ -33,7 +33,7 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="container mx-auto lt-sm:px-4">
+      <div className="mx-auto container lt-sm:px-4">
         {useRoutes([...routes, { path: '*', element: <Redirect to="/" /> }])}
       </div>
       <Toaster />

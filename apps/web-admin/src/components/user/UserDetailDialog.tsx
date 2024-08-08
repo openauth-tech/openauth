@@ -1,4 +1,4 @@
-import { User } from '@open-auth/sdk-core'
+import type { User } from '@open-auth/sdk-core'
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router'
 
@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { useAdmin } from '@/context/admin'
 import { cn } from '@/utils/css'
 
-const userFields: (keyof User)[] = [
+const userFields: Array<keyof User> = [
   'id',
   'email',
   'google',
@@ -20,7 +20,7 @@ const userFields: (keyof User)[] = [
   'solAddress',
 ]
 
-export function UserDetailDialog({ user, onClose }: { user: User; onClose: any }) {
+export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }) {
   const { id = '' } = useParams()
   const { client } = useAdmin()
 
@@ -35,7 +35,7 @@ export function UserDetailDialog({ user, onClose }: { user: User; onClose: any }
   }
 
   return (
-    <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={!!user} onOpenChange={open => !open && onClose()}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>User Profile</DialogTitle>
@@ -43,8 +43,8 @@ export function UserDetailDialog({ user, onClose }: { user: User; onClose: any }
         <div className="grid gap-4 py-4">
           {user.avatar ? <img src={user.avatar} className="h-20" alt="" /> : null}
           <ul className="grid gap-3">
-            {userFields.map((key) => (
-              <li key={'user-' + key} className={cn('flex items-center', user[key] ? '' : 'hidden')}>
+            {userFields.map(key => (
+              <li key={`user-${key}`} className={cn('flex items-center', user[key] ? '' : 'hidden')}>
                 <div className="w-1/3 text-muted-foreground capitalize">{key}</div>
                 <div className="flex-1">{user[key]}</div>
               </li>
@@ -54,7 +54,15 @@ export function UserDetailDialog({ user, onClose }: { user: User; onClose: any }
                 <li className="flex">
                   <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
                   <div className="flex-1">
-                    refee1Count: {referral.referrals1.length} <br /> refee2Count: {referral.referrals2.length}
+                    refee1Count:
+                    {' '}
+                    {referral.referrals1.length}
+                    {' '}
+                    <br />
+                    {' '}
+                    refee2Count:
+                    {' '}
+                    {referral.referrals2.length}
                   </div>
                 </li>
               </>

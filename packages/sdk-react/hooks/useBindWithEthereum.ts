@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { useCallback, useState } from 'react'
+
 import { getEthereumProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
@@ -25,7 +26,8 @@ export function useBindWithEthereum() {
       await client.user.bindWithEthereum({ ethAddress: address, signature })
       await refetch()
       setLoading(false)
-    } catch (error) {
+    }
+    catch (error) {
       setLoading(false)
       throw error
     }

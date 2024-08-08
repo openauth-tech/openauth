@@ -1,10 +1,11 @@
-import { FastifyInstance } from 'fastify'
-import { prisma } from '../../../../utils/prisma'
 import { Type } from '@fastify/type-provider-typebox'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR401_SCHEMA } from '../../../../constants/schema'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
-import { AppAuthPayload } from '../../../../models/request'
 import { verifyApp } from '../../../../handlers/verifyApp'
+import type { AppAuthPayload } from '../../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { prisma } from '../../../../utils/prisma'
 
 const schema = {
   tags: ['App - Users'],
@@ -55,9 +56,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (referral) {
     if (referral.referrer === referrer.id) {
       return reply.status(200).send({ data: {} })
-    } else {
-      return reply.status(401).send({ message: 'You have already set referrer' })
     }
+    return reply.status(401).send({ message: 'You have already set referrer' })
   }
 
   await prisma.referral.create({

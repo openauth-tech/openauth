@@ -1,4 +1,6 @@
-import { Static, Type } from '@fastify/type-provider-typebox'
+import type { Static } from '@fastify/type-provider-typebox'
+import { Type } from '@fastify/type-provider-typebox'
+
 import { Nullable } from '../common'
 
 export const TypeApp = Type.Object({

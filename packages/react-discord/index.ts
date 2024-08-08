@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
+
 import { popupDiscordLogin } from './src/popup.ts'
-import { DiscordUser, TokenResponse } from './src/types.ts'
+import type { DiscordUser, TokenResponse } from './src/types.ts'
 
 type UseDiscordLoginParams = {
   applicationId?: string
@@ -29,7 +30,7 @@ export function useDiscordLogin({ applicationId, onStart, onClose, onSuccess, on
   }, [applicationId, onError, onSuccess])
 }
 
-export const fetchDiscordUser = async ({ access_token }: { access_token: string }) => {
+export async function fetchDiscordUser({ access_token }: { access_token: string }) {
   const result = await fetch('https://discord.com/api/users/@me', {
     headers: {
       authorization: `Bearer ${access_token}`,

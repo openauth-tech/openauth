@@ -1,12 +1,13 @@
-import { FastifyInstance } from 'fastify'
 import { Type } from '@fastify/type-provider-typebox'
-import { ERROR400_SCHEMA } from '../../constants/schema'
 import { TypeUserWallets } from '@open-auth/sdk-core'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { JwtPayload } from '../../models/request'
-import { prisma } from '../../utils/prisma'
+import type { FastifyInstance } from 'fastify'
+
+import { ERROR400_SCHEMA } from '../../constants/schema'
 import { getSolanaWallet } from '../../crypto/solana'
 import { verifyUser } from '../../handlers/verifyUser'
+import type { JwtPayload } from '../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { prisma } from '../../utils/prisma'
 
 const schema = {
   tags: ['User'],
@@ -25,7 +26,7 @@ const schema = {
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
 
-  let user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: { id: userId },
   })
 

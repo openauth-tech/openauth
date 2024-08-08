@@ -39,7 +39,15 @@ export default function () {
         </CardContent>
         <CardFooter>
           <div className="text-xs text-muted-foreground">
-            Showing <strong>{data.length}</strong> of <strong>{data.length}</strong> admins
+            Showing
+            {' '}
+            <strong>{data.length}</strong>
+            {' '}
+            of
+            {' '}
+            <strong>{data.length}</strong>
+            {' '}
+            admins
           </div>
         </CardFooter>
       </Card>

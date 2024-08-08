@@ -8,14 +8,15 @@
     "generate": "pnpm --filter api generate && eslint --fix --ext .ts ./packages/sdk-core/client && pnpm -r build"
   },
   "devDependencies": {
+    "@typescript-eslint/utils": "8.0.1",
+    "@unocss/eslint-config": "0.61.9",
+    "concurrently": "8.2.2",
+    "eslint": "9.8.0",
+    "eslint-config-hyoban": "3.0.1",
+    "tsup": "8.2.4",
     "typescript": "^5.5.2",
-    "eslint": "^8.33.0",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "2.8.3"
+    "unocss": "0.61.9",
+    "unocss-preset-animations": "1.1.0",
+    "unocss-preset-shadcn": "0.3.1"
   }
 }

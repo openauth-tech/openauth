@@ -1,16 +1,16 @@
-import { DiscordLoginConfig } from './types.ts'
+import type { DiscordLoginConfig } from './types.ts'
 
-export const generateAuthUrl = ({ applicationId, responseType, scopes }: DiscordLoginConfig) => {
+export function generateAuthUrl({ applicationId, responseType, scopes }: DiscordLoginConfig) {
   const searchParams = new URLSearchParams()
   searchParams.append('client_id', applicationId)
   searchParams.append('response_type', responseType)
   searchParams.append('redirect_uri', window.location.origin)
   searchParams.append('scope', scopes.join(' '))
 
-  return 'https://discord.com/api/oauth2/authorize?' + searchParams.toString()
+  return `https://discord.com/api/oauth2/authorize?${searchParams.toString()}`
 }
 
-export const getQueryAndHash = (location: Location): URLSearchParams => {
+export function getQueryAndHash(location: Location): URLSearchParams {
   const params = new URLSearchParams()
 
   const query = new URLSearchParams(location.search)

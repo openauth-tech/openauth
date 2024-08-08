@@ -1,5 +1,5 @@
 export async function sleep(duration: number) {
-  return new Promise((resolve) => setTimeout(resolve, duration))
+  return new Promise(resolve => setTimeout(resolve, duration))
 }
 
 export function generateReferCode(): string {

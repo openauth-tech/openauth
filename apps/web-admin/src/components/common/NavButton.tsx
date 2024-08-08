@@ -23,7 +23,8 @@ export function NavButton({
     if (to) {
       if (to.startsWith('http')) {
         window.open(to, '_blank')
-      } else {
+      }
+      else {
         nav(to)
       }
     }
@@ -34,7 +35,7 @@ export function NavButton({
       className={cn(
         'px-4 py-3 text-base font-400 flex items-center gap-1 cursor-pointer transition-colors hover:text-foreground',
         to && pathname.startsWith(to) ? 'text-foreground font-bold' : 'text-muted-foreground',
-        className
+        className,
       )}
       onClick={onClickNav}
     >

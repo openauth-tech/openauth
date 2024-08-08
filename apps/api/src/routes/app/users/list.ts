@@ -1,12 +1,13 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import { TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
-import { verifyApp } from '../../../handlers/verifyApp'
-import { prisma } from '../../../utils/prisma'
-import { AppAuthPayload } from '../../../models/request'
-import { transformUserToReponse } from '../../../repositories/transform'
 import { Prisma } from '@prisma/client'
+import type { FastifyInstance } from 'fastify'
+
+import { verifyApp } from '../../../handlers/verifyApp'
+import type { AppAuthPayload } from '../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
+import { transformUserToReponse } from '../../../repositories/transform'
+import { prisma } from '../../../utils/prisma'
 
 const schema = {
   tags: ['App - Users'],
@@ -55,7 +56,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     orderBy: sortBy ? { [sortBy]: order } : undefined,
   })
   reply.status(200).send({
-    data: users.map((user) => transformUserToReponse(user)),
+    data: users.map(user => transformUserToReponse(user)),
     meta: {
       totalItems: totalCount,
       totalPages: Math.ceil(totalCount / limit),

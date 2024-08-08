@@ -12,31 +12,27 @@ export function buildHttpClient(baseURL: string, token?: string, onError?: Error
       }
       return config
     },
-    (error) => {
-      return Promise.reject(error)
-    }
+    error => Promise.reject(error),
   )
 
   instance.interceptors.response.use(
     async (res) => {
       if (res.status >= 400) {
         const error = new Error(res?.data?.message ?? 'Unkown error')
-        if (onError) {
-          await onError(error)
-        } else {
+        if (!onError) {
           throw error
         }
+        await onError(error)
       }
       return res
     },
     async (err) => {
       const error = new Error(err.response?.data?.message ?? err.message ?? 'Unkown error')
-      if (onError) {
-        await onError(error)
-      } else {
+      if (!onError) {
         throw error
       }
-    }
+      await onError(error)
+    },
   )
 
   return instance

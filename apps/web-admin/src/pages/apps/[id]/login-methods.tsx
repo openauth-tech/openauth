@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import type { UseFormReturn } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -92,13 +93,13 @@ export default function () {
   )
 }
 
-function Checker({ form, id, label }: { form: UseFormReturn<FormDataType>; id: string; label: string }) {
+function Checker({ form, id, label }: { form: UseFormReturn<FormDataType>, id: string, label: string }) {
   return (
     <FormField
       control={form.control}
       name={id as any}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+        <FormItem className="flex flex-row items-start border rounded-md p-4 space-x-3 space-y-0">
           <FormControl>
             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
           </FormControl>

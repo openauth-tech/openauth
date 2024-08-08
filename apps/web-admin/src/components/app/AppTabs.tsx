@@ -6,7 +6,7 @@ import { cn } from '@/utils/css'
 export function AppTabs() {
   const { id = '' } = useParams()
   return (
-    <div className="flex flex-col border-r gap-1">
+    <div className="flex flex-col gap-1 border-r">
       <Tab icon={<IconHome size={18} />} path={`/apps/${id}`} title="Home" />
       <Tab icon={<IconPalette size={18} />} path={`/apps/${id}/branding`} title="Branding" />
       <Tab icon={<IconKey size={18} />} path={`/apps/${id}/login-methods`} title="Login Methods" />
@@ -18,14 +18,14 @@ export function AppTabs() {
   )
 }
 
-function Tab({ title, path, icon }: { title: string; path: string; icon: any }) {
+function Tab({ title, path, icon }: { title: string, path: string, icon: any }) {
   const { pathname } = useLocation()
   return (
     <NavLink
       to={path}
       className={cn(
         'w-48 pr-8 py-2 flex flex-row items-center gap-1 hover:text-foreground border-r-1.5',
-        pathname === path ? 'font-bold text-foreground border-foreground' : 'text-muted-foreground border-transparent'
+        pathname === path ? 'font-bold text-foreground border-foreground' : 'text-muted-foreground border-transparent',
       )}
     >
       <div>{icon}</div>

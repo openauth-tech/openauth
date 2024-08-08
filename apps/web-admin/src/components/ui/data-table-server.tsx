@@ -1,10 +1,12 @@
 import { IconFilterSearch, IconLoader2 } from '@tabler/icons-react'
-import {
+import type {
   ColumnDef,
   ColumnFiltersState,
+  SortingState,
+} from '@tanstack/react-table'
+import {
   flexRender,
   getCoreRowModel,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import * as React from 'react'
@@ -21,7 +23,7 @@ interface Filter {
 }
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
+  columns: Array<ColumnDef<TData, TValue>>
   data: TData[]
   total: number
   pageIndex: number
@@ -83,10 +85,10 @@ export function DataTableServer<TData, TValue>({
         {filters?.length && (
           <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
-              <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-cols-4">
-                {filters.map((item) => (
+              <div className="grid grid-cols-1 grid-cols-4 gap-2 lg:grid-cols-3 md:grid-cols-2">
+                {filters.map(item => (
                   <div className="flex items-center gap-2">
-                    {item.label && <span className="font-medium text-gray-500">{item.label}</span>}
+                    {item.label && <span className="text-gray-500 font-medium">{item.label}</span>}
                     <div key={`table_filter_${item.key}`} className="relative">
                       <IconFilterSearch className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -110,15 +112,13 @@ export function DataTableServer<TData, TValue>({
       <div className="relative border rounded-md">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id} className="text-black/90 font-semibold text-base">
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map(header => (
+                  <TableHead key={header.id} className="text-base text-black/90 font-semibold">
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -129,35 +129,45 @@ export function DataTableServer<TData, TValue>({
                   <IconLoader2 size={32} className="mx-auto animate-spin opacity-40" />
                 </TableCell>
               </TableRow>
-            ) : table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-black/90 text-sm">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            ) : table.getRowModel().rows?.length
+              ? (
+                  table.getRowModel().rows.map((row, index) => (
+                    <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                      {row.getVisibleCells().map(cell => (
+                        <TableCell key={cell.id} className="text-sm text-black/90">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                )
+              : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length} className="h-24 text-center">
+                      No results.
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {'No results.'}
-                </TableCell>
-              </TableRow>
-            )}
+                  </TableRow>
+                )}
           </TableBody>
         </Table>
       </div>
       {table.getFilteredRowModel().rows.length > 0 && (
         <div className="flex justify-between">
-          <div className="flex gap-1 items-center text-gray-400 text-sm">
-            Showing <span className="text-gray-600 font-semibold">{(pageIndex - 1) * pageSize + 1}</span> to{' '}
-            <span className="text-gray-600 font-semibold">{Math.min(pageIndex * pageSize, total)}</span> of{' '}
+          <div className="flex items-center gap-1 text-sm text-gray-400">
+            Showing
+            {' '}
+            <span className="text-gray-600 font-semibold">{(pageIndex - 1) * pageSize + 1}</span>
+            {' '}
+            to
+            {' '}
+            <span className="text-gray-600 font-semibold">{Math.min(pageIndex * pageSize, total)}</span>
+            {' '}
+            of
+            {' '}
             <span className="text-gray-600 font-semibold">{total}</span>
             records
           </div>
-          <div className="flex gap-6 justify-end items-center">
+          <div className="flex items-center justify-end gap-6">
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
@@ -169,9 +179,9 @@ export function DataTableServer<TData, TValue>({
                 <SelectValue placeholder="" />
               </SelectTrigger>
               <SelectContent>
-                {pagers.map((item) => (
+                {pagers.map(item => (
                   <SelectItem key={item} value={`${item}`}>
-                    <span className="flex justify-between items-center gap-2">
+                    <span className="flex items-center justify-between gap-2">
                       {item}
                       <span className="text-gray-500">rows/page</span>
                     </span>

@@ -1,10 +1,11 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
 import bcrypt from 'bcrypt'
+import type { FastifyInstance } from 'fastify'
+
+import { ERROR403_SCHEMA } from '../../constants/schema'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { SALT_ROUNDS } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
-import { ERROR403_SCHEMA } from '../../constants/schema'
 
 const schema = {
   tags: ['Admin'],

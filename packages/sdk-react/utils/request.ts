@@ -1,12 +1,8 @@
-interface Params {
-  [key: string]: any
-}
+type Params = Record<string, any>
 
-interface Headers {
-  [key: string]: string
-}
+type Headers = Record<string, string>
 
-export const get = async <T>(url: string, params: Params = {}, headers: Headers = {}): Promise<T> => {
+export async function get<T>(url: string, params: Params = {}, headers: Headers = {}): Promise<T> {
   const queryString = new URLSearchParams(params).toString()
   const response = await fetch(`${url}?${queryString}`, {
     method: 'GET',
@@ -29,7 +25,7 @@ export const get = async <T>(url: string, params: Params = {}, headers: Headers 
   return json
 }
 
-export const post = async <T>(url: string, data: any = {}, headers: Headers = {}): Promise<T> => {
+export async function post<T>(url: string, data: any = {}, headers: Headers = {}): Promise<T> {
   const response = await fetch(`${url}`, {
     method: 'POST',
     headers: {

@@ -1,7 +1,8 @@
-import { redis } from './redis'
-import { JwtPayload } from '../models/request'
 import { randomUUID } from 'node:crypto'
-import { FastifyReplyTypebox } from '../models/typebox'
+
+import type { JwtPayload } from '../models/request'
+import type { FastifyReplyTypebox } from '../models/typebox'
+import { redis } from './redis'
 
 export async function validateSession(sessionId: string) {
   const jwtTTL = await redis.get(sessionId)
@@ -15,7 +16,7 @@ export async function validateSession(sessionId: string) {
 
 export async function generateJwtToken(
   reply: FastifyReplyTypebox<any>,
-  { userId, appId, jwtTTL }: { userId: string; appId: string; jwtTTL: number }
+  { userId, appId, jwtTTL }: { userId: string, appId: string, jwtTTL: number },
 ) {
   const sessionId = jwtTTL > 0 ? randomUUID() : undefined
   const payload: JwtPayload = { userId, appId, sessionId }

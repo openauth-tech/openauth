@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import { useCallback, useState } from 'react'
+
 import { getEthereumProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
@@ -25,7 +26,8 @@ export function useLogInWithEthereum() {
       const data = await client.user.logInWithEthereum({ appId: config.appId, ethAddress: address, signature })
       await logIn(data.token)
       setLoading(false)
-    } catch (error) {
+    }
+    catch (error) {
       setLoading(false)
       throw error
     }

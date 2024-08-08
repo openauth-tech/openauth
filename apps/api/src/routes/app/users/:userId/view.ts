@@ -1,12 +1,13 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../../utils/prisma'
 import { TypeUser } from '@open-auth/sdk-core'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyApp } from '../../../../handlers/verifyApp'
-import { AppAuthPayload } from '../../../../models/request'
+import type { AppAuthPayload } from '../../../../models/request'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { transformUserToReponse } from '../../../../repositories/transform'
+import { prisma } from '../../../../utils/prisma'
 
 const schema = {
   tags: ['App - Users'],

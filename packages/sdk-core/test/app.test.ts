@@ -1,7 +1,8 @@
-import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
+import assert from 'node:assert'
+
 import { OpenAuthClient } from '../client'
+import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
 import { getTestApp, logInNewSolanaUser, setupAdmin } from './lib/helper.ts'
-import assert from 'assert'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 

@@ -15,23 +15,25 @@ export default function () {
       await client.admin.createApp({ name })
       toast.success('App created successfully')
       nav('/apps')
-    } catch (error: any) {
+    }
+    catch (error: any) {
       console.error(error)
       toast.error(error.message)
-    } finally {
+    }
+    finally {
       setLoading(false)
     }
   }
 
   return (
-    <Card className="w-full max-w-sm mx-auto my-20">
+    <Card className="mx-auto my-20 max-w-sm w-full">
       <CardHeader>
         <CardTitle className="text-2xl">Create App</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid gap-2">
           <Label htmlFor="username">App Name</Label>
-          <Input id="username" type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input id="username" type="text" value={name} onChange={e => setName(e.target.value)} />
         </div>
       </CardContent>
       <CardFooter>

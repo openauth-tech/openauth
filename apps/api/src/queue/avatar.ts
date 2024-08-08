@@ -1,8 +1,9 @@
-import { Job } from 'bull'
+import type { Job } from 'bull'
+import { Telegraf } from 'telegraf'
+
 import { uploadAvatar } from '../utils/aws'
 import { prisma } from '../utils/prisma'
-import { Telegraf } from 'telegraf'
-import { AvatarQueuePayload } from '../utils/queue'
+import type { AvatarQueuePayload } from '../utils/queue'
 
 export async function processAvatarJob({ data: { userId, imageURL, skipIfExist } }: Job<AvatarQueuePayload>) {
   console.log(`Process avatar for user ${userId}`)
@@ -27,7 +28,7 @@ export async function processAvatarJob({ data: { userId, imageURL, skipIfExist }
       throw new Error(`No bot token found for telegram user: ${userId}`)
     }
     const bot = new Telegraf(botToken)
-    const photos = await bot.telegram.getUserProfilePhotos(parseInt(user.telegram))
+    const photos = await bot.telegram.getUserProfilePhotos(Number.parseInt(user.telegram))
     if (photos.photos.length === 0) {
       console.info(`No avatar found: ${userId}`)
       return

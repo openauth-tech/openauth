@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { RefObject, useEffect, useId, useState } from 'react'
+import type { RefObject } from 'react'
+import { useEffect, useId, useState } from 'react'
 
 import { cn } from '@/utils/css'
 
@@ -88,7 +89,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
     // Initialize ResizeObserver
     const resizeObserver = new ResizeObserver((entries) => {
       // For all entries, recalculate the path
-      for (let entry of entries) {
+      for (const entry of entries) {
         updatePath()
       }
     })
@@ -122,7 +123,7 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
         <motion.linearGradient
           className="transform-gpu"
           id={id}
-          gradientUnits={'userSpaceOnUse'}
+          gradientUnits="userSpaceOnUse"
           initial={{
             x1: '0%',
             x2: '0%',
@@ -143,10 +144,10 @@ export const AnimatedBeam: React.FC<AnimatedBeamProps> = ({
             repeatDelay: 0,
           }}
         >
-          <stop stopColor={gradientStartColor} stopOpacity="0"></stop>
-          <stop stopColor={gradientStartColor}></stop>
-          <stop offset="32.5%" stopColor={gradientStopColor}></stop>
-          <stop offset="100%" stopColor={gradientStopColor} stopOpacity="0"></stop>
+          <stop stopColor={gradientStartColor} stopOpacity="0" />
+          <stop stopColor={gradientStartColor} />
+          <stop offset="32.5%" stopColor={gradientStopColor} />
+          <stop offset="100%" stopColor={gradientStopColor} stopOpacity="0" />
         </motion.linearGradient>
       </defs>
     </svg>

@@ -27,9 +27,7 @@
     "axios": "^1.6.8",
     "ethers": "^6.13.1",
     "mocha": "^10.5.2",
-    "tsup": "8.1.0",
-    "tweetnacl": "^1.0.3",
-    "typescript": "^5.5.2"
+    "tweetnacl": "^1.0.3"
   },
   "tsup": {
     "entry": [

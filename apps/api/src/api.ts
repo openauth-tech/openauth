@@ -1,18 +1,20 @@
+import path from 'node:path'
+
+import cors from '@fastify/cors'
+import jwt from '@fastify/jwt'
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import Fastify from 'fastify'
 import qs from 'qs'
-import jwt from '@fastify/jwt'
-import { prisma } from './utils/prisma'
+
 import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants/env'
 import { init } from './utils/init'
-import cors from '@fastify/cors'
-import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
-import path from 'node:path'
+import { prisma } from './utils/prisma'
 
 init()
 
 const server = Fastify({
   logger: true,
-  querystringParser: (str) => qs.parse(str),
+  querystringParser: str => qs.parse(str),
 }).withTypeProvider<TypeBoxTypeProvider>()
 
 server.setErrorHandler((error, request, reply) => {
@@ -20,7 +22,7 @@ server.setErrorHandler((error, request, reply) => {
   return reply.status(error.statusCode ?? 500).send({ message: error.message })
 })
 
-const start = async () => {
+async function start() {
   await server.register(cors, {})
   await server.register(require('fastify-metrics'), {
     endpoint: '/metrics',

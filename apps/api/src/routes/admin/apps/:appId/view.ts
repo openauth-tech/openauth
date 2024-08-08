@@ -1,10 +1,11 @@
-import { FastifyInstance } from 'fastify'
-import { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { Type } from '@fastify/type-provider-typebox'
-import { prisma } from '../../../../utils/prisma'
+import { TypeApp } from '@open-auth/sdk-core'
+import type { FastifyInstance } from 'fastify'
+
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
-import { TypeApp } from '@open-auth/sdk-core'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { prisma } from '../../../../utils/prisma'
 
 const schema = {
   tags: ['Admin - Apps'],

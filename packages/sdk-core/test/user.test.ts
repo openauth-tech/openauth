@@ -1,6 +1,9 @@
-import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
-import assert from 'assert'
+import assert from 'node:assert'
+
 import { Keypair } from '@solana/web3.js'
+
+import { OpenAuthClient } from '../client'
+import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
 import {
   bindSolanaUser,
   getTestApp,
@@ -9,7 +12,6 @@ import {
   logInUsernameUser,
   setupAdmin,
 } from './lib/helper.ts'
-import { OpenAuthClient } from '../client'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
@@ -43,14 +45,14 @@ describe('OpenAuth User API', () => {
 
   it('Log in with Username', async () => {
     const { id: appId } = await getTestApp(client)
-    const username = 'test_user_' + new Date().getTime()
-    const password = 'pass_word_' + new Date().getTime()
+    const username = `test_user_${Date.now()}`
+    const password = `pass_word_${Date.now()}`
     await logInUsernameUser(client, appId, username, password)
     const profile = await client.user.getProfile()
     assert.equal(profile.username, username)
 
     // update password
-    const newPassword = password + '_new'
+    const newPassword = `${password}_new`
     await client.user.updatePassword({ oldPassword: password, newPassword })
     await client.user.logInWithUsername({
       appId,

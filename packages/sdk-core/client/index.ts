@@ -1,6 +1,6 @@
-import { UserClient } from './UserClient.ts'
 import { AdminClient } from './AdminClient.ts'
 import { AppClient } from './AppClient.ts'
+import { UserClient } from './UserClient.ts'
 
 export class OpenAuthClient {
   public readonly admin: AdminClient

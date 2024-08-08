@@ -30,6 +30,7 @@ export class AppClient extends BaseClient {
       }>(`/app/users`, data)
     ).data.data
   }
+
   async listUsers(params: {
     page: number
     limit: number
@@ -41,7 +42,7 @@ export class AppClient extends BaseClient {
   }) {
     return (
       await this.http.get<{
-        data: {
+        data: Array<{
           id: string
           email: string | null
           google: string | null
@@ -56,24 +57,28 @@ export class AppClient extends BaseClient {
           avatar: string | null
           createdAt: number
           lastSeenAt: number
-        }[]
-        meta: { totalItems: number; totalPages: number }
+        }>
+        meta: { totalItems: number, totalPages: number }
       }>(`/app/users`, { params })
     ).data
   }
+
   async getUserReferral(userId: string) {
     return (
-      await this.http.get<{ data: { referralChain: string[]; referrals1: string[]; referrals2: string[] } }>(
-        `/app/users/${userId}/referral`
+      await this.http.get<{ data: { referralChain: string[], referrals1: string[], referrals2: string[] } }>(
+        `/app/users/${userId}/referral`,
       )
     ).data.data
   }
+
   async getUserWallets(userId: string) {
     return (await this.http.get<{ data: { solWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
   }
+
   async setUserReferrer(userId: string, data: { referCode: string }) {
     return (await this.http.post<{ data: {} }>(`/app/users/${userId}/bind-referrer`, data)).data.data
   }
+
   async getUser(userId: string) {
     return (
       await this.http.get<{
