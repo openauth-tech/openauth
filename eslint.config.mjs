@@ -25,7 +25,8 @@ export default defineConfig(
       'require-await': 'warn',
       'func-names': 'warn',
       'no-plusplus': 'warn',
-      'max-params': 'off'
+      'max-params': 'off',
+      'unicorn/no-useless-undefined': 'off',
     },
   },
   {

@@ -10,9 +10,9 @@ import type { IOpenAuthConfig } from '../utils/types'
 import { OpenAuthContext } from './OpenAuthContext'
 
 export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig, children: ReactNode }) {
-  const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token)
-  const [profile, setProfile] = useLocalStorage<User | undefined>(StorageKeys.Profile)
-  const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config)
+  const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token, undefined)
+  const [profile, setProfile] = useLocalStorage<User | undefined>(StorageKeys.Profile, undefined)
+  const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
 
