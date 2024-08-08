@@ -32,7 +32,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       setUsername(username)
       setToken(token)
     },
-    [setToken, setUsername],
+    [setToken, setUsername]
   )
 
   const logOut = useCallback(() => {
@@ -41,19 +41,12 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     client.admin.updateToken()
   }, [setToken, setUsername])
 
-  return (
-    <AdminContext.Provider
-      value={{
-        client,
-        username,
-        setUsername,
-        logIn,
-        logOut,
-      }}
-    >
-      {children}
-    </AdminContext.Provider>
+  const value = useMemo<IAdminContext>(
+    () => ({ client, username, setUsername, logIn, logOut }),
+    [username, setUsername, logIn, logOut]
   )
+
+  return <AdminContext.Provider value={value}>{children}</AdminContext.Provider>
 }
 
 export function useAdmin() {
