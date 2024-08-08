@@ -24,15 +24,13 @@ export function useLogInWithEthereum() {
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
       const data = await client.user.logInWithEthereum({ appId: config.appId, ethAddress: address, signature })
-      await logIn(data.token)
+      logIn(data.token)
       setLoading(false)
-    }
-    catch (error) {
+    } catch (error) {
       setLoading(false)
       throw error
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client.app, config.appId, globalConfig])
+  }, [client.user, config.appId, globalConfig, logIn])
 
   return {
     logInWithEthereum,

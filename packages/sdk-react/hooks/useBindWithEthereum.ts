@@ -5,7 +5,7 @@ import { getEthereumProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithEthereum() {
-  const { config, globalConfig, client, refetch } = useOpenAuth()
+  const { globalConfig, client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithEthereum = useCallback(async () => {
@@ -26,13 +26,11 @@ export function useBindWithEthereum() {
       await client.user.bindWithEthereum({ ethAddress: address, signature })
       await refetch()
       setLoading(false)
-    }
-    catch (error) {
+    } catch (error) {
       setLoading(false)
       throw error
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client.app, config.appId, globalConfig, refetch])
+  }, [client.user, globalConfig, refetch])
 
   return {
     bindWithEthereum,

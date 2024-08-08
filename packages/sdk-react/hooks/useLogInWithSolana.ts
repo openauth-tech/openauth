@@ -23,15 +23,13 @@ export function useLogInWithSolana() {
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
       const data = await client.user.logInWithSolana({ appId: config.appId, solAddress: address, signature })
-      await logIn(data.token)
+      logIn(data.token)
       setLoading(false)
-    }
-    catch (error) {
+    } catch (error) {
       setLoading(false)
       throw error
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalConfig, client.app, config.appId])
+  }, [globalConfig, client.user, config.appId, logIn])
 
   return {
     logInWithSolana,

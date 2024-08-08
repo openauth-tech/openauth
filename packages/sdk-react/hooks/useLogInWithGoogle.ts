@@ -29,8 +29,7 @@ export function useLogInWithGoogle() {
         const { email } = userinfo
         const data = await client.user.logInWithGoogle({ appId: config.appId, email, token })
         logIn(data.token)
-      }
-      catch (error) {
+      } catch (error) {
         console.error(error)
       }
       setLoading(false)

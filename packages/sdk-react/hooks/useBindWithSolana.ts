@@ -5,7 +5,7 @@ import { getSolanaProvider } from '../utils/getProvider'
 import { useOpenAuth } from './useOpenAuth.ts'
 
 export function useBindWithSolana() {
-  const { config, globalConfig, client, refetch } = useOpenAuth()
+  const { globalConfig, client, refetch } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const bindWithSolana = useCallback(async () => {
@@ -25,13 +25,11 @@ export function useBindWithSolana() {
       await client.user.bindWithSolana({ solAddress: address, signature })
       await refetch()
       setLoading(false)
-    }
-    catch (error) {
+    } catch (error) {
       setLoading(false)
       throw error
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalConfig, client.app, config.appId, refetch])
+  }, [globalConfig, client.user, refetch])
 
   return {
     bindWithSolana,

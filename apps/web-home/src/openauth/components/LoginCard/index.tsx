@@ -14,16 +14,14 @@ import {
   IconLoader2,
   IconUser,
 } from '@tabler/icons-react'
+import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
 
 export function LoginCard() {
-  const { toast } = useToast()
-
   const { globalConfig } = useOpenAuth()
   const { logInWithEthereum, loading: loadingETH } = useLogInWithEthereum()
   const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
@@ -33,36 +31,32 @@ export function LoginCard() {
   const onConnectETH = useCallback(async () => {
     try {
       await logInWithEthereum()
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    catch (error: any) {
-      toast({ title: error.message })
-    }
-  }, [logInWithEthereum, toast])
+  }, [logInWithEthereum])
   const onConnectSOL = useCallback(async () => {
     try {
       await logInWithSolana()
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    catch (error: any) {
-      toast({ title: error.message })
-    }
-  }, [logInWithSolana, toast])
+  }, [logInWithSolana])
   const onConnectGG = useCallback(async () => {
     try {
-      await logInWithGoogle()
+      logInWithGoogle()
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    catch (error: any) {
-      toast({ title: error.message })
-    }
-  }, [logInWithGoogle, toast])
+  }, [logInWithGoogle])
 
   const onConnectDiscord = useCallback(async () => {
     try {
-      await logInWithDiscord()
+      logInWithDiscord()
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    catch (error: any) {
-      toast({ title: error.message })
-    }
-  }, [logInWithDiscord, toast])
+  }, [logInWithDiscord])
 
   return (
     <Card className="px-16 py-10 shadow">
@@ -106,7 +100,6 @@ export function LoginCard() {
 }
 
 export function TelegramDialog() {
-  const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState('')
   const { config, client, logIn } = useOpenAuth()
@@ -115,13 +108,12 @@ export function TelegramDialog() {
     setLoading(true)
     try {
       const { token } = await client.user.logInWithTelegram({ appId: config.appId, data })
-      await logIn(token)
-    }
-    catch (error: any) {
-      toast({ title: error.message })
+      logIn(token)
+    } catch (error: any) {
+      toast.error(error.message)
     }
     setLoading(false)
-  }, [client.user, config.appId, data, logIn, toast])
+  }, [client.user, config.appId, data, logIn])
 
   return (
     <Dialog>
@@ -151,7 +143,6 @@ export function TelegramDialog() {
 }
 
 export function UsernameDialog() {
-  const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -161,13 +152,12 @@ export function UsernameDialog() {
     setLoading(true)
     try {
       const { token } = await client.user.logInWithUsername({ appId: config.appId, username, password })
-      await logIn(token)
-    }
-    catch (error: any) {
-      toast({ title: error.message })
+      logIn(token)
+    } catch (error: any) {
+      toast.error(error.message)
     }
     setLoading(false)
-  }, [client.user, config.appId, username, password, logIn, toast])
+  }, [client.user, config.appId, username, password, logIn])
 
   return (
     <Dialog>
