@@ -22,6 +22,13 @@ export const TypeUser = Type.Object({
 
 export type User = Static<typeof TypeUser>
 
+export const TypeUserProfile = Type.Object({
+  ...TypeUser.properties,
+  referrer: Nullable(Type.String()),
+})
+
+export type UserProfile = Static<typeof TypeUserProfile>
+
 export const TypeUserWallets = Type.Object({
   solWallet: Type.String(),
 })

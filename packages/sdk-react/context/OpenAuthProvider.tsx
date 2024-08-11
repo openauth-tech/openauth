@@ -1,4 +1,4 @@
-import type { GlobalConfig, User } from '@open-auth/sdk-core'
+import type { GlobalConfig, UserProfile } from '@open-auth/sdk-core'
 import { OpenAuthClient } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import type { ReactNode } from 'react'
@@ -11,7 +11,7 @@ import { OpenAuthContext } from './OpenAuthContext'
 
 export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig, children: ReactNode }) {
   const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token, undefined)
-  const [profile, setProfile] = useLocalStorage<User | undefined>(StorageKeys.Profile, undefined)
+  const [profile, setProfile] = useLocalStorage<UserProfile | undefined>(StorageKeys.Profile, undefined)
   const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
 
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
