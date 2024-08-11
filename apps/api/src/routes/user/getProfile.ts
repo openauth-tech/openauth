@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypeUser } from '@open-auth/sdk-core'
+import { Nullable, TypeUser } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
 import { ERROR400_SCHEMA } from '../../constants/schema'
@@ -17,7 +17,10 @@ const schema = {
   }),
   response: {
     200: Type.Object({
-      data: TypeUser,
+      data: Type.Object({
+        ...TypeUser.properties,
+        referrer: Nullable(Type.String()),
+      }),
     }),
     400: ERROR400_SCHEMA,
   },
@@ -33,10 +36,15 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
 
+  const referral = await prisma.referral.findUnique({ where: { referee: userId } })
+
   const userResponse = transformUserToReponse(user)
 
   reply.status(200).send({
-    data: userResponse,
+    data: {
+      ...userResponse,
+      referrer: referral?.referrer ?? null,
+    },
   })
 }
 
