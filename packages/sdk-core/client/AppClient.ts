@@ -9,7 +9,7 @@ export class AppClient extends BaseClient {
     return (await this.http.get<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number }>, meta: { totalItems: number, totalPages: number } }>(`/app/users`, { params })).data
   }
 
-  async searchUsers(data: { ids: string[] } | { referCode: string }) {
+  async searchUsers(data: { ids: string[] } | { referCode: string } | { solAddress: string }) {
     return (await this.http.post<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number }> }>(`/app/users/search`, data)).data.data
   }
 

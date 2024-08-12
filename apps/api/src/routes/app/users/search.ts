@@ -22,6 +22,9 @@ const schema = {
     Type.Object({
       referCode: Type.String(),
     }),
+    Type.Object({
+      solAddress: Type.String(),
+    }),
   ]),
   response: {
     200: Type.Object({
@@ -39,6 +42,9 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
   if ('referCode' in request.body) {
     where.referCode = request.body.referCode
+  }
+  if ('solAddress' in request.body) {
+    where.solAddress = request.body.solAddress
   }
 
   const users = await prisma.user.findMany({ where })
