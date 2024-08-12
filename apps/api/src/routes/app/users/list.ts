@@ -15,8 +15,7 @@ const schema = {
   querystring: Type.Intersect([
     TypePageParams,
     Type.Object({
-      id: Type.Optional(Type.String()),
-      referCode: Type.Optional(Type.String()),
+      search: Type.Optional(Type.String()),
       sortBy: Type.Optional(Type.String()),
       order: Type.Optional(Type.Union([Type.Literal(Prisma.SortOrder.asc), Type.Literal(Prisma.SortOrder.desc)])),
     }),
@@ -34,15 +33,32 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
-  const { page, limit, sortBy, order, id, referCode } = request.query
+  const { page, limit, sortBy, order, search } = request.query
   const whereFilters: Prisma.UserWhereInput = {
     appId,
   }
-  if (id) {
-    whereFilters.id = id
-  }
-  if (referCode) {
-    whereFilters.referCode = referCode
+  if (search) {
+    if (search.includes('@')) {
+      whereFilters.OR = [
+        { google: search },
+        { email: search },
+      ]
+    } else if (search.length === 8) {
+      whereFilters.referCode = search
+    } else if (search.length === 36 && search.includes('-')) {
+      whereFilters.id = search
+    } else if (search.length === 44) {
+      whereFilters.solAddress = search
+    } else if (search.length === 42 && search.startsWith('0x')) {
+      whereFilters.ethAddress = search
+    } else if (/^\d+$/.test(search)) {
+      whereFilters.OR = [
+        { telegram: search },
+        { discord: search },
+      ]
+    } else {
+      whereFilters.username = search
+    }
   }
   const totalCount = await prisma.user.count({ where: whereFilters })
   const users = await prisma.user.findMany({

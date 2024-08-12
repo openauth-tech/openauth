@@ -23,11 +23,7 @@ export default function () {
   const filtersConfig = [
     {
       key: 'id',
-      placeholder: 'Search ID',
-    },
-    {
-      key: 'referCode',
-      placeholder: 'Search Refer Code',
+      placeholder: 'Search ID/Wallet/Address',
     },
   ]
 
@@ -96,30 +92,30 @@ export default function () {
     },
   ]
 
-  const { data, isPending } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ['getUsers', appId, page, limit, filtersValue, sorting],
+    gcTime: 0,
     queryFn: async () => {
       const { appSecret } = await client.admin.getAppSecret(appId)
       client.app.updateToken(appSecret)
 
-      const queryParams = {
+      const queryParams: {
+        page: number
+        limit: number
+        search?: string
+        sortBy?: string
+        order?: 'asc' | 'desc'
+      } = {
         page,
         limit,
       }
 
       if (sorting?.[0]) {
-        const sortingParams = {
-          sortBy: sorting[0]?.id,
-          order: sorting[0]?.desc ? 'desc' : 'asc',
-        }
-        Object.assign(queryParams, sortingParams)
+        queryParams.sortBy = sorting[0].id
+        queryParams.order = sorting[0].desc ? 'desc' : 'asc'
       }
       if (filtersValue.length > 0) {
-        const filterParams = filtersValue.reduce((acc, filter) => {
-          acc[filter.id] = filter.value
-          return acc
-        }, {} as Record<string, unknown>)
-        Object.assign(queryParams, filterParams)
+        queryParams.search = filtersValue[0].value as string
       }
       return client.app.listUsers(queryParams)
     },
@@ -162,7 +158,7 @@ export default function () {
             total={data?.meta.totalItems ?? 0}
             pageIndex={page}
             pageSize={limit}
-            pending={isPending}
+            pending={isFetching}
             onPageChange={setPage}
             onPageSizeChange={setLimit}
             onSortingChange={setSorting}

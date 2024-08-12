@@ -109,7 +109,7 @@ export function DataTableServer<TData, TValue>({
   return (
     <div className="space-y-4">
       <div className="flex justify-between">
-        {filters?.length && (
+        {filters?.length > 0 && (
           <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <form>
               <div className="grid grid-cols-1 grid-cols-4 gap-2 lg:grid-cols-3 md:grid-cols-2">

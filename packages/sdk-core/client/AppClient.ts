@@ -5,7 +5,7 @@ export class AppClient extends BaseClient {
     return (await this.http.post<{ data: { id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users`, data)).data.data
   }
 
-  async listUsers(params: { page: number, limit: number, id?: string, referCode?: string, sortBy?: string, order?: 'asc' | 'desc' }) {
+  async listUsers(params: { page: number, limit: number, search?: string, sortBy?: string, order?: 'asc' | 'desc' }) {
     return (await this.http.get<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number }>, meta: { totalItems: number, totalPages: number } }>(`/app/users`, { params })).data
   }
 
