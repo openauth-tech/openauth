@@ -131,7 +131,7 @@ function getTypeModelFromSchema(schema: any): any {
   }
 
   if (schema.anyOf) {
-    return schema.anyOf.map((i: any) => getTypeModelFromSchema(i)).join(' | ')
+    return schema.anyOf.map((i: any) => getStringFromTypeModel(getTypeModelFromSchema(i))).join(' | ')
   }
 
   if (schema.allOf) {

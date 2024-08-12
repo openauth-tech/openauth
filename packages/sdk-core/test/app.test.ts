@@ -28,6 +28,10 @@ describe('OpenAuth App API', () => {
       assert(meta.totalPages >= 1)
       const { data: data2 } = await client.app.listUsers({ page: 1, limit: 2 })
       assert.equal(data2.length, 2)
+      const data0 = await client.app.searchUsers({ ids: [] })
+      assert.equal(data0.length, 0)
+      const data1 = await client.app.searchUsers({ ids: [data[0].id] })
+      assert.equal(data1.length, 1)
     }
 
     {
