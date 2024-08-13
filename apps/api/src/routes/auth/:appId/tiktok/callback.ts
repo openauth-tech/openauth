@@ -18,10 +18,10 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { error, error_description, code } = request.query as TikTokRedirectQueryParams
-  const appId = reply.cookies[TikTokCookieNames.AppId]
-  const codeVerifier = reply.cookies[TikTokCookieNames.Verifier]
-  const redirectUri = reply.cookies[TikTokCookieNames.RedirectUri]
-  const redirectUrl = reply.cookies[TikTokCookieNames.RedirectUrl]
+  const appId = request.cookies[TikTokCookieNames.AppId]
+  const codeVerifier = request.cookies[TikTokCookieNames.Verifier]
+  const redirectUri = request.cookies[TikTokCookieNames.RedirectUri]
+  const redirectUrl = request.cookies[TikTokCookieNames.RedirectUrl]
 
   if (!appId || !codeVerifier || !redirectUrl || !redirectUri) {
     return reply.status(500).send({ message: 'Missing cookies' })
@@ -48,6 +48,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   })
 
   const searchParams = new URLSearchParams()
+  searchParams.append('auth_type', 'openauth_tiktok')
   searchParams.append('open_id', open_id)
   searchParams.append('access_token', access_token)
   searchParams.append('token_type', token_type)

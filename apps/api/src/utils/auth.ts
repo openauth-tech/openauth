@@ -68,11 +68,11 @@ export async function verifyDiscord(id: string, token: string) {
   }
 }
 
-export async function verifyTikTok(id: string, token: string, tokenType?: string) {
+export async function verifyTikTok(openId: string, token: string) {
   try {
-    const { data: { user } } = await getTikTokUser(token, tokenType ?? 'Bearer')
+    const { data: { user } } = await getTikTokUser(token, 'Bearer')
     return {
-      verified: user?.open_id === id,
+      verified: user?.open_id === openId,
       avatar: user?.avatar_url,
     }
   } catch (e: any) {

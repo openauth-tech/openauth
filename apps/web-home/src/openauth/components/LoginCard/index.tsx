@@ -29,9 +29,7 @@ export function LoginCard() {
   const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
   const { logInWithGoogle, loading: loadingGoogle } = useLogInWithGoogle()
   const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
-  const { logInWithTikTok, loading: loadingTikTok } = useLogInWithTikTok({
-    callbackUrl: window.location.href,
-  })
+  const { logInWithTikTok, loading: loadingTikTok } = useLogInWithTikTok()
 
   const onConnectETH = useCallback(async () => {
     try {

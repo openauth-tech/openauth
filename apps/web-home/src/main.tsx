@@ -20,18 +20,18 @@ const queryClient = new QueryClient({
 
 const root = createRoot(document.querySelector('#root')!)
 root.render(
-  <OpenAuthProvider
-    config={{
-      appId: import.meta.env.VITE_OPENAUTH_APPID,
-      endpoint: import.meta.env.VITE_OPENAUTH_ENDPOINT,
-      googleClientId: '868364359161-r53l284na254rqkd7r92rlguufc6aahd.apps.googleusercontent.com',
-      discordApplicationId: '1270776138020687882',
-    }}
-  >
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+  <BrowserRouter>
+    <OpenAuthProvider
+      config={{
+        appId: import.meta.env.VITE_OPENAUTH_APPID,
+        endpoint: import.meta.env.VITE_OPENAUTH_ENDPOINT,
+        googleClientId: '868364359161-r53l284na254rqkd7r92rlguufc6aahd.apps.googleusercontent.com',
+        discordApplicationId: '1270776138020687882',
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
         <App />
-      </BrowserRouter>
-    </QueryClientProvider>
-  </OpenAuthProvider>,
+      </QueryClientProvider>
+    </OpenAuthProvider>
+  </BrowserRouter>,
 )

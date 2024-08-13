@@ -3,6 +3,7 @@ import { OpenAuthClient } from '@open-auth/sdk-core'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import type { ReactNode } from 'react'
 import { useCallback, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useLocalStorage } from 'usehooks-ts'
 
 import { StorageKeys } from '../utils/constants'
@@ -13,7 +14,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const [token, setToken] = useLocalStorage<string | undefined>(StorageKeys.Token, undefined)
   const [profile, setProfile] = useLocalStorage<UserProfile | undefined>(StorageKeys.Profile, undefined)
   const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
-
+  const [searchParams] = useSearchParams()
   const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
 
   const refetch = useCallback(async () => {
@@ -37,11 +38,13 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const logIn = useCallback((token: string) => updateToken(token), [updateToken])
   const logOut = useCallback(() => updateToken(), [updateToken])
 
+  // update client and refetch profile on token change
   useEffect(() => {
     client.user.updateToken(token)
     refetch().catch(console.error)
   }, [client.user, refetch, token])
 
+  // fetch global config on mount
   useEffect(() => {
     if (config.endpoint) {
       client.user
@@ -50,6 +53,26 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         .catch(console.error)
     }
   }, [client, config, setGlobalConfig])
+
+  // handle auth redirect
+  useEffect(() => {
+    const authType = searchParams.get('auth_type')
+    switch (authType) {
+      case 'openauth_tiktok': {
+        const accessToken = searchParams.get('access_token')
+        const openId = searchParams.get('open_id')
+        if (accessToken && openId) {
+          client.user
+            .logInWithTikTok({ appId: config.appId, openId, token: accessToken })
+            .then(({ token }) => logIn(token)).catch(console.error)
+        }
+        break
+      }
+      default: {
+        break
+      }
+    }
+  }, [client.user, config.appId, logIn, searchParams])
 
   const value = useMemo(() => ({
     config,

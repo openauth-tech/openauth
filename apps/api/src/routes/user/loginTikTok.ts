@@ -15,7 +15,7 @@ const schema = {
   summary: 'Log in with TikTok',
   body: Type.Object({
     appId: Type.String(),
-    tiktok: Type.String(),
+    openId: Type.String(),
     token: Type.String(),
   }),
   response: {
@@ -27,17 +27,17 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, tiktok, token } = request.body
+  const { appId, openId, token } = request.body
   const app = await prisma.app.findUnique({ where: { id: appId } })
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })
   }
-  const { verified, avatar } = await verifyTikTok(tiktok, token)
+  const { verified, avatar } = await verifyTikTok(openId, token)
   if (!verified) {
     return reply.status(400).send({ message: 'Invalid TikTok access token' })
   }
 
-  const user = await findOrCreateUser({ appId, tiktok })
+  const user = await findOrCreateUser({ appId, tiktok: openId })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })
