@@ -49,6 +49,10 @@ export class UserClient extends BaseClient {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-telegram`, data)).data.data
   }
 
+  async logInWithTikTok(data: { appId: string, tiktok: string, token: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-tiktok`, data)).data.data
+  }
+
   async logInWithUsername(data: { appId: string, username: string, password: string, isRegister?: boolean }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-username`, data)).data.data
   }

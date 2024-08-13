@@ -11,3 +11,9 @@ export interface AdminJwtPayload {
 export interface AppAuthPayload {
   appId: string
 }
+
+export interface AppOAuth2CodePayload {
+  appId: string
+  redirectUri: string
+  callback: string
+}

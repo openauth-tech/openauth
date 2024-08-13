@@ -3,12 +3,14 @@ import {
   useLogInWithEthereum,
   useLogInWithGoogle,
   useLogInWithSolana,
+  useLogInWithTikTok,
   useOpenAuth,
 } from '@open-auth/sdk-react'
 import {
   IconBrandDiscord,
   IconBrandGoogle,
   IconBrandTelegram,
+  IconBrandTiktok,
   IconCurrencyEthereum,
   IconCurrencySolana,
   IconLoader2,
@@ -27,6 +29,9 @@ export function LoginCard() {
   const { logInWithSolana, loading: loadingSOL } = useLogInWithSolana()
   const { logInWithGoogle, loading: loadingGoogle } = useLogInWithGoogle()
   const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
+  const { logInWithTikTok, loading: loadingTikTok } = useLogInWithTikTok({
+    callbackUrl: window.location.href,
+  })
 
   const onConnectETH = useCallback(async () => {
     try {
@@ -57,6 +62,14 @@ export function LoginCard() {
       toast.error(error.message)
     }
   }, [logInWithDiscord])
+
+  const onConnectTikTok = useCallback(async () => {
+    try {
+      logInWithTikTok()
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }, [logInWithTikTok])
 
   return (
     <Card className="px-16 py-10 shadow">
@@ -90,6 +103,12 @@ export function LoginCard() {
           <div className="w-50 flex items-center justify-start gap-2">
             {loadingDiscord ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandDiscord size={20} />}
             <span>Sign in with Discord</span>
+          </div>
+        </Button>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectTikTok} disabled={loadingTikTok}>
+          <div className="w-50 flex items-center justify-start gap-2">
+            {loadingTikTok ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandTiktok size={20} />}
+            <span>Sign in with TikTok</span>
           </div>
         </Button>
         <TelegramDialog />

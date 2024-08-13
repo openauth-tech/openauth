@@ -1,5 +1,6 @@
 import path from 'node:path'
 
+import cookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
 import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
@@ -46,6 +47,11 @@ async function start() {
       public: JWT_PUBLIC_KEY,
     },
     sign: { algorithm: 'EdDSA' },
+  })
+  server.register(cookie, {
+    secret: 'openauth-cookie-secret',
+    hook: 'onRequest',
+    parseOptions: {},
   })
   server.register(require('@fastify/autoload'), {
     dir: path.join(__dirname, 'routes'),

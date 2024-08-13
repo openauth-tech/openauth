@@ -13,6 +13,14 @@ export class AdminClient extends BaseClient {
     return (await this.http.post<{ data: any }>(`/admin/setup`, data)).data.data
   }
 
+  async createApp(data: { name: string }) {
+    return (await this.http.post<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null } }>(`/admin/apps`, data)).data.data
+  }
+
+  async listApps() {
+    return (await this.http.get<{ data: Array<{ id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null }> }>(`/admin/apps`)).data.data
+  }
+
   async createAdmin(data: { username: string, password: string }) {
     return (await this.http.post<{ data: { id: number, username: string } }>(`/admin/admins`, data)).data.data
   }
@@ -33,14 +41,6 @@ export class AdminClient extends BaseClient {
     return (await this.http.get<{ data: { id: number, username: string } }>(`/admin/admins/${id}`)).data.data
   }
 
-  async createApp(data: { name: string }) {
-    return (await this.http.post<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null } }>(`/admin/apps`, data)).data.data
-  }
-
-  async listApps() {
-    return (await this.http.get<{ data: Array<{ id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null }> }>(`/admin/apps`)).data.data
-  }
-
   async deleteApp(appId: string) {
     return (await this.http.delete<{ data: any }>(`/admin/apps/${appId}`)).data.data
   }
@@ -49,11 +49,11 @@ export class AdminClient extends BaseClient {
     return (await this.http.get<{ data: { appSecret: string, jwtSecret: string } }>(`/admin/apps/${appId}/secret`)).data.data
   }
 
-  async updateApp(appId: string, data: { name?: string, description?: string, logoUrl?: string, emailEnabled?: boolean, googleEnabled?: boolean, discordEnabled?: boolean, twitterEnabled?: boolean, telegramEnabled?: boolean, appleEnabled?: boolean, ethEnabled?: boolean, solEnabled?: boolean, jwtTTL?: number, telegramBotToken?: string }) {
+  async updateApp(appId: string, data: { name?: string, description?: string, logoUrl?: string, emailEnabled?: boolean, googleEnabled?: boolean, discordEnabled?: boolean, twitterEnabled?: boolean, tiktokEnabled?: boolean, telegramEnabled?: boolean, appleEnabled?: boolean, ethEnabled?: boolean, solEnabled?: boolean, jwtTTL?: number, telegramBotToken?: string, tiktokClientKey?: string, tiktokClientSecret?: string }) {
     return (await this.http.patch<{ data: any }>(`/admin/apps/${appId}`, data)).data.data
   }
 
   async getApp(appId: string) {
-    return (await this.http.get<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null } }>(`/admin/apps/${appId}`)).data.data
+    return (await this.http.get<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null } }>(`/admin/apps/${appId}`)).data.data
   }
 }

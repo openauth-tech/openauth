@@ -8,6 +8,7 @@ export async function findOrCreateUser({
   appId,
   google,
   discord,
+  tiktok,
   email,
   telegram,
   ethAddress,
@@ -18,6 +19,7 @@ export async function findOrCreateUser({
   appId: string
   google?: string
   discord?: string
+  tiktok?: string
   email?: string
   telegram?: string
   ethAddress?: string
@@ -25,7 +27,7 @@ export async function findOrCreateUser({
   username?: string
   password?: string
 }) {
-  if (!email && !google && !discord && !ethAddress && !solAddress && !username && !telegram) {
+  if (!email && !google && !discord && !tiktok && !ethAddress && !solAddress && !username && !telegram) {
     throw new Error('Missing required fields')
   }
 
@@ -34,6 +36,7 @@ export async function findOrCreateUser({
       appId,
       google,
       discord,
+      tiktok,
       email,
       telegram,
       ethAddress,
@@ -64,6 +67,7 @@ export async function findOrCreateUser({
       appId,
       google,
       discord,
+      tiktok,
       email,
       telegram,
       ethAddress,

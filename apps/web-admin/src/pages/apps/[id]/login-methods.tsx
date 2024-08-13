@@ -17,7 +17,10 @@ const FormSchema = z.object({
   google: z.boolean(),
   discord: z.boolean(),
   telegram: z.boolean(),
+  tiktok: z.boolean(),
   telegramBotToken: z.string().optional(),
+  tiktokClientKey: z.string().optional(),
+  tiktokClientSecret: z.string().optional(),
 })
 
 type FormDataType = z.infer<typeof FormSchema>
@@ -42,8 +45,11 @@ export default function () {
       form.setValue('ethereum', data.ethEnabled)
       form.setValue('google', data.googleEnabled)
       form.setValue('discord', data.discordEnabled)
+      form.setValue('tiktok', data.tiktokEnabled)
       form.setValue('telegram', data.telegramEnabled)
       form.setValue('telegramBotToken', data.telegramBotToken ?? undefined)
+      form.setValue('tiktokClientKey', data.tiktokClientKey ?? undefined)
+      form.setValue('tiktokClientSecret', data.tiktokClientSecret ?? undefined)
     }
   }, [data, form])
 
@@ -55,6 +61,9 @@ export default function () {
       discordEnabled: data.discord,
       telegramEnabled: data.telegram,
       telegramBotToken: data.telegramBotToken,
+      tiktokEnabled: data.tiktok,
+      tiktokClientKey: data.tiktokClientKey,
+      tiktokClientSecret: data.tiktokClientSecret,
     })
     toast.success('Settings saved')
   }
@@ -80,6 +89,31 @@ export default function () {
               render={({ field }) => (
                 <FormItem className="pl-8">
                   <FormLabel>Bot Token</FormLabel>
+                  <FormControl>
+                    <Input value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Checker form={form} id="tiktok" label="TikTok" />
+            <FormField
+              control={form.control}
+              name="tiktokClientKey"
+              render={({ field }) => (
+                <FormItem className="pl-8">
+                  <FormLabel>Client Key</FormLabel>
+                  <FormControl>
+                    <Input value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="tiktokClientSecret"
+              render={({ field }) => (
+                <FormItem className="pl-8">
+                  <FormLabel>Client Secret</FormLabel>
                   <FormControl>
                     <Input value={field.value} onChange={field.onChange} />
                   </FormControl>

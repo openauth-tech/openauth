@@ -5,6 +5,8 @@ import base58 from 'bs58'
 import { ethers } from 'ethers'
 import nacl from 'tweetnacl'
 
+import { getTikTokUser } from './tiktok'
+
 export const SALT_ROUNDS = 10
 
 export function getMessageText(name: string) {
@@ -61,6 +63,19 @@ export async function verifyDiscord(id: string, token: string) {
         : undefined,
     }
   } catch (e) {
+    console.error(e)
+    return { verified: false }
+  }
+}
+
+export async function verifyTikTok(id: string, token: string, tokenType?: string) {
+  try {
+    const { data: { user } } = await getTikTokUser(token, tokenType ?? 'Bearer')
+    return {
+      verified: user?.open_id === id,
+      avatar: user?.avatar_url,
+    }
+  } catch (e: any) {
     console.error(e)
     return { verified: false }
   }
