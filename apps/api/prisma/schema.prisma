@@ -41,8 +41,11 @@ model App {
   ethEnabled      Boolean @default(false)
   solEnabled      Boolean @default(false)
   telegramEnabled Boolean @default(false)
+  tiktokEnabled   Boolean @default(false)
 
-  telegramBotToken String?
+  telegramBotToken   String?
+  tiktokClientKey    String?
+  tiktokClientSecret String?
 
   users     User[]
   referrals Referral[]
@@ -60,8 +63,9 @@ model User {
 
   email      String?
   google     String?
-  discord     String?
+  discord    String?
   twitter    String?
+  tiktok     String?
   apple      String?
   telegram   String?
   ethAddress String?
@@ -77,6 +81,7 @@ model User {
   @@unique([appId, google])
   @@unique([appId, discord])
   @@unique([appId, twitter])
+  @@unique([appId, tiktok])
   @@unique([appId, telegram])
   @@unique([appId, apple])
   @@unique([appId, ethAddress])

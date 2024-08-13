@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export async function uploadAvatar(userId: string, href: string) {
   const response = await axios.get(href, { decompress: false, responseType: 'arraybuffer' })
-  const ext = href.split('.').pop()
+  const ext = href.split(/[#?]/)[0].split('.').pop()
   return uploadFile('avatar', `${userId}_${Date.now()}.${ext}`, response.data)
 }
 
