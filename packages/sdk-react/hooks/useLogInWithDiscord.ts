@@ -4,11 +4,11 @@ import { useState } from 'react'
 import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithDiscord() {
-  const { logIn, config, client } = useOpenAuth()
+  const { config, logIn, globalConfig, client } = useOpenAuth()
   const [loading, setLoading] = useState(false)
 
   const logInWithDiscord = useDiscordLogin({
-    applicationId: config.discordApplicationId,
+    applicationId: globalConfig?.discordApplicationId,
     onStart: () => {
       setLoading(true)
     },

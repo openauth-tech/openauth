@@ -1,21 +1,5 @@
-import {
-  useLogInWithDiscord,
-  useLogInWithEthereum,
-  useLogInWithGoogle,
-  useLogInWithSolana,
-  useLogInWithTikTok,
-  useOpenAuth,
-} from '@open-auth/sdk-react'
-import {
-  IconBrandDiscord,
-  IconBrandGoogle,
-  IconBrandTelegram,
-  IconBrandTiktok,
-  IconCurrencyEthereum,
-  IconCurrencySolana,
-  IconLoader2,
-  IconUser,
-} from '@tabler/icons-react'
+import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGoogle, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
+import { IconBrandDiscord, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconUser } from '@tabler/icons-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'

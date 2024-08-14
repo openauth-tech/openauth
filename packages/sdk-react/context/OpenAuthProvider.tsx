@@ -15,7 +15,11 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const [profile, setProfile] = useLocalStorage<UserProfile | undefined>(StorageKeys.Profile, undefined)
   const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
   const [searchParams] = useSearchParams()
-  const client = useMemo(() => new OpenAuthClient(config.endpoint), [config.endpoint])
+  const client = useMemo(() => {
+    const client = new OpenAuthClient(config.endpoint)
+    client.user.onError = config.onError
+    return client
+  }, [config])
 
   const refetch = useCallback(async () => {
     if (client.user.isAuthorized()) {
@@ -64,7 +68,9 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         if (accessToken && openId) {
           client.user
             .logInWithTikTok({ appId: config.appId, openId, token: accessToken })
-            .then(({ token }) => logIn(token)).catch(console.error)
+            .then(({ token }) => logIn(token))
+            .catch(console.error)
+            .finally(() => { window.location.href = config.oauthRedirectUrl ?? '/' })
         }
         break
       }
@@ -72,7 +78,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         break
       }
     }
-  }, [client.user, config.appId, logIn, searchParams])
+  }, [client.user, config, logIn, searchParams])
 
   const value = useMemo(() => ({
     config,

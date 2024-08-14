@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { useCallback, useState } from 'react'
 
 import { getEthereumProvider } from '../utils/getProvider'
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithEthereum() {
   const { config, globalConfig, logIn, client } = useOpenAuth()
@@ -24,7 +24,7 @@ export function useLogInWithEthereum() {
       const address = await signer.getAddress()
       const signature = await signer.signMessage(globalConfig.message)
       const data = await client.user.logInWithEthereum({ appId: config.appId, ethAddress: address, signature })
-      logIn(data.token)
+      await logIn(data.token)
       setLoading(false)
     } catch (error) {
       setLoading(false)

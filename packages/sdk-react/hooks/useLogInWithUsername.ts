@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithUsername() {
   const { config, logIn, client } = useOpenAuth()
@@ -11,7 +11,7 @@ export function useLogInWithUsername() {
       setLoading(true)
       try {
         const data = await client.user.logInWithUsername({ appId: config.appId, username, password })
-        logIn(data.token)
+        await logIn(data.token)
         setLoading(false)
       } catch (error) {
         setLoading(false)

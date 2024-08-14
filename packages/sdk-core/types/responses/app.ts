@@ -18,9 +18,11 @@ export const TypeApp = Type.Object({
   ethEnabled: Type.Boolean(),
   solEnabled: Type.Boolean(),
   jwtTTL: Type.Number(),
+  googleClientId: Nullable(Type.String()),
   telegramBotToken: Nullable(Type.String()),
   tiktokClientKey: Nullable(Type.String()),
   tiktokClientSecret: Nullable(Type.String()),
+  discordApplicationId: Nullable(Type.String()),
 })
 
 export type App = Static<typeof TypeApp>

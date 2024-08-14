@@ -34,11 +34,11 @@ export class AdminClient extends BaseClient {
   }
 
   async createApp(data: { name: string }) {
-    return (await this.http.post<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null } }>(`/admin/apps`, data)).data.data
+    return (await this.http.post<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, googleClientId: string | null, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null, discordApplicationId: string | null } }>(`/admin/apps`, data)).data.data
   }
 
   async listApps() {
-    return (await this.http.get<{ data: Array<{ id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null }> }>(`/admin/apps`)).data.data
+    return (await this.http.get<{ data: Array<{ id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, googleClientId: string | null, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null, discordApplicationId: string | null }> }>(`/admin/apps`)).data.data
   }
 
   async deleteApp(appId: string) {
@@ -49,11 +49,11 @@ export class AdminClient extends BaseClient {
     return (await this.http.get<{ data: { appSecret: string, jwtSecret: string } }>(`/admin/apps/${appId}/secret`)).data.data
   }
 
-  async updateApp(appId: string, data: { name?: string, description?: string, logoUrl?: string, emailEnabled?: boolean, googleEnabled?: boolean, discordEnabled?: boolean, twitterEnabled?: boolean, tiktokEnabled?: boolean, telegramEnabled?: boolean, appleEnabled?: boolean, ethEnabled?: boolean, solEnabled?: boolean, jwtTTL?: number, telegramBotToken?: string, tiktokClientKey?: string, tiktokClientSecret?: string }) {
+  async updateApp(appId: string, data: { name?: string, description?: string, logoUrl?: string, emailEnabled?: boolean, googleEnabled?: boolean, discordEnabled?: boolean, twitterEnabled?: boolean, tiktokEnabled?: boolean, telegramEnabled?: boolean, appleEnabled?: boolean, ethEnabled?: boolean, solEnabled?: boolean, jwtTTL?: number, googleClientId?: string, telegramBotToken?: string, tiktokClientKey?: string, tiktokClientSecret?: string, discordApplicationId?: string }) {
     return (await this.http.patch<{ data: any }>(`/admin/apps/${appId}`, data)).data.data
   }
 
   async getApp(appId: string) {
-    return (await this.http.get<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null } }>(`/admin/apps/${appId}`)).data.data
+    return (await this.http.get<{ data: { id: string, name: string, description: string | null, logoUrl: string | null, emailEnabled: boolean, googleEnabled: boolean, discordEnabled: boolean, twitterEnabled: boolean, tiktokEnabled: boolean, appleEnabled: boolean, telegramEnabled: boolean, ethEnabled: boolean, solEnabled: boolean, jwtTTL: number, googleClientId: string | null, telegramBotToken: string | null, tiktokClientKey: string | null, tiktokClientSecret: string | null, discordApplicationId: string | null } }>(`/admin/apps/${appId}`)).data.data
   }
 }

@@ -2,7 +2,7 @@ import { encodeBase58 } from 'ethers'
 import { useCallback, useState } from 'react'
 
 import { getSolanaProvider } from '../utils/getProvider'
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithSolana() {
   const { config, globalConfig, logIn, client } = useOpenAuth()
@@ -23,7 +23,7 @@ export function useLogInWithSolana() {
       const sig = await provider.signMessage(new TextEncoder().encode(globalConfig.message))
       const signature = encodeBase58(sig.signature)
       const data = await client.user.logInWithSolana({ appId: config.appId, solAddress: address, signature })
-      logIn(data.token)
+      await logIn(data.token)
       setLoading(false)
     } catch (error) {
       setLoading(false)

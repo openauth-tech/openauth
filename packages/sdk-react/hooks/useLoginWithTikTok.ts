@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithTikTok() {
   const { config } = useOpenAuth()
@@ -14,7 +14,7 @@ export function useLogInWithTikTok() {
       params.append('redirectUrl', window.location.href)
       window.location.href = `${config.endpoint}/auth/${config.appId}/tiktok/oauth?${params.toString()}`
     },
-    [config],
+    [config.appId, config.endpoint],
   )
 
   return {

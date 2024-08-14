@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import { useCallback, useState } from 'react'
 
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useLogInWithGoogle() {
   const { logIn, config, client } = useOpenAuth()
@@ -28,7 +28,7 @@ export function useLogInWithGoogle() {
         ).json()
         const { email } = userinfo
         const data = await client.user.logInWithGoogle({ appId: config.appId, email, token })
-        logIn(data.token)
+        await logIn(data.token)
       } catch (error) {
         console.error(error)
       }

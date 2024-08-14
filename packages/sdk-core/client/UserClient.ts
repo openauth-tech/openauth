@@ -18,7 +18,7 @@ export class UserClient extends BaseClient {
   }
 
   async getConfig(params: { appId: string }) {
-    return (await this.http.get<{ data: { production: boolean, brand: string, message: string } }>(`/user/config`, { params })).data.data
+    return (await this.http.get<{ data: { production: boolean, brand: string, message: string, googleClientId?: string, discordApplicationId?: string } }>(`/user/config`, { params })).data.data
   }
 
   async getProfile() {

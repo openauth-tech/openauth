@@ -18,9 +18,11 @@ const FormSchema = z.object({
   discord: z.boolean(),
   telegram: z.boolean(),
   tiktok: z.boolean(),
+  googleClientId: z.string().optional(),
   telegramBotToken: z.string().optional(),
   tiktokClientKey: z.string().optional(),
   tiktokClientSecret: z.string().optional(),
+  discordApplicationId: z.string().optional(),
 })
 
 type FormDataType = z.infer<typeof FormSchema>
@@ -47,9 +49,11 @@ export default function () {
       form.setValue('discord', data.discordEnabled)
       form.setValue('tiktok', data.tiktokEnabled)
       form.setValue('telegram', data.telegramEnabled)
+      form.setValue('googleClientId', data.googleClientId ?? undefined)
       form.setValue('telegramBotToken', data.telegramBotToken ?? undefined)
       form.setValue('tiktokClientKey', data.tiktokClientKey ?? undefined)
       form.setValue('tiktokClientSecret', data.tiktokClientSecret ?? undefined)
+      form.setValue('discordApplicationId', data.discordApplicationId ?? undefined)
     }
   }, [data, form])
 
@@ -60,10 +64,12 @@ export default function () {
       googleEnabled: data.google,
       discordEnabled: data.discord,
       telegramEnabled: data.telegram,
-      telegramBotToken: data.telegramBotToken,
       tiktokEnabled: data.tiktok,
+      googleClientId: data.googleClientId,
+      telegramBotToken: data.telegramBotToken,
       tiktokClientKey: data.tiktokClientKey,
       tiktokClientSecret: data.tiktokClientSecret,
+      discordApplicationId: data.discordApplicationId,
     })
     toast.success('Settings saved')
   }
@@ -81,7 +87,31 @@ export default function () {
             <Checker form={form} id="ethereum" label="Ethereum" />
             <Checker form={form} id="solana" label="Solana" />
             <Checker form={form} id="google" label="Google" />
+            <FormField
+              control={form.control}
+              name="googleClientId"
+              render={({ field }) => (
+                <FormItem className="pl-8">
+                  <FormLabel>Client ID</FormLabel>
+                  <FormControl>
+                    <Input value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <Checker form={form} id="discord" label="Discord" />
+            <FormField
+              control={form.control}
+              name="discordApplicationId"
+              render={({ field }) => (
+                <FormItem className="pl-8">
+                  <FormLabel>Application ID</FormLabel>
+                  <FormControl>
+                    <Input value={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <Checker form={form} id="telegram" label="Telegram" />
             <FormField
               control={form.control}

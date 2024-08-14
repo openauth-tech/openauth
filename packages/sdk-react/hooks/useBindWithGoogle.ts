@@ -1,7 +1,7 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import { useCallback, useState } from 'react'
 
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useBindWithGoogle() {
   const { client, refetch } = useOpenAuth()

@@ -4,7 +4,8 @@ export interface IOpenAuthConfig {
   appId: string
   endpoint: string
   googleClientId?: string
-  discordApplicationId?: string
+  oauthRedirectUrl?: string
+  onError?: (error: Error) => void
 }
 
 export interface IOpenAuthContext {
@@ -15,7 +16,7 @@ export interface IOpenAuthContext {
   token?: string
   profile?: UserProfile
 
-  logIn: (token: string) => void
+  logIn: (token: string) => Promise<void>
   logOut: () => void
   refetch: () => Promise<void>
 }

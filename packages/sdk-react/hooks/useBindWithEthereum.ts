@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { useCallback, useState } from 'react'
 
 import { getEthereumProvider } from '../utils/getProvider'
-import { useOpenAuth } from './useOpenAuth.ts'
+import { useOpenAuth } from './useOpenAuth'
 
 export function useBindWithEthereum() {
   const { globalConfig, client, refetch } = useOpenAuth()

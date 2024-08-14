@@ -28,9 +28,11 @@ const schema = {
     ethEnabled: Type.Optional(Type.Boolean()),
     solEnabled: Type.Optional(Type.Boolean()),
     jwtTTL: Type.Optional(Type.Number()),
+    googleClientId: Type.Optional(Type.String()),
     telegramBotToken: Type.Optional(Type.String()),
     tiktokClientKey: Type.Optional(Type.String()),
     tiktokClientSecret: Type.Optional(Type.String()),
+    discordApplicationId: Type.Optional(Type.String()),
   }),
   response: {
     200: Type.Object({

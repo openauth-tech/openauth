@@ -34,6 +34,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
       production: IS_PRODUCTION,
       brand: app.name,
       message: getMessageText(app.name),
+      googleClientId: app.googleClientId ?? undefined,
+      discordApplicationId: app.discordApplicationId ?? undefined,
     },
   })
 }
