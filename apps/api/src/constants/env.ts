@@ -19,4 +19,4 @@ ${process.env.JWT_PRIVATE_KEY}
 
 const pubKeyObject = crypto.createPublicKey({ key: JWT_PRIVATE_KEY, format: 'pem' })
 const publicKey = pubKeyObject.export({ format: 'pem', type: 'spki' })
-export const JWT_PUBLIC_KEY = publicKey.toString()
+export const JWT_PUBLIC_KEY = publicKey.toString().trim()

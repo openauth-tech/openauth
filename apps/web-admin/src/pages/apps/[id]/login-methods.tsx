@@ -5,11 +5,13 @@ import type { UseFormReturn } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
+import { useCopyToClipboard } from 'usehooks-ts'
 import { z } from 'zod'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
 import { useAdmin } from '@/context/admin'
+import { OPENAUTH_ENDPOINT } from '@/utils/constants'
 
 const FormSchema = z.object({
   solana: z.boolean(),
@@ -30,16 +32,24 @@ type FormDataType = z.infer<typeof FormSchema>
 export default function () {
   const { id: appId = '' } = useParams()
   const { client } = useAdmin()
+  const [_, copy] = useCopyToClipboard()
   const { data } = useQuery({
     queryKey: ['getApp', appId],
     queryFn: async () => client.admin.getApp(appId),
     enabled: client.admin.isAuthorized(),
   })
 
+  const tiktokRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/tiktok/callback`
+
   const form = useForm<FormDataType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {},
   })
+
+  const watchGoogle = form.watch('google')
+  const watchTelegram = form.watch('telegram')
+  const watchTikTok = form.watch('tiktok')
+  const watchDiscord = form.watch('discord')
 
   useEffect(() => {
     if (data) {
@@ -87,69 +97,97 @@ export default function () {
             <Checker form={form} id="ethereum" label="Ethereum" />
             <Checker form={form} id="solana" label="Solana" />
             <Checker form={form} id="google" label="Google" />
-            <FormField
-              control={form.control}
-              name="googleClientId"
-              render={({ field }) => (
-                <FormItem className="pl-8">
-                  <FormLabel>Client ID</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {watchGoogle && (
+              <FormField
+                control={form.control}
+                name="googleClientId"
+                render={({ field }) => (
+                  <FormItem className="pl-8">
+                    <FormLabel>Client ID</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
             <Checker form={form} id="discord" label="Discord" />
-            <FormField
-              control={form.control}
-              name="discordApplicationId"
-              render={({ field }) => (
-                <FormItem className="pl-8">
-                  <FormLabel>Application ID</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {watchDiscord && (
+              <FormField
+                control={form.control}
+                name="discordApplicationId"
+                render={({ field }) => (
+                  <FormItem className="pl-8">
+                    <FormLabel>Application ID</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
             <Checker form={form} id="telegram" label="Telegram" />
-            <FormField
-              control={form.control}
-              name="telegramBotToken"
-              render={({ field }) => (
-                <FormItem className="pl-8">
-                  <FormLabel>Bot Token</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {watchTelegram && (
+              <FormField
+                control={form.control}
+                name="telegramBotToken"
+                render={({ field }) => (
+                  <FormItem className="pl-8">
+                    <FormLabel>Bot Token</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onChange={field.onChange} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
             <Checker form={form} id="tiktok" label="TikTok" />
-            <FormField
-              control={form.control}
-              name="tiktokClientKey"
-              render={({ field }) => (
-                <FormItem className="pl-8">
-                  <FormLabel>Client Key</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="tiktokClientSecret"
-              render={({ field }) => (
-                <FormItem className="pl-8">
-                  <FormLabel>Client Secret</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {watchTikTok && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="tiktokClientKey"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>Client Key</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="tiktokClientSecret"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>Client Secret</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <div className="pl-8">
+                  <FormLabel>
+                    Redirect URI (Input on the TikTok Developer Portal)
+                  </FormLabel>
+                  <div className="flex-center gap-2">
+                    <Input value={tiktokRedirectUri} readOnly className="text-muted-foreground" />
+                    <Button
+                      variant="outline"
+                      className="px-3"
+                      onClick={async () => {
+                        await copy(tiktokRedirectUri)
+                        toast.success('Copied to clipboard')
+                      }}
+                    >
+                      <span className="i-lucide-copy" />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </form>
       </Form>
