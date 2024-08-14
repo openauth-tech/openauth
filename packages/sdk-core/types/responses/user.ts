@@ -8,6 +8,7 @@ export const TypeUser = Type.Object({
   email: Nullable(Type.String()),
   google: Nullable(Type.String()),
   discord: Nullable(Type.String()),
+  tiktok: Nullable(Type.String()),
   twitter: Nullable(Type.String()),
   apple: Nullable(Type.String()),
   telegram: Nullable(Type.String()),

@@ -22,7 +22,7 @@ export class UserClient extends BaseClient {
   }
 
   async getProfile() {
-    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number, referrer: string | null } }>(`/user/profile`)).data.data
+    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number, referrer: string | null } }>(`/user/profile`)).data.data
   }
 
   async getWallets() {
