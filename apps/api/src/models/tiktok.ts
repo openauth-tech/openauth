@@ -44,7 +44,6 @@ export const TypeTikTokUser = Type.Object({
   open_id: Type.String(),
   union_id: Type.String(),
   avatar_url: Type.String(),
-  display_name: Type.Number(),
-  bio_description: Type.String(),
+  display_name: Type.String(),
 })
 export type TikTokUser = Static<typeof TypeTikTokUser>

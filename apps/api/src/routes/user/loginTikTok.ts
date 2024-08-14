@@ -32,12 +32,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!app) {
     return reply.status(400).send({ message: 'App not found' })
   }
-  const { verified, avatar } = await verifyTikTok(openId, token)
+  const { verified, avatar, displayName } = await verifyTikTok(openId, token)
   if (!verified) {
     return reply.status(400).send({ message: 'Invalid TikTok access token' })
   }
 
-  const user = await findOrCreateUser({ appId, tiktok: openId })
+  const user = await findOrCreateUser({ appId, tiktok: openId, displayName })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })

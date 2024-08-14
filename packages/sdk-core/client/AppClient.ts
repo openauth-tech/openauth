@@ -2,15 +2,15 @@ import { BaseClient } from './BaseClient'
 
 export class AppClient extends BaseClient {
   async createUser(data: { email?: string, telegram?: string, ethAddress?: string, solAddress?: string, username?: string, password?: string }) {
-    return (await this.http.post<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users`, data)).data.data
+    return (await this.http.post<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users`, data)).data.data
   }
 
   async listUsers(params: { page: number, limit: number, search?: string, sortBy?: string, order?: 'asc' | 'desc' }) {
-    return (await this.http.get<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number }>, meta: { totalItems: number, totalPages: number } }>(`/app/users`, { params })).data
+    return (await this.http.get<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number }>, meta: { totalItems: number, totalPages: number } }>(`/app/users`, { params })).data
   }
 
   async searchUsers(data: { ids: string[] } | { referCode: string } | { solAddress: string }) {
-    return (await this.http.post<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number }> }>(`/app/users/search`, data)).data.data
+    return (await this.http.post<{ data: Array<{ id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number }> }>(`/app/users/search`, data)).data.data
   }
 
   async getUserReferral(userId: string) {
@@ -26,6 +26,6 @@ export class AppClient extends BaseClient {
   }
 
   async getUser(userId: string) {
-    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users/${userId}`)).data.data
+    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users/${userId}`)).data.data
   }
 }

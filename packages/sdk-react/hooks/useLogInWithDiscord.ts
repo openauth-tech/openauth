@@ -8,7 +8,7 @@ export function useLogInWithDiscord() {
   const [loading, setLoading] = useState(false)
 
   const logInWithDiscord = useDiscordLogin({
-    applicationId: globalConfig?.discordApplicationId,
+    applicationId: globalConfig?.discordApplicationId ?? undefined,
     onStart: () => {
       setLoading(true)
     },

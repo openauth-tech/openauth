@@ -8,7 +8,7 @@ export function useBindWithDiscord() {
   const [loading, setLoading] = useState(false)
 
   const bindWithDiscord = useDiscordLogin({
-    applicationId: globalConfig?.discordApplicationId,
+    applicationId: globalConfig?.discordApplicationId ?? undefined,
     onStart: () => {
       setLoading(true)
     },

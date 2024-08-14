@@ -43,6 +43,10 @@ export function ProfileCard() {
           <div>{profile.id.toString()}</div>
         </div>
         <div>
+          <div className="text-sm opacity-60">Display Name:</div>
+          <div>{profile.displayName}</div>
+        </div>
+        <div>
           <div className="text-sm opacity-60">Solana Wallet:</div>
           <div>{walletData?.solWallet}</div>
         </div>

@@ -6,6 +6,7 @@ import { prisma } from '../utils/prisma'
 
 export async function findOrCreateUser({
   appId,
+  displayName,
   google,
   discord,
   tiktok,
@@ -17,6 +18,7 @@ export async function findOrCreateUser({
   password,
 }: {
   appId: string
+  displayName?: string
   google?: string
   discord?: string
   tiktok?: string
@@ -45,6 +47,9 @@ export async function findOrCreateUser({
     },
   })
   if (user) {
+    if (!user.displayName) {
+      await prisma.user.update({ where: { id: user.id }, data: { displayName } })
+    }
     return user
   }
 
@@ -56,6 +61,7 @@ export async function findOrCreateUser({
       data: {
         appId,
         username,
+        displayName,
         referCode: generateReferCode(),
         password: await bcrypt.hash(password, SALT_ROUNDS),
       },
@@ -72,6 +78,7 @@ export async function findOrCreateUser({
       telegram,
       ethAddress,
       solAddress,
+      displayName,
       referCode: generateReferCode(),
     },
   })

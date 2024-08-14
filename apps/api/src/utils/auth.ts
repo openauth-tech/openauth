@@ -42,7 +42,11 @@ export async function verifyGoogle(email: string, token: string) {
         Authorization: `Bearer ${token}`,
       },
     })
-    return { verified: data.data?.email.toLowerCase() === email.toLowerCase(), avatar: data.data?.picture }
+    return {
+      verified: data.data?.email.toLowerCase() === email.toLowerCase(),
+      displayName: data.data?.displayName,
+      avatar: data.data?.picture,
+    }
   } catch (e) {
     console.error(e)
     return { verified: false }
@@ -58,6 +62,7 @@ export async function verifyDiscord(id: string, token: string) {
     })
     return {
       verified: data.data?.id === id,
+      displayName: data.data?.global_name ?? data.data?.username,
       avatar: data.data?.avatar
         ? `https://cdn.discordapp.com/avatars/${data.data.id}/${data.data.avatar}.png`
         : undefined,
@@ -74,6 +79,7 @@ export async function verifyTikTok(openId: string, token: string) {
     return {
       verified: user?.open_id === openId,
       avatar: user?.avatar_url,
+      displayName: user?.display_name,
     }
   } catch (e: any) {
     console.error(e)

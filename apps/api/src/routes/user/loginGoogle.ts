@@ -33,12 +33,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'App not found' })
   }
 
-  const { verified, avatar } = await verifyGoogle(email, token)
+  const { verified, avatar, displayName } = await verifyGoogle(email, token)
   if (!verified) {
     return reply.status(400).send({ message: 'Invalid Google access token' })
   }
 
-  const user = await findOrCreateUser({ appId, google: email })
+  const user = await findOrCreateUser({ appId, google: email, displayName })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })

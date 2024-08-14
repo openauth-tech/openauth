@@ -9,9 +9,11 @@ import { cn } from '@/utils/css'
 
 const userFields: Array<keyof User> = [
   'id',
+  'displayName',
   'email',
   'google',
   'discord',
+  'tiktok',
   'telegram',
   'twitter',
   'apple',
@@ -53,13 +55,11 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
               <li className="flex">
                 <div className="w-1/3 text-muted-foreground capitalize">Referral</div>
                 <div className="flex-1">
-                  refee1Count:
+                  Refee1 Count:
                   {' '}
                   {referral.referrals1.length}
-                  {' '}
                   <br />
-                  {' '}
-                  refee2Count:
+                  Refee2 Count:
                   {' '}
                   {referral.referrals2.length}
                 </div>

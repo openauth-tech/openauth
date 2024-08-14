@@ -1,13 +1,5 @@
 import type { User } from '@open-auth/sdk-core'
-import {
-  IconBrandDiscord,
-  IconBrandGoogle,
-  IconBrandTelegram,
-  IconCurrencyEthereum,
-  IconCurrencySolana,
-  IconMail,
-  IconPasswordUser,
-} from '@tabler/icons-react'
+import { IconBrandDiscord, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconMail, IconPasswordUser } from '@tabler/icons-react'
 
 export function UserAccountIcons({ user }: { user: User }) {
   return (
@@ -15,6 +7,7 @@ export function UserAccountIcons({ user }: { user: User }) {
       {user.email && <IconMail size={20} />}
       {user.google && <IconBrandGoogle size={20} />}
       {user.discord && <IconBrandDiscord size={20} />}
+      {user.tiktok && <IconBrandTiktok size={20} />}
       {user.telegram && <IconBrandTelegram size={20} />}
       {user.ethAddress && <IconCurrencyEthereum size={20} />}
       {user.solAddress && <IconCurrencySolana size={20} />}

@@ -17,6 +17,7 @@ export const TypeUser = Type.Object({
   username: Nullable(Type.String()),
   referCode: Type.String(),
   avatar: Nullable(Type.String()),
+  displayName: Nullable(Type.String()),
   createdAt: Type.Number(),
   lastSeenAt: Type.Number(),
 })

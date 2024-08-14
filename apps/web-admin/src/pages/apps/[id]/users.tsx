@@ -23,7 +23,7 @@ export default function () {
   const filtersConfig = [
     {
       key: 'id',
-      placeholder: 'Search ID/Wallet/Address',
+      placeholder: 'Search',
     },
   ]
 
@@ -123,7 +123,7 @@ export default function () {
 
   return (
     <AppContainer>
-      <AppHeader title="User snapshot" />
+      <AppHeader title="Users" />
 
       <div className="grid grid-cols-3 mt-5 gap-5">
         <Card>
