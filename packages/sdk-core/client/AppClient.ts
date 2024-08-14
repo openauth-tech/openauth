@@ -1,4 +1,4 @@
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class AppClient extends BaseClient {
   async createUser(data: { email?: string, telegram?: string, ethAddress?: string, solAddress?: string, username?: string, password?: string }) {

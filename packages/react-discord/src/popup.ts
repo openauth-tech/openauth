@@ -1,5 +1,5 @@
-import type { DiscordLoginPopupParams, TokenResponse } from './types.ts'
-import { generateAuthUrl, getQueryAndHash } from './utils.ts'
+import type { DiscordLoginPopupParams, TokenResponse } from './types'
+import { generateAuthUrl, getQueryAndHash } from './utils'
 
 export function popupDiscordLogin({
   applicationId,

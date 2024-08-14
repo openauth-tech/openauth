@@ -91,7 +91,7 @@ async ${methodName}(${methosParamsStr}) {
 
 function adminTemplate(methods: string) {
   return `
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class AdminClient extends BaseClient {
   ${methods}
@@ -101,7 +101,7 @@ export class AdminClient extends BaseClient {
 
 function appTemplate(methods: string) {
   return `
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class AppClient extends BaseClient {
   ${methods}
@@ -111,7 +111,7 @@ export class AppClient extends BaseClient {
 
 function userTemplate(methods: string) {
   return `
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class UserClient extends BaseClient {
   ${methods}

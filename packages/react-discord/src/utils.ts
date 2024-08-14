@@ -1,4 +1,4 @@
-import type { DiscordLoginConfig } from './types.ts'
+import type { DiscordLoginConfig } from './types'
 
 export function generateAuthUrl({ applicationId, responseType, scopes }: DiscordLoginConfig) {
   const searchParams = new URLSearchParams()

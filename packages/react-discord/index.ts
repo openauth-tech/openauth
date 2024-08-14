@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
-import { popupDiscordLogin } from './src/popup.ts'
-import type { DiscordUser, TokenResponse } from './src/types.ts'
+import { popupDiscordLogin } from './src/popup'
+import type { DiscordUser, TokenResponse } from './src/types'
 
 type UseDiscordLoginParams = {
   applicationId?: string

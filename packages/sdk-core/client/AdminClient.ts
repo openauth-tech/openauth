@@ -1,4 +1,4 @@
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class AdminClient extends BaseClient {
   async getConfig() {

@@ -1,4 +1,4 @@
-import { BaseClient } from './BaseClient.ts'
+import { BaseClient } from './BaseClient'
 
 export class UserClient extends BaseClient {
   async bindWithDiscord(data: { discordId: string, token: string }) {
