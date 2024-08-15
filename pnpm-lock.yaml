@@ -90,8 +90,8 @@ importers:
         specifier: 1.94.0
         version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
       axios:
-        specifier: ^1.6.8
-        version: 1.7.2
+        specifier: 1.7.4
+        version: 1.7.4
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1(encoding@0.1.13)
@@ -259,8 +259,8 @@ importers:
         specifier: ^0.59.4
         version: 0.59.4
       axios:
-        specifier: ^1.6.8
-        version: 1.7.2
+        specifier: 1.7.4
+        version: 1.7.4
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -458,8 +458,8 @@ importers:
         specifier: ^0.59.4
         version: 0.59.4
       axios:
-        specifier: ^1.6.8
-        version: 1.7.2
+        specifier: 1.7.4
+        version: 1.7.4
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -637,8 +637,8 @@ importers:
         specifier: ^0.32.34
         version: 0.32.34
       axios:
-        specifier: 1.7.2
-        version: 1.7.2
+        specifier: 1.7.4
+        version: 1.7.4
     devDependencies:
       '@solana/web3.js':
         specifier: 1.94.0
@@ -4445,8 +4445,8 @@ packages:
   avvio@8.3.2:
     resolution: {integrity: sha512-st8e519GWHa/azv8S87mcJvZs4WsgTBjOw/Ih1CP6u+8SZvcOeAYNG6JbsIrAUUJJ7JfmrnOkR8ipDS+u9SIRQ==}
 
-  axios@1.7.2:
-    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   babel-plugin-polyfill-corejs2@0.4.11:
     resolution: {integrity: sha512-sMEJ27L0gRHShOh5G54uAAPaiCOygY/5ratXuiyb2G46FmlSpc9eFCzYVyDiPxfNbwzA7mYahmjQc5q+CZQ09Q==}
@@ -13046,7 +13046,7 @@ snapshots:
       '@fastify/error': 3.4.1
       fastq: 1.17.1
 
-  axios@1.7.2:
+  axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
