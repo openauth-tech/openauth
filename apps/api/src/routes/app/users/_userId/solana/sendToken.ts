@@ -2,16 +2,18 @@ import { Type } from '@fastify/type-provider-typebox'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR400_SCHEMA } from '../../../constants/schema'
-import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
-import { verifyUser } from '../../../handlers/verifyUser'
-import type { JwtPayload } from '../../../models/request'
-import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
-import { prisma } from '../../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../../../../constants/schema'
+import { transferSolanaToken } from '../../../../../crypto/solana/transferSolanaToken'
+import { verifyApp } from '../../../../../handlers/verifyApp'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../models/typebox'
+import { prisma } from '../../../../../utils/prisma'
 
 const schema = {
-  tags: ['User'],
+  tags: ['App - Users'],
   summary: 'Send Solana token',
+  params: Type.Object({
+    userId: Type.String(),
+  }),
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -32,7 +34,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { userId } = request.params
   const { token, amount, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
@@ -48,7 +50,7 @@ export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
     url: '/send-token',
-    onRequest: [verifyUser],
+    onRequest: [verifyApp],
     schema,
     handler,
   })
