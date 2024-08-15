@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import type { ReactNode } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { AppTabs } from '@/components/app/AppTabs'
@@ -7,7 +8,7 @@ import { useAdmin } from '@/context/admin'
 
 interface Props {
   loading?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export function AppContainer({ children, loading }: Props) {
@@ -25,7 +26,9 @@ export function AppContainer({ children, loading }: Props) {
 
   return (
     <div className="">
-      <div className="border-b px-20 pb-4 text-2xl font-semibold">{data.name}</div>
+      <div className="flex items-center gap-x-2 border-b px-20 pb-4 text-2xl font-semibold">
+        {data.name}
+      </div>
       <div className="mt-4 flex flex-row px-5 2xl:px-20 xl:px-10">
         <AppTabs />
         <div className="max-w-6xl flex-1 px-5 pb-20 pt-2 2xl:px-20 xl:px-10">

@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 import { AppContainer } from '@/components/app/AppContainer'
 import { AppHeader } from '@/components/app/AppHeader'
@@ -8,7 +9,12 @@ import { useAdmin } from '@/context/admin'
 export default function () {
   const { client } = useAdmin()
   const { id = '' } = useParams()
-  const { data } = useQuery({
+  const [logoUrl, setLogoUrl] = useState('')
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const { data, refetch } = useQuery({
     queryKey: ['getApp', id],
     queryFn: async () => client.admin.getApp(id),
     enabled: client.admin.isAuthorized(),
@@ -22,17 +28,18 @@ export default function () {
     }
   }, [data])
 
-  const [logoUrl, setLogoUrl] = useState('')
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const changeMu = useMutation({
-    mutationFn: async ({ logoUrl, name, description }: { logoUrl: string, name: string, description: string }) => {
-      await client.admin.updateApp(id!, { logoUrl, name, description })
-    },
-  })
   const changeHandler = useCallback(async () => {
-    await changeMu.mutateAsync({ description, logoUrl, name })
-  }, [changeMu, description, logoUrl, name])
+    setLoading(true)
+    try {
+      await client.admin.updateApp(id, { logoUrl, name, description })
+      await refetch()
+      toast.success('Branding updated')
+    } catch (error) {
+      console.error(error)
+      toast.error('Failed to update branding')
+    }
+    setLoading(false)
+  }, [client.admin, description, id, logoUrl, name, refetch])
 
   return (
     <AppContainer>
@@ -40,7 +47,7 @@ export default function () {
         title="Branding"
         subtitle="Set your preferences for your usersʼ experience."
         button={(
-          <Button loading={changeMu.isPending} onClick={changeHandler}>
+          <Button loading={loading} onClick={changeHandler}>
             Save Changes
           </Button>
         )}

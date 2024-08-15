@@ -20,7 +20,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const apps = await prisma.app.findMany()
+  const apps = await prisma.app.findMany({ orderBy: { name: 'asc' } })
   reply.status(200).send({
     data: apps,
   })

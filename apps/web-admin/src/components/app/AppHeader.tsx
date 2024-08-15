@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react'
+
 interface Props {
   title: string
   subtitle?: string
-  button?: React.ReactNode
+  button?: ReactNode
 }
 
 export function AppHeader({ title, subtitle, button }: Props) {
