@@ -65,7 +65,7 @@ export class UserClient extends BaseClient {
     return (await this.http.post<{ data: string }>(`/user/solana/private-key`)).data.data
   }
 
-  async sendSolanaToken(data: { network: 'SolanaMainnet' | 'SonicDevnet', address: string, token: string, amount: number }) {
+  async sendSolanaToken(data: { network: 'SolanaMainnet' | 'SonicDevnet', rpcUrl?: string, address: string, token: string, amount: number }) {
     return (await this.http.post<{ data: { signature: string } }>(`/user/solana/send-token`, data)).data.data
   }
 }

@@ -14,6 +14,7 @@ async function start() {
   server.register(clientGeneratorPlugin)
   server.register(require('@fastify/autoload'), {
     dir: path.join(__dirname, 'routes'),
+    routeParams: true,
   })
 
   await server.ready()

@@ -55,6 +55,7 @@ async function start() {
   })
   server.register(require('@fastify/autoload'), {
     dir: path.join(__dirname, 'routes'),
+    routeParams: true,
   })
 
   await server.ready()

@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, 
 import type { FastifyInstance } from 'fastify'
 
 import { ERROR400_SCHEMA } from '../../../constants/schema'
-import { getSolanaWallet } from '../../../crypto/solana'
+import { getSolanaWallet } from '../../../crypto/solana/getSolanaWallet'
 import { verifyUser } from '../../../handlers/verifyUser'
 import type { JwtPayload } from '../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
@@ -19,6 +19,7 @@ const schema = {
   }),
   body: Type.Object({
     network: Type.Enum(SolanaNetwork),
+    rpcUrl: Type.Optional(Type.String()),
     address: Type.String(),
     token: Type.String(),
     amount: Type.Number(),
@@ -35,7 +36,7 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
-  const { network, token, amount, address } = request.body
+  const { network, token, amount, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({
     where: { id: userId },
   })
@@ -44,7 +45,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
 
   const { keypair } = getSolanaWallet(userId)
-  const connection = getConnection(network)
+  const connection = getConnection(network, rpcUrl)
   const fromPubkey = keypair.publicKey
   const toPubkey = new PublicKey(address)
   const lamports = amount * LAMPORTS_PER_SOL

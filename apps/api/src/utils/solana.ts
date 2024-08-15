@@ -5,7 +5,10 @@ export enum SolanaNetwork {
   SonicDevnet = 'SonicDevnet',
 }
 
-export const getConnection = function (network: SolanaNetwork): Connection {
+export const getConnection = function (network: SolanaNetwork, rpcUrl?: string): Connection {
+  if (rpcUrl) {
+    return new Connection(rpcUrl)
+  }
   switch (network) {
     case SolanaNetwork.SolanaMainnet: {
       return new Connection('https://api.mainnet-beta.solana.com')

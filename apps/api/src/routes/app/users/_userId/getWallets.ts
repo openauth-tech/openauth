@@ -3,7 +3,7 @@ import { TypeUserWallets } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
 import { ERROR404_SCHEMA } from '../../../../constants/schema'
-import { getSolanaWallet } from '../../../../crypto/solana'
+import { getSolanaWallet } from '../../../../crypto/solana/getSolanaWallet'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import type { AppAuthPayload } from '../../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
