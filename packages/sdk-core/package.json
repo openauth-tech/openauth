@@ -21,13 +21,12 @@
   "dependencies": {
     "@fastify/type-provider-typebox": "^4.0.0",
     "@sinclair/typebox": "^0.32.34",
-    "axios": "1.7.2"
+    "axios": "1.7.4"
   },
   "devDependencies": {
     "@solana/web3.js": "1.94.0",
     "@types/mocha": "^10.0.7",
     "@types/node": "^18.6.1",
-    "axios": "^1.6.8",
     "ethers": "^6.13.1",
     "mocha": "^10.5.2",
     "tweetnacl": "^1.0.3"
