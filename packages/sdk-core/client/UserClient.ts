@@ -61,6 +61,10 @@ export class UserClient extends BaseClient {
     return (await this.http.post<{ data: any }>(`/user/update-password`, data)).data.data
   }
 
+  async updateProfile(data: { avatar: string, displayName: string }) {
+    return (await this.http.post<{ data: any }>(`/user/update-profile`, data)).data.data
+  }
+
   async exportSolanaPrivateKey() {
     return (await this.http.post<{ data: string }>(`/user/solana/private-key`)).data.data
   }
