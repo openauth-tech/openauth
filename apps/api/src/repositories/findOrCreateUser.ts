@@ -1,3 +1,4 @@
+import type { User } from '@prisma/client'
 import bcrypt from 'bcrypt'
 
 import { SALT_ROUNDS } from '../utils/auth'
@@ -28,7 +29,7 @@ export async function findOrCreateUser({
   solAddress?: string
   username?: string
   password?: string
-}) {
+}): Promise<User> {
   if (!email && !google && !discord && !tiktok && !ethAddress && !solAddress && !username && !telegram) {
     throw new Error('Missing required fields')
   }
@@ -47,10 +48,13 @@ export async function findOrCreateUser({
     },
   })
   if (user) {
-    if (!user.displayName) {
-      await prisma.user.update({ where: { id: user.id }, data: { displayName } })
-    }
-    return user
+    return prisma.user.update({
+      where: { id: user.id },
+      data: {
+        displayName: user.displayName ?? displayName,
+        lastSeenAt: new Date(),
+      },
+    })
   }
 
   if (username) {
