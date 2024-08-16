@@ -4,8 +4,9 @@ import type { FastifyInstance } from 'fastify'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import type { AppAuthPayload } from '../../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { getReferralChain } from '../../../../repositories/getReferralChain'
 import { prisma } from '../../../../utils/prisma'
-import { ERROR401_SCHEMA } from '../../../../utils/schema'
+import { ERROR403_SCHEMA } from '../../../../utils/schema'
 
 const schema = {
   tags: ['App - Users'],
@@ -23,48 +24,50 @@ const schema = {
     200: Type.Object({
       data: Type.Object({}),
     }),
-    401: ERROR401_SCHEMA,
+    403: ERROR403_SCHEMA,
   },
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.user as AppAuthPayload
-  const { userId } = request.params
+  const { userId: refereeId } = request.params
   const { referCode } = request.body
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-  })
+  const referee = await prisma.user.findUnique({ where: { id: refereeId } })
+  if (!referee) {
+    return reply.status(404).send({ message: 'User not found' })
+  }
 
   const referrer = await prisma.user.findUnique({
     where: { appId_referCode: { appId, referCode } },
   })
 
-  if (!user) {
-    return reply.status(404).send({ message: 'User not found' })
-  }
-
   if (!referrer) {
     return reply.status(404).send({ message: 'Referrer not found' })
   }
 
-  if (referrer.id === user.id) {
-    return reply.status(400).send({ message: 'Cannot set yourself as referrer' })
+  if (referrer.id === referee.id) {
+    return reply.status(403).send({ message: 'Cannot set yourself as referrer' })
   }
 
-  const referral = await prisma.referral.findFirst({ where: { referee: userId } })
+  const referral = await prisma.referral.findFirst({ where: { referee: referee.id } })
   if (referral) {
     if (referral.referrer === referrer.id) {
       return reply.status(200).send({ data: {} })
     }
-    return reply.status(401).send({ message: 'You have already set referrer' })
+    return reply.status(403).send({ message: 'You have already set referrer' })
+  }
+
+  const referralChain = await getReferralChain(referrer.id)
+  if (referralChain.includes(referee.id)) {
+    return reply.status(403).send({ message: 'You are in the referrer\'s referral chain' })
   }
 
   await prisma.referral.create({
     data: {
-      appId: user.appId,
+      appId,
       referrer: referrer.id,
-      referee: userId,
+      referee: referee.id,
     },
   })
 

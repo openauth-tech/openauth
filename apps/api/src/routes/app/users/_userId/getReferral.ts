@@ -4,6 +4,7 @@ import type { FastifyInstance } from 'fastify'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import type { AppAuthPayload } from '../../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { getReferralChain } from '../../../../repositories/getReferralChain'
 import { prisma } from '../../../../utils/prisma'
 import { ERROR400_SCHEMA } from '../../../../utils/schema'
 
@@ -38,15 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
 
-  const referralChain = [userId]
-  while (true) {
-    const referral = await prisma.referral.findUnique({ where: { referee: referralChain.at(-1) } })
-    if (referral) {
-      referralChain.push(referral.referrer)
-    } else {
-      break
-    }
-  }
+  const referralChain = await getReferralChain(user.id)
 
   const referral1 = await prisma.referral.findMany({
     select: { referee: true },
