@@ -2,12 +2,12 @@ import { Type } from '@fastify/type-provider-typebox'
 import { TypeUserWallets } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR404_SCHEMA } from '../../../../constants/schema'
 import { getSolanaWallet } from '../../../../crypto/solana/getSolanaWallet'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import type { AppAuthPayload } from '../../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { ERROR404_SCHEMA } from '../../../../utils/schema'
 
 const schema = {
   tags: ['App - Users'],

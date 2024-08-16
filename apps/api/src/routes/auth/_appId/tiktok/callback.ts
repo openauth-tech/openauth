@@ -1,10 +1,10 @@
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR500_SCHEMA } from '../../../../constants/schema'
 import type { TikTokRedirectQueryParams } from '../../../../models/tiktok'
 import { TypeTikTokRedirectQueryParams } from '../../../../models/tiktok'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { ERROR500_SCHEMA } from '../../../../utils/schema'
 import { getAccessToken, TikTokCookieNames } from '../../../../utils/tiktok'
 
 const schema = {

@@ -2,12 +2,12 @@ import { Type } from '@fastify/type-provider-typebox'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR400_SCHEMA } from '../../../constants/schema'
 import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
 import { verifyUser } from '../../../handlers/verifyUser'
 import type { JwtPayload } from '../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { prisma } from '../../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../../utils/schema'
 
 const schema = {
   tags: ['User'],

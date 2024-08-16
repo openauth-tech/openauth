@@ -1,3 +1,5 @@
+import './utils/instrument'
+
 import { createBullBoard } from '@bull-board/api'
 import { BullAdapter } from '@bull-board/api/bullAdapter'
 import { FastifyAdapter } from '@bull-board/fastify'

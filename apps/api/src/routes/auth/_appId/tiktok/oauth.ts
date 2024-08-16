@@ -1,9 +1,9 @@
 import { Type } from '@fastify/type-provider-typebox'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR400_SCHEMA } from '../../../../constants/schema'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../../../utils/schema'
 import { generateAuthUrl, TikTokCookieNames } from '../../../../utils/tiktok'
 
 const schema = {

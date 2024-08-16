@@ -8,6 +8,7 @@ services:
       - AWS_SECRET=${AWS_SECRET}
       - WALLET_SEED_SALT=${WALLET_SEED_SALT}
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - SENTRY_DSN=${SENTRY_DSN}
     ports:
       - 5566:5566
     logging:
@@ -28,6 +29,7 @@ services:
       - AWS_SECRET=${AWS_SECRET}
       - WALLET_SEED_SALT=${WALLET_SEED_SALT}
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - SENTRY_DSN=${SENTRY_DSN}
     ports:
       - 5567:5567
     logging:

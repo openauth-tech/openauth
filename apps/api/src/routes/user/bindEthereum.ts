@@ -1,13 +1,13 @@
 import { Type } from '@fastify/type-provider-typebox'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR400_SCHEMA } from '../../constants/schema'
 import { verifyUser } from '../../handlers/verifyUser'
 import type { JwtPayload } from '../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { transformUserToReponse } from '../../repositories/transform'
 import { verifyETH } from '../../utils/auth'
 import { prisma } from '../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../utils/schema'
 
 const schema = {
   tags: ['User'],

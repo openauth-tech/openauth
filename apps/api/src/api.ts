@@ -1,13 +1,16 @@
+import './utils/instrument'
+
 import path from 'node:path'
 
 import cookie from '@fastify/cookie'
 import cors from '@fastify/cors'
 import jwt from '@fastify/jwt'
 import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import { setupFastifyErrorHandler } from '@sentry/node'
 import Fastify from 'fastify'
 import qs from 'qs'
 
-import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants/env'
+import { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } from './constants'
 import { init } from './utils/init'
 import { prisma } from './utils/prisma'
 
@@ -17,6 +20,8 @@ const server = Fastify({
   logger: true,
   querystringParser: str => qs.parse(str),
 }).withTypeProvider<TypeBoxTypeProvider>()
+
+setupFastifyErrorHandler(server)
 
 server.setErrorHandler((error, request, reply) => {
   console.error(error)

@@ -79,8 +79,9 @@ jobs:
           AWS_SECRET: ${{ secrets.AWS_SECRET }}
           GF_ADMIN_USER: ${{ secrets.GF_ADMIN_USER }}
           GF_ADMIN_PASSWORD: ${{ secrets.GF_ADMIN_PASSWORD }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         with:
-          envs: DATABASE_URL,WALLET_SEED_SALT,JWT_PRIVATE_KEY,AWS_KEY,AWS_SECRET,GF_ADMIN_USER,GF_ADMIN_PASSWORD
+          envs: DATABASE_URL,WALLET_SEED_SALT,JWT_PRIVATE_KEY,AWS_KEY,AWS_SECRET,GF_ADMIN_USER,GF_ADMIN_PASSWORD,SENTRY_DSN
           host: 20.212.6.4
           port: 2222
           username: why

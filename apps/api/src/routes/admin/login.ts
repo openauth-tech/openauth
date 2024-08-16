@@ -2,10 +2,10 @@ import { Type } from '@fastify/type-provider-typebox'
 import bcrypt from 'bcrypt'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR401_SCHEMA } from '../../constants/schema'
 import type { AdminJwtPayload } from '../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { prisma } from '../../utils/prisma'
+import { ERROR401_SCHEMA } from '../../utils/schema'
 
 const schema = {
   tags: ['Admin'],

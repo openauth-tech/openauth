@@ -3,11 +3,11 @@ import { TypeLoginResponse } from '@open-auth/sdk-core'
 import bcrypt from 'bcrypt'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR400_SCHEMA } from '../../constants/schema'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
 import { findOrCreateUser } from '../../repositories/findOrCreateUser'
 import { generateJwtToken } from '../../utils/jwt'
 import { prisma } from '../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../utils/schema'
 
 const schema = {
   tags: ['User'],

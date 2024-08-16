@@ -3,11 +3,11 @@ import { randomUUID } from 'node:crypto'
 import { Type } from '@fastify/type-provider-typebox'
 import type { FastifyInstance } from 'fastify'
 
-import { JWT_PUBLIC_KEY } from '../../../../constants/env'
-import { ERROR404_SCHEMA } from '../../../../constants/schema'
+import { JWT_PUBLIC_KEY } from '../../../../constants'
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { ERROR404_SCHEMA } from '../../../../utils/schema'
 
 const schema = {
   tags: ['Admin - Apps'],

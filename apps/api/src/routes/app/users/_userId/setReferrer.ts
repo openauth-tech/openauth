@@ -1,11 +1,11 @@
 import { Type } from '@fastify/type-provider-typebox'
 import type { FastifyInstance } from 'fastify'
 
-import { ERROR401_SCHEMA } from '../../../../constants/schema'
 import { verifyApp } from '../../../../handlers/verifyApp'
 import type { AppAuthPayload } from '../../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { ERROR401_SCHEMA } from '../../../../utils/schema'
 
 const schema = {
   tags: ['App - Users'],
