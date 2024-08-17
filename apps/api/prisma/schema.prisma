@@ -100,9 +100,8 @@ model Referral {
   app       App      @relation(fields: [appId], references: [id])
 
   referrer String
-  referee  String
+  referee  String @unique
 
-  @@unique([referee])
   @@index([referrer])
   @@map("oa_referrals")
 }

@@ -50,7 +50,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(403).send({ message: 'Cannot set yourself as referrer' })
   }
 
-  const referral = await prisma.referral.findFirst({ where: { referee: referee.id } })
+  const referral = await prisma.referral.findUnique({ where: { referee: referee.id } })
   if (referral) {
     if (referral.referrer === referrer.id) {
       return reply.status(200).send({ data: {} })
