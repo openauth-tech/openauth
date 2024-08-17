@@ -25,6 +25,9 @@ const schema = {
     Type.Object({
       solAddress: Type.String(),
     }),
+    Type.Object({
+      telegram: Type.String(),
+    }),
   ]),
   response: {
     200: Type.Object({
@@ -45,6 +48,9 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   }
   if ('solAddress' in request.body) {
     where.solAddress = request.body.solAddress
+  }
+  if ('telegram' in request.body) {
+    where.telegram = request.body.telegram
   }
 
   const users = await prisma.user.findMany({ where })
