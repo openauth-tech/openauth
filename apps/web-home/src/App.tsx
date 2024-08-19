@@ -21,7 +21,7 @@ export default function App() {
       <div className="mx-auto min-h-[calc(100vh-100px)]">
         {useRoutes([...routes, { path: '*', element: <Redirect to="/" /> }])}
       </div>
-      <footer className="text-gary fixed bottom-0 w-full flex items-center justify-between border-t border-#00000011 px-8 py-4 text-sm text-gray">
+      <footer className="fixed bottom-0 w-full flex items-center justify-between border-t border-#00000011 bg-white px-8 py-4 text-sm text-gray">
         <div className="flex-center gap-x-1">
           <img src={ImgLogo} alt="" className="h-6 opacity-40" />
           OpenAuth
