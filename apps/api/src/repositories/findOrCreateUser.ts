@@ -11,6 +11,7 @@ export async function findOrCreateUser({
   google,
   discord,
   tiktok,
+  github,
   email,
   telegram,
   ethAddress,
@@ -23,6 +24,7 @@ export async function findOrCreateUser({
   google?: string
   discord?: string
   tiktok?: string
+  github?: string
   email?: string
   telegram?: string
   ethAddress?: string
@@ -30,7 +32,7 @@ export async function findOrCreateUser({
   username?: string
   password?: string
 }): Promise<User> {
-  if (!email && !google && !discord && !tiktok && !ethAddress && !solAddress && !username && !telegram) {
+  if (!email && !google && !discord && !tiktok && !github && !ethAddress && !solAddress && !username && !telegram) {
     throw new Error('Missing required fields')
   }
 
@@ -40,6 +42,7 @@ export async function findOrCreateUser({
       google,
       discord,
       tiktok,
+      github,
       email,
       telegram,
       ethAddress,
@@ -78,6 +81,7 @@ export async function findOrCreateUser({
       google,
       discord,
       tiktok,
+      github,
       email,
       telegram,
       ethAddress,

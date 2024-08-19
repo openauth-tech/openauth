@@ -74,6 +74,18 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
         }
         break
       }
+      case 'openauth_github': {
+        const accessToken = searchParams.get('access_token')
+        const tokenType = searchParams.get('token_type')
+        if (accessToken && tokenType) {
+          client.user
+            .logInWithGithub({ appId: config.appId, token: accessToken, tokenType })
+            .then(({ token }) => logIn(token))
+            .catch(console.error)
+            .finally(() => { window.location.href = config.oauthRedirectUrl ?? '/' })
+        }
+        break
+      }
       default: {
         break
       }

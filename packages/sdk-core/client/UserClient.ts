@@ -37,6 +37,10 @@ export class UserClient extends BaseClient {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-ethereum`, data)).data.data
   }
 
+  async logInWithGithub(data: { appId: string, token: string, tokenType?: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-github`, data)).data.data
+  }
+
   async logInWithGoogle(data: { appId: string, email: string, token: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-google`, data)).data.data
   }

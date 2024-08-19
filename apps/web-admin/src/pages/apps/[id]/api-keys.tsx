@@ -40,7 +40,7 @@ export default function ApiKeys() {
   return (
     <AppContainer>
       <AppHeader
-        title="Wolcome"
+        title="Welcome"
         subtitle="Here are a few things we recommend doing to to build a delightful, secure experience for your users."
       />
       <div className="mt-6 space-y-6">

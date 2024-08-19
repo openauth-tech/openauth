@@ -42,12 +42,15 @@ model App {
   solEnabled      Boolean @default(false)
   telegramEnabled Boolean @default(false)
   tiktokEnabled   Boolean @default(false)
+  githubEnabled   Boolean @default(false)
 
   googleClientId       String?
   telegramBotToken     String?
   discordApplicationId String?
   tiktokClientKey      String?
   tiktokClientSecret   String?
+  githubClientId      String?
+  githubClientSecret   String?
 
   users     User[]
   referrals Referral[]
@@ -69,6 +72,7 @@ model User {
   discord    String?
   twitter    String?
   tiktok     String?
+  github     String?
   apple      String?
   telegram   String?
   ethAddress String?
@@ -85,6 +89,7 @@ model User {
   @@unique([appId, discord])
   @@unique([appId, twitter])
   @@unique([appId, tiktok])
+  @@unique([appId, github])
   @@unique([appId, telegram])
   @@unique([appId, apple])
   @@unique([appId, ethAddress])

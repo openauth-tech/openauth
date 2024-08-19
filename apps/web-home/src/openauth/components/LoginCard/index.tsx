@@ -1,5 +1,5 @@
-import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGoogle, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
-import { IconBrandDiscord, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconUser } from '@tabler/icons-react'
+import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGithub, useLogInWithGoogle, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
+import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconUser } from '@tabler/icons-react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
@@ -14,6 +14,7 @@ export function LoginCard() {
   const { logInWithGoogle, loading: loadingGoogle } = useLogInWithGoogle()
   const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
   const { logInWithTikTok, loading: loadingTikTok } = useLogInWithTikTok()
+  const { logInWithGithub, loading: loadingGithub } = useLogInWithGithub()
 
   const onConnectETH = useCallback(async () => {
     try {
@@ -53,6 +54,14 @@ export function LoginCard() {
     }
   }, [logInWithTikTok])
 
+  const onConnectGithub = useCallback(async () => {
+    try {
+      logInWithGithub()
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }, [logInWithGithub])
+
   return (
     <Card className="px-16 py-10 shadow">
       <CardHeader>
@@ -91,6 +100,12 @@ export function LoginCard() {
           <div className="w-50 flex items-center justify-start gap-2">
             {loadingTikTok ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandTiktok size={20} />}
             <span>Sign in with TikTok</span>
+          </div>
+        </Button>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectGithub} disabled={loadingGithub}>
+          <div className="w-50 flex items-center justify-start gap-2">
+            {loadingGithub ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGithub size={20} />}
+            <span>Sign in with Github</span>
           </div>
         </Button>
         <TelegramDialog />

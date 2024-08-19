@@ -10,15 +10,19 @@ export default function () {
   const { id } = useParams()
   const [_, copy] = useCopyToClipboard()
 
-  const onCopyAppId = () => async () => {
-    await copy(id ?? '')
-    toast.success('Copied to clipboard')
+  const onCopyAppId = async () => {
+    try {
+      await copy(id ?? '')
+      toast.success('Copied to clipboard')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <AppContainer>
       <AppHeader
-        title="Wolcome"
+        title="Welcome"
         subtitle="Here are a few things we recommend doing to to build a delightful, secure experience for your users."
       />
 
