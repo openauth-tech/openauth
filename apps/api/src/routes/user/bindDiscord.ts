@@ -49,7 +49,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     where: { id: userId },
     data: { discord: discordId },
   })
-  await avatarQueue.add({ userId, imageURL: avatar, skipIfExist: true })
+  await avatarQueue.add({ userId, imageURL: avatar, skipIfExist: true }, { removeOnComplete: true })
   reply.status(200).send({ data: user })
 }
 

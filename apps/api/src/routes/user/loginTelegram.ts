@@ -37,7 +37,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 
   const { userId } = parseTelegramData(data)
   const user = await findOrCreateUser({ appId, telegram: userId.toString() })
-  await avatarQueue.add({ userId: user.id })
+  await avatarQueue.add({ userId: user.id }, { removeOnComplete: true })
 
   const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   reply.status(200).send({ data: { token } })

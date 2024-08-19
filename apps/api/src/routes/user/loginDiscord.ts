@@ -39,7 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 
   const user = await findOrCreateUser({ appId, discord, displayName })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
-  await avatarQueue.add({ userId: user.id, imageURL: avatar })
+  await avatarQueue.add({ userId: user.id, imageURL: avatar }, { removeOnComplete: true })
   reply.status(200).send({ data: { token: jwtToken } })
 }
 

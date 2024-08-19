@@ -34,7 +34,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { appId } = request.user as AppAuthPayload
   const { email, ethAddress, solAddress, username, password, telegram } = request.body
   const user = await findOrCreateUser({ appId, email, ethAddress, solAddress, username, password, telegram })
-  await avatarQueue.add({ userId: user.id })
+  await avatarQueue.add({ userId: user.id }, { removeOnComplete: true })
   const userResponse = transformUserToReponse(user)
 
   reply.status(200).send({

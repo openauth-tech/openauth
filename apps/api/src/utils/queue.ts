@@ -27,6 +27,6 @@ export async function fullSyncAvatar() {
   })
   console.info('start fullSyncAvatar:', users.length)
   for (const user of users) {
-    await avatarQueue.add({ userId: user.id })
+    await avatarQueue.add({ userId: user.id }, { removeOnComplete: true })
   }
 }
