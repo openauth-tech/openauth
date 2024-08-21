@@ -90,11 +90,14 @@ export async function verifyTikTok(openId: string, token: string) {
 export function parseTelegramData(initData: string) {
   const data = new URLSearchParams(initData)
   const user = JSON.parse(data.get('user') ?? '{}')
+  const displayName = user.last_name ? `${user.last_name} ${user.first_name}` : user.first_name
+
   return {
     userId: user.id as number,
-    username: user.username as string,
+    displayName,
+    username: user.username as (string | undefined),
     firstName: user.first_name as string,
-    lastName: user.last_name as string,
+    lastName: user.last_name as (string | undefined),
     languageCode: user.language_code as string,
   }
 }

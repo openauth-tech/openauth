@@ -35,8 +35,9 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid signature' })
   }
 
-  const { userId } = parseTelegramData(data)
-  const user = await findOrCreateUser({ appId, telegram: userId.toString() })
+  const { userId, displayName } = parseTelegramData(data)
+
+  const user = await findOrCreateUser({ appId, telegram: userId.toString() }, { displayName })
   await avatarQueue.add({ userId: user.id }, { removeOnComplete: true })
 
   const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })

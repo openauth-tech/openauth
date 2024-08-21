@@ -37,7 +37,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid Discord access token' })
   }
 
-  const user = await findOrCreateUser({ appId, discord, displayName })
+  const user = await findOrCreateUser({ appId, discord }, { displayName })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar }, { removeOnComplete: true })
   reply.status(200).send({ data: { token: jwtToken } })

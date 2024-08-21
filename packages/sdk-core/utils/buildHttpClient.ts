@@ -19,19 +19,15 @@ export function buildHttpClient(baseURL: string, token?: string, onError?: Error
     (res) => {
       if (res.status >= 400) {
         const error = new Error(res?.data?.message ?? 'Unkown error')
-        if (!onError) {
-          throw error
-        }
-        onError(error)
+        onError?.(error)
+        throw error
       }
       return res
     },
     (err) => {
       const error = new Error(err.response?.data?.message ?? err.message ?? 'Unkown error')
-      if (!onError) {
-        throw error
-      }
-      onError(error)
+      onError?.(error)
+      throw error
     },
   )
 

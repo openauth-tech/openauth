@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 export function LoginCard() {
   const { globalConfig } = useOpenAuth()
@@ -143,8 +144,11 @@ export function TelegramDialog() {
   )
 }
 
+type LoginType = 'login' | 'register'
+
 export function UsernameDialog() {
   const [loading, setLoading] = useState(false)
+  const [type, setType] = useState<LoginType>('register')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const { config, client, logIn } = useOpenAuth()
@@ -152,13 +156,13 @@ export function UsernameDialog() {
   const onLogInUsername = useCallback(async () => {
     setLoading(true)
     try {
-      const { token } = await client.user.logInWithUsername({ appId: config.appId, username, password })
+      const { token } = await client.user.logInWithUsername({ appId: config.appId, username, password, type })
       logIn(token)
     } catch (error: any) {
-      toast.error(error.message)
+      console.error(error)
     }
     setLoading(false)
-  }, [client.user, config.appId, username, password, logIn])
+  }, [client.user, config.appId, username, password, type, logIn])
 
   return (
     <Dialog>
@@ -175,6 +179,12 @@ export function UsernameDialog() {
           <DialogTitle>Input username and password</DialogTitle>
         </DialogHeader>
         <div className="flex-col-center gap-y-4 py-4">
+          <Tabs defaultValue="account" className="w-full" value={type} onValueChange={e => setType(e as LoginType)}>
+            <TabsList className="grid grid-cols-2 w-full">
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
+            </TabsList>
+          </Tabs>
           <Input
             value={username}
             placeholder="Username"

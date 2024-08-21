@@ -4,10 +4,15 @@ import bcrypt from 'bcrypt'
 import type { FastifyInstance } from 'fastify'
 
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
-import { findOrCreateUser } from '../../repositories/findOrCreateUser'
+import { createUserByUsername } from '../../repositories/findOrCreateUser'
 import { generateJwtToken } from '../../utils/jwt'
 import { prisma } from '../../utils/prisma'
 import { ERROR400_SCHEMA } from '../../utils/schema'
+
+enum LoginType {
+  Login = 'login',
+  Register = 'register',
+}
 
 const schema = {
   tags: ['User'],
@@ -16,7 +21,7 @@ const schema = {
     appId: Type.String(),
     username: Type.String(),
     password: Type.String(),
-    isRegister: Type.Optional(Type.Boolean()),
+    type: Type.Enum(LoginType),
   }),
   response: {
     200: Type.Object({
@@ -27,7 +32,7 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { appId, username, password, isRegister } = request.body
+  const { appId, username, password, type } = request.body
   if (username.length < 3) {
     return reply.status(400).send({ message: 'Username must be at least 3 characters' })
   }
@@ -39,17 +44,33 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'App not found' })
   }
 
-  if (isRegister) {
-    const user = await prisma.user.findFirst({ where: { appId, username } })
-    if (user) {
-      return reply.status(400).send({ message: 'Username already taken' })
-    }
-  }
+  let user = await prisma.user.findFirst({ where: { appId, username } })
 
-  const user = await findOrCreateUser({ appId, username, password })
-  const ok = await bcrypt.compare(password, user.password ?? '')
-  if (!ok) {
-    return reply.status(400).send({ message: 'Wrong password' })
+  switch (type) {
+    case LoginType.Login: {
+      if (!user) {
+        return reply.status(400).send({ message: 'Incorrect username or password' })
+      }
+      const ok = await bcrypt.compare(password, user.password ?? '')
+      if (!ok) {
+        return reply.status(400).send({ message: 'Incorrect username or password' })
+      }
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { lastSeenAt: new Date() },
+      })
+      break
+    }
+    case LoginType.Register: {
+      if (user) {
+        return reply.status(400).send({ message: 'Username already exists' })
+      }
+      user = await createUserByUsername({ appId, username, password })
+      break
+    }
+    default: {
+      return reply.status(400).send({ message: 'Invalid type' })
+    }
   }
 
   const token = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
