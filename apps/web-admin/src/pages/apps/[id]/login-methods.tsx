@@ -20,10 +20,13 @@ const FormSchema = z.object({
   discord: z.boolean(),
   telegram: z.boolean(),
   tiktok: z.boolean(),
+  github: z.boolean(),
   googleClientId: z.string().optional(),
   telegramBotToken: z.string().optional(),
   tiktokClientKey: z.string().optional(),
   tiktokClientSecret: z.string().optional(),
+  githubClientId: z.string().optional(),
+  githubClientSecret: z.string().optional(),
   discordApplicationId: z.string().optional(),
 })
 
@@ -33,13 +36,14 @@ export default function () {
   const { id: appId = '' } = useParams()
   const { client } = useAdmin()
   const [_, copy] = useCopyToClipboard()
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['getApp', appId],
     queryFn: async () => client.admin.getApp(appId),
     enabled: client.admin.isAuthorized(),
   })
 
   const tiktokRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/tiktok/callback`
+  const githubRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/github/callback`
 
   const form = useForm<FormDataType>({
     resolver: zodResolver(FormSchema),
@@ -50,6 +54,7 @@ export default function () {
   const watchTelegram = form.watch('telegram')
   const watchTikTok = form.watch('tiktok')
   const watchDiscord = form.watch('discord')
+  const watchGithub = form.watch('github')
 
   useEffect(() => {
     if (data) {
@@ -58,30 +63,37 @@ export default function () {
       form.setValue('google', data.googleEnabled)
       form.setValue('discord', data.discordEnabled)
       form.setValue('tiktok', data.tiktokEnabled)
+      form.setValue('github', data.githubEnabled)
       form.setValue('telegram', data.telegramEnabled)
       form.setValue('googleClientId', data.googleClientId ?? undefined)
       form.setValue('telegramBotToken', data.telegramBotToken ?? undefined)
       form.setValue('tiktokClientKey', data.tiktokClientKey ?? undefined)
       form.setValue('tiktokClientSecret', data.tiktokClientSecret ?? undefined)
+      form.setValue('githubClientId', data.githubClientId ?? undefined)
+      form.setValue('githubClientSecret', data.githubClientSecret ?? undefined)
       form.setValue('discordApplicationId', data.discordApplicationId ?? undefined)
     }
   }, [data, form])
 
-  const onSubmit = (data: z.infer<typeof FormSchema>) => {
-    client.admin.updateApp(appId, {
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
+    await client.admin.updateApp(appId, {
       solEnabled: data.solana,
       ethEnabled: data.ethereum,
       googleEnabled: data.google,
       discordEnabled: data.discord,
       telegramEnabled: data.telegram,
       tiktokEnabled: data.tiktok,
+      githubEnabled: data.github,
       googleClientId: data.googleClientId,
       telegramBotToken: data.telegramBotToken,
       tiktokClientKey: data.tiktokClientKey,
       tiktokClientSecret: data.tiktokClientSecret,
+      githubClientId: data.githubClientId,
+      githubClientSecret: data.githubClientSecret,
       discordApplicationId: data.discordApplicationId,
     })
     toast.success('Settings saved')
+    refetch()
   }
 
   return (
@@ -177,8 +189,57 @@ export default function () {
                     <Button
                       variant="outline"
                       className="px-3"
-                      onClick={async () => {
+                      onClick={async (e) => {
+                        e.preventDefault()
                         await copy(tiktokRedirectUri)
+                        toast.success('Copied to clipboard')
+                      }}
+                    >
+                      <span className="i-lucide-copy" />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
+            <Checker form={form} id="github" label="Github" />
+            {watchGithub && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="githubClientId"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>Client ID</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="githubClientSecret"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>Client Secret</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <div className="pl-8">
+                  <FormLabel>
+                    Redirect URI (Input on the Github Developer settings)
+                  </FormLabel>
+                  <div className="flex-center gap-2">
+                    <Input value={githubRedirectUri} readOnly className="text-muted-foreground" />
+                    <Button
+                      variant="outline"
+                      className="px-3"
+                      onClick={async (e) => {
+                        e.preventDefault()
+                        await copy(githubRedirectUri)
                         toast.success('Copied to clipboard')
                       }}
                     >

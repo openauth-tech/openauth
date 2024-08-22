@@ -13,6 +13,7 @@ const userFields: Array<keyof User> = [
   'email',
   'google',
   'discord',
+  'github',
   'tiktok',
   'telegram',
   'twitter',

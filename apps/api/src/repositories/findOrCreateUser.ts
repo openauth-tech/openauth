@@ -10,6 +10,7 @@ interface Params {
   google?: string
   discord?: string
   tiktok?: string
+  github?: string
   email?: string
   telegram?: string
   ethAddress?: string
