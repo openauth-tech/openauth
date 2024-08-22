@@ -37,7 +37,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(400).send({ message: 'Invalid Github access token' })
   }
 
-  const user = await findOrCreateUser({ appId, github: id.toString(), displayName: name })
+  const user = await findOrCreateUser({ appId, github: id.toString() }, { displayName: name })
   const jwtToken = await generateJwtToken(reply, { userId: user.id, appId, jwtTTL: app.jwtTTL })
   await avatarQueue.add({ userId: user.id, imageURL: avatar })
   reply.status(200).send({ data: { token: jwtToken } })
