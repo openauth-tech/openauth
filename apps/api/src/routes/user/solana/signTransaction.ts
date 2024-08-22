@@ -2,7 +2,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
-import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
+import { signSolanaTransaction } from '../../../crypto/solana/signSolanaTransaction'
 import { verifyUser } from '../../../handlers/verifyUser'
 import type { JwtPayload } from '../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
@@ -11,15 +11,13 @@ import { ERROR400_SCHEMA } from '../../../utils/schema'
 
 const schema = {
   tags: ['User'],
-  summary: 'Send Solana token',
+  summary: 'Sign Solana transaction',
   headers: Type.Object({
     Authorization: Type.String(),
   }),
   body: Type.Object({
     rpcUrl: Type.String(),
-    address: Type.String(),
-    token: Type.String(),
-    amount: Type.Number(),
+    transaction: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -33,21 +31,20 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
-  const { token, amount, address, rpcUrl } = request.body
+  const { transaction, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
     return reply.status(404).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
-
-  const signature = await transferSolanaToken({ connection, userId, address, amount, token })
+  const signature = await signSolanaTransaction({ connection, userId, encodedTransaction: transaction })
   reply.status(200).send({ data: { signature } })
 }
 
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/send-token',
+    url: '/sign-transaction',
     onRequest: [verifyUser],
     schema,
     handler,

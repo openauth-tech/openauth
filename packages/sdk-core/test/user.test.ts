@@ -1,6 +1,6 @@
 import assert from 'node:assert'
 
-import { Keypair } from '@solana/web3.js'
+import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 
 import { OpenAuthClient } from '../client'
 import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
@@ -61,20 +61,23 @@ describe('OpenAuth User API', () => {
     assert.equal(wallets.solWallet.length, 44)
   })
 
-  it('Send Solana Transfer', async () => {
+  it('Send Solana Transaction', async () => {
     const { id } = await getTestApp(client)
     await logInUsernameUser(client, id)
 
-    const wallets = await client.user.getWallets()
-    console.info('user solWallet:', wallets.solWallet)
-    assert(wallets.solWallet.length > 0)
+    const { solWallet } = await client.user.getWallets()
+    console.info('user solWallet:', solWallet)
+    const payer = Keypair.fromSeed(new Uint8Array(Buffer.from(`${solWallet.slice(0, 31)}0`)))
+    console.info('payer wallet:', payer.publicKey.toBase58())
+    const target = Keypair.fromSeed(new Uint8Array(Buffer.from(`${solWallet.slice(0, 31)}1`)))
+    console.info('target wallet:', target.publicKey.toBase58())
 
     {
       const { signature } = await client.user.sendSolanaToken({
         rpcUrl: 'https://devnet.sonic.game',
-        address: 'GTRCpd5GwML8mxbqcHcunLmVWnxr7fmdd7avCa5KzBAk',
+        address: target.publicKey.toBase58(),
         token: 'SOL',
-        amount: 0.00123,
+        amount: 0.001234,
       })
       console.info('transfer SOL signature', signature)
       assert(signature.length > 0)
@@ -82,11 +85,36 @@ describe('OpenAuth User API', () => {
     {
       const { signature } = await client.user.sendSolanaToken({
         rpcUrl: 'https://devnet.sonic.game',
-        address: 'GTRCpd5GwML8mxbqcHcunLmVWnxr7fmdd7avCa5KzBAk',
+        address: target.publicKey.toBase58(),
         token: 'DUccEanNeePrPaVkMf5PBQSJ62UnHoWt49y3uWhhGBeD',
-        amount: 1.23,
+        amount: 12.34,
       })
       console.info('transfer TOKEN signature', signature)
+      assert(signature.length > 0)
+    }
+    {
+      const connection = new Connection('https://devnet.sonic.game')
+      const { blockhash } = await connection.getLatestBlockhash()
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: new PublicKey(solWallet),
+          toPubkey: target.publicKey,
+          lamports: 0.00123 * LAMPORTS_PER_SOL,
+        }),
+      )
+      transaction.recentBlockhash = blockhash
+      transaction.feePayer = payer.publicKey
+      transaction.partialSign(payer)
+
+      const serializedTransaction = transaction.serialize({ requireAllSignatures: false })
+      const encodedTransaction = serializedTransaction.toString('base64')
+
+      const { signature } = await client.user.signSolanaTransaction({
+        rpcUrl: 'https://devnet.sonic.game',
+        transaction: encodedTransaction,
+      })
+      console.info('sign Solana signature', signature)
       assert(signature.length > 0)
     }
   })

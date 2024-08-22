@@ -1,8 +1,9 @@
-import { createTransferInstruction, getMint, getOrCreateAssociatedTokenAccount } from '@solana/spl-token'
+import { createAssociatedTokenAccountIdempotentInstruction, createTransferInstruction, getAssociatedTokenAddress, getMint } from '@solana/spl-token'
 import type { Connection } from '@solana/web3.js'
-import { LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, SystemProgram, Transaction } from '@solana/web3.js'
+import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 
 import { getSolanaWallet } from './getSolanaWallet'
+import { getTokenBalance } from './getTokenBalance'
 
 export async function transferSolanaToken({
   connection,
@@ -21,6 +22,11 @@ export async function transferSolanaToken({
   const fromPubkey = keypair.publicKey
   const toPubkey = new PublicKey(address)
 
+  const balance = await getTokenBalance(connection, { tokenMint: token, walletAddress: fromPubkey.toBase58() })
+  if (balance < amount) {
+    throw new Error('Insufficient balance')
+  }
+
   const transaction = new Transaction()
   if (token === 'SOL') {
     const lamports = amount * LAMPORTS_PER_SOL
@@ -29,10 +35,18 @@ export async function transferSolanaToken({
     const mint = new PublicKey(token)
     const mintInfo = await getMint(connection, mint)
     const lamports = amount * 10 ** mintInfo.decimals
-    const fromTokenAccount = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, fromPubkey)
-    const toTokenAccount = await getOrCreateAssociatedTokenAccount(connection, keypair, mint, toPubkey)
-    transaction.add(createTransferInstruction(fromTokenAccount.address, toTokenAccount.address, fromPubkey, lamports))
+
+    const fromTokenAccount = await getAssociatedTokenAddress(mint, fromPubkey, true)
+    const toTokenAccount = await getAssociatedTokenAddress(mint, toPubkey, true)
+
+    transaction.add(createAssociatedTokenAccountIdempotentInstruction(keypair.publicKey, toTokenAccount, toPubkey, mint))
+    transaction.add(createTransferInstruction(fromTokenAccount, toTokenAccount, fromPubkey, lamports))
   }
 
-  return await sendAndConfirmTransaction(connection, transaction, [keypair], { commitment: 'processed' })
+  const { blockhash } = await connection.getLatestBlockhash()
+  transaction.recentBlockhash = blockhash
+  transaction.sign(keypair)
+
+  const serialized = transaction.serialize()
+  return await connection.sendRawTransaction(serialized)
 }

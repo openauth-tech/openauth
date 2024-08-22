@@ -2,16 +2,18 @@ import { Type } from '@fastify/type-provider-typebox'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
-import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
-import { verifyUser } from '../../../handlers/verifyUser'
-import type { JwtPayload } from '../../../models/request'
-import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
-import { prisma } from '../../../utils/prisma'
-import { ERROR400_SCHEMA } from '../../../utils/schema'
+import { transferSolanaToken } from '../../../../../crypto/solana/transferSolanaToken'
+import { verifyApp } from '../../../../../handlers/verifyApp'
+import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../models/typebox'
+import { prisma } from '../../../../../utils/prisma'
+import { ERROR400_SCHEMA } from '../../../../../utils/schema'
 
 const schema = {
-  tags: ['User'],
-  summary: 'Send Solana token',
+  tags: ['App - Users'],
+  summary: 'Sign Solana transaction',
+  params: Type.Object({
+    userId: Type.String(),
+  }),
   headers: Type.Object({
     Authorization: Type.String(),
   }),
@@ -28,15 +30,16 @@ const schema = {
       }),
     }),
     400: ERROR400_SCHEMA,
+    500: ERROR400_SCHEMA,
   },
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { userId } = request.user as JwtPayload
+  const { userId } = request.params
   const { token, amount, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
-    return reply.status(404).send({ message: 'User not found' })
+    return reply.status(400).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
 
@@ -47,8 +50,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
 export default async function (fastify: FastifyInstance) {
   fastify.route({
     method: 'POST',
-    url: '/send-token',
-    onRequest: [verifyUser],
+    url: '/sign-transaction',
+    onRequest: [verifyApp],
     schema,
     handler,
   })

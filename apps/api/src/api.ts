@@ -25,7 +25,14 @@ setupFastifyErrorHandler(server)
 
 server.setErrorHandler((error, request, reply) => {
   console.error(error)
-  return reply.status(error.statusCode ?? 500).send({ message: error.message })
+  const { name, message } = error
+  let fullMessage = ''
+  if (name.length > 0) {
+    fullMessage = message.length > 0 ? `${name}: ${message}` : name
+  } else {
+    fullMessage = message.length > 0 ? message : 'Unknown Error'
+  }
+  return reply.status(error.statusCode ?? 500).send({ message: fullMessage })
 })
 
 async function start() {

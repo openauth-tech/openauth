@@ -41,8 +41,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(404).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
-  const signature = await transferSolanaToken({ connection, userId, address, amount, token })
 
+  const signature = await transferSolanaToken({ connection, userId, address, amount, token })
   reply.status(200).send({ data: { signature } })
 }
 
