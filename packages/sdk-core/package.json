@@ -15,7 +15,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup ./test && tsup",
     "test": "mocha test/*.test.ts"
   },
   "dependencies": {

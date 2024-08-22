@@ -34,7 +34,11 @@ export async function logInNewSolanaUser(client: OpenAuthClient, appId: string) 
 
 export async function logInUsernameUser(client: OpenAuthClient, appId: string, username?: string, password?: string) {
   const userData = { username: username ?? MOCK_USERNAME, password: password ?? MOCK_PASSWORD }
-  const { token } = await client.user.logInWithUsername({ appId, ...userData })
+  try {
+    await client.user.logInWithUsername({ appId, ...userData, type: 'register' })
+  } catch { /* empty */ }
+
+  const { token } = await client.user.logInWithUsername({ appId, ...userData, type: 'login' })
   client.user.updateToken(token)
   return userData
 }
