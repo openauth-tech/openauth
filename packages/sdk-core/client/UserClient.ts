@@ -57,7 +57,7 @@ export class UserClient extends BaseClient {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-tiktok`, data)).data.data
   }
 
-  async logInWithUsername(data: { appId: string, username: string, password: string, isRegister?: boolean }) {
+  async logInWithUsername(data: { appId: string, username: string, password: string, type: 'login' | 'register' }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-username`, data)).data.data
   }
 
