@@ -49,7 +49,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
     }
   }, [client, config, logOut])
 
-  // refetch profile on startup
+  // refetch profile on mount
   useEffect(() => {
     if (token) {
       client.user.updateToken(token)

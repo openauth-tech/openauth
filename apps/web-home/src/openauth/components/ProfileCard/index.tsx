@@ -21,7 +21,7 @@ export function ProfileCard() {
     setSolanaPK(privateKey)
   }, [client.user])
 
-  if (!profile) {
+  if (!profile || !walletData) {
     return null
   }
 

@@ -106,7 +106,7 @@ export function LoginCard() {
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectGithub} disabled={loadingGithub}>
           <div className="w-50 flex items-center justify-start gap-2">
             {loadingGithub ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGithub size={20} />}
-            <span>Sign in with Github</span>
+            <span>Sign in with GitHub</span>
           </div>
         </Button>
         <TelegramDialog />
