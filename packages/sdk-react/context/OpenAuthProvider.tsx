@@ -15,11 +15,7 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const [profile, setProfile] = useLocalStorage<UserProfile | undefined>(StorageKeys.Profile, undefined)
   const [globalConfig, setGlobalConfig] = useLocalStorage<GlobalConfig | undefined>(StorageKeys.Config, undefined)
   const [searchParams] = useSearchParams()
-  const client = useMemo(() => {
-    const client = new OpenAuthClient(config.endpoint)
-    client.user.onError = config.onError
-    return client
-  }, [config])
+  const client = useMemo(() => new OpenAuthClient(config.endpoint), [config])
 
   const refetch = useCallback(async () => {
     if (client.user.isAuthorized()) {
@@ -42,11 +38,25 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
   const logIn = useCallback((token: string) => updateToken(token), [updateToken])
   const logOut = useCallback(() => updateToken(), [updateToken])
 
-  // update client and refetch profile on token change
+  // update client error handling
   useEffect(() => {
-    client.user.updateToken(token)
-    refetch().catch(console.error)
-  }, [client.user, refetch, token])
+    client.user.onError = (error) => {
+      if (error.message === 'Unauthorized') {
+        logOut().then(() => config.onError?.(error)).catch(console.error)
+      } else {
+        config.onError?.(error)
+      }
+    }
+  }, [client, config, logOut])
+
+  // refetch profile on startup
+  useEffect(() => {
+    if (token) {
+      client.user.updateToken(token)
+      refetch().catch(console.error)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // fetch global config on mount
   useEffect(() => {
@@ -70,7 +80,9 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
             .logInWithTikTok({ appId: config.appId, openId, token: accessToken })
             .then(({ token }) => logIn(token))
             .catch(console.error)
-            .finally(() => { window.location.href = config.oauthRedirectUrl ?? '/' })
+            .finally(() => {
+              window.location.href = config.oauthRedirectUrl ?? '/'
+            })
         }
         break
       }
@@ -82,7 +94,9 @@ export function OpenAuthProvider({ config, children }: { config: IOpenAuthConfig
             .logInWithGithub({ appId: config.appId, token: accessToken, tokenType })
             .then(({ token }) => logIn(token))
             .catch(console.error)
-            .finally(() => { window.location.href = config.oauthRedirectUrl ?? '/' })
+            .finally(() => {
+              window.location.href = config.oauthRedirectUrl ?? '/'
+            })
         }
         break
       }

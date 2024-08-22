@@ -44,7 +44,7 @@ export async function verifyGoogle(email: string, token: string) {
     })
     return {
       verified: data.data?.email.toLowerCase() === email.toLowerCase(),
-      displayName: data.data?.displayName,
+      displayName: data.data?.name,
       avatar: data.data?.picture,
     }
   } catch (e) {
