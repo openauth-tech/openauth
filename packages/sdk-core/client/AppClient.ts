@@ -33,7 +33,7 @@ export class AppClient extends BaseClient {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/solana/send-token`, data)).data.data
   }
 
-  async signSolanaTransaction(userId: string, data: { rpcUrl: string, address: string, token: string, amount: number }) {
+  async signSolanaTransaction(userId: string, data: { rpcUrl: string, transaction: string }) {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/solana/sign-transaction`, data)).data.data
   }
 }

@@ -2,7 +2,7 @@ import { Type } from '@fastify/type-provider-typebox'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
-import { transferSolanaToken } from '../../../../../crypto/solana/transferSolanaToken'
+import { signSolanaTransaction } from '../../../../../crypto/solana/signSolanaTransaction'
 import { verifyApp } from '../../../../../handlers/verifyApp'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../models/typebox'
 import { prisma } from '../../../../../utils/prisma'
@@ -19,9 +19,7 @@ const schema = {
   }),
   body: Type.Object({
     rpcUrl: Type.String(),
-    address: Type.String(),
-    token: Type.String(),
-    amount: Type.Number(),
+    transaction: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -36,14 +34,13 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.params
-  const { token, amount, address, rpcUrl } = request.body
+  const { rpcUrl, transaction } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
-    return reply.status(400).send({ message: 'User not found' })
+    return reply.status(404).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
-
-  const signature = await transferSolanaToken({ connection, userId, address, amount, token })
+  const signature = await signSolanaTransaction({ connection, userId, encodedTransaction: transaction })
   reply.status(200).send({ data: { signature } })
 }
 
