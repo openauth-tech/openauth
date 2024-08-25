@@ -33,24 +33,27 @@ model App {
   secret      String? @unique
   jwtTTL      Int     @default(0)
 
-  emailEnabled    Boolean @default(false)
-  googleEnabled   Boolean @default(false)
-  discordEnabled  Boolean @default(false)
-  twitterEnabled  Boolean @default(false)
-  appleEnabled    Boolean @default(false)
-  ethEnabled      Boolean @default(false)
-  solEnabled      Boolean @default(false)
-  telegramEnabled Boolean @default(false)
-  tiktokEnabled   Boolean @default(false)
-  githubEnabled   Boolean @default(false)
+  emailEnabled       Boolean @default(false)
+  googleEnabled      Boolean @default(false)
+  discordEnabled     Boolean @default(false)
+  twitterEnabled     Boolean @default(false)
+  appleEnabled       Boolean @default(false)
+  ethEnabled         Boolean @default(false)
+  solEnabled         Boolean @default(false)
+  telegramEnabled    Boolean @default(false)
+  tiktokEnabled      Boolean @default(false)
+  githubEnabled      Boolean @default(false)
+  huggingfaceEnabled Boolean @default(false)
 
   googleClientId       String?
   telegramBotToken     String?
   discordApplicationId String?
   tiktokClientKey      String?
   tiktokClientSecret   String?
-  githubClientId      String?
+  githubClientId       String?
   githubClientSecret   String?
+  huggingfaceClientId  String?
+  huggingfaceAppSecret String?
 
   users     User[]
   referrals Referral[]
@@ -67,18 +70,19 @@ model User {
   avatar      String?
   displayName String?
 
-  email      String?
-  google     String?
-  discord    String?
-  twitter    String?
-  tiktok     String?
-  github     String?
-  apple      String?
-  telegram   String?
-  ethAddress String?
-  solAddress String?
-  username   String?
-  password   String?
+  email       String?
+  google      String?
+  discord     String?
+  twitter     String?
+  tiktok      String?
+  github      String?
+  huggingface String?
+  apple       String?
+  telegram    String?
+  ethAddress  String?
+  solAddress  String?
+  username    String?
+  password    String?
 
   appId String
   app   App    @relation(fields: [appId], references: [id])
@@ -90,6 +94,7 @@ model User {
   @@unique([appId, twitter])
   @@unique([appId, tiktok])
   @@unique([appId, github])
+  @@unique([appId, huggingface])
   @@unique([appId, telegram])
   @@unique([appId, apple])
   @@unique([appId, ethAddress])

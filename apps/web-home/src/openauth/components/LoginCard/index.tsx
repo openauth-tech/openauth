@@ -1,7 +1,8 @@
-import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGithub, useLogInWithGoogle, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
+import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGithub, useLogInWithGoogle, useLogInWithHuggingface, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
 import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconUser } from '@tabler/icons-react'
 import { toast } from 'sonner'
 
+import IconBrandHuggingface from '@/assets/images/common/hf-logo.svg'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -16,6 +17,7 @@ export function LoginCard() {
   const { logInWithDiscord, loading: loadingDiscord } = useLogInWithDiscord()
   const { logInWithTikTok, loading: loadingTikTok } = useLogInWithTikTok()
   const { logInWithGithub, loading: loadingGithub } = useLogInWithGithub()
+  const { logInWithHuggingface, loading: loadingHuggingface } = useLogInWithHuggingface()
 
   const onConnectETH = useCallback(async () => {
     try {
@@ -31,6 +33,7 @@ export function LoginCard() {
       toast.error(error.message)
     }
   }, [logInWithSolana])
+
   const onConnectGG = useCallback(async () => {
     try {
       logInWithGoogle()
@@ -62,6 +65,14 @@ export function LoginCard() {
       toast.error(error.message)
     }
   }, [logInWithGithub])
+
+  const onConnectHF = useCallback(async () => {
+    try {
+      logInWithHuggingface()
+    } catch (error: any) {
+      toast.error(error.message)
+    }
+  }, [logInWithHuggingface])
 
   return (
     <Card className="px-16 py-10 shadow">
@@ -107,6 +118,12 @@ export function LoginCard() {
           <div className="w-50 flex items-center justify-start gap-2">
             {loadingGithub ? <IconLoader2 size={20} className="animate-spin" /> : <IconBrandGithub size={20} />}
             <span>Sign in with GitHub</span>
+          </div>
+        </Button>
+        <Button className="w-full px-6 py-6 text-base" onClick={onConnectHF} disabled={loadingHuggingface}>
+          <div className="w-50 flex items-center justify-start gap-2">
+            {loadingHuggingface ? <IconLoader2 size={20} className="animate-spin" /> : <img src={IconBrandHuggingface} className="w-6" />}
+            <span>Sign in with HF</span>
           </div>
         </Button>
         <TelegramDialog />

@@ -10,6 +10,7 @@ export const TypeUser = Type.Object({
   discord: Nullable(Type.String()),
   tiktok: Nullable(Type.String()),
   github: Nullable(Type.String()),
+  huggingface: Nullable(Type.String()),
   twitter: Nullable(Type.String()),
   apple: Nullable(Type.String()),
   telegram: Nullable(Type.String()),

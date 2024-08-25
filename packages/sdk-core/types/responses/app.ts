@@ -14,6 +14,7 @@ export const TypeApp = Type.Object({
   twitterEnabled: Type.Boolean(),
   tiktokEnabled: Type.Boolean(),
   githubEnabled: Type.Boolean(),
+  huggingfaceEnabled: Type.Boolean(),
   appleEnabled: Type.Boolean(),
   telegramEnabled: Type.Boolean(),
   ethEnabled: Type.Boolean(),
@@ -25,6 +26,8 @@ export const TypeApp = Type.Object({
   tiktokClientSecret: Nullable(Type.String()),
   githubClientId: Nullable(Type.String()),
   githubClientSecret: Nullable(Type.String()),
+  huggingfaceClientId: Nullable(Type.String()),
+  huggingfaceAppSecret: Nullable(Type.String()),
   discordApplicationId: Nullable(Type.String()),
 })
 
