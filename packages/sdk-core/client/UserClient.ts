@@ -22,7 +22,7 @@ export class UserClient extends BaseClient {
   }
 
   async getProfile() {
-    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, github: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number, referrer: string | null } }>(`/user/profile`)).data.data
+    return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, github: string | null, huggingface: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number, referrer: string | null } }>(`/user/profile`)).data.data
   }
 
   async getWallets() {
@@ -43,6 +43,10 @@ export class UserClient extends BaseClient {
 
   async logInWithGoogle(data: { appId: string, email: string, token: string }) {
     return (await this.http.post<{ data: { token: string } }>(`/user/login-google`, data)).data.data
+  }
+
+  async logInWithHuggingFace(data: { appId: string, token: string, tokenType?: string }) {
+    return (await this.http.post<{ data: { token: string } }>(`/user/login-huggingface`, data)).data.data
   }
 
   async logInWithSolana(data: { appId: string, solAddress: string, signature: string }) {

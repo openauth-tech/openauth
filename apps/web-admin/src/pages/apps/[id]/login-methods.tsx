@@ -21,12 +21,15 @@ const FormSchema = z.object({
   telegram: z.boolean(),
   tiktok: z.boolean(),
   github: z.boolean(),
+  huggingface: z.boolean(),
   googleClientId: z.string().optional(),
   telegramBotToken: z.string().optional(),
   tiktokClientKey: z.string().optional(),
   tiktokClientSecret: z.string().optional(),
   githubClientId: z.string().optional(),
   githubClientSecret: z.string().optional(),
+  huggingfaceClientId: z.string().optional(),
+  huggingfaceAppSecret: z.string().optional(),
   discordApplicationId: z.string().optional(),
 })
 
@@ -44,6 +47,7 @@ export default function () {
 
   const tiktokRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/tiktok/callback`
   const githubRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/github/callback`
+  const huggingfaceRedirectUri = `${OPENAUTH_ENDPOINT}/auth/${appId}/huggingface/callback`
 
   const form = useForm<FormDataType>({
     resolver: zodResolver(FormSchema),
@@ -55,6 +59,7 @@ export default function () {
   const watchTikTok = form.watch('tiktok')
   const watchDiscord = form.watch('discord')
   const watchGithub = form.watch('github')
+  const watchHuggingface = form.watch('huggingface')
 
   useEffect(() => {
     if (data) {
@@ -64,6 +69,7 @@ export default function () {
       form.setValue('discord', data.discordEnabled)
       form.setValue('tiktok', data.tiktokEnabled)
       form.setValue('github', data.githubEnabled)
+      form.setValue('huggingface', data.huggingfaceEnabled)
       form.setValue('telegram', data.telegramEnabled)
       form.setValue('googleClientId', data.googleClientId ?? undefined)
       form.setValue('telegramBotToken', data.telegramBotToken ?? undefined)
@@ -71,6 +77,8 @@ export default function () {
       form.setValue('tiktokClientSecret', data.tiktokClientSecret ?? undefined)
       form.setValue('githubClientId', data.githubClientId ?? undefined)
       form.setValue('githubClientSecret', data.githubClientSecret ?? undefined)
+      form.setValue('huggingfaceClientId', data.huggingfaceClientId ?? undefined)
+      form.setValue('huggingfaceAppSecret', data.huggingfaceAppSecret ?? undefined)
       form.setValue('discordApplicationId', data.discordApplicationId ?? undefined)
     }
   }, [data, form])
@@ -84,12 +92,15 @@ export default function () {
       telegramEnabled: data.telegram,
       tiktokEnabled: data.tiktok,
       githubEnabled: data.github,
+      huggingfaceEnabled: data.huggingface,
       googleClientId: data.googleClientId,
       telegramBotToken: data.telegramBotToken,
       tiktokClientKey: data.tiktokClientKey,
       tiktokClientSecret: data.tiktokClientSecret,
       githubClientId: data.githubClientId,
       githubClientSecret: data.githubClientSecret,
+      huggingfaceClientId: data.huggingfaceClientId,
+      huggingfaceAppSecret: data.huggingfaceAppSecret,
       discordApplicationId: data.discordApplicationId,
     })
     toast.success('Settings saved')
@@ -240,6 +251,54 @@ export default function () {
                       onClick={async (e) => {
                         e.preventDefault()
                         await copy(githubRedirectUri)
+                        toast.success('Copied to clipboard')
+                      }}
+                    >
+                      <span className="i-lucide-copy" />
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
+            <Checker form={form} id="huggingface" label="Hugging Face" />
+            {watchHuggingface && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="huggingfaceClientId"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>Client ID</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="huggingfaceAppSecret"
+                  render={({ field }) => (
+                    <FormItem className="pl-8">
+                      <FormLabel>App Secret</FormLabel>
+                      <FormControl>
+                        <Input value={field.value} onChange={field.onChange} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <div className="pl-8">
+                  <FormLabel>
+                    Redirect URI (Input on the Huggin Face user settings &gt; Connected Apps)
+                  </FormLabel>
+                  <div className="flex-center gap-2">
+                    <Input value={huggingfaceRedirectUri} readOnly className="text-muted-foreground" />
+                    <Button
+                      variant="outline"
+                      className="px-3"
+                      onClick={async (e) => {
+                        e.preventDefault()
+                        await copy(huggingfaceRedirectUri)
                         toast.success('Copied to clipboard')
                       }}
                     >

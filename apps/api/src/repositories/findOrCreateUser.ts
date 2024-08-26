@@ -11,6 +11,7 @@ interface Params {
   discord?: string
   tiktok?: string
   github?: string
+  huggingface?: string
   email?: string
   telegram?: string
   ethAddress?: string

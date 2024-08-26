@@ -24,6 +24,7 @@ const schema = {
     twitterEnabled: Type.Optional(Type.Boolean()),
     tiktokEnabled: Type.Optional(Type.Boolean()),
     githubEnabled: Type.Optional(Type.Boolean()),
+    huggingfaceEnabled: Type.Optional(Type.Boolean()),
     telegramEnabled: Type.Optional(Type.Boolean()),
     appleEnabled: Type.Optional(Type.Boolean()),
     ethEnabled: Type.Optional(Type.Boolean()),
@@ -35,6 +36,8 @@ const schema = {
     tiktokClientSecret: Type.Optional(Type.String()),
     githubClientId: Type.Optional(Type.String()),
     githubClientSecret: Type.Optional(Type.String()),
+    huggingfaceClientId: Type.Optional(Type.String()),
+    huggingfaceAppSecret: Type.Optional(Type.String()),
     discordApplicationId: Type.Optional(Type.String()),
   }),
   response: {
