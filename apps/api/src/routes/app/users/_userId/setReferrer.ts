@@ -1,4 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
+import { TypeAuthHeaders } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
 import { verifyApp } from '../../../../handlers/verifyApp'
@@ -14,9 +15,7 @@ const schema = {
   params: Type.Object({
     userId: Type.String(),
   }),
-  headers: Type.Object({
-    Authorization: Type.String(),
-  }),
+  headers: TypeAuthHeaders,
   body: Type.Object({
     referCode: Type.String(),
   }),
@@ -50,21 +49,15 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(403).send({ message: 'Cannot set yourself as referrer' })
   }
 
-  const referral = await prisma.referral.findUnique({ where: { referee: referee.id } })
-  if (referral) {
-    if (referral.referrer === referrer.id) {
-      return reply.status(200).send({ data: {} })
-    }
-    return reply.status(403).send({ message: 'You have already set referrer' })
-  }
-
   const referralChain = await getReferralChain(referrer.id)
   if (referralChain.includes(referee.id)) {
     return reply.status(403).send({ message: 'You are in the referrer\'s referral chain' })
   }
 
-  await prisma.referral.create({
-    data: {
+  await prisma.referral.upsert({
+    where: { referee: referee.id },
+    update: {},
+    create: {
       appId,
       referrer: referrer.id,
       referee: referee.id,

@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
+import { TypeAuthHeaders, TypePageMeta, TypePageParams, TypeUser } from '@open-auth/sdk-core'
 import { Prisma } from '@prisma/client'
 import type { FastifyInstance } from 'fastify'
 
@@ -20,9 +20,7 @@ const schema = {
       order: Type.Optional(Type.Union([Type.Literal(Prisma.SortOrder.asc), Type.Literal(Prisma.SortOrder.desc)])),
     }),
   ]),
-  headers: Type.Object({
-    Authorization: Type.String(),
-  }),
+  headers: TypeAuthHeaders,
   response: {
     200: Type.Object({
       data: Type.Array(TypeUser),

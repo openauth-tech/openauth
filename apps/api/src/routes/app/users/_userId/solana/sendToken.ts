@@ -1,4 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
+import { TypeAuthHeaders } from '@open-auth/sdk-core'
 import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
@@ -14,9 +15,7 @@ const schema = {
   params: Type.Object({
     userId: Type.String(),
   }),
-  headers: Type.Object({
-    Authorization: Type.String(),
-  }),
+  headers: TypeAuthHeaders,
   body: Type.Object({
     rpcUrl: Type.String(),
     address: Type.String(),

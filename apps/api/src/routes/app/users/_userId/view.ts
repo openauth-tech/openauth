@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypeUser } from '@open-auth/sdk-core'
+import { TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
 import { verifyApp } from '../../../../handlers/verifyApp'
@@ -15,9 +15,7 @@ const schema = {
   params: Type.Object({
     userId: Type.String(),
   }),
-  headers: Type.Object({
-    Authorization: Type.String(),
-  }),
+  headers: TypeAuthHeaders,
   response: {
     200: Type.Object({
       data: TypeUser,

@@ -1,5 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { TypeUser } from '@open-auth/sdk-core'
+import { TypeAuthHeaders, TypeUser } from '@open-auth/sdk-core'
 import type { Prisma } from '@prisma/client'
 import type { FastifyInstance } from 'fastify'
 
@@ -12,9 +12,7 @@ import { prisma } from '../../../utils/prisma'
 const schema = {
   tags: ['App - Users'],
   summary: 'Search users',
-  headers: Type.Object({
-    Authorization: Type.String(),
-  }),
+  headers: TypeAuthHeaders,
   body: Type.Union([
     Type.Object({
       ids: Type.Array(Type.String()),
