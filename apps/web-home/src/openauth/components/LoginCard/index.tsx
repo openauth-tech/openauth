@@ -1,8 +1,7 @@
 import { useLogInWithDiscord, useLogInWithEthereum, useLogInWithGithub, useLogInWithGoogle, useLogInWithHuggingface, useLogInWithSolana, useLogInWithTikTok, useOpenAuth } from '@open-auth/sdk-react'
-import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconUser } from '@tabler/icons-react'
+import { IconBrandDiscord, IconBrandGithub, IconBrandGoogle, IconBrandTelegram, IconBrandTiktok, IconCurrencyEthereum, IconCurrencySolana, IconLoader2, IconMoodSmileBeam, IconUser } from '@tabler/icons-react'
 import { toast } from 'sonner'
 
-import IconBrandHuggingface from '@/assets/images/common/hf-logo.svg'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
@@ -122,7 +121,7 @@ export function LoginCard() {
         </Button>
         <Button className="w-full px-6 py-6 text-base" onClick={onConnectHF} disabled={loadingHuggingface}>
           <div className="w-50 flex items-center justify-start gap-2">
-            {loadingHuggingface ? <IconLoader2 size={20} className="animate-spin" /> : <img src={IconBrandHuggingface} className="w-6" />}
+            {loadingHuggingface ? <IconLoader2 size={20} className="animate-spin" /> : <IconMoodSmileBeam size={20} />}
             <span>Sign in with HF</span>
           </div>
         </Button>

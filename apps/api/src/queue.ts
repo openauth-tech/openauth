@@ -7,13 +7,12 @@ import fastify from 'fastify'
 
 import { processAvatarJob } from './queue/avatar'
 import { init } from './utils/init'
-import { avatarQueue, fullSyncAvatar } from './utils/queue'
+import { avatarQueue } from './utils/queue'
 
 init()
 
 async function run() {
   avatarQueue.process(processAvatarJob).catch(console.error)
-  fullSyncAvatar().catch(console.error)
 
   const app = fastify()
   const serverAdapter = new FastifyAdapter()
