@@ -44,32 +44,22 @@ export function generateAuthUrl({ clientKey, scopes = ['user.info.basic'], redir
 }
 
 export async function getAccessToken(params: TikTokTokenQueryParams) {
-  try {
-    const data = await axios.post<TikTokToken>('https://open.tiktokapis.com/v2/oauth/token/', new URLSearchParams(params).toString(), {
-      headers: {
-        ContentType: 'application/x-www-form-urlencoded',
-      },
-    })
-    return data.data
-  } catch (e: any) {
-    console.error(e)
-    throw new Error('Failed to get tiktok access_token.')
-  }
+  const data = await axios.post<TikTokToken>('https://open.tiktokapis.com/v2/oauth/token/', new URLSearchParams(params).toString(), {
+    headers: {
+      ContentType: 'application/x-www-form-urlencoded',
+    },
+  })
+  return data.data
 }
 
 export async function getTikTokUser(token: string, tokenType: string) {
-  try {
-    const data = await axios.get<{ data: { user: TikTokUser } }>('https://open.tiktokapis.com/v2/user/info/', {
-      headers: {
-        Authorization: `${tokenType} ${token}`,
-      },
-      params: {
-        fields: 'open_id,union_id,avatar_url,display_name',
-      },
-    })
-    return data.data
-  } catch (e) {
-    console.error(e)
-    throw new Error('Failed to get tiktok user info.')
-  }
+  const data = await axios.get<{ data: { user: TikTokUser } }>('https://open.tiktokapis.com/v2/user/info/', {
+    headers: {
+      Authorization: `${tokenType} ${token}`,
+    },
+    params: {
+      fields: 'open_id,union_id,avatar_url,display_name',
+    },
+  })
+  return data.data
 }

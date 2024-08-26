@@ -21,29 +21,19 @@ export function generateAuthUrl({ clientId, scopes = ['user'], redirectUri }: Gi
 }
 
 export async function getAccessToken(params: GithubTokenQueryParams) {
-  try {
-    const data = await axios.post<GithubToken>('https://github.com/login/oauth/access_token', params, {
-      headers: {
-        Accept: 'application/json',
-      },
-    })
-    return data.data
-  } catch (e: any) {
-    console.error(e)
-    throw new Error('Failed to get github access_token.')
-  }
+  const data = await axios.post<GithubToken>('https://github.com/login/oauth/access_token', params, {
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+  return data.data
 }
 
 export async function getGithubUser(token: string, tokenType?: string) {
-  try {
-    const data = await axios.get<GithubUser>('https://api.github.com/user', {
-      headers: {
-        Authorization: `${tokenType ?? 'Bearer'} ${token}`,
-      },
-    })
-    return data.data
-  } catch (e) {
-    console.error(e)
-    throw new Error('Failed to get github user info.')
-  }
+  const data = await axios.get<GithubUser>('https://api.github.com/user', {
+    headers: {
+      Authorization: `${tokenType ?? 'Bearer'} ${token}`,
+    },
+  })
+  return data.data
 }

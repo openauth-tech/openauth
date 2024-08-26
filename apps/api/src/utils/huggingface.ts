@@ -26,34 +26,24 @@ export async function getAccessToken(params: HuggingfaceTokenQueryParams) {
   const credentials = `${client_id}:${client_secret}`
   const encodedCredentials = Buffer.from(credentials).toString('base64')
 
-  try {
-    const data = await axios.post<HuggingfaceToken>('https://huggingface.co/oauth/token', {
-      code,
-      client_id,
-      grant_type: 'authorization_code',
-      redirect_uri,
-    }, {
-      headers: {
-        Authorization: `Basic ${encodedCredentials}`,
-      },
-    })
-    return data.data
-  } catch (e: any) {
-    console.error(e)
-    throw new Error('Failed to get huggingface access_token.')
-  }
+  const data = await axios.post<HuggingfaceToken>('https://huggingface.co/oauth/token', {
+    code,
+    client_id,
+    grant_type: 'authorization_code',
+    redirect_uri,
+  }, {
+    headers: {
+      Authorization: `Basic ${encodedCredentials}`,
+    },
+  })
+  return data.data
 }
 
 export async function getHuggingfaceUser(token: string, tokenType?: string) {
-  try {
-    const data = await axios.get<HuggingfaceUser>('https://huggingface.co/api/whoami-v2', {
-      headers: {
-        Authorization: `${tokenType ?? 'Bearer'} ${token}`,
-      },
-    })
-    return data.data
-  } catch (e) {
-    console.error(e)
-    throw new Error('Failed to get huggingface user info.')
-  }
+  const data = await axios.get<HuggingfaceUser>('https://huggingface.co/api/whoami-v2', {
+    headers: {
+      Authorization: `${tokenType ?? 'Bearer'} ${token}`,
+    },
+  })
+  return data.data
 }

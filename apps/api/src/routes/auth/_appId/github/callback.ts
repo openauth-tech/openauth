@@ -37,17 +37,21 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'Github client id is not set' })
   }
 
-  const { access_token, token_type } = await getAccessToken({
-    code,
-    client_id: app.githubClientId,
-    client_secret: app.githubClientSecret,
-    redirect_uri: redirectUri,
-  })
-
   const searchParams = new URLSearchParams()
   searchParams.append('auth_type', 'openauth_github')
-  searchParams.append('access_token', access_token)
-  searchParams.append('token_type', token_type)
+
+  try {
+    const { access_token, token_type } = await getAccessToken({
+      code,
+      client_id: app.githubClientId,
+      client_secret: app.githubClientSecret,
+      redirect_uri: redirectUri,
+    })
+    searchParams.append('access_token', access_token)
+    searchParams.append('token_type', token_type)
+  } catch (error: any) {
+    searchParams.append('error', error.message ?? error.name ?? 'Unknown error')
+  }
 
   reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
 }

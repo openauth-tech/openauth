@@ -38,20 +38,24 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'TikTok client key is not set' })
   }
 
-  const { access_token, token_type, open_id } = await getAccessToken({
-    code,
-    client_key: app.tiktokClientKey,
-    client_secret: app.tiktokClientSecret,
-    code_verifier: codeVerifier,
-    redirect_uri: redirectUri,
-    grant_type: 'authorization_code',
-  })
-
   const searchParams = new URLSearchParams()
   searchParams.append('auth_type', 'openauth_tiktok')
-  searchParams.append('open_id', open_id)
-  searchParams.append('access_token', access_token)
-  searchParams.append('token_type', token_type)
+
+  try {
+    const { access_token, token_type, open_id } = await getAccessToken({
+      code,
+      client_key: app.tiktokClientKey,
+      client_secret: app.tiktokClientSecret,
+      code_verifier: codeVerifier,
+      redirect_uri: redirectUri,
+      grant_type: 'authorization_code',
+    })
+    searchParams.append('open_id', open_id)
+    searchParams.append('access_token', access_token)
+    searchParams.append('token_type', token_type)
+  } catch (error: any) {
+    searchParams.append('error', error.message ?? error.name ?? 'Unknown error')
+  }
 
   reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
 }
