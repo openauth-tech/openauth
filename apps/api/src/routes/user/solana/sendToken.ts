@@ -7,7 +7,7 @@ import { verifyUser } from '../../../handlers/verifyUser'
 import type { JwtPayload } from '../../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
 import { prisma } from '../../../utils/prisma'
-import { ERROR400_SCHEMA } from '../../../utils/schema'
+import { ERROR400_SCHEMA, ERROR500_SCHEMA } from '../../../utils/schema'
 
 const schema = {
   tags: ['User'],
@@ -28,6 +28,7 @@ const schema = {
       }),
     }),
     400: ERROR400_SCHEMA,
+    500: ERROR500_SCHEMA,
   },
 }
 
@@ -36,12 +37,16 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { token, amount, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
-    return reply.status(404).send({ message: 'User not found' })
+    return reply.status(400).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
 
-  const signature = await transferSolanaToken({ connection, userId, address, amount, token })
-  reply.status(200).send({ data: { signature } })
+  try {
+    const signature = await transferSolanaToken({ connection, userId, address, amount, token })
+    reply.status(200).send({ data: { signature } })
+  } catch (error: any) {
+    reply.status(500).send({ message: error.message ?? 'Internal RPC error' })
+  }
 }
 
 export default async function (fastify: FastifyInstance) {

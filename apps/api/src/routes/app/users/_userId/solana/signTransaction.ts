@@ -36,11 +36,16 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { rpcUrl, transaction } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
-    return reply.status(404).send({ message: 'User not found' })
+    return reply.status(400).send({ message: 'User not found' })
   }
   const connection = new Connection(rpcUrl)
-  const signature = await signSolanaTransaction({ connection, userId, encodedTransaction: transaction })
-  reply.status(200).send({ data: { signature } })
+
+  try {
+    const signature = await signSolanaTransaction({ connection, userId, encodedTransaction: transaction })
+    reply.status(200).send({ data: { signature } })
+  } catch (error: any) {
+    reply.status(500).send({ message: error.message ?? 'Internal RPC error' })
+  }
 }
 
 export default async function (fastify: FastifyInstance) {
