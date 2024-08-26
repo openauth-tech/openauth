@@ -6,6 +6,7 @@ import { FastifyAdapter } from '@bull-board/fastify'
 import fastify from 'fastify'
 
 import { processAvatarJob } from './queue/avatar'
+import { updateAppsCache } from './repositories/app'
 import { init } from './utils/init'
 import { avatarQueue } from './utils/queue'
 
@@ -13,6 +14,7 @@ init()
 
 async function run() {
   avatarQueue.process(processAvatarJob).catch(console.error)
+  updateAppsCache().catch(console.error)
 
   const app = fastify()
   const serverAdapter = new FastifyAdapter()

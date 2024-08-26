@@ -5,7 +5,7 @@ import { REDIS_HOST, REDIS_PORT } from '../constants'
 
 const queueOptions: QueueOptions = {
   redis: { port: REDIS_PORT, host: REDIS_HOST },
-  prefix: 'openauth',
+  prefix: 'openauth:bull',
 }
 
 export interface AvatarQueuePayload {

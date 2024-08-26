@@ -2,10 +2,10 @@ import { Type } from '@fastify/type-provider-typebox'
 import { TypeGlobalConfig } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
-import { IS_PRODUCTION } from '../../constants/env'
+import { IS_PRODUCTION } from '../../constants'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
+import { getAppFromCache } from '../../repositories/app'
 import { getMessageText } from '../../utils/auth'
-import { prisma } from '../../utils/prisma'
 import { ERROR404_SCHEMA } from '../../utils/schema'
 
 const schema = {
@@ -24,7 +24,7 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.query
-  const app = await prisma.app.findUnique({ where: { id: appId } })
+  const app = await getAppFromCache(appId)
   if (!app) {
     return reply.status(404).send({ message: 'App not found' })
   }

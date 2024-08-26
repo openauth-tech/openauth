@@ -3,7 +3,7 @@ import crypto from 'node:crypto'
 import { Keypair } from '@solana/web3.js'
 import base58 from 'bs58'
 
-import { WALLET_SEED_SALT } from '../../constants/env'
+import { WALLET_SEED_SALT } from '../../constants'
 
 export function getSolanaWallet(userId: string) {
   const seedStr = `${WALLET_SEED_SALT}_${userId}`

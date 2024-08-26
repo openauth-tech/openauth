@@ -4,6 +4,7 @@ import type { FastifyInstance } from 'fastify'
 
 import { verifyAdmin } from '../../../handlers/verifyAdmin'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../models/typebox'
+import { updateAppCache } from '../../../repositories/app'
 import { prisma } from '../../../utils/prisma'
 import { ERROR400_SCHEMA } from '../../../utils/schema'
 
@@ -26,19 +27,13 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { name } = request.body
-  // create if not exists
-
-  const exists = await prisma.app.findFirst({
-    where: { name },
-  })
-
+  const exists = await prisma.app.findFirst({ where: { name } })
   if (exists) {
     return reply.status(400).send({ message: 'App already exists' })
   }
 
-  const data = await prisma.app.create({
-    data: { name },
-  })
+  const data = await prisma.app.create({ data: { name } })
+  await updateAppCache(data)
 
   reply.status(201).send({ data })
 }

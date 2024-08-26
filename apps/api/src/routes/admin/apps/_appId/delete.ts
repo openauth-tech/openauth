@@ -3,6 +3,7 @@ import type { FastifyInstance } from 'fastify'
 
 import { verifyAdmin } from '../../../../handlers/verifyAdmin'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
+import { updateAppCache } from '../../../../repositories/app'
 import { prisma } from '../../../../utils/prisma'
 
 const schema = {
@@ -23,16 +24,13 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { appId } = request.params
-  await prisma.app.update({
+  const data = await prisma.app.update({
     data: { isDeleted: true },
-    where: {
-      id: appId,
-    },
+    where: { id: appId },
   })
 
-  reply.status(200).send({
-    data: {},
-  })
+  await updateAppCache(data)
+  reply.status(200).send({ data })
 }
 
 export default async function (fastify: FastifyInstance) {
