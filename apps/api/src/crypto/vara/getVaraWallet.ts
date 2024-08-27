@@ -5,7 +5,7 @@ import base58 from 'bs58'
 
 import { WALLET_SEED_SALT } from '../../constants'
 
-export function getSolanaWallet(userId: string) {
+export function getVaraWallet(userId: string) {
   const seedStr = `${WALLET_SEED_SALT}_${userId}`
   const hash = crypto.createHash('sha256')
   hash.update(Buffer.from(seedStr))
