@@ -17,7 +17,7 @@ describe('OpenAuth App API', () => {
 
     // user
     for (let i = 0; i < 15; i += 1) {
-      await client.app.createUser({ username: `test_user_${i}_${Date.now()}`, password: `password_${i}` })
+      await client.app.createUser({ telegram: `${Date.now()}${i}` })
     }
 
     // list user

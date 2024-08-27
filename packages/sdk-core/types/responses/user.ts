@@ -35,6 +35,8 @@ export type UserProfile = Static<typeof TypeUserProfile>
 
 export const TypeUserWallets = Type.Object({
   solWallet: Type.String(),
+  ethWallet: Type.String(),
+  dotWallet: Type.String(),
 })
 
 export type UserWallets = Static<typeof TypeUserWallets>

@@ -50,6 +50,14 @@ export function ProfileCard() {
           <div className="text-sm opacity-60">Solana Wallet:</div>
           <div>{walletData?.solWallet}</div>
         </div>
+        <div>
+          <div className="text-sm opacity-60">Ethereum Wallet:</div>
+          <div>{walletData?.ethWallet}</div>
+        </div>
+        <div>
+          <div className="text-sm opacity-60">Polkadot Wallet:</div>
+          <div>{walletData?.dotWallet}</div>
+        </div>
         <div className="">
           <div className="text-sm opacity-60">Solana Private Key:</div>
           <div className="flex-center gap-x-2">
