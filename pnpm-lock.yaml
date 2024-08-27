@@ -107,15 +107,15 @@ importers:
       '@solana/web3.js':
         specifier: 1.94.0
         version: 1.94.0(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      abitype:
+        specifier: 1.0.6
+        version: 1.0.6(typescript@5.5.2)(zod@3.23.8)
       axios:
         specifier: 1.7.4
         version: 1.7.4
       bcrypt:
         specifier: ^5.1.1
         version: 5.1.1(encoding@0.1.13)
-      bignumber.js:
-        specifier: ^9.1.2
-        version: 9.1.2
       bs58:
         specifier: ^5.0.0
         version: 5.0.0
@@ -131,9 +131,6 @@ importers:
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
-      ethers:
-        specifier: ^6.10.0
-        version: 6.13.1(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       fastify:
         specifier: ^4.26.2
         version: 4.28.1
@@ -4689,6 +4686,17 @@ packages:
 
   abitype@1.0.5:
     resolution: {integrity: sha512-YzDhti7cjlfaBhHutMaboYB21Ha3rXR9QTkNJFzYC4kC8YclaiwPBBBJY8ejFdu2wnJeZCVZSMlQJ7fi8S6hsw==}
+    peerDependencies:
+      typescript: '>=5.0.4'
+      zod: ^3 >=3.22.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      zod:
+        optional: true
+
+  abitype@1.0.6:
+    resolution: {integrity: sha512-MMSqYh4+C/aVqI2RQaWqbvI4Kxo5cQV40WQ4QFtDnNzCkqChm8MuENhElmynZlO0qUy/ObkEUaXtKqYnx1Kp3A==}
     peerDependencies:
       typescript: '>=5.0.4'
       zod: ^3 >=3.22.0
@@ -14051,6 +14059,11 @@ snapshots:
   abbrev@2.0.0: {}
 
   abitype@1.0.5(typescript@5.5.2)(zod@3.23.8):
+    optionalDependencies:
+      typescript: 5.5.2
+      zod: 3.23.8
+
+  abitype@1.0.6(typescript@5.5.2)(zod@3.23.8):
     optionalDependencies:
       typescript: 5.5.2
       zod: 3.23.8
