@@ -7,12 +7,11 @@ import { WALLET_SEED_SALT } from '../../constants'
 
 export function getSolanaWallet(userId: string) {
   const seedStr = `${WALLET_SEED_SALT}_${userId}`
-
   const hash = crypto.createHash('sha256')
   hash.update(Buffer.from(seedStr))
-  const result = hash.digest()
+  const seed = hash.digest()
 
-  const keypair = Keypair.fromSeed(result)
+  const keypair = Keypair.fromSeed(seed)
 
   return {
     keypair,

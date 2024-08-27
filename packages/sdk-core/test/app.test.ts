@@ -1,8 +1,10 @@
 import assert from 'node:assert'
 
+import { ethers } from 'ethers'
+
 import { OpenAuthClient } from '../client'
 import { OPENAUTH_ENDPOINT } from './lib/constants.ts'
-import { getTestApp, logInNewSolanaUser, setupAdmin } from './lib/helper.ts'
+import { getTestApp, logInNewSolanaUser, logInUsernameUser, setupAdmin } from './lib/helper.ts'
 
 const client = new OpenAuthClient(OPENAUTH_ENDPOINT)
 
@@ -17,7 +19,7 @@ describe('OpenAuth App API', () => {
 
     // user
     for (let i = 0; i < 15; i += 1) {
-      await client.app.createUser({ username: `test_user_${i}_${Date.now()}`, password: `password_${i}` })
+      await client.app.createUser({ telegram: `${Date.now()}${i}` })
     }
 
     // list user
@@ -83,5 +85,41 @@ describe('OpenAuth App API', () => {
     const referrals = await client.app.getUserReferral(userId)
     assert.equal(referrals.referrals1.length, 1)
     assert.equal(referrals.referrals2.length, 1)
+  })
+
+  it('Send Ethereum Transaction', async () => {
+    const { id: appId } = await getTestApp(client)
+    const { appSecret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(appSecret)
+
+    const target = ethers.Wallet.createRandom()
+    await logInUsernameUser(client, appId)
+
+    const { id } = await client.user.getProfile()
+    const { ethWallet } = await client.user.getWallets()
+    console.info('user ethWallet:', ethWallet)
+    console.info('target wallet:', target.address)
+
+    {
+      const { signature } = await client.app.sendEthereumToken(id, {
+        chainName: 'sepolia',
+        rpcUrl: 'https://rpc.sepolia.org',
+        toAddress: target.address,
+        amount: 0.001234,
+      })
+      console.info('transfer ETH signature', signature)
+      assert(signature.length > 0)
+    }
+    {
+      const { signature } = await client.app.sendEthereumToken(id, {
+        chainName: 'sepolia',
+        rpcUrl: 'https://rpc.sepolia.org',
+        toAddress: target.address,
+        amount: 12.34,
+        tokenAddress: '0x520A3474beAaE4AC406242aa74eF6D052dE8aaED',
+      })
+      console.info('transfer TOKEN signature', signature)
+      assert(signature.length > 0)
+    }
   })
 })

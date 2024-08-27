@@ -1,7 +1,7 @@
 import { BaseClient } from './BaseClient'
 
 export class AppClient extends BaseClient {
-  async createUser(data: { email?: string, telegram?: string, ethAddress?: string, solAddress?: string, username?: string, password?: string }) {
+  async createUser(data: { telegram?: string, ethAddress?: string, solAddress?: string }) {
     return (await this.http.post<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, github: string | null, huggingface: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users`, data)).data.data
   }
 
@@ -18,7 +18,7 @@ export class AppClient extends BaseClient {
   }
 
   async getUserWallets(userId: string) {
-    return (await this.http.get<{ data: { solWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
+    return (await this.http.get<{ data: { solWallet: string, ethWallet: string, dotWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
   }
 
   async setUserReferrer(userId: string, data: { referCode: string }) {
@@ -29,11 +29,23 @@ export class AppClient extends BaseClient {
     return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, github: string | null, huggingface: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users/${userId}`)).data.data
   }
 
+  async sendEthereumToken(userId: string, data: { chainName: 'mainnet' | 'sepolia' | 'bsc', rpcUrl: string, toAddress: string, amount: number, tokenAddress?: string }) {
+    return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/ethereum/send-token`, data)).data.data
+  }
+
   async sendSolanaToken(userId: string, data: { rpcUrl: string, address: string, token: string, amount: number }) {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/solana/send-token`, data)).data.data
   }
 
   async signSolanaTransaction(userId: string, data: { rpcUrl: string, transaction: string }) {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/solana/sign-transaction`, data)).data.data
+  }
+
+  async sendVaraMessage(userId: string, data: { destination: string, payload: string }) {
+    return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/vara/send-message`, data)).data.data
+  }
+
+  async sendVaraReply(userId: string, data: { replyToId: string, payload: string }) {
+    return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/vara/send-reply`, data)).data.data
   }
 }

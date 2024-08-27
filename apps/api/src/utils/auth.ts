@@ -1,9 +1,10 @@
 import { createHmac } from 'node:crypto'
 
+import { hexToU8a } from '@polkadot/util'
 import axios from 'axios'
 import base58 from 'bs58'
-import { ethers } from 'ethers'
 import nacl from 'tweetnacl'
+import { getAddress, verifyMessage } from 'viem'
 
 import { getTikTokUser } from './tiktok'
 
@@ -13,11 +14,10 @@ export function getMessageText(name: string) {
   return `By signing, you are proving you own this wallet and logging in ${name}.`
 }
 
-export function verifyETH(appName: string, wallet: string, sig: string) {
+export function verifyETH(appName: string, address: string, signature: string) {
   try {
-    const messageText = getMessageText(appName)
-    const address_returned = ethers.verifyMessage(messageText, sig)
-    return wallet.toLowerCase() === address_returned.toLowerCase()
+    const message = getMessageText(appName)
+    return verifyMessage({ address: getAddress(address), message, signature: hexToU8a(signature) })
   } catch (e) {
     console.error(e)
     return false

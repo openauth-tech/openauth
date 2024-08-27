@@ -1,7 +1,13 @@
 import type { Connection } from '@solana/web3.js'
 import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 
-export async function getTokenBalance(connection: Connection, { tokenMint, walletAddress }: { tokenMint: string | 'SOL', walletAddress: string }): Promise<number> {
+type Params = {
+  connection: Connection
+  tokenMint: string | 'SOL'
+  walletAddress: string
+}
+
+export async function getSolanaTokenBalance({ connection, tokenMint, walletAddress }: Params): Promise<number> {
   const wallet = new PublicKey(walletAddress)
   if (tokenMint === 'SOL') {
     const balance = await connection.getBalance(wallet)

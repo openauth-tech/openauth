@@ -2,8 +2,8 @@ import { createAssociatedTokenAccountIdempotentInstruction, createTransferInstru
 import type { Connection } from '@solana/web3.js'
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 
+import { getSolanaTokenBalance } from './getSolanaTokenBalance'
 import { getSolanaWallet } from './getSolanaWallet'
-import { getTokenBalance } from './getTokenBalance'
 
 export async function transferSolanaToken({
   connection,
@@ -22,7 +22,7 @@ export async function transferSolanaToken({
   const fromPubkey = keypair.publicKey
   const toPubkey = new PublicKey(address)
 
-  const balance = await getTokenBalance(connection, { tokenMint: token, walletAddress: fromPubkey.toBase58() })
+  const balance = await getSolanaTokenBalance({ connection, tokenMint: token, walletAddress: fromPubkey.toBase58() })
   if (balance < amount) {
     throw new Error('Insufficient balance')
   }

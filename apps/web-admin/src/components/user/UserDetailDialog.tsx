@@ -44,7 +44,7 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
 
   return (
     <Dialog open={!!user} onOpenChange={open => !open && onClose()}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>User Profile</DialogTitle>
         </DialogHeader>
@@ -74,6 +74,14 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
             <li className="flex">
               <div className="w-1/3 text-muted-foreground capitalize">Solana Wallet</div>
               <div className="flex-1">{wallets?.solWallet}</div>
+            </li>
+            <li className="flex">
+              <div className="w-1/3 text-muted-foreground capitalize">Ethereum Wallet</div>
+              <div className="flex-1">{wallets?.ethWallet}</div>
+            </li>
+            <li className="flex">
+              <div className="w-1/3 text-muted-foreground capitalize">Polkadot Wallet</div>
+              <div className="flex-1">{wallets?.dotWallet}</div>
             </li>
           </ul>
         </div>
