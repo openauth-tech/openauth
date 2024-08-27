@@ -1,11 +1,23 @@
-import type { Connection } from '@solana/web3.js'
+import { ApiPromise, HttpProvider } from '@polkadot/api'
+
+import { getPolkadotWallet } from './getPolkadotWallet'
 
 export async function signPolkadotTransaction({
-  connection,
+  serialized,
   userId,
-  encodedTransaction,
+  rpcUrl,
 }: {
-  connection: Connection
+  serialized: `0x${string}`
   userId: string
-  encodedTransaction: string
-}) {}
+  chainName: string
+  rpcUrl: string
+}) {
+  const provider = new HttpProvider(rpcUrl)
+  const api = new ApiPromise({ provider })
+  await api.isReady
+  const transaction = api.tx(serialized)
+
+  const { keypair } = getPolkadotWallet(userId)
+  const signedTx = await transaction.signAndSend(keypair)
+  return signedTx.toHex()
+}
