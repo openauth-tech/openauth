@@ -1,25 +1,33 @@
 import { erc20Abi } from 'abitype/abis'
-import { createWalletClient, formatEther, formatUnits, http, publicActions } from 'viem'
+import { createPublicClient, formatEther, formatUnits, http, publicActions } from 'viem'
 import { bsc, mainnet, sepolia } from 'viem/chains'
 
-type params = {
+export async function getEthereumTokenBalance({
+  chainName,
+  tokenAddress,
+  walletAddress,
+  rpcUrl,
+}: {
   chainName: 'sepolia' | 'mainnet' | 'bsc'
   tokenAddress: `0x${string}` | 'ETH'
   walletAddress: `0x${string}`
   rpcUrl: string
-}
-
-export async function getEthereumTokenBalance({ chainName, tokenAddress, walletAddress, rpcUrl }: params) {
+}) {
   const chain = { sepolia, mainnet, bsc }[chainName]
 
-  const client = createWalletClient({
+  const client = createPublicClient({
     chain,
     transport: http(rpcUrl),
   }).extend(publicActions)
 
   if (tokenAddress === 'ETH') {
     const balance = await client.getBalance({ address: walletAddress })
-    return Number.parseFloat(formatEther(balance))
+
+    return {
+      uiBalance: Number.parseFloat(formatEther(balance)),
+      balance,
+      decimals: 18,
+    }
   }
 
   const decimals = await client.readContract({
@@ -35,5 +43,9 @@ export async function getEthereumTokenBalance({ chainName, tokenAddress, walletA
     args: [walletAddress],
   })
 
-  return Number.parseFloat(formatUnits(balance, decimals))
+  return {
+    uiBalance: Number.parseFloat(formatUnits(balance, decimals)),
+    balance,
+    decimals,
+  }
 }
