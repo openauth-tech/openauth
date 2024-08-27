@@ -2,14 +2,16 @@ import { erc20Abi } from 'abitype/abis'
 import { createPublicClient, formatEther, formatUnits, http, publicActions } from 'viem'
 import { bsc, mainnet, sepolia } from 'viem/chains'
 
+import type { EthereumChain } from './types'
+
 export async function getEthereumTokenBalance({
   chainName,
   tokenAddress,
   walletAddress,
   rpcUrl,
 }: {
-  chainName: 'sepolia' | 'mainnet' | 'bsc'
-  tokenAddress: `0x${string}` | 'ETH'
+  chainName: `${EthereumChain}`
+  tokenAddress?: `0x${string}`
   walletAddress: `0x${string}`
   rpcUrl: string
 }) {
@@ -20,7 +22,7 @@ export async function getEthereumTokenBalance({
     transport: http(rpcUrl),
   }).extend(publicActions)
 
-  if (tokenAddress === 'ETH') {
+  if (!tokenAddress) {
     const balance = await client.getBalance({ address: walletAddress })
 
     return {

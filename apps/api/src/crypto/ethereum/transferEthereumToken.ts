@@ -1,20 +1,21 @@
-import { createWalletClient, http, parseEther, parseUnits, publicActions } from 'viem'
+import { createWalletClient, getAddress, http, parseEther, parseUnits, publicActions } from 'viem'
 import { bsc, mainnet, sepolia } from 'viem/chains'
 
 import { getEthereumTokenBalance } from './getEthereumTokenBalance'
 import { getEthereumWallet } from './getEthereumWallet'
+import type { EthereumChain } from './types'
 
 export async function transferEthereumToken({
   chainName,
-  tokenAddress,
-  toAddress,
+  tokenAddress: tokenAddressStr,
+  toAddress: toAddressStr,
   amount,
   userId,
   rpcUrl,
 }: {
-  chainName: 'sepolia' | 'mainnet' | 'bsc'
-  tokenAddress: `0x${string}` | 'ETH'
-  toAddress: `0x${string}`
+  chainName: `${EthereumChain}`
+  tokenAddress?: string
+  toAddress: string
   amount: number
   userId: string
   rpcUrl: string
@@ -27,6 +28,9 @@ export async function transferEthereumToken({
     transport: http(rpcUrl),
   }).extend(publicActions)
 
+  const tokenAddress = tokenAddressStr ? getAddress(tokenAddressStr) : undefined
+  const toAddress = getAddress(toAddressStr)
+
   const { decimals, balance } = await getEthereumTokenBalance({ chainName, walletAddress, rpcUrl, tokenAddress })
   const amountBI = parseUnits(amount.toString(), decimals)
 
@@ -34,7 +38,7 @@ export async function transferEthereumToken({
     throw new Error('Insufficient balance')
   }
 
-  if (tokenAddress === 'ETH') {
+  if (!tokenAddress) {
     return await client.sendTransaction({
       account,
       to: toAddress,
