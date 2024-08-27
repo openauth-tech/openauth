@@ -1,6 +1,6 @@
 import { GearApi } from '@gear-js/api'
 
-import { getVaraWallet } from './getVaraWallet'
+import { getPolkadotWallet } from '../polkadot/getPolkadotWallet'
 
 export async function sendVaraMessage({
   userId,
@@ -11,7 +11,7 @@ export async function sendVaraMessage({
   payload: string
   destination: `0x${string}`
 }) {
-  const { keypair } = await getVaraWallet(userId)
+  const { keypair } = await getPolkadotWallet(userId)
 
   const api = await GearApi.create()
   const extrinsic = api.message.send({

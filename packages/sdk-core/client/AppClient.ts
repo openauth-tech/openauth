@@ -18,7 +18,7 @@ export class AppClient extends BaseClient {
   }
 
   async getUserWallets(userId: string) {
-    return (await this.http.get<{ data: { solWallet: string, ethWallet: string, dotWallet: string, varaWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
+    return (await this.http.get<{ data: { solWallet: string, ethWallet: string, dotWallet: string } }>(`/app/users/${userId}/wallets`)).data.data
   }
 
   async setUserReferrer(userId: string, data: { referCode: string }) {
@@ -39,5 +39,13 @@ export class AppClient extends BaseClient {
 
   async signSolanaTransaction(userId: string, data: { rpcUrl: string, transaction: string }) {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/solana/sign-transaction`, data)).data.data
+  }
+
+  async sendVaraMessage(userId: string, data: { destination: string, payload: string }) {
+    return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/vara/send-message`, data)).data.data
+  }
+
+  async sendVaraReply(userId: string, data: { replyToId: string, payload: string }) {
+    return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/vara/send-reply`, data)).data.data
   }
 }

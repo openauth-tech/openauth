@@ -5,7 +5,6 @@ import type { FastifyInstance } from 'fastify'
 import { getEthereumWallet } from '../../crypto/ethereum/getEthereumWallet'
 import { getPolkadotWallet } from '../../crypto/polkadot/getPolkadotWallet'
 import { getSolanaWallet } from '../../crypto/solana/getSolanaWallet'
-import { getVaraWallet } from '../../crypto/vara/getVaraWallet'
 import { verifyUser } from '../../handlers/verifyUser'
 import type { JwtPayload } from '../../models/request'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../models/typebox'
@@ -40,14 +39,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const { walletAddress: solWallet } = getSolanaWallet(userId)
   const { walletAddress: ethWallet } = getEthereumWallet(userId)
   const { walletAddress: dotWallet } = getPolkadotWallet(userId)
-  const { walletAddress: varaWallet } = await getVaraWallet(userId)
 
   reply.status(200).send({
     data: {
       solWallet,
       ethWallet,
       dotWallet,
-      varaWallet,
     },
   })
 }
