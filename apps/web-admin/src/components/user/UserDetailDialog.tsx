@@ -29,7 +29,12 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
 
   const { data: referral } = useQuery({
     queryKey: ['getUserReferral', id, user?.id],
-    queryFn: async () => client.app.getUserReferral(user?.id),
+    queryFn: () => client.app.getUserReferral(user?.id),
+    enabled: !!user,
+  })
+  const { data: wallets } = useQuery({
+    queryKey: ['getUserWallets', id, user?.id],
+    queryFn: () => client.app.getUserWallets(user?.id),
     enabled: !!user,
   })
 
@@ -66,6 +71,10 @@ export function UserDetailDialog({ user, onClose }: { user: User, onClose: any }
                 </div>
               </li>
             )}
+            <li className="flex">
+              <div className="w-1/3 text-muted-foreground capitalize">Solana Wallet</div>
+              <div className="flex-1">{wallets?.solWallet}</div>
+            </li>
           </ul>
         </div>
         <DialogFooter>
