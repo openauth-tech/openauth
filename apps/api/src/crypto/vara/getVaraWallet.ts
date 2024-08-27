@@ -1,21 +1,20 @@
 import crypto from 'node:crypto'
 
-import { Keypair } from '@solana/web3.js'
-import base58 from 'bs58'
+import { GearKeyring } from '@gear-js/api'
 
 import { WALLET_SEED_SALT } from '../../constants'
 
-export function getVaraWallet(userId: string) {
+export async function getVaraWallet(userId: string) {
   const seedStr = `${WALLET_SEED_SALT}_${userId}`
   const hash = crypto.createHash('sha256')
   hash.update(Buffer.from(seedStr))
   const seed = hash.digest()
 
-  const keypair = Keypair.fromSeed(seed)
+  const keyringPair = await GearKeyring.fromSeed(seed)
 
   return {
-    keypair,
-    walletAddress: keypair.publicKey.toBase58(),
-    privateKey: base58.encode(keypair.secretKey),
+    keyringPair,
+    walletAddress: keyringPair.address,
+    keyringJson: keyringPair.toJson(),
   }
 }

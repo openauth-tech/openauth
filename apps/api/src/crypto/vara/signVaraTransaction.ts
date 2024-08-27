@@ -1,6 +1,6 @@
 import type { Connection } from '@solana/web3.js'
 
-export async function signVeraTransaction({
+export async function signVaraTransaction({
   connection,
   userId,
   encodedTransaction,

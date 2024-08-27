@@ -13,11 +13,10 @@ export function getPolkadotWallet(userId: string) {
 
   const keyring = new Keyring({ type: 'sr25519' })
   const keyringPair = keyring.createFromUri(u8aToHex(seed))
-  const keyringJson = keyringPair.toJson()
 
   return {
     keyringPair,
     walletAddress: keyringPair.address,
-    keyringJson,
+    keyringJson: keyringPair.toJson(),
   }
 }
