@@ -25,6 +25,7 @@
     "@gear-js/api": "0.38.2",
     "@mgcrea/prisma-queue": "^1.8.0",
     "@open-auth/sdk-core": "workspace:*",
+    "@polkadot/api": "12.4.2",
     "@polkadot/keyring": "13.0.2",
     "@polkadot/util": "13.0.2",
     "@prisma/client": "^5.13.0",

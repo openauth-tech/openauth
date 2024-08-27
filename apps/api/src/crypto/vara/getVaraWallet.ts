@@ -10,11 +10,11 @@ export async function getVaraWallet(userId: string) {
   hash.update(Buffer.from(seedStr))
   const seed = hash.digest()
 
-  const keyringPair = await GearKeyring.fromSeed(seed)
+  const keypair = await GearKeyring.fromSeed(seed)
 
   return {
-    keyringPair,
-    walletAddress: keyringPair.address,
-    keyringJson: keyringPair.toJson(),
+    keypair,
+    walletAddress: keypair.address,
+    keypairJson: keypair.toJson(),
   }
 }
