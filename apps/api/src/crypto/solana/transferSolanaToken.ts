@@ -22,7 +22,7 @@ export async function transferSolanaToken({
   const fromPubkey = keypair.publicKey
   const toPubkey = new PublicKey(address)
 
-  const balance = await getSolanaTokenBalance(connection, { tokenMint: token, walletAddress: fromPubkey.toBase58() })
+  const balance = await getSolanaTokenBalance({ connection, tokenMint: token, walletAddress: fromPubkey.toBase58() })
   if (balance < amount) {
     throw new Error('Insufficient balance')
   }
