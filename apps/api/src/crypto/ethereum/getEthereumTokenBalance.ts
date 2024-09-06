@@ -1,5 +1,4 @@
-import { erc20Abi } from 'abitype/abis'
-import { createPublicClient, formatEther, formatUnits, http, publicActions } from 'viem'
+import { createPublicClient, erc20Abi, formatEther, formatUnits, http, publicActions } from 'viem'
 import { bsc, mainnet, sepolia } from 'viem/chains'
 
 import type { EthereumChain } from './types'
