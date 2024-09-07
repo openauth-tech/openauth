@@ -4,8 +4,8 @@ import Queue from 'bull'
 import { REDIS_HOST, REDIS_PORT } from '../constants'
 
 const queueOptions: QueueOptions = {
-  redis: { port: REDIS_PORT, host: REDIS_HOST },
-  prefix: 'openauth:bull',
+  redis: { port: REDIS_PORT, host: REDIS_HOST, db: 1 },
+  prefix: 'openauth',
 }
 
 export interface AvatarQueuePayload {
