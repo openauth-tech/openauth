@@ -20,7 +20,7 @@ const schema = {
     rpcUrl: Type.String(),
     address: Type.String(),
     token: Type.String(),
-    amount: Type.Number(),
+    amount: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -35,7 +35,7 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.params
-  const { token, amount, address, rpcUrl } = request.body
+  const { token, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
     return reply.status(400).send({ message: 'User not found' })
@@ -43,6 +43,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const connection = new Connection(rpcUrl)
 
   try {
+    const amount = BigInt(request.body.amount)
     const signature = await transferSolanaToken({ connection, userId, address, amount, token })
     reply.status(200).send({ data: { signature } })
   } catch (error: any) {

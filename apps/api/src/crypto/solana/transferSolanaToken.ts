@@ -1,6 +1,6 @@
-import { createAssociatedTokenAccountIdempotentInstruction, createTransferInstruction, getAssociatedTokenAddress, getMint } from '@solana/spl-token'
+import { createAssociatedTokenAccountIdempotentInstruction, createTransferInstruction, getAssociatedTokenAddress } from '@solana/spl-token'
 import type { Connection } from '@solana/web3.js'
-import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
+import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js'
 
 import { getSolanaTokenBalance } from './getSolanaTokenBalance'
 import { getSolanaWallet } from './getSolanaWallet'
@@ -15,7 +15,7 @@ export async function transferSolanaToken({
   connection: Connection
   userId: string
   address: string
-  amount: number
+  amount: bigint
   token: string | 'SOL'
 }) {
   const { keypair } = getSolanaWallet(userId)
@@ -29,18 +29,14 @@ export async function transferSolanaToken({
 
   const transaction = new Transaction()
   if (token === 'SOL') {
-    const lamports = amount * LAMPORTS_PER_SOL
-    transaction.add(SystemProgram.transfer({ fromPubkey, toPubkey, lamports }))
+    transaction.add(SystemProgram.transfer({ fromPubkey, toPubkey, lamports: amount }))
   } else {
     const mint = new PublicKey(token)
-    const mintInfo = await getMint(connection, mint)
-    const lamports = amount * 10 ** mintInfo.decimals
-
     const fromTokenAccount = await getAssociatedTokenAddress(mint, fromPubkey, true)
     const toTokenAccount = await getAssociatedTokenAddress(mint, toPubkey, true)
 
     transaction.add(createAssociatedTokenAccountIdempotentInstruction(keypair.publicKey, toTokenAccount, toPubkey, mint))
-    transaction.add(createTransferInstruction(fromTokenAccount, toTokenAccount, fromPubkey, lamports))
+    transaction.add(createTransferInstruction(fromTokenAccount, toTokenAccount, fromPubkey, amount))
   }
 
   const { blockhash } = await connection.getLatestBlockhash()

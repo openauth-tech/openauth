@@ -105,7 +105,7 @@ describe('OpenAuth App API', () => {
         chainName: 'sepolia',
         rpcUrl: 'https://rpc.sepolia.org',
         toAddress: target.address,
-        amount: 0.001234,
+        amount: '1234000000000000', // 0.001234
       })
       console.info('transfer ETH signature', signature)
       assert(signature.length > 0)
@@ -115,7 +115,7 @@ describe('OpenAuth App API', () => {
         chainName: 'sepolia',
         rpcUrl: 'https://rpc.sepolia.org',
         toAddress: target.address,
-        amount: 12.34,
+        amount: '12340000000000000000', // 12.34
         tokenAddress: '0x520A3474beAaE4AC406242aa74eF6D052dE8aaED',
       })
       console.info('transfer TOKEN signature', signature)

@@ -20,7 +20,7 @@ const schema = {
     chainName: Type.Enum(EthereumChain),
     rpcUrl: Type.String(),
     toAddress: Type.String(),
-    amount: Type.Number(),
+    amount: Type.String(),
     tokenAddress: Type.Optional(Type.String()),
   }),
   response: {
@@ -36,13 +36,14 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.params
-  const { chainName, toAddress, amount, tokenAddress, rpcUrl } = request.body
+  const { chainName, toAddress, tokenAddress, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
     return reply.status(400).send({ message: 'User not found' })
   }
 
   try {
+    const amount = BigInt(request.body.amount)
     const signature = await transferEthereumToken({ chainName, tokenAddress, toAddress, amount, userId, rpcUrl })
     reply.status(200).send({ data: { signature } })
   } catch (error: any) {

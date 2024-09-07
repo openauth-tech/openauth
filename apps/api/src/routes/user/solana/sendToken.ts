@@ -1,5 +1,6 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { Connection } from '@solana/web3.js'
+import { getMint } from '@solana/spl-token'
+import { Connection, PublicKey } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
 import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
@@ -34,7 +35,7 @@ const schema = {
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
   const { userId } = request.user as JwtPayload
-  const { token, amount, address, rpcUrl } = request.body
+  const { token, address, rpcUrl } = request.body
   const user = await prisma.user.findUnique({ where: { id: userId } })
   if (!user) {
     return reply.status(400).send({ message: 'User not found' })
@@ -42,6 +43,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const connection = new Connection(rpcUrl)
 
   try {
+    const { decimals } = await getMint(connection, new PublicKey(token))
+    const amount = BigInt(request.body.amount) * BigInt(10 ** decimals)
     const signature = await transferSolanaToken({ connection, userId, address, amount, token })
     reply.status(200).send({ data: { signature } })
   } catch (error: any) {
