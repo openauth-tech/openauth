@@ -1,5 +1,5 @@
 import { createPublicClient, erc20Abi, formatEther, formatUnits, http, publicActions } from 'viem'
-import { bsc, mainnet, sepolia } from 'viem/chains'
+import { bsc, bscTestnet, mainnet, sepolia } from 'viem/chains'
 
 import type { EthereumChain } from './types'
 
@@ -14,7 +14,7 @@ export async function getEthereumTokenBalance({
   walletAddress: `0x${string}`
   rpcUrl: string
 }) {
-  const chain = { sepolia, mainnet, bsc }[chainName]
+  const chain = { sepolia, mainnet, bsc, bscTestnet }[chainName]
 
   const client = createPublicClient({
     chain,
