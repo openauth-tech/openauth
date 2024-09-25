@@ -29,7 +29,7 @@ export class AppClient extends BaseClient {
     return (await this.http.get<{ data: { id: string, email: string | null, google: string | null, discord: string | null, tiktok: string | null, github: string | null, huggingface: string | null, twitter: string | null, apple: string | null, telegram: string | null, ethAddress: string | null, solAddress: string | null, username: string | null, referCode: string, avatar: string | null, displayName: string | null, createdAt: number, lastSeenAt: number } }>(`/app/users/${userId}`)).data.data
   }
 
-  async sendEthereumToken(userId: string, data: { chainName: 'mainnet' | 'sepolia' | 'bsc' | 'bscTestnet', rpcUrl: string, toAddress: string, amount: string, tokenAddress?: string }) {
+  async sendEthereumToken(userId: string, data: { chainName: 'mainnet' | 'sepolia' | 'bsc' | 'bscTestnet' | 'moonbeam', rpcUrl: string, toAddress: string, amount: string, tokenAddress?: string }) {
     return (await this.http.post<{ data: { signature: string } }>(`/app/users/${userId}/ethereum/send-token`, data)).data.data
   }
 

@@ -1,9 +1,9 @@
 import { createWalletClient, getAddress, http, publicActions } from 'viem'
-import { bsc, bscTestnet, mainnet, sepolia } from 'viem/chains'
 
 import { getEthereumTokenBalance } from './getEthereumTokenBalance'
 import { getEthereumWallet } from './getEthereumWallet'
-import type { EthereumChain } from './types'
+import type { EvmChainName } from './types'
+import { getEvmChainByName } from './types'
 
 export async function transferEthereumToken({
   chainName,
@@ -13,14 +13,14 @@ export async function transferEthereumToken({
   userId,
   rpcUrl,
 }: {
-  chainName: `${EthereumChain}`
+  chainName: `${EvmChainName}`
   tokenAddress?: string
   toAddress: string
   amount: bigint
   userId: string
   rpcUrl: string
 }) {
-  const chain = { sepolia, mainnet, bsc, bscTestnet }[chainName]
+  const chain = getEvmChainByName(chainName)
   const { account, walletAddress } = getEthereumWallet(userId)
   const client = createWalletClient({
     account,

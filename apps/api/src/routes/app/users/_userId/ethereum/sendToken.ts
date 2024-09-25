@@ -3,7 +3,7 @@ import { TypeAuthHeaders } from '@open-auth/sdk-core'
 import type { FastifyInstance } from 'fastify'
 
 import { transferEthereumToken } from '../../../../../crypto/ethereum/transferEthereumToken'
-import { EthereumChain } from '../../../../../crypto/ethereum/types'
+import { EvmChainName } from '../../../../../crypto/ethereum/types'
 import { verifyApp } from '../../../../../handlers/verifyApp'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../../models/typebox'
 import { prisma } from '../../../../../utils/prisma'
@@ -17,7 +17,7 @@ const schema = {
   }),
   headers: TypeAuthHeaders,
   body: Type.Object({
-    chainName: Type.Enum(EthereumChain),
+    chainName: Type.Enum(EvmChainName),
     rpcUrl: Type.String(),
     toAddress: Type.String(),
     amount: Type.String(),
