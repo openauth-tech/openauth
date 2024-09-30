@@ -102,8 +102,8 @@ describe('OpenAuth App API', () => {
 
     {
       const { signature } = await client.app.sendEthereumToken(id, {
-        chainName: 'sepolia',
-        rpcUrl: 'https://rpc.sepolia.org',
+        chainName: 'bscTestnet',
+        rpcUrl: 'https://bsc-testnet-dataseed.bnbchain.org',
         toAddress: target.address,
         amount: '1234000000000000', // 0.001234
       })
@@ -112,8 +112,8 @@ describe('OpenAuth App API', () => {
     }
     {
       const { signature } = await client.app.sendEthereumToken(id, {
-        chainName: 'sepolia',
-        rpcUrl: 'https://rpc.sepolia.org',
+        chainName: 'bscTestnet',
+        rpcUrl: 'https://bsc-testnet-dataseed.bnbchain.org',
         toAddress: target.address,
         amount: '12340000000000000000', // 12.34
         tokenAddress: '0x520A3474beAaE4AC406242aa74eF6D052dE8aaED',

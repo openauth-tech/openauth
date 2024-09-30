@@ -1,4 +1,4 @@
-import CHAINS from 'viem/chains'
+import { base, baseSepolia, bsc, bscTestnet, mainnet, moonbeam, sepolia } from 'viem/chains'
 
 export enum EvmChainName {
   mainnet = 'mainnet',
@@ -7,9 +7,20 @@ export enum EvmChainName {
   bsc = 'bsc',
   bscTestnet = 'bscTestnet',
 
+  base = 'base',
+  baseSepolia = 'baseSepolia',
+
   moonbeam = 'moonbeam',
 }
 
 export function getEvmChainByName(name: `${EvmChainName}`) {
-  return CHAINS[name]
+  return {
+    mainnet,
+    sepolia,
+    bsc,
+    bscTestnet,
+    base,
+    baseSepolia,
+    moonbeam,
+  }[name]
 }
