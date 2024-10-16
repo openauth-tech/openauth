@@ -1,6 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox'
-import { getMint } from '@solana/spl-token'
-import { Connection, PublicKey } from '@solana/web3.js'
+import { Connection } from '@solana/web3.js'
 import type { FastifyInstance } from 'fastify'
 
 import { transferSolanaToken } from '../../../crypto/solana/transferSolanaToken'
@@ -20,7 +19,7 @@ const schema = {
     rpcUrl: Type.String(),
     address: Type.String(),
     token: Type.String(),
-    amount: Type.Number(),
+    amount: Type.String(),
   }),
   response: {
     200: Type.Object({
@@ -43,8 +42,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const connection = new Connection(rpcUrl)
 
   try {
-    const { decimals } = await getMint(connection, new PublicKey(token))
-    const amount = BigInt(request.body.amount) * BigInt(10 ** decimals)
+    const amount = BigInt(request.body.amount)
     const signature = await transferSolanaToken({ connection, userId, address, amount, token })
     reply.status(200).send({ data: { signature } })
   } catch (error: any) {

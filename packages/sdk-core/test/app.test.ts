@@ -1,5 +1,6 @@
 import assert from 'node:assert'
 
+import { Keypair } from '@solana/web3.js'
 import { ethers } from 'ethers'
 
 import { OpenAuthClient } from '../client'
@@ -121,5 +122,27 @@ describe('OpenAuth App API', () => {
       console.info('transfer TOKEN signature', signature)
       assert(signature.length > 0)
     }
+  })
+
+  it('Send Solana Token', async () => {
+    const { id: appId } = await getTestApp(client)
+    const { appSecret } = await client.admin.getAppSecret(appId)
+    client.app.updateToken(appSecret)
+
+    const target = Keypair.generate()
+    await logInUsernameUser(client, appId)
+
+    const { id } = await client.user.getProfile()
+    const { solWallet } = await client.user.getWallets()
+    console.info('user solWallet:', solWallet)
+
+    const { signature } = await client.app.sendSolanaToken(id, {
+      rpcUrl: 'https://devnet.sonic.game',
+      address: target.publicKey.toBase58(),
+      amount: '100000',
+      token: 'SOL',
+    })
+    console.info('transfer SOL signature', signature)
+    assert(signature.length > 0)
   })
 })
