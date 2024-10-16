@@ -77,7 +77,7 @@ describe('OpenAuth User API', () => {
         rpcUrl: 'https://devnet.sonic.game',
         address: target.publicKey.toBase58(),
         token: 'SOL',
-        amount: 0.001234,
+        amount: '1234000',
       })
       console.info('transfer SOL signature', signature)
       assert(signature.length > 0)
@@ -87,7 +87,7 @@ describe('OpenAuth User API', () => {
         rpcUrl: 'https://devnet.sonic.game',
         address: target.publicKey.toBase58(),
         token: 'DUccEanNeePrPaVkMf5PBQSJ62UnHoWt49y3uWhhGBeD',
-        amount: 12.34,
+        amount: '12340000000',
       })
       console.info('transfer TOKEN signature', signature)
       assert(signature.length > 0)
