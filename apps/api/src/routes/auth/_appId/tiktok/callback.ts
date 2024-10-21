@@ -26,11 +26,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!appId || !codeVerifier || !redirectUrl || !redirectUri) {
     return reply.status(500).send({ message: 'Missing cookies' })
   }
+  const urlObj = new URL(redirectUrl)
+  const originalSearchParams = new URLSearchParams(urlObj.search)
 
   if (error && error_description) {
-    const searchParams = new URLSearchParams()
-    searchParams.append('error', error)
-    return reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
+    originalSearchParams.set('error', error)
+    return reply.redirect(`${urlObj.origin}${urlObj.pathname}?${originalSearchParams.toString()}`)
   }
 
   const app = await prisma.app.findUnique({ where: { id: appId } })
@@ -38,8 +39,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'TikTok client key is not set' })
   }
 
-  const searchParams = new URLSearchParams()
-  searchParams.append('auth_type', 'openauth_tiktok')
+  const searchParams = new URLSearchParams(originalSearchParams)
+  searchParams.set('auth_type', 'openauth_tiktok')
 
   try {
     const { access_token, token_type, open_id } = await getAccessToken({
@@ -50,14 +51,14 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
       redirect_uri: redirectUri,
       grant_type: 'authorization_code',
     })
-    searchParams.append('open_id', open_id)
-    searchParams.append('access_token', access_token)
-    searchParams.append('token_type', token_type)
+    searchParams.set('open_id', open_id)
+    searchParams.set('access_token', access_token)
+    searchParams.set('token_type', token_type)
   } catch (error: any) {
-    searchParams.append('error', error.message ?? error.name ?? 'Unknown error')
+    searchParams.set('error', error.message ?? error.name ?? 'Unknown error')
   }
 
-  reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
+  reply.redirect(`${urlObj.origin}${urlObj.pathname}?${searchParams.toString()}`)
 }
 
 export default async function (fastify: FastifyInstance) {
