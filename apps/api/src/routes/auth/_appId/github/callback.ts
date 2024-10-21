@@ -26,10 +26,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'Missing cookies' })
   }
 
+  const url = new URL(redirectUrl)
+  const searchParams = new URLSearchParams(url.search)
+
   if (error && error_description) {
-    const searchParams = new URLSearchParams()
-    searchParams.append('error', error)
-    return reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
+    searchParams.set('error', error)
+    return reply.redirect(`${url.origin}${url.pathname}?${searchParams.toString()}`)
   }
 
   const app = await prisma.app.findUnique({ where: { id: appId } })
@@ -37,8 +39,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'Github client id is not set' })
   }
 
-  const searchParams = new URLSearchParams()
-  searchParams.append('auth_type', 'openauth_github')
+  searchParams.set('auth_type', 'openauth_github')
 
   try {
     const { access_token, token_type } = await getAccessToken({
@@ -47,13 +48,13 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
       client_secret: app.githubClientSecret,
       redirect_uri: redirectUri,
     })
-    searchParams.append('access_token', access_token)
-    searchParams.append('token_type', token_type)
+    searchParams.set('access_token', access_token)
+    searchParams.set('token_type', token_type)
   } catch (error: any) {
-    searchParams.append('error', error.message ?? error.name ?? 'Unknown error')
+    searchParams.set('error', error.message ?? error.name ?? 'Unknown error')
   }
 
-  reply.redirect(`${redirectUrl}?${searchParams.toString()}`)
+  reply.redirect(`${url.origin}${url.pathname}?${searchParams.toString()}`)
 }
 
 export default async function (fastify: FastifyInstance) {

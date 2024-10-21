@@ -26,12 +26,12 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   if (!appId || !codeVerifier || !redirectUrl || !redirectUri) {
     return reply.status(500).send({ message: 'Missing cookies' })
   }
-  const urlObj = new URL(redirectUrl)
-  const originalSearchParams = new URLSearchParams(urlObj.search)
+  const url = new URL(redirectUrl)
+  const searchParams = new URLSearchParams(url.search)
 
   if (error && error_description) {
-    originalSearchParams.set('error', error)
-    return reply.redirect(`${urlObj.origin}${urlObj.pathname}?${originalSearchParams.toString()}`)
+    searchParams.set('error', error)
+    return reply.redirect(`${url.origin}${url.pathname}?${searchParams.toString()}`)
   }
 
   const app = await prisma.app.findUnique({ where: { id: appId } })
@@ -39,7 +39,6 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     return reply.status(500).send({ message: 'TikTok client key is not set' })
   }
 
-  const searchParams = new URLSearchParams(originalSearchParams)
   searchParams.set('auth_type', 'openauth_tiktok')
 
   try {
@@ -58,7 +57,7 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
     searchParams.set('error', error.message ?? error.name ?? 'Unknown error')
   }
 
-  reply.redirect(`${urlObj.origin}${urlObj.pathname}?${searchParams.toString()}`)
+  reply.redirect(`${url.origin}${url.pathname}?${searchParams.toString()}`)
 }
 
 export default async function (fastify: FastifyInstance) {
