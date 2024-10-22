@@ -4,8 +4,9 @@ import type { TikTokRedirectQueryParams } from '../../../../models/tiktok'
 import { TypeTikTokRedirectQueryParams } from '../../../../models/tiktok'
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { RedisTools } from '../../../../utils/redis'
 import { ERROR500_SCHEMA } from '../../../../utils/schema'
-import { getAccessToken, TikTokCookieNames } from '../../../../utils/tiktok'
+import { getAccessToken } from '../../../../utils/tiktok'
 
 const schema = {
   tags: ['Auth'],
@@ -17,15 +18,14 @@ const schema = {
 }
 
 async function handler(request: FastifyRequestTypebox<typeof schema>, reply: FastifyReplyTypebox<typeof schema>) {
-  const { error, error_description, code } = request.query as TikTokRedirectQueryParams
-  const appId = request.cookies[TikTokCookieNames.AppId]
-  const codeVerifier = request.cookies[TikTokCookieNames.Verifier]
-  const redirectUri = request.cookies[TikTokCookieNames.RedirectUri]
-  const redirectUrl = request.cookies[TikTokCookieNames.RedirectUrl]
+  const { error, error_description, code, state } = request.query as TikTokRedirectQueryParams
+  const authParams = await RedisTools.getTiktokAuth(state)
 
-  if (!appId || !codeVerifier || !redirectUrl || !redirectUri) {
-    return reply.status(500).send({ message: 'Missing cookies' })
+  if (!authParams) {
+    return reply.status(500).send({ message: 'Invalid or expired login' })
   }
+  const { appId, codeVerifier, redirectUri, redirectUrl } = authParams
+
   const url = new URL(redirectUrl)
   const searchParams = new URLSearchParams(url.search)
 

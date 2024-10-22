@@ -4,13 +4,6 @@ import axios from 'axios'
 
 import type { TikTokCodeParams, TikTokToken, TikTokTokenQueryParams, TikTokUser } from '../models/tiktok'
 
-export enum TikTokCookieNames {
-  AppId = 'OpenAuthAppId',
-  Verifier = 'OpenAuthVerifier',
-  RedirectUri = 'OpenAuthRedirectUri',
-  RedirectUrl = 'OpenAuthRedirectUrl',
-}
-
 function generateRandomString(length: number) {
   let result = ''
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'

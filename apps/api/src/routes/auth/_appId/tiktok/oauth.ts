@@ -3,8 +3,9 @@ import type { FastifyInstance } from 'fastify'
 
 import type { FastifyReplyTypebox, FastifyRequestTypebox } from '../../../../models/typebox'
 import { prisma } from '../../../../utils/prisma'
+import { RedisTools } from '../../../../utils/redis'
 import { ERROR400_SCHEMA } from '../../../../utils/schema'
-import { generateAuthUrl, TikTokCookieNames } from '../../../../utils/tiktok'
+import { generateAuthUrl } from '../../../../utils/tiktok'
 
 const schema = {
   tags: ['Auth'],
@@ -32,11 +33,8 @@ async function handler(request: FastifyRequestTypebox<typeof schema>, reply: Fas
   const redirectUri = `${endpoint}/auth/${appId}/tiktok/callback`
   const { url, csrfState, codeVerifier } = generateAuthUrl({ clientKey: app.tiktokClientKey, redirectUri })
 
-  reply.setCookie('csrfState', csrfState, { maxAge: 60000 })
-  reply.setCookie(TikTokCookieNames.AppId, appId, { maxAge: 60000 })
-  reply.setCookie(TikTokCookieNames.Verifier, codeVerifier, { maxAge: 60000 })
-  reply.setCookie(TikTokCookieNames.RedirectUri, redirectUri, { maxAge: 60000 })
-  reply.setCookie(TikTokCookieNames.RedirectUrl, redirectUrl, { maxAge: 60000 })
+  reply.setCookie('csrfState', csrfState, { maxAge: 60_000 })
+  await RedisTools.saveTiktokAuth(csrfState, { appId, codeVerifier, redirectUri, redirectUrl })
 
   reply.redirect(url)
 }
